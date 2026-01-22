@@ -1,0 +1,4 @@
+[submodule "BMAD-METHOD"]
+	path = BMAD-METHOD
+	url = https://github.com/bmad-code-org/BMAD-METHOD.git
+	branch = main
