@@ -1,0 +1,36 @@
+# Claude Code local settings (sensitive)
+.claude/settings.local.json
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Node (if applicable)
+node_modules/
+
+# Logs
+*.log
+logs/
