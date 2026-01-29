@@ -1,0 +1,48 @@
+name: Quality Checks
+
+on:
+  pull_request:
+    branches: [main, develop]
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main, develop]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Pre-Push Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Basic validation
+        run: |
+          echo "Checking for common issues..."
+          for f in CLAUDE.md .coderabbit.yaml greptile.json; do
+            if [ -f "$f" ]; then
+              echo "✓ $f exists"
+            else
+              echo "::warning::Missing $f"
+            fi
+          done
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check for merge conflict markers
+        run: |
+          if grep -rn "<<<<<<< \|======= \|>>>>>>> " --include="*.md" --include="*.ts" --include="*.py" --include="*.json" . 2>/dev/null; then
+            echo "::error::Merge conflict markers found"
+            exit 1
+          fi
+          echo "No merge conflict markers found"
