@@ -41,7 +41,8 @@ jobs:
 
       - name: Check for merge conflict markers
         run: |
-          if grep -rn "<<<<<<< \|======= \|>>>>>>> " --include="*.md" --include="*.ts" --include="*.py" --include="*.json" . 2>/dev/null; then
+          # Use more specific patterns to avoid false positives from progress bars
+          if grep -rn "^<<<<<<<\|^=======\$\|^>>>>>>>" --include="*.md" --include="*.ts" --include="*.py" --include="*.json" . 2>/dev/null; then
             echo "::error::Merge conflict markers found"
             exit 1
           fi
