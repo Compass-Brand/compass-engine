@@ -25,11 +25,11 @@ BMAD (Business Model Aligned Development) is a structured methodology for AI-ass
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| Documentation | Markdown |
-| Automation | Python, Bash |
-| Testing | pytest |
+| Layer         | Technology    |
+| ------------- | ------------- |
+| Documentation | Markdown      |
+| Automation    | Python, Bash  |
+| Testing       | pytest        |
 
 ---
 
@@ -37,7 +37,7 @@ BMAD (Business Model Aligned Development) is a structured methodology for AI-ass
 
 All functional code MUST follow Test-Driven Development.
 
-```
+```text
 RED -> GREEN -> REFACTOR
 ```
 
