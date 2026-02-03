@@ -202,7 +202,7 @@ Step 1: ...
 
 ### References
 
-- [Source: docs/plans/2026-01-08-bmad-automation-design.md#Configuration & Adaptation]
+- [Source: plans/2026-01-08-bmad-automation-design.md#Configuration & Adaptation]
 - [Source: _bmad-output/planning-artifacts/epics.md#Story 2a.6]
 - [Source: _bmad-output/planning-artifacts/epics.md#FR Coverage Map] - FR36, FR37, FR41
 

@@ -14,7 +14,7 @@ This project extends the BMAD-METHOD framework with:
 ## Structure
 
 ```
-bmad_upgrade/
+bmad-engine/
 ├── BMAD-METHOD/          # Core BMAD framework (submodule)
 ├── _bmad-output/         # Generated artifacts and customizations
 │   └── bmb-creations/    # Custom modules and workflows
@@ -41,8 +41,8 @@ bmad_upgrade/
 
 2. Or clone standalone:
    ```bash
-   git clone https://github.com/Compass-Brand/bmad_upgrade.git
-   cd bmad_upgrade
+   git clone https://github.com/Compass-Brand/bmad-engine.git
+   cd bmad-engine
    git submodule update --init --recursive
    ```
 

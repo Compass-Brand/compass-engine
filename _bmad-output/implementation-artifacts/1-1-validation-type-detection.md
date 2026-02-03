@@ -159,8 +159,8 @@ Create test fixtures in `tests/fixtures/workflows/`:
 
 ### References
 
-- [Source: docs/plans/2026-01-08-bmad-automation-design.md#Component Overview] - Validation Type Detector definition
-- [Source: docs/plans/2026-01-08-bmad-automation-design.md#Implementation Dependency Graph] - Tier 1 component
+- [Source: plans/2026-01-08-bmad-automation-design.md#Component Overview] - Validation Type Detector definition
+- [Source: plans/2026-01-08-bmad-automation-design.md#Implementation Dependency Graph] - Tier 1 component
 - [Source: _bmad-output/planning-artifacts/epics.md#Story 1.1] - Acceptance criteria
 - [Source: _bmad-output/planning-artifacts/epics.md#FR Coverage Map] - FR13, FR40
 - [Source: _bmad-output/planning-artifacts/prd.md#FR13] - Validation Type Detector can identify workflow-specific success criteria

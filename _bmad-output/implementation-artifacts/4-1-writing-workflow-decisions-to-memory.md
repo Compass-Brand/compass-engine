@@ -261,7 +261,7 @@ SAMPLE_FIX_PATTERN = FixPattern(
 
 ### References
 
-- [Source: docs/plans/2026-01-08-bmad-automation-design.md#Memory Integration]
+- [Source: plans/2026-01-08-bmad-automation-design.md#Memory Integration]
 - [Source: _bmad-output/planning-artifacts/epics.md#Story 4.1]
 - [Source: _bmad-output/planning-artifacts/epics.md#FR Coverage Map] - FR32
 
