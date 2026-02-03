@@ -58,7 +58,7 @@ npm run push -- --project /path/to/project
 
 After installation:
 
-```
+```text
 compass-engine/
 ├── src/                  # Source files (modify these)
 │   ├── claude/           # Claude Code configuration

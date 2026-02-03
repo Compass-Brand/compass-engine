@@ -4,7 +4,7 @@ Guide to adding and modifying Claude Code configuration in compass-engine.
 
 ## Directory Structure
 
-```
+```text
 src/claude/
 ├── agents/      # Agent definitions (.md files)
 ├── commands/    # Slash commands (.md files)
@@ -76,7 +76,7 @@ System prompt for this specialized agent.
 
 1. Create a directory in `src/claude/skills/`:
 
-```
+```text
 src/claude/skills/my-skill/
 ├── SKILL.md      # Main skill definition
 └── examples/     # Optional examples

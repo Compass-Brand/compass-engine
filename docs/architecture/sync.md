@@ -17,7 +17,7 @@ This ensures bug fixes propagate correctly. If we merged instead, bugs would per
 
 ## Distribution Flow
 
-```
+```text
 compass-engine                    Target Projects
 ─────────────────                 ────────────────────
 src/claude/
