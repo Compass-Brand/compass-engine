@@ -2,24 +2,28 @@
 
 This file provides guidance to Claude Code when working in this repository.
 
-## Project: BMAD Engine
+## Project: Compass Engine
 
-**Description:** BMAD methodology automation engine - customized BMAD Method for Compass Brand AI-assisted development workflows.
+**Description:** Central development tools repository for all Compass Brand projects. Contains BMAD customizations, Claude Code configuration, workflow scripts, and distribution tooling.
 
-**Project Type:** methodology
+**Project Type:** development-tools
 
 ---
 
+## Repository Contents
+
+This repository serves as the central hub for Compass Brand development tools:
+
+- **BMAD-METHOD/** - Core BMAD methodology (upstream submodule)
+- **src/** - Source files for Claude Code configuration and BMAD customizations
+- **dist/** - Built output ready for distribution
+- **scripts/** - Build, distribution, and workflow automation
+- **_bmad-output/** - BMAD runtime artifacts and custom creations
+- **docs/** - Documentation and guides
+
 ## What is BMAD?
 
-BMAD (Breakthrough Method of Agile AI-Driven Development) is a structured methodology for AI-assisted software development. This repository contains:
-
-- **BMAD-METHOD/** - Core methodology documentation and templates
-- **docs/** - Additional documentation and guides
-- **plans/** - Project planning artifacts
-- **reference/** - Reference materials and examples
-- **scripts/** - Automation scripts for BMAD workflows
-- **tests/** - Test suites for BMAD automation
+BMAD (Breakthrough Method of Agile AI-Driven Development) is a structured methodology for AI-assisted software development.
 
 ---
 

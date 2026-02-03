@@ -1,0 +1,39 @@
+{
+  "name": "@compass-brand/compass-engine",
+  "version": "0.1.0",
+  "description": "Central development tools for Compass Brand projects - BMAD, Claude Code config, workflow scripts",
+  "type": "module",
+  "main": "scripts/build.js",
+  "bin": {
+    "compass-engine": "./scripts/cli.js"
+  },
+  "scripts": {
+    "build": "node scripts/build.js",
+    "push": "node scripts/push.js",
+    "validate": "node scripts/validate.js",
+    "clean": "rm -rf dist/.claude/*",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "dist/.claude/**/*",
+    "scripts/*.js",
+    "README.md"
+  ],
+  "keywords": [
+    "bmad",
+    "claude-code",
+    "compass-brand",
+    "development-tools",
+    "ai-development"
+  ],
+  "author": "Compass Brand",
+  "license": "AGPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Compass-Brand/compass-engine.git"
+  },
+  "homepage": "https://github.com/Compass-Brand/compass-engine#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
