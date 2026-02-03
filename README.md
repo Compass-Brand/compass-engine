@@ -1,6 +1,6 @@
 # BMAD Upgrade
 
-An upgrade to the standard BMAD (Business Model Aligned Development) methodology, customized for Compass Brand's workflows and automation needs.
+An upgrade to the standard BMAD (Breakthrough Method of Agile AI-Driven Development) methodology, customized for Compass Brand's workflows and automation needs.
 
 ## Overview
 

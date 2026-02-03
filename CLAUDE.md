@@ -12,7 +12,7 @@ This file provides guidance to Claude Code when working in this repository.
 
 ## What is BMAD?
 
-BMAD (Business Model Aligned Development) is a structured methodology for AI-assisted software development. This repository contains:
+BMAD (Breakthrough Method of Agile AI-Driven Development) is a structured methodology for AI-assisted software development. This repository contains:
 
 - **BMAD-METHOD/** - Core methodology documentation and templates
 - **docs/** - Additional documentation and guides
