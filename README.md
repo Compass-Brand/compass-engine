@@ -1,70 +1,62 @@
-# BMAD Upgrade
+# Compass Engine
 
-An upgrade to the standard BMAD (Business Model Aligned Development) methodology, customized for Compass Brand's workflows and automation needs.
+Central development tools for Compass Brand projects.
 
-## Overview
+## Quick Start
 
-This project extends the BMAD-METHOD framework with:
+```bash
+# Build
+npm run build
 
-- **Automated workflows** for common development tasks
-- **Custom agents** tailored to Compass Brand's tech stack
-- **Enhanced templates** for planning artifacts
-- **Integration** with Compass Brand's MCP infrastructure
-
-## Structure
-
+# Push to all projects
+npm run push -- --all
 ```
-bmad-engine/
-├── BMAD-METHOD/          # Core BMAD framework (submodule)
-├── _bmad-output/         # Generated artifacts and customizations
-│   └── bmb-creations/    # Custom modules and workflows
+
+See [Installation](docs/getting-started/installation.md) for detailed setup.
+
+## Documentation
+
+| I want to... | Read this |
+|--------------|-----------|
+| Get started | [Installation](docs/getting-started/installation.md) |
+| Modify Claude config (commands, skills) | [Modifying Claude](docs/claude/modifying-claude.md) |
+| Modify BMAD (workflows, agents) | [Modifying BMAD](docs/bmad/modifying-bmad.md) |
+| Understand distribution | [Sync Architecture](docs/architecture/sync.md) |
+| Build and push changes | [Build Process](docs/architecture/build.md) |
+
+## What's Included
+
+- **Claude Code Configuration** - agents, commands, skills, rules, hooks
+- **BMAD Customizations** - workflows, agents, MCP integration
+- **Distribution Tooling** - build and push scripts
+
+## Repository Structure
+
+```text
+compass-engine/
+├── src/                  # Source files (modify these)
+│   ├── claude/           # Claude Code configuration
+│   ├── bmad/             # BMAD customizations
+│   └── scripts/          # Workflow scripts
+├── dist/                 # Built output (generated)
+│   └── .claude/          # Ready to distribute
+├── BMAD-METHOD/          # Upstream submodule (read-only)
+├── _bmad-output/         # BMAD runtime artifacts
 ├── docs/                 # Documentation
-├── plans/                # Planning documents
-├── reference/            # Reference materials
-└── tests/                # Test files
+└── scripts/              # Build scripts
+    ├── build.js          # Compile src/ to dist/
+    └── push.js           # Distribute to projects
 ```
 
-## Getting Started
+## BMAD Workflows
 
-### Prerequisites
-
-- Git
-- Claude Code with MCP support
-- Access to Compass Brand's MCP services
-
-### Installation
-
-1. Clone with the parent repository:
-   ```bash
-   git clone --recurse-submodules https://github.com/Compass-Brand/Compass-Brand.git
-   ```
-
-2. Or clone standalone:
-   ```bash
-   git clone https://github.com/Compass-Brand/bmad-engine.git
-   cd bmad-engine
-   git submodule update --init --recursive
-   ```
-
-### Usage
-
-The BMAD workflows are available through Claude Code's skill system:
+Available through Claude Code's skill system:
 
 - `/bmad:bmm:workflows:create-prd` - Create a Product Requirements Document
 - `/bmad:bmm:workflows:create-architecture` - Design system architecture
 - `/bmad:bmm:workflows:sprint-planning` - Plan implementation sprints
 - `/bmad:bmm:workflows:dev-story` - Execute story implementation
 
-## BMAD Methodology
-
-BMAD provides a structured approach to software development:
-
-1. **Product Brief** - Define the vision and scope
-2. **PRD** - Detail requirements and user stories
-3. **Architecture** - Design technical solutions
-4. **Epics & Stories** - Break down into implementable units
-5. **Sprint Execution** - Build with TDD practices
-
 ## License
 
-Private - Compass Brand © 2026
+AGPL-3.0 - Compass Brand © 2026

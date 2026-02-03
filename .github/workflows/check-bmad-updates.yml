@@ -87,7 +87,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 title: '🔄 BMAD-METHOD has upstream updates available',
-                body: `The upstream BMAD-METHOD repository has new changes.\n\n${changelog}\n\n## To Update\n\n\`\`\`bash\ncd bmad-engine\ngit submodule update --remote BMAD-METHOD\ngit add BMAD-METHOD\ngit commit -m "Update BMAD-METHOD submodule"\ngit push\n\`\`\``,
+                body: `The upstream BMAD-METHOD repository has new changes.\n\n${changelog}\n\n## To Update\n\n\`\`\`bash\ncd compass-engine\ngit submodule update --remote BMAD-METHOD\ngit add BMAD-METHOD\ngit commit -m "Update BMAD-METHOD submodule"\ngit push\n\`\`\``,
                 labels: ['bmad-update', 'dependencies']
               });
               console.log('Created new issue for BMAD-METHOD updates');

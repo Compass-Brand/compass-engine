@@ -1,0 +1,121 @@
+{
+  "description": "Auto-fix confidence rules for PR review resolution",
+  "version": "1.0.0",
+
+  "confidenceLevels": {
+    "high": {
+      "description": "Issues with explicit code suggestions or clear fixes",
+      "autoFix": true,
+      "requiresReview": false,
+      "indicators": [
+        "Has code block in suggestion",
+        "Has 'Replace with:' directive",
+        "Has diff block with explicit changes",
+        "CodeRabbit AI prompt with code",
+        "Simple typo or formatting fix"
+      ],
+      "examples": [
+        "```suggestion\nconst foo = bar;\n```",
+        "Replace `console.log` with `logger.info`",
+        "Missing semicolon on line 42"
+      ]
+    },
+    "medium": {
+      "description": "Issues with clear direction but requiring interpretation",
+      "autoFix": true,
+      "requiresReview": true,
+      "indicators": [
+        "Has detailed description (50+ chars)",
+        "Uses 'should be' or 'change to' language",
+        "References specific pattern to follow",
+        "Greptile suggestion with rationale"
+      ],
+      "examples": [
+        "This function should use async/await instead of callbacks",
+        "Consider extracting this logic into a separate function",
+        "Variable naming doesn't follow conventions"
+      ]
+    },
+    "low": {
+      "description": "Vague suggestions requiring significant judgment",
+      "autoFix": false,
+      "requiresReview": true,
+      "skipReason": "Requires human judgment",
+      "indicators": [
+        "Uses 'consider' or 'might want' language",
+        "Architectural suggestions",
+        "Performance optimization hints",
+        "No specific code provided"
+      ],
+      "examples": [
+        "Consider whether this is the right abstraction",
+        "This might be a performance bottleneck",
+        "You could potentially refactor this area"
+      ]
+    }
+  },
+
+  "categoryOverrides": {
+    "security": {
+      "minConfidence": "medium",
+      "requiresReview": true,
+      "escalateToHuman": ["sql_injection", "xss", "secrets"]
+    },
+    "breaking_change": {
+      "autoFix": false,
+      "requiresReview": true,
+      "escalateToHuman": ["all"]
+    },
+    "documentation": {
+      "autoFix": true,
+      "minConfidence": "low"
+    },
+    "formatting": {
+      "autoFix": true,
+      "minConfidence": "low"
+    },
+    "typo": {
+      "autoFix": true,
+      "minConfidence": "low"
+    }
+  },
+
+  "batchingRules": {
+    "description": "maxIssuesPerBatch is a hard cap that will never be exceeded. targetBatchSize is a soft target that the batching algorithm aims for but may exceed up to maxIssuesPerBatch.",
+    "maxIssuesPerBatch": 20,
+    "maxSubagents": 8,
+    "targetBatchSize": 15,
+    "groupBy": ["fileCategory", "confidence"],
+    "prioritizeHighConfidence": true
+  },
+
+  "rollbackRules": {
+    "triggerRollback": [
+      "Tests fail after fix",
+      "Lint errors introduced",
+      "Build fails",
+      "Type errors introduced"
+    ],
+    "rollbackStrategy": "perFile",
+    "keepBackups": true,
+    "backupLocation": ".pr-fix-backups/",
+    "backupRetention": {
+      "maxAge": "7d",
+      "maxCount": 100
+    }
+  },
+
+  "loggingRules": {
+    "logToForgetful": true,
+    "forgetfulTags": ["pr-review", "auto-fix", "code-review"],
+    "logFields": [
+      "issue_id",
+      "file",
+      "line",
+      "confidence",
+      "action_taken",
+      "result",
+      "rollback_needed"
+    ]
+  }
+}
