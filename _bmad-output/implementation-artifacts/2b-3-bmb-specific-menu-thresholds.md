@@ -181,9 +181,9 @@ MAX_THRESHOLD_CHECK_MS = 100
 
 ### References
 
-- [Source: docs/plans/2026-01-08-bmad-automation-design.md#Stall Detection + BMB Thresholds]
-- [Source: docs/plans/2026-01-08-bmad-automation-design.md#Decision matrix (includes BMB thresholds)]
-- [Source: docs/plans/2026-01-08-bmad-automation-design.md#Menu Participation Engine]
+- [Source: plans/2026-01-08-bmad-automation-design.md#Stall Detection + BMB Thresholds]
+- [Source: plans/2026-01-08-bmad-automation-design.md#Decision matrix (includes BMB thresholds)]
+- [Source: plans/2026-01-08-bmad-automation-design.md#Menu Participation Engine]
 - [Source: _bmad-output/implementation-artifacts/2b-2-automatic-menu-selection.md#Architecture Context]
 
 ## Dev Agent Record

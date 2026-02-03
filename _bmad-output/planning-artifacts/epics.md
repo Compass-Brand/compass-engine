@@ -5,7 +5,7 @@ validationRounds: 4
 finalValidationDate: 2026-01-12
 inputDocuments:
   - _bmad-output/planning-artifacts/prd.md
-  - docs/plans/2026-01-08-bmad-automation-design.md
+  - plans/2026-01-08-bmad-automation-design.md
 ---
 
 # BMAD Automation - Epic Breakdown

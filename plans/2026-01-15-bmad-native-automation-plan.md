@@ -1575,7 +1575,7 @@ No Python unit tests needed - the "tests" are the workflows themselves working c
 
 ## Reference Materials
 
-- **Original Design:** `docs/plans/2026-01-08-bmad-automation-design.md`
+- **Original Design:** `plans/2026-01-08-bmad-automation-design.md`
 - **Original Epics:** `_bmad-output/planning-artifacts/epics.md`
 - **Archived Python Spec:** `docs/reference/automation-spec-archive/`
 - **Pivot Decision:** `docs/plans/2026-01-13-bmad-automation-pivot.md`

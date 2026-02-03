@@ -146,7 +146,7 @@ Add to `tests/fixtures/workflows/`:
 
 ### References
 
-- [Source: docs/plans/2026-01-08-bmad-automation-design.md#Component Overview] - Validation Type Detector
+- [Source: plans/2026-01-08-bmad-automation-design.md#Component Overview] - Validation Type Detector
 - [Source: _bmad-output/planning-artifacts/epics.md#Story 1.4] - Acceptance criteria
 - [Source: _bmad-output/planning-artifacts/epics.md#FR Coverage Map] - FR40
 - [Source: pcmrp_tools/bmad_automation/validation_type_detector.py] - Existing implementation to extend

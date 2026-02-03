@@ -15,10 +15,6 @@
     "serena": {
       "type": "http",
       "url": "http://localhost:8003/mcp"
-    },
-    "github": {
-      "type": "http",
-      "url": "http://localhost:8004/mcp"
     }
   }
 }

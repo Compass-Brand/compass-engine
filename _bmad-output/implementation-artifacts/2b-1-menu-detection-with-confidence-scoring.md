@@ -209,7 +209,7 @@ This is how menus look.
 
 ### References
 
-- [Source: docs/plans/2026-01-08-bmad-automation-design.md#Menu Participation Engine]
+- [Source: plans/2026-01-08-bmad-automation-design.md#Menu Participation Engine]
 - [Source: _bmad-output/planning-artifacts/epics.md#Story 2b.1]
 - [Source: _bmad-output/planning-artifacts/epics.md#FR Coverage Map] - FR7
 

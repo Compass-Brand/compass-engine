@@ -145,8 +145,8 @@ class PreflightResult:
 
 ### References
 
-- [Source: docs/plans/2026-01-08-bmad-automation-design.md#Component Overview] - Pre-flight Validation Subagent definition
-- [Source: docs/plans/2026-01-08-bmad-automation-design.md#Implementation Dependency Graph] - Tier 1 component
+- [Source: plans/2026-01-08-bmad-automation-design.md#Component Overview] - Pre-flight Validation Subagent definition
+- [Source: plans/2026-01-08-bmad-automation-design.md#Implementation Dependency Graph] - Tier 1 component
 - [Source: _bmad-output/planning-artifacts/epics.md#Story 1.2] - Acceptance criteria
 - [Source: _bmad-output/planning-artifacts/epics.md#FR Coverage Map] - FR14
 
