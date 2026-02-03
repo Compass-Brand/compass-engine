@@ -22,7 +22,7 @@ description: Create numbered implementation plan with complexity analysis
 
 ## Example
 
-```
+```bash
 /plan Add OAuth2 authentication
 ```
 

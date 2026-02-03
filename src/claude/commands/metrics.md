@@ -84,7 +84,7 @@ grep -r "def test_\|it(\|describe(" --include="*test*" . | wc -l
 
 ### Table (default)
 
-```
+```text
 ╔══════════════════════════════════════════════════════════════╗
 ║                    Codebase Metrics                           ║
 ╠══════════════════════════════════════════════════════════════╣
@@ -187,7 +187,7 @@ Compare with previous metrics:
 
 Output:
 
-```
+```text
 Changes since 2024-01-01:
   LOC: +1,230 (+3.8%)
   TODOs: -5 (42 → 37)

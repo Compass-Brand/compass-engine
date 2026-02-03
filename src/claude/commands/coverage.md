@@ -54,7 +54,7 @@ jq 'to_entries | .[] | {file: .key, coverage: .value.lines.pct}' coverage/covera
 #### Node (Vitest)
 
 ```bash
-npx vitest run --coverage --coverage.reporter=json
+npx vitest run --coverage --coverage.reporter=json-summary
 
 # Parse report
 jq 'to_entries | .[] | select(.key != "total") | {file: .key, coverage: .value.lines.pct}' coverage/coverage-summary.json
@@ -71,7 +71,7 @@ go tool cover -func=coverage.out
 
 #### Table Format (default)
 
-```
+```text
 ╔══════════════════════════════════════════════════════════════╗
 ║                    Coverage Report                            ║
 ╠══════════════════════════════════════════════════════════════╣

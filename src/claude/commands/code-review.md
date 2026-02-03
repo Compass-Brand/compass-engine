@@ -13,7 +13,7 @@ description: Review code for quality, naming, complexity, and issues
 1. Invokes the code-reviewer agent
 2. Scans for naming issues, complexity, duplication
 3. Checks error handling and basic security
-4. Outputs markdown table with findings by severity
+4. Outputs Markdown table with findings by severity
 
 ## Invoked Components
 
@@ -21,7 +21,7 @@ description: Review code for quality, naming, complexity, and issues
 
 ## Example
 
-```
+```text
 /code-review src/
 ```
 

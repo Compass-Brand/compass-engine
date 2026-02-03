@@ -17,7 +17,7 @@ bd dep tree
 
 Shows an ASCII tree of all issues and their dependencies:
 
-```
+```text
 bd-0001 [Epic] User Authentication System
 ├── bd-0001.1 [Feature] OAuth2 Implementation
 │   ├── bd-0001.1.1 [Task] Add refresh token logic

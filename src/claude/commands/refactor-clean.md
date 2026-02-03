@@ -22,6 +22,6 @@ description: Find and remove unused code safely
 
 ## Example
 
-```
+```text
 /refactor-clean src/utils/
 ```

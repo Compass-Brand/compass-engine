@@ -78,7 +78,7 @@ docker compose -f mcps/docker-compose.yml ps
 
 ## Output Format
 
-```
+```text
 ╔══════════════════════════════════════════════════════════════╗
 ║                 Environment Validation                        ║
 ╠══════════════════════════════════════════════════════════════╣
@@ -192,8 +192,6 @@ git config user.email &>/dev/null && echo "✓ user.email configured" || echo "�
 | 0    | All checks passed                  |
 | 1    | One or more critical checks failed |
 | 2    | Warnings only (non-critical)       |
-
-> **Implementation Note:** The `check_mcp` function above uses `curl -s` which returns 0 for any HTTP response. To properly distinguish warnings (exit code 2), capture the HTTP status code: `curl -sf -o /dev/null -w "%{http_code}"` and treat only 2xx responses as success.
 
 ## Related Commands
 
