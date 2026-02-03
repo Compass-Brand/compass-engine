@@ -2,6 +2,9 @@
 language: "en-US"
 early_access: true
 
+# Inherit settings from compass-brand parent
+inheritance: true
+
 chat:
   auto_reply: true
 
