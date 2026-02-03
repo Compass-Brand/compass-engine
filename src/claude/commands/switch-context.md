@@ -30,19 +30,19 @@ Arguments:
    fi
    ```
 
-2. **Validate context exists**:
+1. **Validate context exists**:
 
    ```bash
    ls .claude/contexts/${ARGUMENTS}.md 2>/dev/null || echo "Context not found"
    ```
 
-3. **Load new context**:
+1. **Load new context**:
 
    ```bash
    cat .claude/contexts/${ARGUMENTS}.md
    ```
 
-4. **Acknowledge transition**:
+1. **Acknowledge transition**:
    Confirm the mode switch to the user and list key constraints of the new mode.
 
 ## Available Contexts

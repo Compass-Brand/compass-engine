@@ -5,9 +5,11 @@ tools: Read, Grep, Glob, Bash
 model: opus
 ---
 
+# Security Reviewer
+
 > **Note:** Bash is restricted to read-only audit commands only (npm audit, pip-audit, govulncheck, gitleaks, safety check, bundle audit, dotnet list). No write operations, file modifications, or non-audit commands are permitted.
 
-# Security Reviewer Agent
+## Security Reviewer Agent
 
 ## Role Definition
 

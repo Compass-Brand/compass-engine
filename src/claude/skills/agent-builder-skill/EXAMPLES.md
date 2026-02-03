@@ -999,8 +999,7 @@ describe("[Component/Function]", () => {
 - **Total: X tests**
 
 **Coverage estimate:** X%
-
-```
+````
 
 ---
 

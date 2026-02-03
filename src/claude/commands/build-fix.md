@@ -22,6 +22,6 @@ description: Parse and fix build errors automatically
 
 ## Example
 
-```
+```bash
 /build-fix npm run build
 ```

@@ -66,7 +66,7 @@ Context: <when/where this applies>""",
 
 **Example 1: Code style correction**
 
-```
+```text
 User: "No, don't use arrow functions for React components. Use function declarations."
 ```
 
@@ -77,7 +77,7 @@ Memory:
 
 **Example 2: Output format correction**
 
-```
+```text
 User: "I wanted the summary in bullet points, not paragraphs."
 ```
 
@@ -138,7 +138,7 @@ Examples:
 
 **Example 1: Naming convention preference**
 
-```
+```text
 User: "I prefer snake_case for Python variables, camelCase for JavaScript."
 ```
 
@@ -149,7 +149,7 @@ Memory:
 
 **Example 2: Communication preference**
 
-```
+```text
 User: "I like when you explain your reasoning before showing code."
 ```
 
@@ -211,7 +211,7 @@ Related patterns: <similar approaches>""",
 
 **Example 1: Debugging pattern**
 
-```
+```text
 User: "That binary search approach to finding the bug was really effective."
 ```
 
@@ -222,7 +222,7 @@ Memory:
 
 **Example 2: Communication pattern**
 
-```
+```text
 User: "I like how you broke that down into phases. Do that more often."
 ```
 
@@ -284,7 +284,7 @@ How to detect: <signals that indicate this edge case>""",
 
 **Example 1: Data edge case**
 
-```
+```text
 User: "What about when the date field is null? The parser breaks."
 ```
 
@@ -295,7 +295,7 @@ Memory:
 
 **Example 2: Environment edge case**
 
-```
+```text
 User: "This doesn't work on Windows because of path separators."
 ```
 
@@ -356,7 +356,7 @@ Severity: <HIGH/MEDIUM/LOW>""",
 
 **Example 1: Security anti-pattern**
 
-```
+```text
 User: "Never commit API keys to the repository, even in .env files."
 ```
 
@@ -368,7 +368,7 @@ Memory:
 
 **Example 2: Performance anti-pattern**
 
-```
+```text
 User: "Don't use N+1 queries in loops. Always batch database calls."
 ```
 

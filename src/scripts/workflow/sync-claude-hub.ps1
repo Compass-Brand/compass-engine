@@ -16,7 +16,16 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$hubPath = $PSScriptRoot
+# Resolve repo root using git, with fallback to relative path from script location
+$hubPath = $null
+try {
+    $hubPath = (git rev-parse --show-toplevel 2>$null)
+} catch {
+    # git command failed, use fallback
+}
+if (-not $hubPath -or -not (Test-Path $hubPath)) {
+    $hubPath = (Resolve-Path (Join-Path $PSScriptRoot "../../..")).Path
+}
 $hubClaude = Join-Path $hubPath ".claude"
 $lastSyncFile = Join-Path $hubPath ".claude-sync-hash"
 

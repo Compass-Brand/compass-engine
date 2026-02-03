@@ -90,21 +90,34 @@ async function copyDir(src, dest) {
 }
 
 /**
- * Read content of file or directory for backup
+ * Read content of file or directory for backup.
+ * Uses exception-driven approach to avoid TOCTOU race conditions.
+ * @returns {Promise<{type: 'file'|'directory', content?: Buffer, contents?: Object}|null>}
  */
 async function readContentOrDir(filePath) {
-  const stat = await fs.stat(filePath);
-  if (stat.isDirectory()) {
-    const entries = await fs.readdir(filePath, { withFileTypes: true });
-    const contents = {};
-    for (const entry of entries) {
-      const entryPath = path.join(filePath, entry.name);
-      contents[entry.name] = await readContentOrDir(entryPath);
-    }
-    return { type: 'directory', contents };
-  } else {
+  try {
+    // Try reading as file first
     const content = await fs.readFile(filePath);
     return { type: 'file', content };
+  } catch (err) {
+    if (err.code === 'EISDIR') {
+      // It's a directory, read its contents
+      const entries = await fs.readdir(filePath, { withFileTypes: true });
+      const contents = {};
+      for (const entry of entries) {
+        const entryPath = path.join(filePath, entry.name);
+        const entryContent = await readContentOrDir(entryPath);
+        if (entryContent !== null) {
+          contents[entry.name] = entryContent;
+        }
+      }
+      return { type: 'directory', contents };
+    } else if (err.code === 'ENOENT') {
+      // File/directory doesn't exist
+      return null;
+    }
+    // Re-throw unexpected errors
+    throw err;
   }
 }
 
@@ -154,9 +167,10 @@ async function syncToProject(projectPath, options) {
   const localBackups = {};
   for (const localPath of LOCAL_ONLY_PATHS) {
     const fullPath = path.join(claudePath, localPath);
-    if (await exists(fullPath)) {
+    const backup = await readContentOrDir(fullPath);
+    if (backup !== null) {
       console.log(`    Preserving: ${localPath}`);
-      localBackups[localPath] = await readContentOrDir(fullPath);
+      localBackups[localPath] = backup;
     }
   }
 
@@ -191,12 +205,84 @@ async function syncToProject(projectPath, options) {
 }
 
 /**
- * Discover Compass Brand projects in workspace
+ * Load project paths from a config file.
+ * Config file should contain one project path per line (relative to workspace root or absolute).
+ * Lines starting with # are treated as comments.
+ * @param {string} configPath - Path to the config file
+ * @param {string} workspaceRoot - Workspace root for resolving relative paths
+ * @returns {Promise<string[]|null>} Array of project paths, or null if config doesn't exist
  */
-async function discoverProjects(workspaceRoot) {
+async function loadProjectConfig(configPath, workspaceRoot) {
+  try {
+    const content = await fs.readFile(configPath, 'utf-8');
+    const lines = content.split('\n');
+    const paths = [];
+
+    for (const line of lines) {
+      const trimmed = line.trim();
+      // Skip empty lines and comments
+      if (!trimmed || trimmed.startsWith('#')) continue;
+
+      // Resolve relative paths against workspace root
+      const projectPath = path.isAbsolute(trimmed)
+        ? trimmed
+        : path.join(workspaceRoot, trimmed);
+      paths.push(projectPath);
+    }
+
+    return paths.length > 0 ? paths : null;
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      return null;
+    }
+    throw err;
+  }
+}
+
+/**
+ * Discover Compass Brand projects in workspace.
+ * @param {string} workspaceRoot - Root directory of the workspace
+ * @param {string} [configPath] - Optional path to a config file with project paths
+ * @returns {Promise<string[]>} Array of discovered project paths
+ */
+async function discoverProjects(workspaceRoot, configPath) {
   const projects = [];
 
-  // Direct check for common project locations
+  // Priority 1: Use explicit config file if provided
+  if (configPath) {
+    const configProjects = await loadProjectConfig(configPath, workspaceRoot);
+    if (configProjects) {
+      for (const projectPath of configProjects) {
+        if (await exists(path.join(projectPath, '.git'))) {
+          projects.push(projectPath);
+        }
+      }
+      return projects;
+    }
+  }
+
+  // Priority 2: Check COMPASS_PROJECTS environment variable
+  const envProjects = process.env.COMPASS_PROJECTS;
+  if (envProjects) {
+    const envPaths = envProjects.split(path.delimiter);
+    for (const envPath of envPaths) {
+      const trimmed = envPath.trim();
+      if (!trimmed) continue;
+
+      const projectPath = path.isAbsolute(trimmed)
+        ? trimmed
+        : path.join(workspaceRoot, trimmed);
+
+      if (await exists(path.join(projectPath, '.git'))) {
+        projects.push(projectPath);
+      }
+    }
+    if (projects.length > 0) {
+      return projects;
+    }
+  }
+
+  // Priority 3: Fall back to hardcoded list
   const potentialPaths = [
     workspaceRoot,
     path.join(workspaceRoot, 'compass-forge'),

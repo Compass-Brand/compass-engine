@@ -14,7 +14,7 @@ Central documentation hub for compass-engine.
 
 ## Documentation Structure
 
-```
+```text
 docs/
 ├── getting-started/     # Installation and first steps
 │   └── installation.md

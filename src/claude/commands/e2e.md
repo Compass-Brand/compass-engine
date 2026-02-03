@@ -22,6 +22,6 @@ description: Generate and run E2E tests from user stories
 
 ## Example
 
-```
+```bash
 /e2e "User can log in with valid credentials"
 ```

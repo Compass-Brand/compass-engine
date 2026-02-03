@@ -23,6 +23,6 @@ description: Security audit with OWASP Top 10 and dependency scanning
 
 ## Example
 
-```
+```text
 /security-review src/auth/
 ```

@@ -206,27 +206,28 @@ git revert [commit-hash]
 
 ### Blocked Report (When Tests Fail)
 
-```markdown
+````markdown
 ## Code Removal Blocked
 
 **Reason**: Tests failing [before/after] removal
 
 ### Test Failure Details
-````
 
+```text
 [Test output showing failures]
-
 ```
 
 ### Status
+
 - Code identified for removal: X items
 - Code actually removed: 0 items
 - Reason for block: [explanation]
 
 ### Required Actions
+
 1. [What needs to be fixed first]
 2. [Re-run this analysis after fixes]
-```
+````
 
 ## Safety Checks
 

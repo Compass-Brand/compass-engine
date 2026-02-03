@@ -22,6 +22,6 @@ description: Start TDD workflow with test-first development
 
 ## Example
 
-```
+```bash
 /tdd src/services/auth.ts
 ```

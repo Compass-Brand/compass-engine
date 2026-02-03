@@ -23,7 +23,7 @@ When `output-path` is omitted, the handoff is written to the scratchpad (interna
 
 ## Example
 
-```
+```bash
 /compact-handoff ./handoff-2026-01-29.md
 ```
 
@@ -31,7 +31,7 @@ When `output-path` is provided, the handoff document is written to that file. Wh
 
 ## Output
 
-A markdown document with:
+A Markdown document with:
 
 - Original goal
 - Progress summary

@@ -6,7 +6,7 @@
 
 set -euo pipefail
 
-REPO_ROOT="$(cd "$(dirname "$0")" && pwd)"
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || cd "$(dirname "$0")/../../.." && pwd)"
 
 # Verify this is a Git repository before proceeding
 if ! git -C "$REPO_ROOT" rev-parse --show-toplevel &>/dev/null; then
@@ -94,7 +94,12 @@ CHANGED_FILES=$(git diff --name-only "$OLD_REF" "$NEW_REF" 2>/dev/null || echo "
 if echo "$CHANGED_FILES" | grep -q "^\.claude/"; then
     echo ""
     echo "🔄 Hub .claude/ content differs on this branch - syncing to projects..."
-    "$REPO_ROOT/sync-claude-hub.sh" --force
+    SYNC_SCRIPT="$REPO_ROOT/sync-claude-hub.sh"
+    if [ -f "$SYNC_SCRIPT" ] && [ -x "$SYNC_SCRIPT" ]; then
+        "$SYNC_SCRIPT" --force
+    else
+        echo "⚠️  Warning: sync-claude-hub.sh not found or not executable at $SYNC_SCRIPT"
+    fi
 fi
 HOOK_EOF
 chmod +x "$HOOKS_DIR/post-checkout"
@@ -116,7 +121,12 @@ CHANGED_FILES=$(git diff-tree -r --name-only --no-commit-id HEAD 2>/dev/null || 
 if echo "$CHANGED_FILES" | grep -q "^\.claude/"; then
     echo ""
     echo "🔄 Hub .claude/ content committed - syncing to projects..."
-    "$REPO_ROOT/sync-claude-hub.sh" --force
+    SYNC_SCRIPT="$REPO_ROOT/sync-claude-hub.sh"
+    if [ -f "$SYNC_SCRIPT" ] && [ -x "$SYNC_SCRIPT" ]; then
+        "$SYNC_SCRIPT" --force
+    else
+        echo "⚠️  Warning: sync-claude-hub.sh not found or not executable at $SYNC_SCRIPT"
+    fi
 fi
 HOOK_EOF
 chmod +x "$HOOKS_DIR/post-commit"

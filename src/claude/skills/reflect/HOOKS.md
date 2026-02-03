@@ -156,7 +156,8 @@ For the reflect system, add this to your settings:
 
 ```json
 {
-  "decision": "allow" | "block" | "suggest_reflect",
+  // decision options: "allow", "block", or "suggest_reflect"
+  "decision": "allow",
   "reason": "Optional explanation",
   "systemMessage": "Optional message to inject"
 }

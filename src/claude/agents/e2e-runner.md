@@ -98,6 +98,7 @@ test('[Story ID]: [I want to action]', async ({ page }) => {
    ```
 
 5. **Placeholder**: Input placeholders
+
    ```typescript
    page.getByPlaceholder("Enter your email");
    ```

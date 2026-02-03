@@ -39,9 +39,32 @@ const LOCAL_ONLY_PATHS = [
 ];
 
 /**
- * Recursively copy a directory
+ * Check if a relative path should be skipped based on LOCAL_ONLY_PATHS
+ * Returns true if the path matches or is nested under any skip path
  */
-async function copyDir(src, dest) {
+function shouldSkip(relativePath, skipPaths) {
+  if (!skipPaths || skipPaths.length === 0) {
+    return false;
+  }
+  // Normalize to forward slashes for consistent comparison
+  const normalizedPath = relativePath.replace(/\\/g, '/');
+  return skipPaths.some((skipPath) => {
+    const normalizedSkip = skipPath.replace(/\\/g, '/');
+    return (
+      normalizedPath === normalizedSkip ||
+      normalizedPath.startsWith(normalizedSkip + '/')
+    );
+  });
+}
+
+/**
+ * Recursively copy a directory, optionally skipping paths
+ * @param {string} src - Source directory
+ * @param {string} dest - Destination directory
+ * @param {string} baseDir - Base directory for computing relative paths (for skip logic)
+ * @param {string[]} skipPaths - Array of relative paths to skip
+ */
+async function copyDir(src, dest, baseDir = null, skipPaths = []) {
   await fs.mkdir(dest, { recursive: true });
   const entries = await fs.readdir(src, { withFileTypes: true });
 
@@ -49,8 +72,18 @@ async function copyDir(src, dest) {
     const srcPath = path.join(src, entry.name);
     const destPath = path.join(dest, entry.name);
 
+    // Compute relative path from base directory for skip checking
+    const relativePath = baseDir
+      ? path.relative(baseDir, srcPath)
+      : entry.name;
+
+    if (shouldSkip(relativePath, skipPaths)) {
+      console.log(`    Skipping local-only path: ${relativePath}`);
+      continue;
+    }
+
     if (entry.isDirectory()) {
-      await copyDir(srcPath, destPath);
+      await copyDir(srcPath, destPath, baseDir, skipPaths);
     } else {
       await fs.copyFile(srcPath, destPath);
     }
@@ -84,7 +117,9 @@ async function copyClaude() {
     try {
       await fs.access(srcDir);
       console.log(`  Copying ${dir}/`);
-      await copyDir(srcDir, destDir);
+      // Pass srcClaude as baseDir so relative paths are computed from src/claude
+      // This allows LOCAL_ONLY_PATHS like 'commands/local' to match correctly
+      await copyDir(srcDir, destDir, srcClaude, LOCAL_ONLY_PATHS);
     } catch (err) {
       console.log(`  Skipping ${dir}/ (not found)`);
     }

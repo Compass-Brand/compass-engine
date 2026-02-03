@@ -4,7 +4,7 @@ How compass-engine builds and distributes configuration.
 
 ## Overview
 
-```
+```text
 src/                      →  build.js  →  dist/.claude/
 ├── claude/agents/                         ├── agents/
 ├── claude/commands/                       ├── commands/
@@ -36,7 +36,7 @@ node scripts/build.js
 
 ## Build Output
 
-```
+```text
 dist/.claude/
 ├── agents/                 # Agent definitions
 ├── commands/               # Slash commands

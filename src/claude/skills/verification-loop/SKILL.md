@@ -90,7 +90,7 @@ go build ./... && go test ./... && go vet ./...
 
 When verification passes:
 
-```
+```markdown
 ## Verification Complete
 
 ### Build
@@ -107,7 +107,7 @@ When verification passes:
 
 When verification fails:
 
-```
+```markdown
 ## Verification Failed
 
 ### Build

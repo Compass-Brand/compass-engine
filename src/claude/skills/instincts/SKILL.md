@@ -50,10 +50,10 @@ Instincts can evolve to skills when:
 
 ## Commands
 
-- [/instinct-status](../commands/instinct-status.md) - List all instincts with confidence/invocations
-- [/instinct-export](../commands/instinct-export.md) - Export instincts to JSON file
-- [/instinct-import](../commands/instinct-import.md) - Import instincts from JSON file
-- [/evolve](../commands/evolve.md) - Graduate qualifying instincts to skills
+- [/instinct-status](../../commands/instinct-status.md) - List all instincts with confidence/invocations
+- [/instinct-export](../../commands/instinct-export.md) - Export instincts to JSON file
+- [/instinct-import](../../commands/instinct-import.md) - Import instincts from JSON file
+- [/evolve](../../commands/evolve.md) - Graduate qualifying instincts to skills
 
 ## Integration with Forgetful
 

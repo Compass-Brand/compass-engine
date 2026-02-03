@@ -10,6 +10,7 @@
 
 - Maximum file size: 300 lines
 - Maximum function size: 50 lines
+- These limits are soft guidelines to promote readability, maintainability, and testability. Exceptions are acceptable for generated code, small single-purpose utilities, and performance-critical modules.
 - If a file or function exceeds limits, refactor into smaller units
 
 ## Naming Conventions
@@ -19,7 +20,7 @@
 - Constants: `UPPER_SNAKE_CASE`
 - Use descriptive names that convey intent
 
-> **Note:** This is a high-level summary. See language-specific files in `.claude/skills/coding-standards/` (typescript.md, python.md, powershell.md) for detailed guidance.
+> **Note:** This is a high-level summary. See language-specific files in `src/claude/skills/coding-standards/` (typescript.md, python.md, powershell.md) for detailed guidance.
 
 ## Design Principles
 

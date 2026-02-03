@@ -6,7 +6,7 @@ description: Gather comprehensive context from Forgetful Memory, Context7 docs, 
 
 **Purpose**: Gather relevant context from Forgetful Memory, Context7, and web sources before planning or implementing code.
 
-**Usage**: `/context_gather <detailed task description>`
+**Usage**: `/context-gather <detailed task description>`
 
 ---
 

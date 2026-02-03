@@ -29,7 +29,7 @@ Invoke when:
 
 ### Find Recurring Issues
 
-```
+```yaml
 Search Forgetful for PR review patterns:
 
 mcp__forgetful__execute_forgetful_tool with:
@@ -47,7 +47,7 @@ Look for issues that appear 3+ times across different PRs.
 
 ### Find Common Fix Patterns
 
-```
+```yaml
 mcp__forgetful__execute_forgetful_tool with:
 - tool: "search_memories"
 - params: {
@@ -59,7 +59,7 @@ mcp__forgetful__execute_forgetful_tool with:
 
 ### Find Rollback Patterns
 
-```
+```yaml
 mcp__forgetful__execute_forgetful_tool with:
 - tool: "search_memories"
 - params: {

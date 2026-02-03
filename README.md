@@ -32,7 +32,7 @@ See [Installation](docs/getting-started/installation.md) for detailed setup.
 
 ## Repository Structure
 
-```
+```text
 compass-engine/
 ├── src/                  # Source files (modify these)
 │   ├── claude/           # Claude Code configuration

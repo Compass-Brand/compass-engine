@@ -986,8 +986,6 @@ Use haiku for formatting checks
 ## Related Documentation
 
 - **EXAMPLES.md** - Complete agent implementations
-- **PATTERNS.md** - Reusable agent patterns
-- **TOOLS.md** - Tool configuration reference
 
 ## Checklist for New Agents
 

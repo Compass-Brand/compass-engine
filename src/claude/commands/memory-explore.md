@@ -1,4 +1,5 @@
 ---
+name: memory-explore
 description: Deep exploration of the Forgetful knowledge graph
 ---
 

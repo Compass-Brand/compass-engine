@@ -110,6 +110,7 @@ mcp__plugin_serena_serena__search_for_pattern({
    ```
 
 3. **Trace key classes** - Understand structure
+
    ```python
    mcp__plugin_serena_serena__find_symbol({
      "name_path_pattern": "App",
@@ -140,6 +141,7 @@ mcp__plugin_serena_serena__search_for_pattern({
    ```
 
 3. **Find who calls it**
+
    ```python
    mcp__plugin_serena_serena__find_referencing_symbols({
      "name_path": "AuthService/validate_token",
@@ -159,6 +161,7 @@ mcp__plugin_serena_serena__search_for_pattern({
    ```
 
 2. **Find references to trace usage**
+
    ```python
    mcp__plugin_serena_serena__find_referencing_symbols({
      "name_path": "AuthService",

@@ -16,7 +16,7 @@
 
 set -euo pipefail
 
-HUB_PATH="$(cd "$(dirname "$0")" && pwd)"
+HUB_PATH="$(git rev-parse --show-toplevel 2>/dev/null || cd "$(dirname "$0")/../../.." && pwd)"
 HUB_CLAUDE="$HUB_PATH/.claude"
 LAST_SYNC_FILE="$HUB_PATH/.claude-sync-hash"
 
