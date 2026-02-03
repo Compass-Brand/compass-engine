@@ -2302,8 +2302,9 @@ After each phase:
 ## Reference Materials
 
 - Original automation design: `plans/2026-01-08-bmad-automation-design.md`
-- Native implementation plan: `docs/plans/2026-01-15-bmad-native-automation-plan.md`
-- Workflow integration (completed): `docs/plans/2026-01-15-bmad-workflow-integration-plan.md`
+- Original automation design: `plans/2026-01-08-bmad-automation-design.md`
+- Native implementation plan: `plans/2026-01-15-bmad-native-automation-plan.md`
+- Workflow integration (completed): `plans/2026-01-15-bmad-workflow-integration-plan.md`
 - Workflow maps: `docs/bmad-workflow-maps.md`
 - Agent inventory: `docs/bmad-agent-inventory.md`
 - Architecture overview: `docs/bmad-architecture-overview.md`
