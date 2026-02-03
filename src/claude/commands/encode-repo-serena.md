@@ -47,7 +47,7 @@ Then re-run /encode-repo-serena
 
 Also verify Forgetful MCP is connected by testing:
 
-```python
+```text
 execute_forgetful_tool("list_projects", {})
 ```
 
@@ -125,7 +125,7 @@ Phase [N] Complete:
 
 **CRITICAL**: Serena requires an active project before any operations. Activate it first:
 
-```
+```text
 mcp__serena__activate_project({
   "project": "<project_path_or_name>"
 })
@@ -137,7 +137,7 @@ If activation fails with "No active project", Serena will show available registe
 
 ### Step 2: Explore Project Structure
 
-```
+```text
 mcp__serena__list_dir({
   "relative_path": ".",
   "recursive": true,
@@ -147,13 +147,13 @@ mcp__serena__list_dir({
 
 ### Step 3: Check Existing Forgetful Coverage
 
-```
+```text
 execute_forgetful_tool("list_projects", {})
 ```
 
 If project exists, query existing memories:
 
-```
+```text
 execute_forgetful_tool("query_memory", {
   "query": "<project-name> architecture",
   "query_context": "Assessing KB coverage before Serena bootstrap",
@@ -166,7 +166,7 @@ execute_forgetful_tool("query_memory", {
 
 Read key files to understand project:
 
-```
+```text
 mcp__serena__read_file({"relative_path": "README.md"})
 mcp__serena__read_file({"relative_path": "pyproject.toml"})
 # or package.json, Cargo.toml, etc.

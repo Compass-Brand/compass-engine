@@ -43,7 +43,7 @@ test.describe("Feature: [Feature Name]", () => {
 
 Given a user story:
 
-```
+```text
 As a [user type]
 I want to [action]
 So that [benefit]
@@ -132,6 +132,7 @@ await expect(page.getByText("Success")).toBeVisible(); // Auto-waits
 ## Process / Workflow
 
 1. **Parse User Story**
+
    - Identify user type and context
    - Extract actions to perform
    - List expected outcomes

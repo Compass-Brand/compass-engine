@@ -542,7 +542,7 @@ Use this agent for:
 
 When creating specialized agents, always:
 
-- Create files in `cli-tool/components/agents/` directory
+- Create files in `.claude/agents/` directory
 - Follow the YAML frontmatter format exactly
 - Include 2-3 realistic usage examples in description
 - Use appropriate color coding for the domain

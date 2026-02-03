@@ -534,7 +534,7 @@ After all subagents complete:
 
 After resolution, log the session outcomes to Forgetful for future learning:
 
-```
+```text
 Use the Forgetful MCP to save this PR review session:
 
 mcp__forgetful__execute_forgetful_tool with:
@@ -562,7 +562,7 @@ This enables:
 rm -f .pr-review-in-progress .pr-review-results.jsonl
 ```
 
-1. **Post summary comment on the PR**:
+2. **Post summary comment on the PR**:
 
 ```bash
 gh pr comment <PR_NUMBER> --body "## Review Resolution Complete

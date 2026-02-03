@@ -67,11 +67,11 @@ Prioritized list of remaining work or follow-up items.
    find . -name "*.log" -mmin -480 -not -path "*/node_modules/*" -not -path "*/.git/*" -exec tail -20 {} \;
    ```
 
-4. **Compile the summary** in markdown format.
+4. **Compile the summary** in Markdown format.
 
 ## Output Format
 
-```markdown
+```text
 # Session Summary: [DATE]
 
 ## Summary
