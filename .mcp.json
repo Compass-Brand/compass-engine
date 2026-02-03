@@ -2,19 +2,19 @@
   "mcpServers": {
     "forgetful": {
       "type": "http",
-      "url": "http://localhost:8020/mcp"
+      "url": "http://192.168.1.140:8020/mcp"
     },
     "postgres": {
       "type": "http",
-      "url": "http://localhost:8001/sse"
+      "url": "http://192.168.1.140:8001/sse"
     },
     "context7": {
       "type": "http",
-      "url": "http://localhost:8002/mcp"
+      "url": "http://192.168.1.140:8002/mcp"
     },
     "serena": {
       "type": "http",
-      "url": "http://localhost:8003/mcp"
+      "url": "http://192.168.1.140:8003/mcp"
     }
   }
 }
