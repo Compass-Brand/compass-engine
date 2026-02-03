@@ -170,7 +170,7 @@ SOURCE_EXTENSIONS = {
 
 ### References
 
-- [Source: docs/plans/2026-01-08-bmad-automation-design.md#Workflow Entry Point Handling]
+- [Source: plans/2026-01-08-bmad-automation-design.md#Workflow Entry Point Handling]
 - [Source: _bmad-output/planning-artifacts/epics.md#Story 2a.3]
 - [Source: _bmad-output/planning-artifacts/epics.md#FR Coverage Map] - FR4
 

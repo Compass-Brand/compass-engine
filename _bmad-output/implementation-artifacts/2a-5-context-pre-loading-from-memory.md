@@ -172,8 +172,8 @@ CACHE_DIR = "_bmad-output/.context-cache"
 
 ### References
 
-- [Source: docs/plans/2026-01-08-bmad-automation-design.md#Context Pre-Loader]
-- [Source: docs/plans/2026-01-08-bmad-automation-design.md#Initialization Sequence]
+- [Source: plans/2026-01-08-bmad-automation-design.md#Context Pre-Loader]
+- [Source: plans/2026-01-08-bmad-automation-design.md#Initialization Sequence]
 - [Source: _bmad-output/planning-artifacts/epics.md#Story 2a.5]
 - [Source: _bmad-output/planning-artifacts/epics.md#FR Coverage Map] - FR31, FR35
 

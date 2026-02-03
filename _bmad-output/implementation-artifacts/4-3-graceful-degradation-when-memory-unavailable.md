@@ -242,9 +242,9 @@ DEGRADED_MODE_NOTIFICATION = (
 
 ### References
 
-- [Source: docs/plans/2026-01-08-bmad-automation-design.md#Graceful Degradation]
-- [Source: docs/plans/2026-01-08-bmad-automation-design.md#Forgetful MCP Unavailable]
-- [Source: docs/plans/2026-01-08-bmad-automation-design.md#Component Initialization and Shutdown Order]
+- [Source: plans/2026-01-08-bmad-automation-design.md#Graceful Degradation]
+- [Source: plans/2026-01-08-bmad-automation-design.md#Forgetful MCP Unavailable]
+- [Source: plans/2026-01-08-bmad-automation-design.md#Component Initialization and Shutdown Order]
 - [Source: _bmad-output/implementation-artifacts/4-1-writing-workflow-decisions-to-memory.md]
 - [Source: _bmad-output/implementation-artifacts/4-2-post-workflow-learning-extraction.md]
 

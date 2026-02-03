@@ -1,7 +1,7 @@
 ---
 stepsCompleted: [1, 2, 3, 4, 7, 8, 9, 10, 11]
 inputDocuments:
-  - docs/plans/2026-01-08-bmad-automation-design.md
+  - plans/2026-01-08-bmad-automation-design.md
   - docs/bmad-workflow-maps.md
   - docs/bmad-agent-inventory.md
   - docs/bmad-architecture-overview.md
