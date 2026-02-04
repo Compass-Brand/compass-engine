@@ -94,9 +94,17 @@ If `--resume` flag is provided OR `.full-cr-in-progress` exists:
 ```bash
 if [ -f ".full-cr-in-progress" ]; then
     STATE=$(cat .full-cr-in-progress)
-    ITERATION=$(echo "$STATE" | jq -r '.iteration')
-    echo "Resuming from iteration $ITERATION"
-    # Continue from where we left off
+    # Validate JSON before extracting - handle corrupted state files
+    if ! echo "$STATE" | jq -e '.' >/dev/null 2>&1; then
+        echo "ERROR: Corrupted state file .full-cr-in-progress"
+        echo "Backing up to .full-cr-in-progress.corrupt and starting fresh"
+        mv .full-cr-in-progress .full-cr-in-progress.corrupt
+        STATE=""
+    else
+        ITERATION=$(echo "$STATE" | jq -r '.iteration // 0')
+        echo "Resuming from iteration $ITERATION"
+        # Continue from where we left off
+    fi
 fi
 ```
 
@@ -380,7 +388,8 @@ Remove temporary files:
 rm -f .full-cr-in-progress
 rm -f .cr-batch-results.jsonl
 rm -f .cr-review-output.txt
-rm -f *.cr-backup
+# Recursively remove all backup files created during fixes
+find . -type f -name '*.cr-backup' -exec rm -f {} + 2>/dev/null || true
 ```
 
 ## Error Handling

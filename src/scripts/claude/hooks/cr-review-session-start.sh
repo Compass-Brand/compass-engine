@@ -5,8 +5,16 @@
 
 set -euo pipefail
 
-# Read hook input from stdin
-INPUT=$(cat)
+# Read hook input from stdin with timeout to prevent hanging
+INPUT=""
+if command -v timeout >/dev/null 2>&1; then
+    INPUT=$(timeout 5 cat 2>/dev/null) || INPUT=""
+else
+    # POSIX fallback: use read with timeout
+    while IFS= read -r -t 5 line; do
+        INPUT="${INPUT}${line}"$'\n'
+    done
+fi
 
 # Extract session info with defensive JSON parsing
 CWD=""
@@ -14,13 +22,8 @@ if echo "$INPUT" | jq -e '.' >/dev/null 2>&1; then
     CWD=$(echo "$INPUT" | jq -r '.cwd // empty' 2>/dev/null || echo "")
 fi
 
-# Validate CWD - fall back to current working directory if empty or invalid
-if [ -z "$CWD" ] || [ ! -d "$CWD" ]; then
-    CWD="$(pwd)"
-fi
-
-# Normalize to absolute path
-CWD="$(cd "$CWD" && pwd)"
+# Validate and normalize CWD atomically - fall back to current working directory
+CWD="$(cd "${CWD:-.}" 2>/dev/null && pwd || pwd)"
 
 # Check for full CR review context marker file
 MARKER_FILE="${CWD}/.full-cr-in-progress"
@@ -47,18 +50,28 @@ if [ -z "$STATE" ] || ! echo "$STATE" | jq -e '.' >/dev/null 2>&1; then
     exit 0
 fi
 
-# Extract state information
-ITERATION=$(echo "$STATE" | jq -r '.iteration // 0' 2>/dev/null || echo "0")
-BRANCH=$(echo "$STATE" | jq -r '.branch // "unknown"' 2>/dev/null || echo "unknown")
-STARTED_AT=$(echo "$STATE" | jq -r '.started_at // "unknown"' 2>/dev/null || echo "unknown")
-TOTAL_FOUND=$(echo "$STATE" | jq -r '.total_issues_found // 0' 2>/dev/null || echo "0")
-TOTAL_FIXED=$(echo "$STATE" | jq -r '.total_issues_fixed // 0' 2>/dev/null || echo "0")
+# Extract all state information with a single jq invocation for efficiency
+# Output format: iteration|branch|started_at|total_found|total_fixed
+STATE_VALUES=$(echo "$STATE" | jq -r '[
+    (.iteration // 0),
+    (.branch // "unknown"),
+    (.started_at // "unknown"),
+    (.total_issues_found // 0),
+    (.total_issues_fixed // 0)
+] | join("|")' 2>/dev/null) || STATE_VALUES="0|unknown|unknown|0|0"
 
-# Output informational message about in-progress review
-cat <<EOF
-{
-  "systemMessage": "Full CodeRabbit review in progress (iteration $ITERATION on branch '$BRANCH'). Started: $STARTED_AT. Issues: $TOTAL_FOUND found, $TOTAL_FIXED fixed. Run /full-cr-review --resume to continue."
-}
-EOF
+# Parse the pipe-separated values
+IFS='|' read -r ITERATION BRANCH STARTED_AT TOTAL_FOUND TOTAL_FIXED <<< "$STATE_VALUES"
+
+# Ensure defaults if parsing failed
+: "${ITERATION:=0}"
+: "${BRANCH:=unknown}"
+: "${STARTED_AT:=unknown}"
+: "${TOTAL_FOUND:=0}"
+: "${TOTAL_FIXED:=0}"
+
+# Output informational message using jq for proper JSON escaping
+MESSAGE="Full CodeRabbit review in progress (iteration $ITERATION on branch '$BRANCH'). Started: $STARTED_AT. Issues: $TOTAL_FOUND found, $TOTAL_FIXED fixed. Run /full-cr-review --resume to continue."
+jq -n --arg msg "$MESSAGE" '{systemMessage: $msg}'
 
 exit 0

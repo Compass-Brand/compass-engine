@@ -5,8 +5,16 @@
 
 set -euo pipefail
 
-# Read hook input from stdin
-INPUT=$(cat)
+# Read hook input from stdin with timeout to prevent hanging
+INPUT=""
+if command -v timeout >/dev/null 2>&1; then
+    INPUT=$(timeout 5 cat 2>/dev/null) || INPUT=""
+else
+    # POSIX fallback: use read with timeout
+    while IFS= read -r -t 5 line; do
+        INPUT="${INPUT}${line}"$'\n'
+    done
+fi
 
 # Extract session info with defensive JSON parsing
 CWD=""
@@ -14,13 +22,8 @@ if echo "$INPUT" | jq -e '.' >/dev/null 2>&1; then
     CWD=$(echo "$INPUT" | jq -r '.cwd // empty' 2>/dev/null || echo "")
 fi
 
-# Validate CWD - fall back to current working directory if empty or invalid
-if [ -z "$CWD" ] || [ ! -d "$CWD" ]; then
-    CWD="$(pwd)"
-fi
-
-# Normalize to absolute path
-CWD="$(cd "$CWD" && pwd)"
+# Validate and normalize CWD atomically - fall back to current working directory
+CWD="$(cd "${CWD:-.}" 2>/dev/null && pwd || pwd)"
 
 # Check for full CR review context marker file
 MARKER_FILE="${CWD}/.full-cr-in-progress"
@@ -62,14 +65,9 @@ if ! [[ "$OPEN_COUNT" =~ ^[0-9]+$ ]]; then
 fi
 
 if [ "$OPEN_COUNT" -gt 0 ]; then
-    # Still have open beads - emit JSON that suggests continuation
-    # Using "continue": true signals to Claude Code to continue the session
-    cat <<EOF
-{
-  "continue": true,
-  "systemMessage": "$OPEN_COUNT CodeRabbit beads still open. Consider running /full-cr-review --resume to continue fixing, or close them manually with 'bd close <id>'."
-}
-EOF
+    # Still have open beads - emit JSON that suggests continuation using jq for proper escaping
+    MESSAGE="$OPEN_COUNT CodeRabbit beads still open. Consider running /full-cr-review --resume to continue fixing, or close them manually with 'bd close <id>'."
+    jq -n --argjson cont true --arg msg "$MESSAGE" '{continue: $cont, systemMessage: $msg}'
     exit 0
 fi
 
