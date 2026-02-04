@@ -105,7 +105,7 @@ jobs:
 
       - name: Validate JSON/YAML
         uses: GrantBirki/json-yaml-validate@v3
-        continue-on-error: true
+        continue-on-error: true  # May fail on template files or non-standard formats
 
       - name: Lint GitHub Actions workflows
         uses: docker://rhysd/actionlint:latest
@@ -133,7 +133,7 @@ jobs:
 
       - name: Check dependency licenses
         uses: actions/dependency-review-action@v4
-        continue-on-error: true
+        continue-on-error: true  # Requires GHAS on private repos; non-blocking fallback
         with:
           allow-licenses: MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, 0BSD, Unlicense, WTFPL, CC0-1.0, CC-BY-3.0, CC-BY-4.0, Python-2.0, PSF-2.0, MPL-2.0
 
