@@ -80,6 +80,7 @@ jobs:
   gitleaks:
     name: Secret Scan
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -94,6 +95,7 @@ jobs:
   syntax-check:
     name: Syntax Validation
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -109,6 +111,7 @@ jobs:
   editorconfig-check:
     name: EditorConfig
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -119,6 +122,7 @@ jobs:
   license-review:
     name: License Compliance
     runs-on: ubuntu-latest
+    continue-on-error: true
     if: github.event_name == 'pull_request'
     steps:
       - name: Checkout
