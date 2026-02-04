@@ -1,0 +1,57 @@
+# Sprint Backlog Template
+# Copy this to planning/sprints/current/sprint-backlog.yaml
+
+sprint_id: "sprint-XX"
+sprint_name: "[Sprint Name]"
+start_date: "YYYY-MM-DD"
+end_date: "YYYY-MM-DD"
+goal: "[One sentence sprint goal]"
+
+# Sprint items with TDD tracking
+items:
+  - id: "{REPO}-001"
+    title: "[Story/Task title]"
+    type: story  # story | task | bug | spike
+    points: 0
+    status: todo  # todo | in_progress | review | done | blocked
+    owner: null
+    epic_ref: null
+    tdd_gate: pending
+    # TDD Gate values:
+    #   pending - Not started
+    #   tests_written - Acceptance tests exist, ready for RED phase
+    #   red - Failing tests written, implementation started
+    #   green - Tests passing, minimal implementation done
+    #   refactor - Cleaning up while tests stay green
+    #   complete - Done, reviewed, merged
+
+    # Daily progress tracking (optional)
+    progress:
+      - date: "YYYY-MM-DD"
+        note: "[Progress update]"
+        hours_spent: 0
+
+    # Blockers
+    blocked_by: []
+    blocker_notes: null
+
+# Sprint metrics (updated during sprint)
+metrics:
+  total_points: 0
+  completed_points: 0
+  velocity_trend: []  # Last 3-5 sprints for comparison
+
+# TDD compliance tracking
+tdd_compliance:
+  items_with_tests_first: 0
+  items_without_tests_first: 0
+  compliance_percentage: 0
+
+# Daily standup notes (optional)
+standup_notes:
+  - date: "YYYY-MM-DD"
+    attendees: []
+    notes: |
+      [Brief summary of standup discussion]
+    blockers_raised: []
+    action_items: []
