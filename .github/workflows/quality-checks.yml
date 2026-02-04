@@ -166,4 +166,53 @@ jobs:
       - name: Run Ruff formatter check
         if: steps.check-python.outputs.has_python == 'true'
         run: ruff format --check .
-        continue-on-error: true  # Report issues but don't block
+        continue-on-error: true
+
+  js-lint:
+    name: JavaScript/TypeScript Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check for JS/TS files
+        id: check-js
+        run: |
+          if find . -name "*.js" -o -name "*.ts" -o -name "*.mjs" -o -name "*.tsx" -o -name "*.jsx" 2>/dev/null | grep -v node_modules | head -1 | grep -q .; then
+            echo "has_js=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_js=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Setup Node.js
+        if: steps.check-js.outputs.has_js == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install linters
+        if: steps.check-js.outputs.has_js == 'true'
+        run: npm install -g eslint prettier
+
+      - name: Run ESLint
+        if: steps.check-js.outputs.has_js == 'true'
+        run: eslint . --ext .js,.ts,.mjs,.jsx,.tsx --format=stylish --ignore-pattern node_modules/
+        continue-on-error: true
+
+      - name: Run Prettier check
+        if: steps.check-js.outputs.has_js == 'true'
+        run: prettier --check "**/*.{js,ts,mjs,jsx,tsx,json}" --ignore-path .gitignore
+        continue-on-error: true
+
+  markdown-lint:
+    name: Markdown Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run markdownlint
+        uses: DavidAnson/markdownlint-cli2-action@v19
+        with:
+          globs: "**/*.md"
+        continue-on-error: true
