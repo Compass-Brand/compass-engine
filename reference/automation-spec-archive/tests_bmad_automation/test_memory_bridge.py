@@ -8,8 +8,26 @@ TDD: All tests written FIRST, then implementation.
 
 import pytest
 from typing import Any, Dict, List
+from unittest.mock import AsyncMock, Mock
 
 # These imports will fail until we implement the module (RED phase)
+from pcmrp_tools.bmad_automation.memory_bridge import (
+    ImportanceLevel,
+    WorkflowDecision,
+    MemoryEntry,
+    MemoryBridge,
+    FixPattern,
+    MenuSelectionPattern,
+)
+from pcmrp_tools.bmad_automation.memory_degradation import (
+    MemoryAvailabilityChecker,
+    MemorySaveQueue,
+    NotificationManager,
+    DegradedQueryResult,
+    MemoryAvailabilityStatus,
+    AvailabilityResult,
+    MemoryStatus,
+)
 
 
 class TestImportanceLevel:
@@ -17,38 +35,26 @@ class TestImportanceLevel:
 
     def test_importance_level_architectural_is_10(self):
         """ARCHITECTURAL importance level should be 10."""
-        from pcmrp_tools.bmad_automation.memory_bridge import ImportanceLevel
-
         assert ImportanceLevel.ARCHITECTURAL == 10
 
     def test_importance_level_architectural_low_is_9(self):
         """ARCHITECTURAL_LOW importance level should be 9."""
-        from pcmrp_tools.bmad_automation.memory_bridge import ImportanceLevel
-
         assert ImportanceLevel.ARCHITECTURAL_LOW == 9
 
     def test_importance_level_pattern_high_is_8(self):
         """PATTERN_HIGH importance level should be 8."""
-        from pcmrp_tools.bmad_automation.memory_bridge import ImportanceLevel
-
         assert ImportanceLevel.PATTERN_HIGH == 8
 
     def test_importance_level_pattern_is_7(self):
         """PATTERN importance level should be 7."""
-        from pcmrp_tools.bmad_automation.memory_bridge import ImportanceLevel
-
         assert ImportanceLevel.PATTERN == 7
 
     def test_importance_level_milestone_is_6(self):
         """MILESTONE importance level should be 6."""
-        from pcmrp_tools.bmad_automation.memory_bridge import ImportanceLevel
-
         assert ImportanceLevel.MILESTONE == 6
 
     def test_importance_level_selection_is_5(self):
         """SELECTION importance level should be 5."""
-        from pcmrp_tools.bmad_automation.memory_bridge import ImportanceLevel
-
         assert ImportanceLevel.SELECTION == 5
 
 
@@ -57,11 +63,6 @@ class TestWorkflowDecision:
 
     def test_workflow_decision_required_fields(self):
         """WorkflowDecision should require decision_type, description, rationale."""
-        from pcmrp_tools.bmad_automation.memory_bridge import (
-            WorkflowDecision,
-            ImportanceLevel,
-        )
-
         decision = WorkflowDecision(
             decision_type="technical",
             description="Used dataclass instead of TypedDict",
@@ -74,8 +75,6 @@ class TestWorkflowDecision:
 
     def test_workflow_decision_default_outcome_is_none(self):
         """WorkflowDecision outcome should default to None."""
-        from pcmrp_tools.bmad_automation.memory_bridge import WorkflowDecision
-
         decision = WorkflowDecision(
             decision_type="technical",
             description="Test",
@@ -86,11 +85,6 @@ class TestWorkflowDecision:
 
     def test_workflow_decision_default_importance_is_pattern(self):
         """WorkflowDecision importance should default to PATTERN (7)."""
-        from pcmrp_tools.bmad_automation.memory_bridge import (
-            WorkflowDecision,
-            ImportanceLevel,
-        )
-
         decision = WorkflowDecision(
             decision_type="technical",
             description="Test",
@@ -101,11 +95,6 @@ class TestWorkflowDecision:
 
     def test_workflow_decision_custom_importance(self):
         """WorkflowDecision should accept custom importance level."""
-        from pcmrp_tools.bmad_automation.memory_bridge import (
-            WorkflowDecision,
-            ImportanceLevel,
-        )
-
         decision = WorkflowDecision(
             decision_type="architectural",
             description="Chose PostgreSQL over MongoDB",
@@ -117,8 +106,6 @@ class TestWorkflowDecision:
 
     def test_workflow_decision_with_outcome(self):
         """WorkflowDecision should store outcome when provided."""
-        from pcmrp_tools.bmad_automation.memory_bridge import WorkflowDecision
-
         decision = WorkflowDecision(
             decision_type="process",
             description="Used TDD approach",
@@ -134,8 +121,6 @@ class TestMemoryEntry:
 
     def test_memory_entry_required_fields(self):
         """MemoryEntry should require all Forgetful schema fields."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryEntry
-
         entry = MemoryEntry(
             title="Test Memory",
             content="This is test content",
@@ -156,8 +141,6 @@ class TestMemoryEntry:
 
     def test_memory_entry_default_workflow_id_is_none(self):
         """MemoryEntry workflow_id should default to None."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryEntry
-
         entry = MemoryEntry(
             title="Test",
             content="Content",
@@ -172,8 +155,6 @@ class TestMemoryEntry:
 
     def test_memory_entry_with_workflow_id(self):
         """MemoryEntry should store workflow_id when provided."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryEntry
-
         entry = MemoryEntry(
             title="Test",
             content="Content",
@@ -193,8 +174,6 @@ class TestMemoryBridgeInit:
 
     def test_memory_bridge_init_with_project_id_and_workflow_id(self):
         """MemoryBridge should initialize with project_id and workflow_id."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="dev-story-123")
 
         assert bridge.project_id == 1
@@ -202,24 +181,18 @@ class TestMemoryBridgeInit:
 
     def test_memory_bridge_stores_project_id(self):
         """MemoryBridge should store project_id as attribute."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=42, workflow_id="test")
 
         assert bridge.project_id == 42
 
     def test_memory_bridge_stores_workflow_id(self):
         """MemoryBridge should store workflow_id as attribute."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="create-prd-456")
 
         assert bridge.workflow_id == "create-prd-456"
 
     def test_memory_bridge_has_extract_decisions_method(self):
         """MemoryBridge should have extract_decisions method."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
 
         assert hasattr(bridge, "extract_decisions")
@@ -227,8 +200,6 @@ class TestMemoryBridgeInit:
 
     def test_memory_bridge_has_create_fix_pattern_memory_method(self):
         """MemoryBridge should have create_fix_pattern_memory method."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
 
         assert hasattr(bridge, "create_fix_pattern_memory")
@@ -236,8 +207,6 @@ class TestMemoryBridgeInit:
 
     def test_memory_bridge_has_record_selection_pattern_method(self):
         """MemoryBridge should have record_selection_pattern method."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
 
         assert hasattr(bridge, "record_selection_pattern")
@@ -245,8 +214,6 @@ class TestMemoryBridgeInit:
 
     def test_memory_bridge_has_summarize_content_method(self):
         """MemoryBridge should have summarize_content method."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
 
         assert hasattr(bridge, "summarize_content")
@@ -254,8 +221,6 @@ class TestMemoryBridgeInit:
 
     def test_memory_bridge_has_write_memory_method(self):
         """MemoryBridge should have write_memory method."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
 
         assert hasattr(bridge, "write_memory")
@@ -263,8 +228,6 @@ class TestMemoryBridgeInit:
 
     def test_memory_bridge_has_process_workflow_outcome_method(self):
         """MemoryBridge should have process_workflow_outcome method."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
 
         assert hasattr(bridge, "process_workflow_outcome")
@@ -276,8 +239,6 @@ class TestExtractDecisions:
 
     def test_extract_decisions_returns_list(self):
         """extract_decisions should return a list."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         result = bridge.extract_decisions({})
 
@@ -285,8 +246,6 @@ class TestExtractDecisions:
 
     def test_extract_decisions_empty_context_returns_empty_list(self):
         """extract_decisions with empty context should return empty list."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         result = bridge.extract_decisions({})
 
@@ -294,11 +253,6 @@ class TestExtractDecisions:
 
     def test_extract_decisions_extracts_technical_decision(self):
         """extract_decisions should extract technical decisions."""
-        from pcmrp_tools.bmad_automation.memory_bridge import (
-            MemoryBridge,
-            ImportanceLevel,
-        )
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         context = {
             "decisions": [
@@ -318,11 +272,6 @@ class TestExtractDecisions:
 
     def test_extract_decisions_extracts_architectural_decision(self):
         """extract_decisions should extract architectural decisions with high importance."""
-        from pcmrp_tools.bmad_automation.memory_bridge import (
-            MemoryBridge,
-            ImportanceLevel,
-        )
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         context = {
             "decisions": [
@@ -341,11 +290,6 @@ class TestExtractDecisions:
 
     def test_extract_decisions_extracts_process_decision(self):
         """extract_decisions should extract process decisions."""
-        from pcmrp_tools.bmad_automation.memory_bridge import (
-            MemoryBridge,
-            ImportanceLevel,
-        )
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         context = {
             "decisions": [
@@ -364,11 +308,6 @@ class TestExtractDecisions:
 
     def test_extract_decisions_maps_technical_to_pattern_importance(self):
         """Technical decisions should have PATTERN importance (7)."""
-        from pcmrp_tools.bmad_automation.memory_bridge import (
-            MemoryBridge,
-            ImportanceLevel,
-        )
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         context = {
             "decisions": [
@@ -385,11 +324,6 @@ class TestExtractDecisions:
 
     def test_extract_decisions_maps_architectural_to_architectural_importance(self):
         """Architectural decisions should have ARCHITECTURAL importance (10)."""
-        from pcmrp_tools.bmad_automation.memory_bridge import (
-            MemoryBridge,
-            ImportanceLevel,
-        )
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         context = {
             "decisions": [
@@ -406,8 +340,6 @@ class TestExtractDecisions:
 
     def test_extract_decisions_handles_multiple_decisions(self):
         """extract_decisions should handle multiple decisions."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         context = {
             "decisions": [
@@ -422,8 +354,6 @@ class TestExtractDecisions:
 
     def test_extract_decisions_includes_outcome_when_present(self):
         """extract_decisions should include outcome when present in context."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         context = {
             "decisions": [
@@ -441,8 +371,6 @@ class TestExtractDecisions:
 
     def test_extract_decisions_skips_invalid_decisions(self):
         """extract_decisions should skip decisions missing required fields."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         context = {
             "decisions": [
@@ -461,8 +389,6 @@ class TestExtractDecisions:
 
     def test_extract_decisions_handles_missing_decisions_key(self):
         """extract_decisions should return empty list if decisions key missing."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         context = {"workflow_id": "test", "other_data": "value"}
         result = bridge.extract_decisions(context)
@@ -471,8 +397,6 @@ class TestExtractDecisions:
 
     def test_extract_decisions_handles_unicode_content(self):
         """extract_decisions should handle unicode characters."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         context = {
             "decisions": [
@@ -494,8 +418,6 @@ class TestFixPattern:
 
     def test_fix_pattern_required_fields(self):
         """FixPattern should require error_signature, solution, workflow_step, validation_type."""
-        from pcmrp_tools.bmad_automation.memory_bridge import FixPattern
-
         pattern = FixPattern(
             error_signature="ImportError:missing_module:dataclasses",
             solution="Add 'from dataclasses import dataclass' import",
@@ -510,8 +432,6 @@ class TestFixPattern:
 
     def test_fix_pattern_default_success_rate_is_one(self):
         """FixPattern success_rate should default to 1.0."""
-        from pcmrp_tools.bmad_automation.memory_bridge import FixPattern
-
         pattern = FixPattern(
             error_signature="test",
             solution="test",
@@ -523,8 +443,6 @@ class TestFixPattern:
 
     def test_fix_pattern_custom_success_rate(self):
         """FixPattern should accept custom success_rate."""
-        from pcmrp_tools.bmad_automation.memory_bridge import FixPattern
-
         pattern = FixPattern(
             error_signature="test",
             solution="test",
@@ -541,12 +459,6 @@ class TestCreateFixPatternMemory:
 
     def test_create_fix_pattern_memory_returns_memory_entry(self):
         """create_fix_pattern_memory should return a MemoryEntry."""
-        from pcmrp_tools.bmad_automation.memory_bridge import (
-            MemoryBridge,
-            FixPattern,
-            MemoryEntry,
-        )
-
         bridge = MemoryBridge(project_id=1, workflow_id="dev-story-123")
         pattern = FixPattern(
             error_signature="ImportError:missing_module:dataclasses",
@@ -561,8 +473,6 @@ class TestCreateFixPatternMemory:
 
     def test_create_fix_pattern_memory_includes_title(self):
         """Memory entry should have descriptive title."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge, FixPattern
-
         bridge = MemoryBridge(project_id=1, workflow_id="dev-story-123")
         pattern = FixPattern(
             error_signature="ImportError:missing_module:dataclasses",
@@ -578,8 +488,6 @@ class TestCreateFixPatternMemory:
 
     def test_create_fix_pattern_memory_includes_error_signature_in_content(self):
         """Memory content should include error signature."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge, FixPattern
-
         bridge = MemoryBridge(project_id=1, workflow_id="dev-story-123")
         pattern = FixPattern(
             error_signature="ImportError:missing_module:dataclasses",
@@ -594,8 +502,6 @@ class TestCreateFixPatternMemory:
 
     def test_create_fix_pattern_memory_includes_solution_in_content(self):
         """Memory content should include solution."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge, FixPattern
-
         bridge = MemoryBridge(project_id=1, workflow_id="dev-story-123")
         pattern = FixPattern(
             error_signature="test_error",
@@ -610,8 +516,6 @@ class TestCreateFixPatternMemory:
 
     def test_create_fix_pattern_memory_includes_workflow_context(self):
         """Memory content should include workflow context (step, validation type)."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge, FixPattern
-
         bridge = MemoryBridge(project_id=1, workflow_id="dev-story-123")
         pattern = FixPattern(
             error_signature="test_error",
@@ -627,8 +531,6 @@ class TestCreateFixPatternMemory:
 
     def test_create_fix_pattern_memory_generates_keywords_from_error(self):
         """Keywords should be generated from error signature."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge, FixPattern
-
         bridge = MemoryBridge(project_id=1, workflow_id="dev-story-123")
         pattern = FixPattern(
             error_signature="ImportError:missing_module:dataclasses",
@@ -645,8 +547,6 @@ class TestCreateFixPatternMemory:
 
     def test_create_fix_pattern_memory_includes_fix_pattern_tag(self):
         """Tags should include fix_pattern type."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge, FixPattern
-
         bridge = MemoryBridge(project_id=1, workflow_id="dev-story-123")
         pattern = FixPattern(
             error_signature="test",
@@ -661,8 +561,6 @@ class TestCreateFixPatternMemory:
 
     def test_create_fix_pattern_memory_includes_project_id(self):
         """Memory entry should include project_id."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge, FixPattern
-
         bridge = MemoryBridge(project_id=42, workflow_id="test")
         pattern = FixPattern(
             error_signature="test",
@@ -677,8 +575,6 @@ class TestCreateFixPatternMemory:
 
     def test_create_fix_pattern_memory_includes_workflow_id(self):
         """Memory entry should include workflow_id."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge, FixPattern
-
         bridge = MemoryBridge(project_id=1, workflow_id="dev-story-456")
         pattern = FixPattern(
             error_signature="test",
@@ -693,12 +589,6 @@ class TestCreateFixPatternMemory:
 
     def test_create_fix_pattern_memory_has_pattern_importance(self):
         """Fix pattern memories should have PATTERN importance (7-8)."""
-        from pcmrp_tools.bmad_automation.memory_bridge import (
-            MemoryBridge,
-            FixPattern,
-            ImportanceLevel,
-        )
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         pattern = FixPattern(
             error_signature="test",
@@ -716,8 +606,6 @@ class TestCreateFixPatternMemory:
 
     def test_create_fix_pattern_memory_includes_context(self):
         """Memory entry should have meaningful context."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge, FixPattern
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         pattern = FixPattern(
             error_signature="test",
@@ -733,8 +621,6 @@ class TestCreateFixPatternMemory:
 
     def test_create_fix_pattern_memory_handles_long_error_signature(self):
         """Should handle very long error signatures gracefully."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge, FixPattern
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         long_signature = "Error:" + "x" * 500
         pattern = FixPattern(
@@ -757,8 +643,6 @@ class TestMenuSelectionPattern:
 
     def test_menu_selection_pattern_required_fields(self):
         """MenuSelectionPattern should require context, selection, outcome."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MenuSelectionPattern
-
         pattern = MenuSelectionPattern(
             context="Unclear requirements for user story",
             selection="[A] Advanced Elicitation",
@@ -771,8 +655,6 @@ class TestMenuSelectionPattern:
 
     def test_menu_selection_pattern_default_success_signal_is_one(self):
         """MenuSelectionPattern success_signal should default to 1.0."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MenuSelectionPattern
-
         pattern = MenuSelectionPattern(
             context="test", selection="test", outcome="test"
         )
@@ -781,8 +663,6 @@ class TestMenuSelectionPattern:
 
     def test_menu_selection_pattern_custom_success_signal(self):
         """MenuSelectionPattern should accept custom success_signal."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MenuSelectionPattern
-
         pattern = MenuSelectionPattern(
             context="test", selection="test", outcome="test", success_signal=0.75
         )
@@ -795,8 +675,6 @@ class TestRecordSelectionPattern:
 
     def test_record_selection_pattern_returns_none_when_disabled(self):
         """record_selection_pattern should return None when recording is disabled."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test", record_selections=False)
         result = bridge.record_selection_pattern(
             context="test", selection="test", outcome="test"
@@ -806,8 +684,6 @@ class TestRecordSelectionPattern:
 
     def test_record_selection_pattern_returns_memory_entry_when_enabled(self):
         """record_selection_pattern should return MemoryEntry when enabled."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge, MemoryEntry
-
         bridge = MemoryBridge(project_id=1, workflow_id="test", record_selections=True)
         result = bridge.record_selection_pattern(
             context="Unclear requirements",
@@ -819,8 +695,6 @@ class TestRecordSelectionPattern:
 
     def test_record_selection_pattern_includes_context_in_content(self):
         """Memory content should include the context."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test", record_selections=True)
         result = bridge.record_selection_pattern(
             context="Unclear requirements for user story",
@@ -832,8 +706,6 @@ class TestRecordSelectionPattern:
 
     def test_record_selection_pattern_includes_selection_in_content(self):
         """Memory content should include the selection."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test", record_selections=True)
         result = bridge.record_selection_pattern(
             context="test",
@@ -845,8 +717,6 @@ class TestRecordSelectionPattern:
 
     def test_record_selection_pattern_includes_outcome_in_content(self):
         """Memory content should include the outcome."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test", record_selections=True)
         result = bridge.record_selection_pattern(
             context="test",
@@ -858,11 +728,6 @@ class TestRecordSelectionPattern:
 
     def test_record_selection_pattern_has_selection_importance(self):
         """Selection pattern memories should have SELECTION importance (5)."""
-        from pcmrp_tools.bmad_automation.memory_bridge import (
-            MemoryBridge,
-            ImportanceLevel,
-        )
-
         bridge = MemoryBridge(project_id=1, workflow_id="test", record_selections=True)
         result = bridge.record_selection_pattern(
             context="test", selection="test", outcome="test"
@@ -872,8 +737,6 @@ class TestRecordSelectionPattern:
 
     def test_record_selection_pattern_includes_selection_pattern_tag(self):
         """Tags should include selection_pattern type."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test", record_selections=True)
         result = bridge.record_selection_pattern(
             context="test", selection="test", outcome="test"
@@ -883,8 +746,6 @@ class TestRecordSelectionPattern:
 
     def test_record_selection_pattern_includes_project_id(self):
         """Memory entry should include project_id."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=42, workflow_id="test", record_selections=True)
         result = bridge.record_selection_pattern(
             context="test", selection="test", outcome="test"
@@ -894,8 +755,6 @@ class TestRecordSelectionPattern:
 
     def test_record_selection_pattern_includes_workflow_id(self):
         """Memory entry should include workflow_id."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(
             project_id=1, workflow_id="create-prd-789", record_selections=True
         )
@@ -907,8 +766,6 @@ class TestRecordSelectionPattern:
 
     def test_record_selection_pattern_has_descriptive_title(self):
         """Memory entry should have descriptive title."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test", record_selections=True)
         result = bridge.record_selection_pattern(
             context="test", selection="[A] Advanced Elicitation", outcome="test"
@@ -919,8 +776,6 @@ class TestRecordSelectionPattern:
 
     def test_record_selection_pattern_generates_keywords(self):
         """Keywords should be generated from context and selection."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test", record_selections=True)
         result = bridge.record_selection_pattern(
             context="requirements unclear", selection="Advanced", outcome="success"
@@ -935,8 +790,6 @@ class TestSummarizeContent:
 
     def test_summarize_content_returns_string(self):
         """summarize_content should return a string."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         result = bridge.summarize_content("test content")
 
@@ -944,8 +797,6 @@ class TestSummarizeContent:
 
     def test_summarize_content_short_content_unchanged(self):
         """Content under limit should be returned unchanged."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         short_content = "This is short content."
         result = bridge.summarize_content(short_content)
@@ -954,8 +805,6 @@ class TestSummarizeContent:
 
     def test_summarize_content_at_limit_unchanged(self):
         """Content exactly at 2000 chars should be unchanged."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         content = "x" * 2000
         result = bridge.summarize_content(content)
@@ -965,8 +814,6 @@ class TestSummarizeContent:
 
     def test_summarize_content_over_limit_truncated(self):
         """Content over limit should be truncated."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         content = "x" * 3000
         result = bridge.summarize_content(content)
@@ -975,8 +822,6 @@ class TestSummarizeContent:
 
     def test_summarize_content_adds_ellipsis_indicator(self):
         """Truncated content should end with '...' indicator."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         content = "x" * 3000
         result = bridge.summarize_content(content)
@@ -985,8 +830,6 @@ class TestSummarizeContent:
 
     def test_summarize_content_custom_max_length(self):
         """Should respect custom max_length parameter."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         content = "x" * 500
         result = bridge.summarize_content(content, max_length=100)
@@ -995,8 +838,6 @@ class TestSummarizeContent:
 
     def test_summarize_content_preserves_key_sections(self):
         """Should preserve Decision, Rationale, Outcome sections when present."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         content = (
             "Decision: Use PostgreSQL\n\n"
@@ -1014,8 +855,6 @@ class TestSummarizeContent:
 
     def test_summarize_content_preserves_error_signature_section(self):
         """Should preserve Error Signature section when present."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         content = (
             "Error Signature: ImportError:missing_module\n\n"
@@ -1031,8 +870,6 @@ class TestSummarizeContent:
 
     def test_summarize_content_empty_string(self):
         """Empty string should return empty string."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         result = bridge.summarize_content("")
 
@@ -1040,8 +877,6 @@ class TestSummarizeContent:
 
     def test_summarize_content_unicode_characters(self):
         """Should handle unicode characters correctly."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         content = "Unicode test: cafe and special chars"
         result = bridge.summarize_content(content)
@@ -1050,8 +885,6 @@ class TestSummarizeContent:
 
     def test_summarize_content_long_lines(self):
         """Should handle content with very long lines."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
         content = "a" * 5000  # Single very long line
         result = bridge.summarize_content(content)
@@ -1066,9 +899,6 @@ class TestWriteMemory:
     @pytest.mark.asyncio
     async def test_write_memory_calls_mcp_client(self):
         """write_memory should call the MCP client."""
-        from unittest.mock import AsyncMock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge, MemoryEntry
-
         mock_client = AsyncMock(return_value={"id": 123, "status": "created"})
         bridge = MemoryBridge(
             project_id=1, workflow_id="test", mcp_client=mock_client
@@ -1090,9 +920,6 @@ class TestWriteMemory:
     @pytest.mark.asyncio
     async def test_write_memory_passes_correct_parameters(self):
         """write_memory should pass correct parameters to MCP."""
-        from unittest.mock import AsyncMock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge, MemoryEntry
-
         mock_client = AsyncMock(return_value={"id": 123})
         bridge = MemoryBridge(
             project_id=1, workflow_id="test-workflow", mcp_client=mock_client
@@ -1121,9 +948,6 @@ class TestWriteMemory:
     @pytest.mark.asyncio
     async def test_write_memory_includes_all_required_fields(self):
         """write_memory should include all required Forgetful fields."""
-        from unittest.mock import AsyncMock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge, MemoryEntry
-
         captured_args = {}
 
         async def capture_mock(*args, **kwargs):
@@ -1153,9 +977,6 @@ class TestWriteMemory:
     @pytest.mark.asyncio
     async def test_write_memory_includes_workflow_id_in_tags(self):
         """write_memory should include workflow_id in tags for traceability."""
-        from unittest.mock import AsyncMock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge, MemoryEntry
-
         captured_args = {}
 
         async def capture_mock(tool_name, arguments):
@@ -1187,9 +1008,6 @@ class TestWriteMemory:
     @pytest.mark.asyncio
     async def test_write_memory_returns_mcp_response(self):
         """write_memory should return the MCP response."""
-        from unittest.mock import AsyncMock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge, MemoryEntry
-
         mock_response = {"id": 123, "status": "created", "memory_id": 456}
         mock_client = AsyncMock(return_value=mock_response)
         bridge = MemoryBridge(
@@ -1212,8 +1030,6 @@ class TestWriteMemory:
     @pytest.mark.asyncio
     async def test_write_memory_handles_missing_mcp_client(self):
         """write_memory should raise error when MCP client not configured."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge, MemoryEntry
-
         bridge = MemoryBridge(project_id=1, workflow_id="test", mcp_client=None)
         entry = MemoryEntry(
             title="Test",
@@ -1231,9 +1047,6 @@ class TestWriteMemory:
     @pytest.mark.asyncio
     async def test_write_memory_summarizes_long_content(self):
         """write_memory should summarize content exceeding 2000 chars."""
-        from unittest.mock import AsyncMock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge, MemoryEntry
-
         captured_args = {}
 
         async def capture_mock(tool_name, arguments):
@@ -1267,9 +1080,6 @@ class TestProcessWorkflowOutcome:
     @pytest.mark.asyncio
     async def test_process_workflow_outcome_returns_summary(self):
         """process_workflow_outcome should return a summary dict."""
-        from unittest.mock import AsyncMock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         mock_client = AsyncMock(return_value={"id": 123})
         bridge = MemoryBridge(
             project_id=1, workflow_id="test", mcp_client=mock_client
@@ -1282,9 +1092,6 @@ class TestProcessWorkflowOutcome:
     @pytest.mark.asyncio
     async def test_process_workflow_outcome_extracts_and_writes_decisions(self):
         """process_workflow_outcome should extract decisions and write memories."""
-        from unittest.mock import AsyncMock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         mock_client = AsyncMock(return_value={"id": 123})
         bridge = MemoryBridge(
             project_id=1, workflow_id="test", mcp_client=mock_client
@@ -1308,9 +1115,6 @@ class TestProcessWorkflowOutcome:
     @pytest.mark.asyncio
     async def test_process_workflow_outcome_writes_fix_patterns(self):
         """process_workflow_outcome should write fix pattern memories."""
-        from unittest.mock import AsyncMock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge, FixPattern
-
         mock_client = AsyncMock(return_value={"id": 123})
         bridge = MemoryBridge(
             project_id=1, workflow_id="test", mcp_client=mock_client
@@ -1333,9 +1137,6 @@ class TestProcessWorkflowOutcome:
     @pytest.mark.asyncio
     async def test_process_workflow_outcome_records_selections_when_enabled(self):
         """process_workflow_outcome should record selections when enabled."""
-        from unittest.mock import AsyncMock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         mock_client = AsyncMock(return_value={"id": 123})
         bridge = MemoryBridge(
             project_id=1, workflow_id="test", mcp_client=mock_client,
@@ -1361,9 +1162,6 @@ class TestProcessWorkflowOutcome:
     @pytest.mark.asyncio
     async def test_process_workflow_outcome_skips_selections_when_disabled(self):
         """process_workflow_outcome should skip selections when disabled."""
-        from unittest.mock import AsyncMock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         mock_client = AsyncMock(return_value={"id": 123})
         bridge = MemoryBridge(
             project_id=1, workflow_id="test", mcp_client=mock_client,
@@ -1389,9 +1187,6 @@ class TestProcessWorkflowOutcome:
     @pytest.mark.asyncio
     async def test_process_workflow_outcome_handles_empty_context(self):
         """process_workflow_outcome should handle empty context gracefully."""
-        from unittest.mock import AsyncMock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         mock_client = AsyncMock(return_value={"id": 123})
         bridge = MemoryBridge(
             project_id=1, workflow_id="test", mcp_client=mock_client
@@ -1406,9 +1201,6 @@ class TestProcessWorkflowOutcome:
     @pytest.mark.asyncio
     async def test_process_workflow_outcome_batches_writes(self):
         """process_workflow_outcome should batch write operations efficiently."""
-        from unittest.mock import AsyncMock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge, FixPattern
-
         mock_client = AsyncMock(return_value={"id": 123})
         bridge = MemoryBridge(
             project_id=1, workflow_id="test", mcp_client=mock_client
@@ -1438,9 +1230,6 @@ class TestProcessWorkflowOutcome:
     @pytest.mark.asyncio
     async def test_process_workflow_outcome_returns_total_count(self):
         """process_workflow_outcome should return total memories created."""
-        from unittest.mock import AsyncMock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge, FixPattern
-
         mock_client = AsyncMock(return_value={"id": 123})
         bridge = MemoryBridge(
             project_id=1, workflow_id="test", mcp_client=mock_client
@@ -1467,9 +1256,6 @@ class TestProcessWorkflowOutcome:
     @pytest.mark.asyncio
     async def test_process_workflow_outcome_creates_decision_memories(self):
         """process_workflow_outcome should create proper decision memories."""
-        from unittest.mock import AsyncMock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         captured_calls = []
 
         async def capture_mock(tool_name, arguments):
@@ -1508,53 +1294,36 @@ class TestMemoryBridgeWithDegradationInit:
 
     def test_memory_bridge_has_availability_checker_attribute(self):
         """MemoryBridge should have availability_checker attribute."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
 
         assert hasattr(bridge, "availability_checker")
 
     def test_memory_bridge_has_save_queue_attribute(self):
         """MemoryBridge should have save_queue attribute."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
 
         assert hasattr(bridge, "save_queue")
 
     def test_memory_bridge_has_notification_manager_attribute(self):
         """MemoryBridge should have notification_manager attribute."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
 
         assert hasattr(bridge, "notification_manager")
 
     def test_memory_bridge_availability_checker_is_correct_type(self):
         """MemoryBridge availability_checker should be MemoryAvailabilityChecker."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-        from pcmrp_tools.bmad_automation.memory_degradation import (
-            MemoryAvailabilityChecker,
-        )
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
 
         assert isinstance(bridge.availability_checker, MemoryAvailabilityChecker)
 
     def test_memory_bridge_save_queue_is_correct_type(self):
         """MemoryBridge save_queue should be MemorySaveQueue."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-        from pcmrp_tools.bmad_automation.memory_degradation import MemorySaveQueue
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
 
         assert isinstance(bridge.save_queue, MemorySaveQueue)
 
     def test_memory_bridge_notification_manager_is_correct_type(self):
         """MemoryBridge notification_manager should be NotificationManager."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-        from pcmrp_tools.bmad_automation.memory_degradation import NotificationManager
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
 
         assert isinstance(bridge.notification_manager, NotificationManager)
@@ -1565,8 +1334,6 @@ class TestMemoryBridgeQueryDegradation:
 
     def test_memory_bridge_has_query_method(self):
         """MemoryBridge should have query method."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
 
         assert hasattr(bridge, "query")
@@ -1574,12 +1341,6 @@ class TestMemoryBridgeQueryDegradation:
 
     def test_memory_bridge_query_when_available_returns_results(self):
         """MemoryBridge query should return normal results when available."""
-        from unittest.mock import Mock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-        from pcmrp_tools.bmad_automation.memory_degradation import (
-            MemoryAvailabilityStatus,
-        )
-
         mock_client = Mock()
         mock_client.execute_forgetful_tool = Mock(
             return_value=[{"id": 1, "content": "test"}]
@@ -1597,13 +1358,6 @@ class TestMemoryBridgeQueryDegradation:
 
     def test_memory_bridge_query_when_degraded_returns_degraded_result(self):
         """MemoryBridge query should return DegradedQueryResult when degraded."""
-        from unittest.mock import Mock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-        from pcmrp_tools.bmad_automation.memory_degradation import (
-            DegradedQueryResult,
-            MemoryAvailabilityStatus,
-        )
-
         mock_client = Mock()
 
         bridge = MemoryBridge(project_id=1, workflow_id="test", mcp_client=mock_client)
@@ -1619,12 +1373,6 @@ class TestMemoryBridgeQueryDegradation:
 
     def test_memory_bridge_query_degraded_notifies_user_once(self):
         """MemoryBridge query should notify user once when degraded."""
-        from unittest.mock import Mock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-        from pcmrp_tools.bmad_automation.memory_degradation import (
-            MemoryAvailabilityStatus,
-        )
-
         mock_client = Mock()
 
         bridge = MemoryBridge(project_id=1, workflow_id="test", mcp_client=mock_client)
@@ -1648,8 +1396,6 @@ class TestMemoryBridgeSaveDegradation:
 
     def test_memory_bridge_has_save_method(self):
         """MemoryBridge should have save method."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
 
         assert hasattr(bridge, "save")
@@ -1658,12 +1404,6 @@ class TestMemoryBridgeSaveDegradation:
     @pytest.mark.asyncio
     async def test_memory_bridge_save_when_available_saves_directly(self):
         """MemoryBridge save should save directly when available."""
-        from unittest.mock import AsyncMock, Mock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-        from pcmrp_tools.bmad_automation.memory_degradation import (
-            MemoryAvailabilityStatus,
-        )
-
         mock_client = AsyncMock(return_value={"id": 123})
 
         bridge = MemoryBridge(project_id=1, workflow_id="test", mcp_client=mock_client)
@@ -1679,12 +1419,6 @@ class TestMemoryBridgeSaveDegradation:
     @pytest.mark.asyncio
     async def test_memory_bridge_save_when_degraded_queues_memory(self):
         """MemoryBridge save should queue memory when degraded."""
-        from unittest.mock import AsyncMock, Mock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-        from pcmrp_tools.bmad_automation.memory_degradation import (
-            MemoryAvailabilityStatus,
-        )
-
         mock_client = AsyncMock(return_value={"id": 123})
 
         bridge = MemoryBridge(project_id=1, workflow_id="test", mcp_client=mock_client)
@@ -1704,12 +1438,6 @@ class TestMemoryBridgeSaveDegradation:
     @pytest.mark.asyncio
     async def test_memory_bridge_save_queued_preserves_memory_data(self):
         """MemoryBridge save should preserve memory data when queuing."""
-        from unittest.mock import AsyncMock, Mock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-        from pcmrp_tools.bmad_automation.memory_degradation import (
-            MemoryAvailabilityStatus,
-        )
-
         mock_client = AsyncMock()
 
         bridge = MemoryBridge(project_id=1, workflow_id="test", mcp_client=mock_client)
@@ -1729,8 +1457,6 @@ class TestMemoryBridgePeriodicHealthCheck:
 
     def test_memory_bridge_has_trigger_health_check_method(self):
         """MemoryBridge should have trigger_health_check method."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
 
         assert hasattr(bridge, "trigger_health_check")
@@ -1739,13 +1465,6 @@ class TestMemoryBridgePeriodicHealthCheck:
     @pytest.mark.asyncio
     async def test_trigger_health_check_updates_availability_status(self):
         """trigger_health_check should update internal availability status."""
-        from unittest.mock import AsyncMock, Mock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-        from pcmrp_tools.bmad_automation.memory_degradation import (
-            AvailabilityResult,
-            MemoryStatus,
-        )
-
         mock_client = AsyncMock(return_value={"status": "ok"})
 
         bridge = MemoryBridge(project_id=1, workflow_id="test", mcp_client=mock_client)
@@ -1757,12 +1476,6 @@ class TestMemoryBridgePeriodicHealthCheck:
     @pytest.mark.asyncio
     async def test_trigger_health_check_processes_queue_on_recovery(self):
         """trigger_health_check should process queue when recovering from degraded."""
-        from unittest.mock import AsyncMock, Mock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-        from pcmrp_tools.bmad_automation.memory_degradation import (
-            MemoryAvailabilityStatus,
-        )
-
         mock_client = AsyncMock(return_value={"id": 123})
 
         bridge = MemoryBridge(project_id=1, workflow_id="test", mcp_client=mock_client)
@@ -1787,12 +1500,6 @@ class TestMemoryBridgeRecoveryFlow:
     @pytest.mark.asyncio
     async def test_full_recovery_flow(self):
         """Test complete flow: degraded mode -> recovery -> queue processing."""
-        from unittest.mock import AsyncMock, Mock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-        from pcmrp_tools.bmad_automation.memory_degradation import (
-            MemoryAvailabilityStatus,
-        )
-
         save_count = [0]
 
         async def track_calls(tool_name, arguments):
@@ -1831,12 +1538,6 @@ class TestMemoryBridgeRecoveryFlow:
     @pytest.mark.asyncio
     async def test_recovery_with_partial_failures(self):
         """Test recovery where some queued saves fail."""
-        from unittest.mock import AsyncMock, Mock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-        from pcmrp_tools.bmad_automation.memory_degradation import (
-            MemoryAvailabilityStatus,
-        )
-
         async def partial_fail_client(tool_name, arguments):
             if arguments.get("title") == "Will Fail":
                 raise TimeoutError("Failed")
@@ -1876,16 +1577,12 @@ class TestMemoryBridgeGetStatus:
 
     def test_memory_bridge_has_is_degraded_property(self):
         """MemoryBridge should have is_degraded property."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
 
         assert hasattr(bridge, "is_degraded")
 
     def test_memory_bridge_has_get_queue_size_method(self):
         """MemoryBridge should have get_queue_size method."""
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
 
         assert hasattr(bridge, "get_queue_size")
@@ -1893,12 +1590,6 @@ class TestMemoryBridgeGetStatus:
 
     def test_get_queue_size_returns_correct_count(self):
         """get_queue_size should return correct queue size."""
-        from unittest.mock import Mock
-        from pcmrp_tools.bmad_automation.memory_bridge import MemoryBridge
-        from pcmrp_tools.bmad_automation.memory_degradation import (
-            MemoryAvailabilityStatus,
-        )
-
         bridge = MemoryBridge(project_id=1, workflow_id="test")
 
         # Add items to queue directly
