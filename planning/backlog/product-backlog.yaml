@@ -1,0 +1,63 @@
+# Product Backlog Template
+# Copy this to planning/backlog/product-backlog.yaml and customize for your repo
+
+version: "1.0"
+last_updated: "YYYY-MM-DD"
+
+# Backlog items ordered by priority (highest first)
+items:
+  - id: "{REPO}-001"
+    title: "[Descriptive title of the work item]"
+    type: epic  # epic | feature | bug | task | spike
+    priority: P2  # P0=critical, P1=high, P2=medium, P3=low, P4=future
+    description: |
+      [Multi-line description of what needs to be done and why]
+    acceptance_criteria:
+      - "[Criterion 1]"
+      - "[Criterion 2]"
+      - "[Criterion 3]"
+    estimate_points: 0  # Fibonacci: 1, 2, 3, 5, 8, 13, 21
+    status: backlog  # backlog | ready | in_progress | blocked | done
+    beads_ref: null  # Link to beads issue if tracked there
+    assigned_sprint: null  # Sprint identifier when assigned
+    epic_ref: null  # Parent epic ID if this is a feature/task
+    tdd_gate: pending  # pending | tests_written | implementation | passing | complete
+    blocked_by: []  # List of item IDs blocking this work
+    labels: []  # Arbitrary labels for filtering
+
+# Example items for reference (remove in actual use):
+
+  # - id: "REPO-002"
+  #   title: "Add user authentication"
+  #   type: feature
+  #   priority: P1
+  #   description: |
+  #     Implement OAuth 2.0 authentication flow with support for
+  #     Google and GitHub providers.
+  #   acceptance_criteria:
+  #     - Users can sign in with Google
+  #     - Users can sign in with GitHub
+  #     - Session persists across page reloads
+  #     - Logout clears session completely
+  #   estimate_points: 8
+  #   status: ready
+  #   beads_ref: repo-xyz123
+  #   assigned_sprint: null
+  #   epic_ref: "REPO-001"
+  #   tdd_gate: tests_written
+  #   blocked_by: []
+  #   labels: ["auth", "security"]
+
+# TDD Gate Progression:
+#   1. pending - Item in backlog, no test work started
+#   2. tests_written - Acceptance tests and test plan exist
+#   3. implementation - Tests exist, implementation in progress (RED phase)
+#   4. passing - Tests passing (GREEN phase)
+#   5. complete - Refactored, merged, and verified
+
+# Priority Guidelines:
+#   P0 - Critical: Production down, security vulnerability, blocking all work
+#   P1 - High: Important for current sprint goals, significant user impact
+#   P2 - Medium: Normal priority, planned work
+#   P3 - Low: Nice to have, minor improvements
+#   P4 - Future: Future consideration, may never be done
