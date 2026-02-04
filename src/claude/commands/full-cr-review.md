@@ -103,10 +103,12 @@ fi
 **Step 1.4: Create State File**
 
 ```bash
-cat > .full-cr-in-progress << 'EOF'
+STARTED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+CURRENT_BRANCH=$(git branch --show-current)
+cat > .full-cr-in-progress << EOF
 {
-  "started_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
-  "branch": "$(git branch --show-current)",
+  "started_at": "$STARTED_AT",
+  "branch": "$CURRENT_BRANCH",
   "iteration": 0,
   "total_issues_found": 0,
   "total_issues_fixed": 0,
@@ -130,7 +132,7 @@ echo "Using first commit as base: $FIRST_COMMIT"
 
 ```bash
 echo "Running CodeRabbit review (this may take 7-30 minutes)..."
-coderabbit --prompt-only --base-commit "$FIRST_COMMIT" > .cr-review-output.txt 2>&1
+coderabbit review --prompt-only --base-commit "$FIRST_COMMIT" > .cr-review-output.txt 2>&1
 ```
 
 The `--prompt-only` flag returns structured output without requiring a PR.
@@ -333,7 +335,7 @@ After all fixes committed, run CodeRabbit again:
 ITERATION=$((ITERATION + 1))
 if [ "$ITERATION" -lt "$MAX_ITERATIONS" ]; then
     echo "Re-running CodeRabbit review (iteration $ITERATION)..."
-    coderabbit --prompt-only --base-commit "$FIRST_COMMIT" > .cr-review-output.txt 2>&1
+    coderabbit review --prompt-only --base-commit "$FIRST_COMMIT" > .cr-review-output.txt 2>&1
     # Parse and check issue count
 fi
 ```
