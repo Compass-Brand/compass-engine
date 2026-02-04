@@ -94,7 +94,7 @@ RESULT_ENTRY=$(jq -n \
 LOCK_FILE="${RESULTS_FILE}.lock"
 
 # Set up trap to clean up lock file on exit
-# shellcheck disable=SC2317 # Function is called via trap, not unreachable
+# shellcheck disable=SC2317,SC2329 # Function is called via trap, not unreachable/unused
 cleanup_lock() {
     rm -f "$LOCK_FILE" 2>/dev/null || :
 }

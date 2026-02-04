@@ -23,6 +23,7 @@ if echo "$INPUT" | jq -e '.' >/dev/null 2>&1; then
 fi
 
 # Validate and normalize CWD atomically - fall back to current working directory
+# shellcheck disable=SC2015 # Intentional: pwd fallback is safe even if cd succeeds
 CWD="$(cd "${CWD:-.}" 2>/dev/null && pwd || pwd)"
 
 # Check for full CR review context marker file
