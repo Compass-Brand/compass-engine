@@ -44,12 +44,28 @@ jobs:
 
       - name: Check for merge conflict markers
         run: |
-          # Use more specific patterns to avoid false positives from progress bars
-          if grep -rn "^<<<<<<<\|^=======\$\|^>>>>>>>" --include="*.md" --include="*.ts" --include="*.py" --include="*.json" . 2>/dev/null; then
+          # Use anchored patterns to avoid false positives
+          if grep -rn "^<<<<<<<\|^=======\$\|^>>>>>>>" --include="*.md" --include="*.py" --include="*.ts" --include="*.js" --include="*.json" . 2>/dev/null; then
             echo "::error::Merge conflict markers found"
             exit 1
           fi
           echo "No merge conflict markers found"
+
+      - name: Check for hardcoded secrets
+        run: |
+          echo "Scanning for potential secrets..."
+          FOUND=0
+          # Check for common secret patterns
+          if grep -rn "PRIVATE.KEY\|-----BEGIN.*PRIVATE\|sk-[a-zA-Z0-9]\{20,\}\|ghp_[a-zA-Z0-9]\{36\}\|gho_[a-zA-Z0-9]\{36\}\|api[_-]?key.*['\"][a-zA-Z0-9]\{20,\}" --include="*.py" --include="*.ts" --include="*.js" --include="*.json" --include="*.yaml" --include="*.yml" . 2>/dev/null | grep -v node_modules | grep -v ".example" | head -10; then
+            echo "::warning::Potential hardcoded secrets detected - please review"
+            FOUND=1
+          fi
+          # Check for AWS keys
+          if grep -rn "AKIA[0-9A-Z]\{16\}" --include="*.py" --include="*.ts" --include="*.js" --include="*.json" . 2>/dev/null | grep -v node_modules | head -5; then
+            echo "::error::AWS access key pattern found"
+            exit 1
+          fi
+          echo "Secret scan complete"
 
   docs-audit:
     name: Documentation Audit
@@ -77,25 +93,9 @@ jobs:
             echo "::warning::Found $STALE_DOCS potentially stale documentation files"
           fi
 
-  gitleaks:
-    name: Secret Scan
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Run Gitleaks
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   syntax-check:
     name: Syntax Validation
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -107,11 +107,11 @@ jobs:
         uses: docker://rhysd/actionlint:latest
         with:
           args: -color
+        continue-on-error: true  # May flag pre-existing issues in other workflows
 
   editorconfig-check:
     name: EditorConfig
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -122,7 +122,6 @@ jobs:
   license-review:
     name: License Compliance
     runs-on: ubuntu-latest
-    continue-on-error: true
     if: github.event_name == 'pull_request'
     steps:
       - name: Checkout
@@ -133,3 +132,38 @@ jobs:
         with:
           allow-licenses: MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, 0BSD, Unlicense, WTFPL, CC0-1.0, CC-BY-3.0, CC-BY-4.0, Python-2.0, PSF-2.0, MPL-2.0
 
+  python-lint:
+    name: Python Lint (Ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check for Python files
+        id: check-python
+        run: |
+          if find . -name "*.py" -not -path "./node_modules/*" -not -path "./.venv/*" | head -1 | grep -q .; then
+            echo "has_python=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_python=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Set up Python
+        if: steps.check-python.outputs.has_python == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Ruff
+        if: steps.check-python.outputs.has_python == 'true'
+        run: pip install ruff
+
+      - name: Run Ruff linter
+        if: steps.check-python.outputs.has_python == 'true'
+        run: ruff check . --output-format=github
+        continue-on-error: true  # Report issues but don't block
+
+      - name: Run Ruff formatter check
+        if: steps.check-python.outputs.has_python == 'true'
+        run: ruff format --check .
+        continue-on-error: true  # Report issues but don't block
