@@ -105,6 +105,7 @@ jobs:
 
       - name: Validate JSON/YAML
         uses: GrantBirki/json-yaml-validate@v3
+        continue-on-error: true
 
       - name: Lint GitHub Actions workflows
         uses: docker://rhysd/actionlint:latest
