@@ -12,14 +12,23 @@ if ! command -v jq >/dev/null 2>&1; then
 fi
 
 # Read hook input from stdin with timeout to prevent hanging
+# Use temp file approach for reliable multi-line JSON capture
 INPUT=""
+TEMP_INPUT=$(mktemp 2>/dev/null) || TEMP_INPUT="/tmp/cr-batch-input.$$"
 if command -v timeout >/dev/null 2>&1; then
-    INPUT=$(timeout 5 cat 2>/dev/null) || INPUT=""
-elif read -r -t 5 -d '' INPUT 2>/dev/null; then
-    : # read succeeded
+    timeout 5 cat > "$TEMP_INPUT" 2>/dev/null || true
 else
-    INPUT=""
+    # Fallback: use background cat with kill
+    cat > "$TEMP_INPUT" 2>/dev/null &
+    CAT_PID=$!
+    sleep 5
+    kill "$CAT_PID" 2>/dev/null || true
+    wait "$CAT_PID" 2>/dev/null || true
 fi
+if [ -s "$TEMP_INPUT" ]; then
+    INPUT=$(cat "$TEMP_INPUT")
+fi
+rm -f "$TEMP_INPUT" 2>/dev/null || true
 
 # Extract info with defensive JSON parsing
 CWD=""
@@ -60,10 +69,16 @@ ROLLBACKS=0
 
 if [ -n "$AGENT_RESULT" ] && echo "$AGENT_RESULT" | jq -e '.' >/dev/null 2>&1; then
     BATCH_ID=$(echo "$AGENT_RESULT" | jq -r '.batch_id // empty' 2>/dev/null || echo "")
-    FIXED=$(echo "$AGENT_RESULT" | jq -r '.fixed // 0' 2>/dev/null || echo "0")
-    SKIPPED=$(echo "$AGENT_RESULT" | jq -r '.skipped // 0' 2>/dev/null || echo "0")
-    ROLLBACKS=$(echo "$AGENT_RESULT" | jq -r '.rollbacks // 0' 2>/dev/null || echo "0")
+    # Use jq's tonumber with fallback to ensure valid integers for --argjson
+    FIXED=$(echo "$AGENT_RESULT" | jq -r '(.fixed // 0) | tonumber // 0' 2>/dev/null || echo "0")
+    SKIPPED=$(echo "$AGENT_RESULT" | jq -r '(.skipped // 0) | tonumber // 0' 2>/dev/null || echo "0")
+    ROLLBACKS=$(echo "$AGENT_RESULT" | jq -r '(.rollbacks // 0) | tonumber // 0' 2>/dev/null || echo "0")
 fi
+
+# Ensure numeric values are valid integers (fallback to 0)
+[[ "$FIXED" =~ ^[0-9]+$ ]] || FIXED=0
+[[ "$SKIPPED" =~ ^[0-9]+$ ]] || SKIPPED=0
+[[ "$ROLLBACKS" =~ ^[0-9]+$ ]] || ROLLBACKS=0
 
 # Create result entry
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
