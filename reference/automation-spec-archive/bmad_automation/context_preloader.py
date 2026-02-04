@@ -8,6 +8,7 @@ Tier: 2 (Standalone - no dependencies on other Tier 2 components)
 """
 
 import logging
+import os
 import time
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -23,7 +24,7 @@ FORGETFUL_TIMEOUT_MS = 300  # Total timeout for Forgetful query
 RETRY_COUNT = 3
 RETRY_INTERVAL_MS = 100
 CONTEXT_LIMIT_CHARS = 8000  # Max chars for context injection
-CACHE_TTL_SECONDS = 300  # 5 minutes
+CACHE_TTL_SECONDS = int(os.environ.get("CONTEXT_CACHE_TTL_SECONDS", "300"))  # Default: 5 minutes
 CACHE_DIR = "_bmad-output/.context-cache"
 
 
