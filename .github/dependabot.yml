@@ -23,3 +23,13 @@ updates:
     labels:
       - "dependencies"
       - "npm"
+
+  - package-ecosystem: "gitsubmodule"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    labels:
+      - "dependencies"
+      - "submodule"
+    allow:
+      - dependency-name: "BMAD-METHOD"
