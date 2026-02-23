@@ -12,6 +12,8 @@ Operational tooling scripts for `compass-engine`.
   - Validates required source layout and checks for obvious secret leaks.
 - `tools/create-bmad-module.js`
   - Scaffolds a custom BMAD module into `src/bmad/modules/` from upstream.
+- `tools/check-github-drift.js`
+  - Detects drift between `src/github/` and `.github/`.
 
 ## Utility Tools
 

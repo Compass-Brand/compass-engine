@@ -1,0 +1,26 @@
+name: GitHub Drift Check
+
+on:
+  pull_request:
+    branches: [main, develop]
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  drift-check:
+    name: Verify .github Sync
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Verify .github drift
+        run: node tools/check-github-drift.js

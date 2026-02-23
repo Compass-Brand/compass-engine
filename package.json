@@ -11,7 +11,8 @@
     "build": "node tools/build.js",
     "push": "node tools/push.js",
     "validate": "node tools/validate.js",
-    "check": "npm run validate && npm run build && npm run push -- --dry-run --targets claude,codex,opencode,github",
+    "check:github-drift": "node tools/check-github-drift.js",
+    "check": "npm run validate && npm run check:github-drift && npm run build && npm run push -- --dry-run --targets claude,codex,opencode,github",
     "create:bmad-module": "node tools/create-bmad-module.js",
     "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
     "prepublishOnly": "npm run build"

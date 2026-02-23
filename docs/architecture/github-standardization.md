@@ -58,5 +58,5 @@ Repo-specific overlays (`src/github/profiles/`):
 ## Next Standardization Pass
 
 1. Apply baseline + appropriate overlays to each audited repo.
-2. Add a drift-check script to compare each repo's `.github` against this source.
+2. Roll out `.github` drift-check scripts/workflows across Compass repos (implemented in `compass-engine`).
 3. Enforce drift checks in CI for governance.
