@@ -34,3 +34,8 @@ node_modules/
 # Logs
 *.log
 logs/
+
+# Local AI tool state (machine-specific)
+.codex/
+.opencode/
+.claude/skills/**/skill-checklist.md
