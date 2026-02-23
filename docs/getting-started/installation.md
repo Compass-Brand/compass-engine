@@ -1,5 +1,7 @@
 # Installation
 
+Last reviewed: 2026-02-23
+
 Getting started with compass-engine.
 
 ## Prerequisites

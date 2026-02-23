@@ -1,5 +1,7 @@
 # Custom BMAD Modules
 
+Last reviewed: 2026-02-23
+
 How to create and maintain Compass-specific BMAD modules.
 
 ## Principles

@@ -1,5 +1,7 @@
 # Modifying Claude Code Configuration
 
+Last reviewed: 2026-02-23
+
 Guide to adding and modifying Claude Code configuration in compass-engine.
 
 ## Directory Structure

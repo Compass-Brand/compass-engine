@@ -1,5 +1,7 @@
 # Sync Architecture
 
+Last reviewed: 2026-02-23
+
 How compass-engine distributes tooling to Compass Brand repositories.
 
 ## Design

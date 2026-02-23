@@ -1,6 +1,10 @@
 # Compass Engine Documentation
 
+Last reviewed: 2026-02-23
+
 Central documentation for the Compass Engine tooling source.
+
+BMAD deep reference documentation is maintained upstream in `BMAD-METHOD/docs/`.
 
 ## Quick Links
 

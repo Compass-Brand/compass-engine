@@ -1,5 +1,7 @@
 # Modifying BMAD Customizations
 
+Last reviewed: 2026-02-23
+
 Guide to extending BMAD in `compass-engine` without forking upstream internals.
 
 ## Source of Truth

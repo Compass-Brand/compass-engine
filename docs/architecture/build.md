@@ -1,5 +1,7 @@
 # Build Process
 
+Last reviewed: 2026-02-23
+
 How compass-engine compiles source bundles into distributable artifacts.
 
 ## Build Command

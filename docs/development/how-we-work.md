@@ -1,5 +1,7 @@
 # Development Model
 
+Last reviewed: 2026-02-23
+
 This document defines how work is done in `compass-engine`.
 
 ## Scope

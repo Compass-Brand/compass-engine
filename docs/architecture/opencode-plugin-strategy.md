@@ -1,5 +1,7 @@
 # OpenCode Plugin Strategy (BMAD-Aligned)
 
+Last reviewed: 2026-02-23
+
 ## Goal
 
 Create a Compass Brand OpenCode plugin that exposes BMAD workflows as first-class commands while staying compatible with Claude and Codex conventions.

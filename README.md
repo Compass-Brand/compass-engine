@@ -46,6 +46,7 @@ compass-engine/
 ## Documentation
 
 - [Installation](docs/getting-started/installation.md)
+- [Quickstart](docs/getting-started/quickstart.md)
 - [Repo Refactor Blueprint](docs/development/repo-refactor-blueprint.md)
 - [Build Process](docs/architecture/build.md)
 - [Sync Architecture](docs/architecture/sync.md)
@@ -55,6 +56,14 @@ compass-engine/
 - [OpenCode Plugin Development](docs/opencode/plugin-development.md)
 - [Modifying Claude](docs/claude/modifying-claude.md)
 - [Modifying BMAD](docs/bmad/modifying-bmad.md)
+
+## Project Policy Files
+
+- [Contributing](CONTRIBUTING.md)
+- [Security](SECURITY.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
+- [Changelog](CHANGELOG.md)
+- [License](LICENSE)
 
 ## License
 
