@@ -2,11 +2,7 @@
 /**
  * Compass Engine Build Script
  *
- * Compiles src/ into dist/.claude/ ready for distribution to projects.
- *
- * Usage:
- *   node scripts/build.js
- *   npm run build
+ * Builds distributable development bundles for Compass Brand repos.
  */
 
 import { promises as fs } from 'fs';
@@ -18,9 +14,10 @@ const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
 
 const SRC = path.join(ROOT, 'src');
-const DIST = path.join(ROOT, 'dist', '.claude');
+const DIST_ROOT = path.join(ROOT, 'dist');
 
-// Directories to copy from src/claude to dist/.claude
+const CLAUDE_DIST = path.join(DIST_ROOT, '.claude');
+const CLAUDE_SRC = path.join(SRC, 'claude');
 const CLAUDE_DIRS = [
   'agents',
   'commands',
@@ -31,40 +28,68 @@ const CLAUDE_DIRS = [
   'scripts',
 ];
 
-// Files that are generated or need special handling
-const LOCAL_ONLY_PATHS = [
+const TARGETS = [
+  {
+    name: 'codex',
+    src: path.join(SRC, 'codex'),
+    dist: path.join(DIST_ROOT, '.codex'),
+    required: ['skills', 'prompts'],
+  },
+  {
+    name: 'opencode',
+    src: path.join(SRC, 'opencode'),
+    dist: path.join(DIST_ROOT, '.opencode'),
+    required: ['agent', 'command'],
+  },
+  {
+    name: 'github',
+    src: path.join(SRC, 'github'),
+    dist: path.join(DIST_ROOT, '.github'),
+    required: ['workflows'],
+  },
+  {
+    name: 'beads',
+    src: path.join(SRC, 'beads'),
+    dist: path.join(DIST_ROOT, 'beads'),
+    required: ['README.md'],
+  },
+];
+
+const CLAUDE_LOCAL_ONLY = [
   'settings.local.json',
   'scratchpad',
   'commands/local',
 ];
 
-/**
- * Check if a relative path should be skipped based on LOCAL_ONLY_PATHS
- * Returns true if the path matches or is nested under any skip path
- */
+function normalizePath(filePath) {
+  return filePath.replace(/\\/g, '/');
+}
+
 function shouldSkip(relativePath, skipPaths) {
-  if (!skipPaths || skipPaths.length === 0) {
-    return false;
-  }
-  // Normalize to forward slashes for consistent comparison
-  const normalizedPath = relativePath.replace(/\\/g, '/');
+  if (!skipPaths || skipPaths.length === 0) return false;
+
+  const normalizedPath = normalizePath(relativePath);
   return skipPaths.some((skipPath) => {
-    const normalizedSkip = skipPath.replace(/\\/g, '/');
+    const normalizedSkip = normalizePath(skipPath);
     return (
-      normalizedPath === normalizedSkip ||
-      normalizedPath.startsWith(normalizedSkip + '/')
+      normalizedPath === normalizedSkip
+      || normalizedPath.startsWith(`${normalizedSkip}/`)
     );
   });
 }
 
-/**
- * Recursively copy a directory, optionally skipping paths
- * @param {string} src - Source directory
- * @param {string} dest - Destination directory
- * @param {string} baseDir - Base directory for computing relative paths (for skip logic)
- * @param {string[]} skipPaths - Array of relative paths to skip
- */
-async function copyDir(src, dest, baseDir = null, skipPaths = []) {
+async function exists(filePath) {
+  try {
+    await fs.access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function copyDir(src, dest, options = {}) {
+  const { baseDir = null, skipPaths = [] } = options;
+
   await fs.mkdir(dest, { recursive: true });
   const entries = await fs.readdir(src, { withFileTypes: true });
 
@@ -72,204 +97,127 @@ async function copyDir(src, dest, baseDir = null, skipPaths = []) {
     const srcPath = path.join(src, entry.name);
     const destPath = path.join(dest, entry.name);
 
-    // Compute relative path from base directory for skip checking
-    const relativePath = baseDir
-      ? path.relative(baseDir, srcPath)
-      : entry.name;
-
-    if (shouldSkip(relativePath, skipPaths)) {
-      console.log(`    Skipping local-only path: ${relativePath}`);
-      continue;
-    }
+    const relativePath = baseDir ? path.relative(baseDir, srcPath) : entry.name;
+    if (shouldSkip(relativePath, skipPaths)) continue;
 
     if (entry.isDirectory()) {
-      await copyDir(srcPath, destPath, baseDir, skipPaths);
+      await copyDir(srcPath, destPath, options);
     } else {
       await fs.copyFile(srcPath, destPath);
     }
   }
 }
 
-/**
- * Clean the dist directory
- */
-async function clean() {
-  console.log('Cleaning dist/.claude...');
-  try {
-    await fs.rm(DIST, { recursive: true, force: true });
-  } catch (err) {
-    // Directory might not exist
-  }
-  await fs.mkdir(DIST, { recursive: true });
+async function cleanDist() {
+  console.log('Cleaning dist/...');
+  await fs.rm(DIST_ROOT, { recursive: true, force: true });
+  await fs.mkdir(DIST_ROOT, { recursive: true });
 }
 
-/**
- * Copy Claude configuration directories
- */
-async function copyClaude() {
-  console.log('Copying Claude configuration...');
-  const srcClaude = path.join(SRC, 'claude');
+async function buildClaude() {
+  console.log('\nBuilding .claude...');
+  await fs.mkdir(CLAUDE_DIST, { recursive: true });
 
   for (const dir of CLAUDE_DIRS) {
-    const srcDir = path.join(srcClaude, dir);
-    const destDir = path.join(DIST, dir);
+    const srcDir = path.join(CLAUDE_SRC, dir);
+    const destDir = path.join(CLAUDE_DIST, dir);
 
-    try {
-      await fs.access(srcDir);
-      console.log(`  Copying ${dir}/`);
-      // Pass srcClaude as baseDir so relative paths are computed from src/claude
-      // This allows LOCAL_ONLY_PATHS like 'commands/local' to match correctly
-      await copyDir(srcDir, destDir, srcClaude, LOCAL_ONLY_PATHS);
-    } catch (err) {
+    if (!(await exists(srcDir))) {
       console.log(`  Skipping ${dir}/ (not found)`);
+      continue;
     }
-  }
-}
 
-/**
- * Generate settings.json from template
- */
-async function generateSettings() {
-  console.log('Generating settings.json...');
-  const templatePath = path.join(SRC, 'claude', 'templates', 'settings.json.template');
-  const destPath = path.join(DIST, 'settings.json');
-
-  try {
-    const template = await fs.readFile(templatePath, 'utf-8');
-    await fs.writeFile(destPath, template);
-    console.log('  Created settings.json');
-  } catch (err) {
-    console.log('  No template found, skipping settings.json');
+    console.log(`  Copying ${dir}/`);
+    await copyDir(srcDir, destDir, {
+      baseDir: CLAUDE_SRC,
+      skipPaths: CLAUDE_LOCAL_ONLY,
+    });
   }
 
-  // Copy example for reference
-  const examplePath = path.join(SRC, 'claude', 'templates', 'settings.local.json.example');
-  try {
-    await fs.access(examplePath);
-    await fs.copyFile(examplePath, path.join(DIST, 'settings.local.json.example'));
-    console.log('  Created settings.local.json.example');
-  } catch (err) {
-    // Skip if not found
+  const settingsTemplate = path.join(CLAUDE_SRC, 'templates', 'settings.json.template');
+  if (await exists(settingsTemplate)) {
+    const content = await fs.readFile(settingsTemplate, 'utf-8');
+    await fs.writeFile(path.join(CLAUDE_DIST, 'settings.json'), content);
+    console.log('  Generated settings.json');
   }
-}
 
-/**
- * Copy hook scripts from src/scripts/claude/hooks
- */
-async function copyHooks() {
-  console.log('Copying hook scripts...');
-  const srcHooks = path.join(SRC, 'scripts', 'claude', 'hooks');
-  const destHooks = path.join(DIST, 'scripts');
-
-  try {
-    await fs.access(srcHooks);
-    await copyDir(srcHooks, destHooks);
-    console.log('  Copied hook scripts');
-  } catch (err) {
-    console.log('  No hook scripts found');
+  const localSettingsTemplate = path.join(CLAUDE_SRC, 'templates', 'settings.local.json.example');
+  if (await exists(localSettingsTemplate)) {
+    await fs.copyFile(localSettingsTemplate, path.join(CLAUDE_DIST, 'settings.local.json.example'));
+    console.log('  Copied settings.local.json.example');
   }
+
+  const hooksSrc = path.join(SRC, 'scripts', 'claude', 'hooks');
+  if (await exists(hooksSrc)) {
+    await copyDir(hooksSrc, path.join(CLAUDE_DIST, 'scripts'));
+    console.log('  Copied Claude hook scripts');
+  }
+
+  const readme = `# Compass Engine - Claude Bundle\n\nGenerated bundle for \`.claude/\` distribution.\n`;
+  await fs.writeFile(path.join(CLAUDE_DIST, 'README.md'), readme);
 }
 
-/**
- * Generate a README for the dist output
- */
-async function generateReadme() {
-  console.log('Generating README...');
-  const readme = `# Compass Engine - Claude Code Configuration
+async function buildTarget(target) {
+  const { name, src, dist } = target;
+  if (!(await exists(src))) {
+    console.log(`\nSkipping .${name}: source not found (${path.relative(ROOT, src)})`);
+    return false;
+  }
 
-This directory contains Claude Code configuration generated by compass-engine.
-
-## Contents
-
-- \`agents/\` - Agent definitions for specialized tasks
-- \`commands/\` - Slash commands for common operations
-- \`skills/\` - Reusable skill definitions
-- \`rules/\` - Governance and coding rules
-- \`contexts/\` - Context mode configurations
-- \`config/\` - Configuration files
-- \`scripts/\` - Hook scripts
-- \`settings.json\` - Default settings
-- \`settings.local.json.example\` - Example local settings
-
-## Local Customization
-
-Create \`settings.local.json\` for machine-specific settings.
-Create \`commands/local/\` for project-specific commands.
-
-These paths are preserved during updates from compass-engine.
-
-## Updates
-
-To update from compass-engine:
-\`\`\`bash
-cd compass-engine
-npm run build
-npm run push -- --project /path/to/project
-\`\`\`
-
-Generated by compass-engine build system.
-`;
-  await fs.writeFile(path.join(DIST, 'README.md'), readme);
-  console.log('  Created README.md');
+  console.log(`\nBuilding ${path.basename(dist)}...`);
+  await copyDir(src, dist);
+  return true;
 }
 
-/**
- * Validate the build output
- */
-async function validate() {
-  console.log('Validating build...');
-  const requiredDirs = ['agents', 'commands', 'skills', 'rules'];
-  let valid = true;
+async function validateBuild() {
+  console.log('\nValidating build output...');
 
-  for (const dir of requiredDirs) {
-    const dirPath = path.join(DIST, dir);
-    try {
-      const stat = await fs.stat(dirPath);
-      if (!stat.isDirectory()) {
-        console.error(`  ERROR: ${dir} is not a directory`);
-        valid = false;
-      } else {
-        const files = await fs.readdir(dirPath);
-        console.log(`  ✓ ${dir}/ (${files.length} items)`);
-      }
-    } catch (err) {
-      console.error(`  ERROR: ${dir}/ not found`);
-      valid = false;
+  const requiredChecks = [
+    { label: '.claude/agents', path: path.join(CLAUDE_DIST, 'agents') },
+    { label: '.claude/commands', path: path.join(CLAUDE_DIST, 'commands') },
+    { label: '.claude/skills', path: path.join(CLAUDE_DIST, 'skills') },
+    { label: '.claude/rules', path: path.join(CLAUDE_DIST, 'rules') },
+    { label: '.codex/skills', path: path.join(DIST_ROOT, '.codex', 'skills') },
+    { label: '.codex/prompts', path: path.join(DIST_ROOT, '.codex', 'prompts') },
+    { label: '.opencode/agent', path: path.join(DIST_ROOT, '.opencode', 'agent') },
+    { label: '.opencode/command', path: path.join(DIST_ROOT, '.opencode', 'command') },
+    { label: '.github/workflows', path: path.join(DIST_ROOT, '.github', 'workflows') },
+  ];
+
+  let isValid = true;
+  for (const check of requiredChecks) {
+    if (await exists(check.path)) {
+      console.log(`  OK ${check.label}`);
+    } else {
+      console.error(`  ERROR missing ${check.label}`);
+      isValid = false;
     }
   }
 
-  if (!valid) {
+  if (!isValid) {
     throw new Error('Build validation failed');
   }
 }
 
-/**
- * Main build function
- */
 async function build() {
-  console.log('');
-  console.log('=================================');
+  console.log('\n=================================');
   console.log('  Compass Engine Build');
-  console.log('=================================');
-  console.log('');
+  console.log('=================================\n');
 
-  const startTime = Date.now();
+  const start = Date.now();
 
-  await clean();
-  await copyClaude();
-  await generateSettings();
-  await copyHooks();
-  await generateReadme();
-  await validate();
+  await cleanDist();
+  await buildClaude();
+  for (const target of TARGETS) {
+    await buildTarget(target);
+  }
+  await validateBuild();
 
-  const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
-  console.log('');
-  console.log(`Build completed in ${elapsed}s`);
-  console.log(`Output: ${DIST}`);
-  console.log('');
+  const elapsed = ((Date.now() - start) / 1000).toFixed(2);
+  console.log(`\nBuild completed in ${elapsed}s`);
+  console.log(`Output root: ${DIST_ROOT}\n`);
 }
 
-// Run build
 build().catch((err) => {
   console.error('Build failed:', err.message);
   process.exit(1);

@@ -8,92 +8,40 @@ Getting started with compass-engine.
 - Git
 - Access to Compass Brand repositories
 
-## As Part of Compass Brand Workspace
-
-If you're setting up the full Compass Brand workspace:
-
-```bash
-# Clone the workspace with submodules
-git clone --recurse-submodules https://github.com/Compass-Brand/compass-brand.git
-cd compass-brand
-
-# compass-engine is at compass-forge/compass-engine/
-cd compass-forge/compass-engine
-```
-
-## Standalone Clone
-
-For standalone development:
+## Clone
 
 ```bash
 git clone --recurse-submodules https://github.com/Compass-Brand/compass-engine.git
 cd compass-engine
 ```
 
-## Building
-
-Build the distributable configuration:
+## Validate + Build
 
 ```bash
+npm run validate
 npm run build
 ```
 
-Output will be in `dist/.claude/`.
+Build output:
+- `dist/.claude/`
+- `dist/.codex/`
+- `dist/.opencode/`
+- `dist/.github/`
+- `dist/beads/`
 
-## Distributing to Projects
-
-Push to all Compass Brand projects:
+## Push to Repositories
 
 ```bash
+# all targets, all discovered repos
 npm run push -- --all
+
+# one repo, selected targets
+npm run push -- --project /path/to/repo --targets claude,codex,opencode
 ```
-
-Or to a specific project:
-
-```bash
-npm run push -- --project /path/to/project
-```
-
-## Directory Structure
-
-After installation:
-
-```text
-compass-engine/
-├── src/                  # Source files (modify these)
-│   ├── claude/           # Claude Code configuration
-│   ├── bmad/             # BMAD customizations
-│   └── scripts/          # Workflow scripts
-├── dist/                 # Built output (generated)
-│   └── .claude/          # Ready to distribute
-├── BMAD-METHOD/          # Upstream submodule
-├── _bmad-output/         # BMAD runtime artifacts
-├── docs/                 # Documentation
-└── scripts/              # Build and push scripts
-```
-
-## Verifying Installation
-
-Check the build works:
-
-```bash
-npm run build
-ls -la dist/.claude/
-```
-
-Expected output:
-- agents/
-- commands/
-- skills/
-- rules/
-- contexts/
-- config/
-- scripts/
-- settings.json
 
 ## Next Steps
 
-- [Modifying Claude Code config](../claude/modifying-claude.md)
-- [Modifying BMAD](../bmad/modifying-bmad.md)
 - [Build process](../architecture/build.md)
 - [Sync architecture](../architecture/sync.md)
+- [Modifying Claude](../claude/modifying-claude.md)
+- [Modifying BMAD](../bmad/modifying-bmad.md)

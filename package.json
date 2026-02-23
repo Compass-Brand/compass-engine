@@ -11,7 +11,8 @@
     "build": "node scripts/build.js",
     "push": "node scripts/push.js",
     "validate": "node scripts/validate.js",
-    "clean": "rm -rf dist/.claude/*",
+    "create:bmad-module": "node scripts/create-bmad-module.js",
+    "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
     "prepublishOnly": "npm run build"
   },
   "files": [

@@ -1,61 +1,54 @@
 # Compass Engine
 
-Central development tools for Compass Brand projects.
+Central development tooling source for Compass Brand repositories.
+
+## What This Repo Publishes
+
+- `.claude/` - Claude Code agents, commands, skills, rules, hooks
+- `.codex/` - Codex skills, prompts, safe config template
+- `.opencode/` - OpenCode agents and commands
+- `.github/` - default workflows and automation baseline
+- `beads` bootstrap snippets - issue tracking conventions for `AGENTS.md` and Copilot instructions
 
 ## Quick Start
 
 ```bash
-# Build
+npm run validate
 npm run build
-
-# Push to all projects
 npm run push -- --all
 ```
 
-See [Installation](docs/getting-started/installation.md) for detailed setup.
-
-## Documentation
-
-| I want to... | Read this |
-|--------------|-----------|
-| Get started | [Installation](docs/getting-started/installation.md) |
-| Modify Claude config (commands, skills) | [Modifying Claude](docs/claude/modifying-claude.md) |
-| Modify BMAD (workflows, agents) | [Modifying BMAD](docs/bmad/modifying-bmad.md) |
-| Understand distribution | [Sync Architecture](docs/architecture/sync.md) |
-| Build and push changes | [Build Process](docs/architecture/build.md) |
-
-## What's Included
-
-- **Claude Code Configuration** - agents, commands, skills, rules, hooks
-- **BMAD Customizations** - workflows, agents, MCP integration
-- **Distribution Tooling** - build and push scripts
+Use `npm run push -- --targets claude,codex,opencode,github` to limit targets.
 
 ## Repository Structure
 
 ```text
 compass-engine/
-├── src/                  # Source files (modify these)
-│   ├── claude/           # Claude Code configuration
-│   ├── bmad/             # BMAD customizations
-│   └── scripts/          # Workflow scripts
-├── dist/                 # Built output (generated)
-│   └── .claude/          # Ready to distribute
-├── BMAD-METHOD/          # Upstream submodule (read-only)
-├── _bmad-output/         # BMAD runtime artifacts
-├── docs/                 # Documentation
-└── scripts/              # Build scripts
-    ├── build.js          # Compile src/ to dist/
-    └── push.js           # Distribute to projects
+├── src/
+│   ├── claude/            # Claude source bundle
+│   ├── codex/             # Codex source bundle
+│   ├── opencode/          # OpenCode source bundle
+│   ├── github/            # GitHub baseline source bundle
+│   ├── beads/             # Beads bootstrap snippets
+│   ├── planning-templates/
+│   └── scripts/
+├── dist/                  # Generated distributable bundles
+├── BMAD-METHOD/           # Upstream BMAD submodule
+├── _bmad-output/          # BMAD runtime artifacts
+├── docs/
+└── scripts/
+    ├── build.js
+    ├── push.js
+    └── validate.js
 ```
 
-## BMAD Workflows
+## Documentation
 
-Available through Claude Code's skill system:
-
-- `/bmad:bmm:workflows:create-prd` - Create a Product Requirements Document
-- `/bmad:bmm:workflows:create-architecture` - Design system architecture
-- `/bmad:bmm:workflows:sprint-planning` - Plan implementation sprints
-- `/bmad:bmm:workflows:dev-story` - Execute story implementation
+- [Installation](docs/getting-started/installation.md)
+- [Build Process](docs/architecture/build.md)
+- [Sync Architecture](docs/architecture/sync.md)
+- [Modifying Claude](docs/claude/modifying-claude.md)
+- [Modifying BMAD](docs/bmad/modifying-bmad.md)
 
 ## License
 
