@@ -37,7 +37,7 @@ compass-engine/
 ├── dist/                  # Generated distributable bundles
 ├── BMAD-METHOD/           # Upstream BMAD submodule
 ├── docs/
-└── scripts/
+└── tools/
     ├── build.js
     ├── push.js
     └── validate.js

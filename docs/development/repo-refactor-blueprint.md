@@ -34,13 +34,13 @@ Make `compass-engine` the single source of truth for Compass Brand engineering d
 ## Keep vs Delete Policy
 
 Keep:
-- `src/`, `scripts/`, `docs/`, `tests/`, `reference/`, `.github/`, `BMAD-METHOD/`
+- `src/`, `tools/`, `docs/`, `tests/`, `reference/`, `.github/`, `BMAD-METHOD/`
 
 Delete or stop tracking when found:
 - Legacy duplicate source trees
 - Runtime artifact dumps committed by mistake
 - Archived "old" planning or review folders that are no longer active
-- Any generated output that is reproducible from scripts
+- Any generated output that is reproducible from tooling
 
 Rule: if a file is generated and reproducible, do not keep it as a tracked source artifact.
 
@@ -51,7 +51,7 @@ Required path for all implementation work:
 1. `bd ready`
 2. `bd show <id>`
 3. `bd update <id> --status in_progress`
-4. Implement only in source locations (`src/`, `scripts/`, `docs/`, `tests/`)
+4. Implement only in source locations (`src/`, `tools/`, `docs/`, `tests/`)
 5. Run `npm run check`
 6. `bd close <id>` (or status update if partial)
 7. `git pull --rebase --autostash`
@@ -145,7 +145,7 @@ Required expansion:
 1. Contract tests for required files per target bundle
 2. Determinism checks for generated outputs
 3. Integration smoke test against a temp downstream repo scaffold
-4. Optional unit tests for script modules as scripts grow in complexity
+4. Optional unit tests for tooling modules as automation grows in complexity
 
 ## Downstream Integration Contract
 

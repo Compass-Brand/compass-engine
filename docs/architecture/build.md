@@ -9,7 +9,7 @@ How compass-engine compiles source bundles into distributable artifacts.
 ```bash
 npm run build
 # or
-node scripts/build.js
+node tools/build.js
 ```
 
 ## Source to Dist Mapping

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Update BMAD-METHOD submodule and show changes
 #
-# Usage: ./scripts/update-bmad-method.sh [--apply]
+# Usage: ./tools/update-bmad-method.sh [--apply]
 #   Without --apply: Shows what changes are available (dry run)
 #   With --apply: Actually updates the submodule and commits
 
@@ -60,5 +60,5 @@ $(cd BMAD-METHOD && git log --oneline $CURRENT..$UPSTREAM)"
 else
     echo "=== Dry Run ==="
     echo "To apply this update, run:"
-    echo "  ./scripts/update-bmad-method.sh --apply"
+    echo "  ./tools/update-bmad-method.sh --apply"
 fi

@@ -3,7 +3,7 @@
  * Scaffold a custom BMAD module from an upstream BMAD-METHOD module.
  *
  * Example:
- *   node scripts/create-bmad-module.js --name compass-bmm --from bmm --code cbmm
+ *   node tools/create-bmad-module.js --name compass-bmm --from bmm --code cbmm
  */
 
 import { promises as fs } from 'fs';
@@ -32,7 +32,7 @@ function parseArgs() {
 Create BMAD Module
 
 Usage:
-  node scripts/create-bmad-module.js --name <module-name> [--from bmm] [--code custom-code]
+  node tools/create-bmad-module.js --name <module-name> [--from bmm] [--code custom-code]
 `);
       process.exit(0);
     }

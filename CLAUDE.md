@@ -4,7 +4,7 @@ This file provides guidance to Claude Code when working in this repository.
 
 ## Project: Compass Engine
 
-**Description:** Central development tools repository for all Compass Brand projects. Contains BMAD customizations, Claude Code configuration, workflow scripts, and distribution tooling.
+**Description:** Central development tools repository for all Compass Brand projects. Contains BMAD customizations, Claude Code configuration, workflow tooling, and distribution tooling.
 
 **Project Type:** development-tools
 
@@ -17,7 +17,7 @@ This repository serves as the central hub for Compass Brand development tools:
 - **BMAD-METHOD/** - Core BMAD methodology (upstream submodule)
 - **src/** - Source files for Claude Code configuration and BMAD customizations
 - **dist/** - Built output ready for distribution
-- **scripts/** - Build, distribution, and workflow automation
+- **tools/** - Build, distribution, and workflow automation
 - **_bmad-output/** - BMAD runtime artifacts and custom creations
 - **docs/** - Documentation and guides
 

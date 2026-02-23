@@ -14,8 +14,8 @@ const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
 
 const REQUIRED_PATHS = [
-  'scripts/build.js',
-  'scripts/push.js',
+  'tools/build.js',
+  'tools/push.js',
   'src/claude',
   'src/codex/skills',
   'src/codex/prompts',

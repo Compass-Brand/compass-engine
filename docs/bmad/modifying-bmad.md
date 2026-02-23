@@ -15,7 +15,7 @@ Guide to extending BMAD in `compass-engine` without forking upstream internals.
 Create a custom module derived from upstream:
 
 ```bash
-node scripts/create-bmad-module.js --name compass-bmm --from bmm --code cbmm
+node tools/create-bmad-module.js --name compass-bmm --from bmm --code cbmm
 ```
 
 Output is created in:

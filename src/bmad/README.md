@@ -11,7 +11,7 @@ Principles:
 ## Create a Custom Module
 
 ```bash
-node scripts/create-bmad-module.js --name compass-bmm --from bmm --code cbmm
+node tools/create-bmad-module.js --name compass-bmm --from bmm --code cbmm
 ```
 
 This copies the upstream module into `src/bmad/modules/<name>/`, updates `module.yaml`, and writes `custom-module.json` metadata.

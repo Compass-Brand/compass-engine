@@ -1,21 +1,21 @@
-# Script Inventory
+# Tool Inventory
 
-Operational scripts for `compass-engine`.
+Operational tooling scripts for `compass-engine`.
 
-## Active Scripts
+## Active Tools
 
-- `scripts/build.js`
+- `tools/build.js`
   - Builds all distributable bundles from `src/` to `dist/`.
-- `scripts/push.js`
+- `tools/push.js`
   - Syncs selected targets from `dist/` into destination repositories.
-- `scripts/validate.js`
+- `tools/validate.js`
   - Validates required source layout and checks for obvious secret leaks.
-- `scripts/create-bmad-module.js`
+- `tools/create-bmad-module.js`
   - Scaffolds a custom BMAD module into `src/bmad/modules/` from upstream.
 
-## Utility Scripts
+## Utility Tools
 
-- `scripts/update-bmad-method.sh`
+- `tools/update-bmad-method.sh`
   - Submodule helper for updating `BMAD-METHOD/` from upstream.
 
 ## Usage

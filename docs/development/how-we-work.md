@@ -27,7 +27,7 @@ Primary outputs:
 1. `bd ready`
 2. `bd show <id>`
 3. `bd update <id> --status in_progress`
-4. Implement changes in `src/`, `scripts/`, and `docs/`
+4. Implement changes in `src/`, `tools/`, and `docs/`
 5. Run quality gates:
    - `npm run check`
 6. Update/close issue in `bd`
@@ -42,13 +42,13 @@ Primary outputs:
 - `src/`: canonical source bundles and templates
 - `src/bmad/modules/`: canonical BMAD custom module development location
 - `src/opencode/plugins/`: canonical OpenCode plugin development location
-- `scripts/`: build, push, validation, and scaffolding automation
+- `tools/`: build, push, validation, and scaffolding automation
 - `tests/`: test location (currently no runtime suite; gate uses `npm run check`)
 - `reference/`: current reference notes only; no legacy archives
 - `src/planning-templates/`: planning template source for downstream repos
 
 See also:
 - `tests/README.md`
-- `scripts/README.md`
+- `tools/README.md`
 - `reference/README.md`
 - `src/planning-templates/README.md`
