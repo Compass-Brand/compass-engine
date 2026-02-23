@@ -27,9 +27,7 @@ Primary outputs:
 3. `bd update <id> --status in_progress`
 4. Implement changes in `src/`, `scripts/`, and `docs/`
 5. Run quality gates:
-   - `npm run validate`
-   - `npm run build`
-   - `npm run push -- --dry-run --targets claude,codex,opencode,github`
+   - `npm run check`
 6. Update/close issue in `bd`
 7. Session close protocol:
    - `git pull --rebase --autostash`
@@ -41,8 +39,8 @@ Primary outputs:
 
 - `src/`: canonical source bundles and templates
 - `scripts/`: build, push, validation, and scaffolding automation
-- `tests/`: active test suites for implemented runtime logic
-- `reference/`: archived/specification material and analysis docs (not runtime code)
+- `tests/`: test location (currently no runtime suite; gate uses `npm run check`)
+- `reference/`: current reference notes only; no legacy archives
 - `planning/`: planning templates and project planning artifacts
 
 See also:

@@ -11,12 +11,13 @@
     "build": "node scripts/build.js",
     "push": "node scripts/push.js",
     "validate": "node scripts/validate.js",
+    "check": "npm run validate && npm run build && npm run push -- --dry-run --targets claude,codex,opencode,github",
     "create:bmad-module": "node scripts/create-bmad-module.js",
     "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
     "prepublishOnly": "npm run build"
   },
   "files": [
-    "dist/.claude/**/*",
+    "dist/**/*",
     "scripts/*.js",
     "README.md"
   ],

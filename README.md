@@ -13,8 +13,7 @@ Central development tooling source for Compass Brand repositories.
 ## Quick Start
 
 ```bash
-npm run validate
-npm run build
+npm run check
 npm run push -- --all
 ```
 

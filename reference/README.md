@@ -1,18 +1,8 @@
 # Reference Materials
 
-This directory stores **reference and archive material**, not active production runtime code.
+`reference/` is intentionally minimal.
 
-## Contents
-
-- `reference/automation-spec-archive/`
-  - Archived Python-first automation implementation and tests.
-  - Retained as specification/pseudocode after architecture pivot.
-- `reference/bmad-core-implementation.md`
-  - Notes and analysis of BMAD core internals.
-- `reference/ralph-patterns-analysis.md`
-  - Pattern analysis used for review-loop and orchestration design ideas.
-
-## Rule
-
-Do not treat files in `reference/` as source-of-truth runtime implementation.
-Use them as design input when creating production behavior in `src/` and `scripts/`.
+Rules:
+- Do not store legacy or archived implementation dumps here.
+- Keep this directory only for concise, current reference artifacts that support active development.
+- If a file is stale or superseded, delete it instead of archiving it in-repo.

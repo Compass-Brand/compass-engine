@@ -21,8 +21,7 @@ Operational scripts for `compass-engine`.
 ## Usage
 
 ```bash
-npm run validate
-npm run build
+npm run check
 npm run push -- --all
 npm run create:bmad-module -- --name compass-bmm --from bmm --code cbmm
 ```
