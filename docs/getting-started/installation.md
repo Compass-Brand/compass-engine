@@ -45,5 +45,5 @@ npm run push -- --project /path/to/repo --targets claude,codex,opencode
 
 - [Build process](../architecture/build.md)
 - [Sync architecture](../architecture/sync.md)
-- [Modifying Claude](../claude/modifying-claude.md)
-- [Modifying BMAD](../bmad/modifying-bmad.md)
+- [Modifying Claude](../development/claude/modifying-claude.md)
+- [Modifying BMAD](../development/bmad/modifying-bmad.md)

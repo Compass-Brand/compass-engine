@@ -16,10 +16,10 @@ BMAD deep reference documentation is maintained upstream in `BMAD-METHOD/docs/`.
 | See Compass-wide GitHub standardization baseline | [GitHub Standardization](./architecture/github-standardization.md) |
 | Plan OpenCode plugin direction | [OpenCode Plugin Strategy](./architecture/opencode-plugin-strategy.md) |
 | Understand day-to-day development in this repo | [Development Model](./development/how-we-work.md) |
-| Build custom BMAD modules | [Custom BMAD Modules](./bmad/custom-modules.md) |
-| Build OpenCode plugin capabilities | [OpenCode Plugin Development](./opencode/plugin-development.md) |
-| Modify Claude bundle | [Modifying Claude](./claude/modifying-claude.md) |
-| Modify BMAD customizations | [Modifying BMAD](./bmad/modifying-bmad.md) |
+| Build custom BMAD modules | [Custom BMAD Modules](./development/bmad/custom-modules.md) |
+| Build OpenCode plugin capabilities | [OpenCode Plugin Development](./development/opencode/plugin-development.md) |
+| Modify Claude bundle | [Modifying Claude](./development/claude/modifying-claude.md) |
+| Modify BMAD customizations | [Modifying BMAD](./development/bmad/modifying-bmad.md) |
 
 ## Bundles Managed by This Repo
 

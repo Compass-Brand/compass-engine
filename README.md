@@ -51,10 +51,10 @@ compass-engine/
 - [Sync Architecture](docs/architecture/sync.md)
 - [GitHub Standardization](docs/architecture/github-standardization.md)
 - [Development Model](docs/development/how-we-work.md)
-- [Custom BMAD Modules](docs/bmad/custom-modules.md)
-- [OpenCode Plugin Development](docs/opencode/plugin-development.md)
-- [Modifying Claude](docs/claude/modifying-claude.md)
-- [Modifying BMAD](docs/bmad/modifying-bmad.md)
+- [Custom BMAD Modules](docs/development/bmad/custom-modules.md)
+- [OpenCode Plugin Development](docs/development/opencode/plugin-development.md)
+- [Modifying Claude](docs/development/claude/modifying-claude.md)
+- [Modifying BMAD](docs/development/bmad/modifying-bmad.md)
 
 ## Project Policy Files
 
