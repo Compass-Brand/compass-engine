@@ -44,6 +44,7 @@ compass-engine/
 ## Documentation
 
 - [Installation](docs/getting-started/installation.md)
+- [Repo Refactor Blueprint](docs/development/repo-refactor-blueprint.md)
 - [Build Process](docs/architecture/build.md)
 - [Sync Architecture](docs/architecture/sync.md)
 - [Development Model](docs/development/how-we-work.md)
