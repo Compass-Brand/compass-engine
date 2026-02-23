@@ -27,13 +27,15 @@ compass-engine/
 │   ├── claude/            # Claude source bundle
 │   ├── codex/             # Codex source bundle
 │   ├── opencode/          # OpenCode source bundle
+│   │   └── plugins/       # OpenCode plugin development source
+│   ├── bmad/
+│   │   └── modules/       # BMAD custom module development source
 │   ├── github/            # GitHub baseline source bundle
 │   ├── beads/             # Beads bootstrap snippets
 │   ├── planning-templates/
 │   └── scripts/
 ├── dist/                  # Generated distributable bundles
 ├── BMAD-METHOD/           # Upstream BMAD submodule
-├── _bmad-output/          # BMAD runtime artifacts
 ├── docs/
 └── scripts/
     ├── build.js
@@ -47,6 +49,7 @@ compass-engine/
 - [Repo Refactor Blueprint](docs/development/repo-refactor-blueprint.md)
 - [Build Process](docs/architecture/build.md)
 - [Sync Architecture](docs/architecture/sync.md)
+- [GitHub Standardization](docs/architecture/github-standardization.md)
 - [Development Model](docs/development/how-we-work.md)
 - [Custom BMAD Modules](docs/bmad/custom-modules.md)
 - [OpenCode Plugin Development](docs/opencode/plugin-development.md)

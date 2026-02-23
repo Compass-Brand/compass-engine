@@ -6,6 +6,7 @@ Principles:
 - never edit `BMAD-METHOD/` directly
 - create custom modules in `src/bmad/modules/`
 - document custom decisions close to modified module content
+- keep BMAD runtime output out of this repository
 
 ## Create a Custom Module
 

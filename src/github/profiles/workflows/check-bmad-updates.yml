@@ -2,9 +2,8 @@ name: Check BMAD-METHOD Updates
 
 on:
   schedule:
-    # Run daily at 9 AM UTC
     - cron: '0 9 * * *'
-  workflow_dispatch: # Allow manual trigger
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -15,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: true
           fetch-depth: 0
@@ -24,11 +23,8 @@ jobs:
         id: check
         run: |
           cd BMAD-METHOD
-
-          # Fetch upstream changes
           git fetch origin main
 
-          # Get current and upstream commits
           CURRENT=$(git rev-parse HEAD)
           UPSTREAM=$(git rev-parse origin/main)
 
@@ -38,7 +34,6 @@ jobs:
           if [ "$CURRENT" != "$UPSTREAM" ]; then
             echo "has_updates=true" >> $GITHUB_OUTPUT
 
-            # Get the changelog between versions
             echo "## Changes in BMAD-METHOD" > /tmp/changelog.md
             echo "" >> /tmp/changelog.md
             echo "**Current:** \`${CURRENT:0:7}\`" >> /tmp/changelog.md
@@ -53,11 +48,8 @@ jobs:
             echo '```' >> /tmp/changelog.md
             git diff --stat $CURRENT..$UPSTREAM >> /tmp/changelog.md
             echo '```' >> /tmp/changelog.md
-
-            cat /tmp/changelog.md
           else
             echo "has_updates=false" >> $GITHUB_OUTPUT
-            echo "BMAD-METHOD is up to date"
           fi
 
       - name: Create issue for updates
@@ -68,7 +60,6 @@ jobs:
             const fs = require('fs');
             const changelog = fs.readFileSync('/tmp/changelog.md', 'utf8');
 
-            // Check if an open issue already exists
             const issues = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -77,22 +68,18 @@ jobs:
             });
 
             if (issues.data.length > 0) {
-              // Update existing issue
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: issues.data[0].number,
                 body: `## Update Check - ${new Date().toISOString().split('T')[0]}\n\n${changelog}`
               });
-              console.log(`Updated existing issue #${issues.data[0].number}`);
             } else {
-              // Create new issue
               await github.rest.issues.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                title: '🔄 BMAD-METHOD has upstream updates available',
-                body: `The upstream BMAD-METHOD repository has new changes.\n\n${changelog}\n\n## To Update\n\n\`\`\`bash\ncd compass-engine\ngit submodule update --remote BMAD-METHOD\ngit add BMAD-METHOD\ngit commit -m "Update BMAD-METHOD submodule"\ngit push\n\`\`\``,
+                title: 'BMAD-METHOD has upstream updates available',
+                body: `The upstream BMAD-METHOD repository has new changes.\n\n${changelog}`,
                 labels: ['bmad-update', 'dependencies']
               });
-              console.log('Created new issue for BMAD-METHOD updates');
             }

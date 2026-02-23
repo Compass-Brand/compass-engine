@@ -19,8 +19,10 @@ const REQUIRED_PATHS = [
   'src/claude',
   'src/codex/skills',
   'src/codex/prompts',
+  'src/bmad/modules',
   'src/opencode/agent',
   'src/opencode/command',
+  'src/opencode/plugins',
   'src/github/workflows',
 ];
 

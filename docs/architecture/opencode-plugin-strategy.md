@@ -18,10 +18,13 @@ Create a Compass Brand OpenCode plugin that exposes BMAD workflows as first-clas
 - `provider-tracking`: beads integration wrapper
 - `provider-interop`: bridges for Claude/Codex command parity
 
+Implementation root in this repo:
+- `src/opencode/plugins/`
+
 ## Integration Points
 
 - Inputs: `.opencode/command/*`, `.opencode/agent/*`, BMAD module metadata
-- Outputs: downstream planning artifacts (`planning/` in target repos), runtime artifacts (`_bmad-output/` in target repos)
+- Outputs: downstream planning artifacts (`planning/` in target repos)
 - Tracking: `bd` issue lifecycle hooks
 
 ## Delivery Plan

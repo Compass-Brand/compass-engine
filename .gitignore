@@ -41,5 +41,5 @@ logs/
 .claude/
 .claude/skills/**/skill-checklist.md
 
-# Local BMAD runtime artifacts
+# Local BMAD runtime artifacts (not part of compass-engine source)
 _bmad-output/

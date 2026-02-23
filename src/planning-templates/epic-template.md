@@ -103,7 +103,7 @@ See `tests/acceptance-tests.md` for Given/When/Then specifications.
 ## Related
 
 - **ADRs:** [Link to related ADRs]
-- **BMAD Artifacts:** [Link to _bmad-output/ artifacts]
+- **BMAD Artifacts:** [Link to planning artifacts]
 - **Beads:** [Beads issue ID if tracked]
 
 ## Notes

@@ -399,7 +399,7 @@ After installation, BMAD creates:
 |   +-- bmb/               # BMAD Builder (if installed)
 |   +-- cis/               # Creative Intelligence (if installed)
 |   +-- bmgd/              # Game Dev (if installed)
-+-- _bmad-output/          # Default output folder
++-- planning/              # Recommended Compass output folder
     +-- planning-artifacts/  # PRDs, architectures, etc.
     +-- implementation-artifacts/  # Sprint files, stories
 ```

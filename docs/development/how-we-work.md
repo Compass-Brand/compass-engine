@@ -38,6 +38,8 @@ Primary outputs:
 ## Directory Intent
 
 - `src/`: canonical source bundles and templates
+- `src/bmad/modules/`: canonical BMAD custom module development location
+- `src/opencode/plugins/`: canonical OpenCode plugin development location
 - `scripts/`: build, push, validation, and scaffolding automation
 - `tests/`: test location (currently no runtime suite; gate uses `npm run check`)
 - `reference/`: current reference notes only; no legacy archives

@@ -6,7 +6,7 @@ Guide to extending BMAD in `compass-engine` without forking upstream internals.
 
 - Upstream: `BMAD-METHOD/` (read-only in normal workflow)
 - Custom layer: `src/bmad/`
-- Runtime artifacts: `_bmad-output/`
+- Module development root: `src/bmad/modules/`
 
 ## Custom Module Workflow
 

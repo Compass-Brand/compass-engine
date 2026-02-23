@@ -5,16 +5,18 @@ How OpenCode plugin work should be done from `compass-engine`.
 ## Current State
 
 - `.opencode` command/agent bundles are maintained under `src/opencode/`.
+- Plugin implementation source lives in `src/opencode/plugins/`.
 - Strategy and target architecture: `docs/architecture/opencode-plugin-strategy.md`.
 
 ## Development Workflow
 
 1. Define plugin requirement as a `bd` issue.
 2. Map requirement to BMAD workflow or command capability.
-3. Implement/adjust OpenCode command and agent assets in `src/opencode/`.
-4. Verify parity with Claude/Codex command behavior where applicable.
-5. Run `npm run validate` and `npm run build`.
-6. Dry-run distribution with `npm run push -- --dry-run --targets opencode`.
+3. Implement plugin code/metadata in `src/opencode/plugins/`.
+4. Implement/adjust OpenCode command and agent assets in `src/opencode/` as wrappers/adapters.
+5. Verify parity with Claude/Codex command behavior where applicable.
+6. Run `npm run validate` and `npm run build`.
+7. Dry-run distribution with `npm run push -- --dry-run --targets opencode`.
 
 ## Plugin Design Rules
 

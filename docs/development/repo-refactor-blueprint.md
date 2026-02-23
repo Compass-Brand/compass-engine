@@ -26,9 +26,10 @@ Make `compass-engine` the single source of truth for Compass Brand engineering d
 
 1. `src/` is the only editable source for distributed bundles and templates
 2. `dist/` is generated and minimal; never hand-edited
-3. `_bmad-output/` is runtime-only and ignored
-4. `BMAD-METHOD/` remains upstream input (submodule), not Compass customization output
-5. Docs are explicit about "delete stale artifacts, do not archive in-repo"
+3. `src/bmad/modules/` is the BMAD custom module development root
+4. `src/opencode/plugins/` is the OpenCode plugin development root
+5. `BMAD-METHOD/` remains upstream input (submodule), not Compass customization output
+6. Docs are explicit about "delete stale artifacts, do not archive in-repo"
 
 ## Keep vs Delete Policy
 
@@ -96,9 +97,10 @@ Exit criteria:
 ### Phase 4: GitHub Default Setup
 
 Deliverables:
-- Standard workflow baseline in `src/github/workflows`
+- Compass-wide inventory of existing workflows/actions/dependabot and policy gaps
+- Standard workflow baseline in `src/github/workflows` derived from that inventory
 - Documented default policy set (PR checks, branch protection expectations, code scanning hooks)
-- Compatibility table for repos with different runtime stacks
+- Profile overlays for repo-specific CI needs (runtime/tooling differences)
 
 Exit criteria:
 - Fresh downstream repo gets a working default CI baseline from this source alone
