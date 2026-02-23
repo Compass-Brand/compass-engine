@@ -34,7 +34,7 @@ Make `compass-engine` the single source of truth for Compass Brand engineering d
 ## Keep vs Delete Policy
 
 Keep:
-- `src/`, `tools/`, `docs/`, `tests/`, `reference/`, `.github/`, `BMAD-METHOD/`
+- `src/`, `tools/`, `docs/`, `reference/`, `.github/`, `BMAD-METHOD/`
 
 Delete or stop tracking when found:
 - Legacy duplicate source trees
@@ -51,7 +51,7 @@ Required path for all implementation work:
 1. `bd ready`
 2. `bd show <id>`
 3. `bd update <id> --status in_progress`
-4. Implement only in source locations (`src/`, `tools/`, `docs/`, `tests/`)
+4. Implement only in source locations (`src/`, `tools/`, `docs/`)
 5. Run `npm run check`
 6. `bd close <id>` (or status update if partial)
 7. `git pull --rebase --autostash`

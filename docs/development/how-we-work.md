@@ -43,12 +43,11 @@ Primary outputs:
 - `src/bmad/modules/`: canonical BMAD custom module development location
 - `src/opencode/plugins/`: canonical OpenCode plugin development location
 - `tools/`: build, push, validation, and scaffolding automation
-- `tests/`: test location (currently no runtime suite; gate uses `npm run check`)
+- Tests: add a `tests/` directory only when runtime unit/integration suites are introduced
 - `reference/`: current reference notes only; no legacy archives
 - `src/planning-templates/`: planning template source for downstream repos
 
 See also:
-- `tests/README.md`
 - `tools/README.md`
 - `reference/README.md`
 - `src/planning-templates/README.md`
