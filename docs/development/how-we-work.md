@@ -1,0 +1,52 @@
+# Development Model
+
+This document defines how work is done in `compass-engine`.
+
+## Scope
+
+`compass-engine` is the source repository for shared engineering tooling distributed to Compass Brand repositories.
+
+Primary outputs:
+- `.claude`
+- `.codex`
+- `.opencode`
+- `.github`
+- beads bootstrap snippets
+
+## Source of Truth
+
+1. Issue tracking: `bd` (beads)
+2. Distributed assets: `src/`
+3. Build artifacts: `dist/`
+4. Upstream BMAD: `BMAD-METHOD/` (read-only for normal development)
+
+## Day-to-Day Workflow
+
+1. `bd ready`
+2. `bd show <id>`
+3. `bd update <id> --status in_progress`
+4. Implement changes in `src/`, `scripts/`, and `docs/`
+5. Run quality gates:
+   - `npm run validate`
+   - `npm run build`
+   - `npm run push -- --dry-run --targets claude,codex,opencode,github`
+6. Update/close issue in `bd`
+7. Session close protocol:
+   - `git pull --rebase --autostash`
+   - `bd sync`
+   - commit
+   - push branch / PR (main is protected)
+
+## Directory Intent
+
+- `src/`: canonical source bundles and templates
+- `scripts/`: build, push, validation, and scaffolding automation
+- `tests/`: active test suites for implemented runtime logic
+- `reference/`: archived/specification material and analysis docs (not runtime code)
+- `planning/`: planning templates and project planning artifacts
+
+See also:
+- `tests/README.md`
+- `scripts/README.md`
+- `reference/README.md`
+- `planning/README.md`

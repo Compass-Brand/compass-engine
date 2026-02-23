@@ -47,6 +47,9 @@ compass-engine/
 - [Installation](docs/getting-started/installation.md)
 - [Build Process](docs/architecture/build.md)
 - [Sync Architecture](docs/architecture/sync.md)
+- [Development Model](docs/development/how-we-work.md)
+- [Custom BMAD Modules](docs/bmad/custom-modules.md)
+- [OpenCode Plugin Development](docs/opencode/plugin-development.md)
 - [Modifying Claude](docs/claude/modifying-claude.md)
 - [Modifying BMAD](docs/bmad/modifying-bmad.md)
 

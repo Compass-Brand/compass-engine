@@ -1,6 +1,8 @@
 # Planning
 
-This folder contains planning artifacts for this repository following the Compass Brand unified planning structure.
+This folder contains planning artifacts/templates for this repository following the Compass Brand unified planning structure.
+
+In `compass-engine`, operational task tracking uses `bd` (`.beads/`) as the source of truth. Planning files here support larger planning/architecture workflows and templates.
 
 ## Structure
 
@@ -28,6 +30,11 @@ Before starting development on any epic:
 1. Create test plan at `planning/epics/{epic}/tests/test-plan.md`
 2. Write acceptance tests at `planning/epics/{epic}/tests/acceptance-tests.md`
 3. Follow RED-GREEN-REFACTOR cycle
+
+## Relationship to Beads
+
+- Use `bd` for active execution tracking, dependencies, and session status.
+- Use `planning/` for higher-level artifacts (epics, ADRs, spike docs, templates).
 
 ## Templates
 
