@@ -9,7 +9,7 @@ Create a Compass Brand OpenCode plugin that exposes BMAD workflows as first-clas
 1. Provide OpenCode commands that map to BMAD workflow entry points.
 2. Reuse shared prompt/skill content where possible (single source, generated adapters).
 3. Support beads-aware session lifecycle hooks (`bd prime`, status updates, close protocol reminders).
-4. Emit normalized artifacts in existing planning/output locations.
+4. Emit normalized artifacts in standard downstream project locations.
 
 ## Proposed Architecture
 
@@ -21,7 +21,7 @@ Create a Compass Brand OpenCode plugin that exposes BMAD workflows as first-clas
 ## Integration Points
 
 - Inputs: `.opencode/command/*`, `.opencode/agent/*`, BMAD module metadata
-- Outputs: planning artifacts (`planning/`), runtime artifacts (`_bmad-output/`)
+- Outputs: downstream planning artifacts (`planning/` in target repos), runtime artifacts (`_bmad-output/` in target repos)
 - Tracking: `bd` issue lifecycle hooks
 
 ## Delivery Plan

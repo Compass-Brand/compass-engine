@@ -41,10 +41,10 @@ Primary outputs:
 - `scripts/`: build, push, validation, and scaffolding automation
 - `tests/`: test location (currently no runtime suite; gate uses `npm run check`)
 - `reference/`: current reference notes only; no legacy archives
-- `planning/`: planning templates and project planning artifacts
+- `src/planning-templates/`: planning template source for downstream repos
 
 See also:
 - `tests/README.md`
 - `scripts/README.md`
 - `reference/README.md`
-- `planning/README.md`
+- `src/planning-templates/README.md`
