@@ -11,7 +11,6 @@ BMAD deep reference documentation is maintained upstream in `BMAD-METHOD/docs/`.
 | I want to... | Read this |
 |--------------|-----------|
 | Install and run build/push | [Getting Started](./getting-started/installation.md) |
-| See the full refactor execution plan | [Repo Refactor Blueprint](./development/repo-refactor-blueprint.md) |
 | Understand build outputs | [Build Process](./architecture/build.md) |
 | Understand multi-target sync | [Sync Architecture](./architecture/sync.md) |
 | See Compass-wide GitHub standardization baseline | [GitHub Standardization](./architecture/github-standardization.md) |

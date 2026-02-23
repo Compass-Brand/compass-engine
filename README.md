@@ -47,7 +47,6 @@ compass-engine/
 
 - [Installation](docs/getting-started/installation.md)
 - [Quickstart](docs/getting-started/quickstart.md)
-- [Repo Refactor Blueprint](docs/development/repo-refactor-blueprint.md)
 - [Build Process](docs/architecture/build.md)
 - [Sync Architecture](docs/architecture/sync.md)
 - [GitHub Standardization](docs/architecture/github-standardization.md)
