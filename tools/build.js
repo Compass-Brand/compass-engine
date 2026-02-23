@@ -53,6 +53,12 @@ const TARGETS = [
     dist: path.join(DIST_ROOT, 'beads'),
     required: ['README.md'],
   },
+  {
+    name: 'root',
+    src: path.join(SRC, 'root'),
+    dist: path.join(DIST_ROOT, 'root'),
+    required: ['.coderabbit.yaml'],
+  },
 ];
 
 const CLAUDE_LOCAL_ONLY = [
@@ -182,6 +188,9 @@ async function validateBuild() {
     { label: '.opencode/agent', path: path.join(DIST_ROOT, '.opencode', 'agent') },
     { label: '.opencode/command', path: path.join(DIST_ROOT, '.opencode', 'command') },
     { label: '.github/workflows', path: path.join(DIST_ROOT, '.github', 'workflows') },
+    { label: 'root/.coderabbit.yaml', path: path.join(DIST_ROOT, 'root', '.coderabbit.yaml') },
+    { label: 'root/.editorconfig', path: path.join(DIST_ROOT, 'root', '.editorconfig') },
+    { label: 'root/.gitattributes', path: path.join(DIST_ROOT, 'root', '.gitattributes') },
   ];
 
   let isValid = true;

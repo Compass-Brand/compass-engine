@@ -17,7 +17,7 @@ npm run check
 npm run push -- --all
 ```
 
-Use `npm run push -- --targets claude,codex,opencode,github` to limit targets.
+Use `npm run push -- --targets claude,codex,opencode,github,root` to limit targets.
 
 ## Repository Structure
 

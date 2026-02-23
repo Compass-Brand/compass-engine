@@ -24,6 +24,9 @@ const REQUIRED_PATHS = [
   'src/opencode/command',
   'src/opencode/plugins',
   'src/github/workflows',
+  'src/root/.coderabbit.yaml',
+  'src/root/.editorconfig',
+  'src/root/.gitattributes',
 ];
 
 async function exists(relPath) {

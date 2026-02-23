@@ -35,9 +35,15 @@ const TARGETS = {
     distName: '.github',
     localOnly: [],
   },
+  root: {
+    destName: '',
+    distName: 'root',
+    localOnly: [],
+    replace: false,
+  },
 };
 
-const DEFAULT_TARGETS = ['claude', 'codex', 'opencode', 'github'];
+const DEFAULT_TARGETS = ['claude', 'codex', 'opencode', 'github', 'root'];
 
 function parseArgs() {
   const args = process.argv.slice(2);
@@ -73,7 +79,7 @@ Usage:
 Options:
   --project <path>       Push to specific project (default: current directory)
   --all                  Push to all discovered Compass Brand projects
-  --targets <list>       Comma-separated targets (claude,codex,opencode,github)
+  --targets <list>       Comma-separated targets (claude,codex,opencode,github,root)
   --dry-run              Show actions without modifying files
   --help                 Show this message
 `);
@@ -152,7 +158,8 @@ async function syncTarget(projectPath, targetName, options) {
   }
 
   const destPath = path.join(projectPath, target.destName);
-  console.log(`  Syncing ${target.destName}...`);
+  const displayName = target.destName || '(project root files)';
+  console.log(`  Syncing ${displayName}...`);
 
   const backups = {};
   for (const relPath of target.localOnly) {
@@ -161,12 +168,20 @@ async function syncTarget(projectPath, targetName, options) {
   }
 
   if (options.dryRun) {
-    console.log(`    [DRY RUN] Replace ${target.destName} from dist/${target.distName}`);
+    if (target.replace === false) {
+      console.log(`    [DRY RUN] Merge files from dist/${target.distName} into project root`);
+    } else {
+      console.log(`    [DRY RUN] Replace ${target.destName} from dist/${target.distName}`);
+    }
     return;
   }
 
-  await fs.rm(destPath, { recursive: true, force: true });
-  await copyDir(sourcePath, destPath);
+  if (target.replace === false) {
+    await copyDir(sourcePath, destPath);
+  } else {
+    await fs.rm(destPath, { recursive: true, force: true });
+    await copyDir(sourcePath, destPath);
+  }
 
   for (const [relPath, backup] of Object.entries(backups)) {
     await restoreContent(path.join(destPath, relPath), backup);

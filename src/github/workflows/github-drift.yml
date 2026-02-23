@@ -16,11 +16,19 @@ concurrency:
 
 jobs:
   drift-check:
-    name: Verify .github Sync
+    name: Verify Config Sync
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+
       - name: Verify .github drift
         run: node tools/check-github-drift.js
+
+      - name: Verify root-file drift
+        run: node tools/check-root-drift.js
