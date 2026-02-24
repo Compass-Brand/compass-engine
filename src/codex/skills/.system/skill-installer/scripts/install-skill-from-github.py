@@ -223,9 +223,7 @@ def _resolve_source(args: Args) -> Source:
     if not args.repo:
         raise InstallError("Provide --repo or --url.")
     if "://" in args.repo:
-        return _resolve_source(
-            Args(url=args.repo, repo=None, path=args.path, ref=args.ref)
-        )
+        return _resolve_source(Args(url=args.repo, repo=None, path=args.path, ref=args.ref))
 
     repo_parts = [p for p in args.repo.split("/") if p]
     if len(repo_parts) != 2:
@@ -256,9 +254,7 @@ def _parse_args(argv: list[str]) -> Args:
     )
     parser.add_argument("--ref", default=DEFAULT_REF)
     parser.add_argument("--dest", help="Destination skills directory")
-    parser.add_argument(
-        "--name", help="Destination skill name (defaults to basename of path)"
-    )
+    parser.add_argument("--name", help="Destination skill name (defaults to basename of path)")
     parser.add_argument(
         "--method",
         choices=["auto", "download", "git"],

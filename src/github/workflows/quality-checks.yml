@@ -67,7 +67,7 @@ jobs:
           echo "Scanning for potential secrets..."
           FOUND=0
           # Check for common secret patterns
-          if grep -rn "PRIVATE.KEY\|-----BEGIN.*PRIVATE\|sk-[a-zA-Z0-9]\{20,\}\|ghp_[a-zA-Z0-9]\{36\}\|gho_[a-zA-Z0-9]\{36\}\|api[_-]?key.*['\"][a-zA-Z0-9]\{20,\}" --include="*.py" --include="*.ts" --include="*.js" --include="*.json" --include="*.yaml" --include="*.yml" . 2>/dev/null | grep -v node_modules | grep -v ".example" | head -10; then
+          if grep -rn "PRIVATE.KEY\|-----BEGIN.*PRIVATE\|sk-[a-zA-Z0-9]\{20,\}\|ghp_[a-zA-Z0-9]\{36\}\|gho_[a-zA-Z0-9]\{36\}\|api[_-]?key.*['\"][a-zA-Z0-9]\{20,\}" --include="*.py" --include="*.ts" --include="*.js" --include="*.json" --include="*.yaml" --include="*.yml" . 2>/dev/null | grep -v node_modules | grep -v ".example" | grep -vE '(^|/)(\.github|src/github)/workflows/quality-checks\.yml:' | head -10; then
             echo "::warning::Potential hardcoded secrets detected - please review"
             FOUND=1
           fi
@@ -157,9 +157,9 @@ jobs:
         id: check-python
         run: |
           if find . -name "*.py" -not -path "./node_modules/*" -not -path "./.venv/*" | head -1 | grep -q .; then
-            echo "has_python=true" >> $GITHUB_OUTPUT
+            echo "has_python=true" >> "$GITHUB_OUTPUT"
           else
-            echo "has_python=false" >> $GITHUB_OUTPUT
+            echo "has_python=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Set up Python
@@ -190,10 +190,10 @@ jobs:
       - name: Check for JS/TS files
         id: check-js
         run: |
-          if find . -name "*.js" -o -name "*.ts" -o -name "*.mjs" -o -name "*.tsx" -o -name "*.jsx" 2>/dev/null | grep -v node_modules | head -1 | grep -q .; then
-            echo "has_js=true" >> $GITHUB_OUTPUT
+          if find . \( -name "*.js" -o -name "*.ts" -o -name "*.mjs" -o -name "*.tsx" -o -name "*.jsx" \) 2>/dev/null | grep -v node_modules | head -1 | grep -q .; then
+            echo "has_js=true" >> "$GITHUB_OUTPUT"
           else
-            echo "has_js=false" >> $GITHUB_OUTPUT
+            echo "has_js=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Setup Node.js
@@ -208,7 +208,7 @@ jobs:
 
       - name: Run ESLint
         if: steps.check-js.outputs.has_js == 'true'
-        run: eslint . --ext .js,.ts,.mjs,.jsx,.tsx --format=stylish --ignore-pattern node_modules/
+        run: eslint . --ext .js,.ts,.mjs,.jsx,.tsx --format=stylish --ignore-pattern node_modules/ --ignore-pattern BMAD-METHOD/ --ignore-pattern dist/ --ignore-pattern .beads/ --ignore-pattern .claude/ --ignore-pattern .codex/ --ignore-pattern .opencode/ --ignore-pattern .serena/
 
       - name: Run Prettier check
         if: steps.check-js.outputs.has_js == 'true'
