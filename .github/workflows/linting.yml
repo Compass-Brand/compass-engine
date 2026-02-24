@@ -133,7 +133,7 @@ jobs:
 
       - name: Run dotenv-linter
         if: steps.detect.outputs.run == 'true'
-        uses: dotenv-linter/action-dotenv-linter@v2
+        uses: dotenv-linter/action-dotenv-linter@v3
 
       - name: Skip message
         if: steps.detect.outputs.run != 'true'
@@ -291,7 +291,7 @@ jobs:
 
       - name: Setup TFLint
         if: steps.detect.outputs.run == 'true'
-        uses: terraform-linters/setup-tflint@v4
+        uses: terraform-linters/setup-tflint@v6
 
       - name: Run terraform fmt
         if: steps.detect.outputs.run == 'true'
