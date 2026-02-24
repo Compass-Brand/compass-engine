@@ -107,7 +107,7 @@ For each changed file:
    const users = await db.query(`SELECT * FROM users WHERE id = ${userId}`);
 
    // ✅ Fix
-   const users = await db.query("SELECT * FROM users WHERE id = $1", [userId]);
+   const users = await db.query('SELECT * FROM users WHERE id = $1', [userId]);
    ```
 
 ### 🟡 Important Issues (Count: X)
@@ -301,10 +301,10 @@ const data = await db.users.find({ userId: req.user.id });
 
 ```typescript
 // ❌ Missing CSRF protection
-app.post("/transfer", transferMoney);
+app.post('/transfer', transferMoney);
 
 // ✅ CSRF token required
-app.post("/transfer", csrfProtection, transferMoney);
+app.post('/transfer', csrfProtection, transferMoney);
 ```
 
 ## Output Format
@@ -431,7 +431,7 @@ npm --version
    // Line 38
    const user = await db.users.findOne({ email });
    // Line 40
-   if (!user) throw new Error("User not found");
+   if (!user) throw new Error('User not found');
    // Line 42
    const userId = user.profile.id; // But user.profile could be null!
    ```
@@ -479,11 +479,11 @@ if (user && !user.profile) {
 **Add tests:**
 
 ```typescript
-describe("getUserData", () => {
-  it("should handle user without profile", async () => {
-    const user = { id: "123", email: "test@example.com", profile: null };
+describe('getUserData', () => {
+  it('should handle user without profile', async () => {
+    const user = { id: '123', email: 'test@example.com', profile: null };
     const result = await getUserData(user);
-    expect(result.userId).toBe("123");
+    expect(result.userId).toBe('123');
   });
 });
 ```
@@ -958,10 +958,10 @@ Common edge cases to test:
 Generate complete test file:
 
 ```typescript
-import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { functionUnderTest } from "./module";
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { functionUnderTest } from './module';
 
-describe("[Component/Function]", () => {
+describe('[Component/Function]', () => {
   // Setup and teardown
   beforeEach(() => {
     // Setup
@@ -972,19 +972,19 @@ describe("[Component/Function]", () => {
   });
 
   // Test suites organized by category
-  describe("Happy Path", () => {
+  describe('Happy Path', () => {
     // Normal use cases
   });
 
-  describe("Edge Cases", () => {
+  describe('Edge Cases', () => {
     // Boundary conditions
   });
 
-  describe("Error Cases", () => {
+  describe('Error Cases', () => {
     // Invalid inputs and failures
   });
 
-  describe("Integration", () => {
+  describe('Integration', () => {
     // Component interaction
   });
 });
@@ -999,9 +999,11 @@ describe("[Component/Function]", () => {
 - **Total: X tests**
 
 **Coverage estimate:** X%
+
 ````
 
 ---
 
 These are production-ready examples you can use directly or customize for your needs. Each agent is focused, well-documented, and follows best practices for Claude Code subagents.
 ```
+````

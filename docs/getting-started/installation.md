@@ -25,6 +25,7 @@ npm run build
 ```
 
 Build output:
+
 - `dist/.claude/`
 - `dist/.codex/`
 - `dist/.opencode/`

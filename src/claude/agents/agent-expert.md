@@ -280,13 +280,10 @@ Your core expertise areas:
 
 ```javascript
 // Framework-specific best practices
-import React, { memo, useCallback, useMemo } from "react";
+import React, { memo, useCallback, useMemo } from 'react';
 
 const OptimizedComponent = memo(({ data, onAction }) => {
-  const processedData = useMemo(
-    () => data.map((item) => ({ ...item, processed: true })),
-    [data],
-  );
+  const processedData = useMemo(() => data.map((item) => ({ ...item, processed: true })), [data]);
 
   const handleAction = useCallback(
     (id) => {
@@ -472,11 +469,11 @@ Use this agent for:
 
 ```javascript
 // Secure input handling
-import DOMPurify from "dompurify";
+import DOMPurify from 'dompurify';
 
 const sanitizeInput = (userInput) => {
   return DOMPurify.sanitize(userInput, {
-    ALLOWED_TAGS: ["b", "i", "em", "strong"],
+    ALLOWED_TAGS: ['b', 'i', 'em', 'strong'],
     ALLOWED_ATTR: [],
   });
 };

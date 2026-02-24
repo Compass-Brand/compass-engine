@@ -36,6 +36,7 @@ npm run validate
 ```
 
 Validation checks:
+
 - required source/bundle paths exist
 - `src/codex/config.toml` does not include hardcoded secret-like values
 

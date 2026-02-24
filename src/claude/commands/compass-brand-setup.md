@@ -198,10 +198,10 @@ mcp__forgetful__execute_forgetful_tool("create_project", {
 
 ### Default Projects
 
-| Project                     | Description                                   |
-| --------------------------- | --------------------------------------------- |
-| legacy-system-analyzer      | Web app for analyzing legacy database schemas |
-| competitor-analysis-toolkit | Competitive analysis using Claude Chrome MCP  |
+| Project                     | Description                                          |
+| --------------------------- | ---------------------------------------------------- |
+| legacy-system-analyzer      | Web app for analyzing legacy database schemas        |
+| competitor-analysis-toolkit | Competitive analysis using Claude Chrome MCP         |
 | compass-engine              | Central development tools and AI agent configuration |
 
 ## Step 7: Verify Serena Configuration

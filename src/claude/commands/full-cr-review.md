@@ -3,19 +3,19 @@ name: full-cr-review
 description: Complete codebase review using CodeRabbit CLI with parallel fixing and beads tracking
 hooks:
   SessionStart:
-    - matcher: "*"
+    - matcher: '*'
       hooks:
         - type: command
           command: 'bash "$CLAUDE_PROJECT_DIR/.claude/scripts/cr-review-session-start.sh"'
           timeout: 5
   Stop:
-    - matcher: "*"
+    - matcher: '*'
       hooks:
         - type: command
           command: 'bash "$CLAUDE_PROJECT_DIR/.claude/scripts/cr-review-stop.sh"'
           timeout: 10
   SubagentStop:
-    - matcher: "*"
+    - matcher: '*'
       hooks:
         - type: command
           command: 'bash "$CLAUDE_PROJECT_DIR/.claude/scripts/cr-batch-complete.sh"'
@@ -34,12 +34,12 @@ Review and fix an entire codebase using CodeRabbit CLI, with parallel subagents 
 
 ## Options
 
-| Option | Description |
-|--------|-------------|
-| `--resume` | Resume an interrupted review |
+| Option               | Description                                  |
+| -------------------- | -------------------------------------------- |
+| `--resume`           | Resume an interrupted review                 |
 | `--max-iterations N` | Override default max iterations (default: 5) |
-| `--dry-run` | Show plan without executing |
-| `--skip-beads` | Skip beads tracking (fixes only) |
+| `--dry-run`          | Show plan without executing                  |
+| `--skip-beads`       | Skip beads tracking (fixes only)             |
 
 ## Prerequisites
 
@@ -148,6 +148,7 @@ The `--prompt-only` flag returns structured output without requiring a PR.
 **Step 2.3: Parse Output**
 
 Extract issues from the CodeRabbit output. Each issue includes:
+
 - File path
 - Line number(s)
 - Severity (critical/major/minor/nit)
@@ -190,6 +191,7 @@ $SUGGESTION"
 ```
 
 **Label Strategy:**
+
 - `coderabbit` - All issues from this command
 - Severity: `critical`, `major`, `minor`, `nit`
 - File type: `python`, `typescript`, `shell`, `markdown`, `yaml`
@@ -199,6 +201,7 @@ $SUGGESTION"
 **Key Rule: Never split same file across batches** (prevents edit conflicts)
 
 **Batching Algorithm:**
+
 1. Group all issues by file
 2. Categorize files by type
 3. Create batches of 15-20 issues each
@@ -208,7 +211,7 @@ $SUGGESTION"
 **Batching Table:**
 
 | Total Issues | Subagents | Issues/Agent |
-|--------------|-----------|--------------|
+| ------------ | --------- | ------------ |
 | 1-15         | 1         | all          |
 | 16-40        | 2         | ~15-20       |
 | 41-80        | 3-4       | ~20          |
@@ -272,6 +275,7 @@ For EACH issue in order:
 
 Each fix gets its own commit:
 ```
+
 fix(cr-review): ${SHORT_DESCRIPTION}
 
 File: ${FILE}:${LINE}
@@ -280,7 +284,8 @@ Category: ${CATEGORY}
 Beads: ${BEAD_ID}
 
 Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
-```
+
+````
 
 ## Rollback Rules
 
@@ -288,7 +293,8 @@ If validation fails after a fix:
 ```bash
 cp "$FILE.cr-backup" "$FILE"
 bd update ${BEAD_ID} --notes "Rollback: validation failed"
-```
+````
+
 Do NOT commit failed fixes.
 
 ## Issues to Fix
@@ -296,6 +302,7 @@ Do NOT commit failed fixes.
 ${ISSUES_JSON}
 
 Each issue contains:
+
 - `file`: Path to file
 - `line`: Line number
 - `message`: Issue description
@@ -305,6 +312,7 @@ Each issue contains:
 ## Output Format
 
 Log each result to `.cr-batch-${BATCH_ID}-results.jsonl`:
+
 ```json
 {"file": "src/foo.py", "line": 42, "bead_id": "beads-abc", "action": "fixed"}
 {"file": "src/bar.py", "line": 15, "bead_id": "beads-def", "action": "rollback", "reason": "syntax_error"}
@@ -313,6 +321,7 @@ Log each result to `.cr-batch-${BATCH_ID}-results.jsonl`:
 ## Return Value
 
 When complete, return JSON summary:
+
 ```json
 {
   "batch_id": ${BATCH_ID},
@@ -321,7 +330,8 @@ When complete, return JSON summary:
   "rollbacks": <count>
 }
 ```
-```
+
+````
 
 ### Phase 6: Wait and Aggregate Results
 
@@ -346,16 +356,16 @@ if [ "$ITERATION" -lt "$MAX_ITERATIONS" ]; then
     coderabbit review --prompt-only --base-commit "$FIRST_COMMIT" > .cr-review-output.txt 2>&1
     # Parse and check issue count
 fi
-```
+````
 
 **Step 7.2: Exit Conditions**
 
-| Condition | Action |
-|-----------|--------|
-| 0 issues found | Exit (success) |
-| Max iterations reached | Exit (warn) |
-| Issue count not decreasing | Warn user (may be stuck) |
-| Issues remain | Continue to next iteration |
+| Condition                  | Action                     |
+| -------------------------- | -------------------------- |
+| 0 issues found             | Exit (success)             |
+| Max iterations reached     | Exit (warn)                |
+| Issue count not decreasing | Warn user (may be stuck)   |
+| Issues remain              | Continue to next iteration |
 
 ### Phase 8: Final Report
 
@@ -394,35 +404,35 @@ find . -type f -name '*.cr-backup' -exec rm -f {} + 2>/dev/null || true
 
 ## Error Handling
 
-| Error | Recovery |
-|-------|----------|
-| CodeRabbit timeout | Retry with longer timeout |
-| Subagent fails | Report batch, continue others |
-| Edit conflicts | Auto-resolve with latest |
-| Beads unavailable | Continue without tracking |
-| Max iterations reached | Exit with summary |
+| Error                  | Recovery                      |
+| ---------------------- | ----------------------------- |
+| CodeRabbit timeout     | Retry with longer timeout     |
+| Subagent fails         | Report batch, continue others |
+| Edit conflicts         | Auto-resolve with latest      |
+| Beads unavailable      | Continue without tracking     |
+| Max iterations reached | Exit with summary             |
 
 ## Hooks
 
 This command includes skill-scoped hooks:
 
-| Hook | Purpose | File |
-|------|---------|------|
-| **SessionStart** | Detect/offer resume | `cr-review-session-start.sh` |
-| **Stop** | Verify beads closed | `cr-review-stop.sh` |
-| **SubagentStop** | Track batch completion | `cr-batch-complete.sh` |
+| Hook             | Purpose                | File                         |
+| ---------------- | ---------------------- | ---------------------------- |
+| **SessionStart** | Detect/offer resume    | `cr-review-session-start.sh` |
+| **Stop**         | Verify beads closed    | `cr-review-stop.sh`          |
+| **SubagentStop** | Track batch completion | `cr-batch-complete.sh`       |
 
 Hooks only activate when `.full-cr-in-progress` exists.
 
 ## Files Created During Execution
 
-| File | Purpose |
-|------|---------|
-| `.full-cr-in-progress` | Context marker + state |
-| `.cr-review-output.txt` | Raw CodeRabbit output |
-| `.cr-batch-results.jsonl` | Aggregated batch results |
-| `.cr-batch-N-results.jsonl` | Per-batch results |
-| `*.cr-backup` | File backups before edits |
+| File                        | Purpose                   |
+| --------------------------- | ------------------------- |
+| `.full-cr-in-progress`      | Context marker + state    |
+| `.cr-review-output.txt`     | Raw CodeRabbit output     |
+| `.cr-batch-results.jsonl`   | Aggregated batch results  |
+| `.cr-batch-N-results.jsonl` | Per-batch results         |
+| `*.cr-backup`               | File backups before edits |
 
 ## Tips
 

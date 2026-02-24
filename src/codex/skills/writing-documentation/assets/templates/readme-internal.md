@@ -1,4 +1,5 @@
 <!-- Template from writing-documentation skill. Delete this line. -->
+
 # [Service Name]
 
 > [One-line description of what this service does]
@@ -22,8 +23,8 @@
 
 ### Environment Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
+| Variable     | Description          | Default               |
+| ------------ | -------------------- | --------------------- |
 | `[VAR_NAME]` | [What it configures] | [default or required] |
 | `[VAR_NAME]` | [What it configures] | [default or required] |
 
@@ -56,19 +57,19 @@
 
 ### Key Files
 
-| Path | Purpose |
-|------|---------|
-| `src/[file]` | [What it does] |
-| `src/[file]` | [What it does] |
+| Path            | Purpose              |
+| --------------- | -------------------- |
+| `src/[file]`    | [What it does]       |
+| `src/[file]`    | [What it does]       |
 | `config/[file]` | [What it configures] |
 
 ## Deployment
 
-| Environment | URL | Branch |
-|-------------|-----|--------|
-| Dev | [url] | `develop` |
-| Staging | [url] | `staging` |
-| Production | [url] | `main` |
+| Environment | URL   | Branch    |
+| ----------- | ----- | --------- |
+| Dev         | [url] | `develop` |
+| Staging     | [url] | `staging` |
+| Production  | [url] | `main`    |
 
 [Deployment process notes, if any.]
 
@@ -88,8 +89,8 @@
 
 ## Troubleshooting
 
-| Symptom | Cause | Fix |
-|---------|-------|-----|
+| Symptom        | Cause            | Fix             |
+| -------------- | ---------------- | --------------- |
 | [What you see] | [Why it happens] | [How to fix it] |
 | [What you see] | [Why it happens] | [How to fix it] |
 

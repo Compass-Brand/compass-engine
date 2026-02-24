@@ -27,20 +27,20 @@ These apply across ALL branches — every doc type, every task.
 
 ### Step 1: Identify the task
 
-| Task | Route |
-|------|-------|
-| Write / create / add | Go to Step 2 (doc-type branch) |
-| Update / revise | Go to Step 2 (doc-type branch) |
-| Review / audit / check | `references/reviewing-documentation.md` AND Step 2 |
-| Set up / organize / structure | `references/setting-up-documentation.md` |
+| Task                          | Route                                              |
+| ----------------------------- | -------------------------------------------------- |
+| Write / create / add          | Go to Step 2 (doc-type branch)                     |
+| Update / revise               | Go to Step 2 (doc-type branch)                     |
+| Review / audit / check        | `references/reviewing-documentation.md` AND Step 2 |
+| Set up / organize / structure | `references/setting-up-documentation.md`           |
 
 ### Step 2: Identify the doc type
 
-| Doc Type | Reference File |
-|----------|---------------|
-| README | `references/writing-readmes.md` |
+| Doc Type                                         | Reference File                                                                                         |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| README                                           | `references/writing-readmes.md`                                                                        |
 | Architecture (overview, ADR, component, diagram) | `references/writing-architecture-docs.md` (for Mermaid diagram syntax, also invoke `mermaid-diagrams`) |
-| Guide (tutorial, how-to, reference, explanation) | `references/writing-guides.md` |
+| Guide (tutorial, how-to, reference, explanation) | `references/writing-guides.md`                                                                         |
 
 If the doc type is ambiguous, investigate the project and recommend a type. Don't guess.
 
@@ -55,6 +55,7 @@ If the doc type is ambiguous, investigate the project and recommend a type. Don'
 Always ask: "Anything else to highlight or include that I might have missed?"
 
 Review the draft against these checks:
+
 - Does it serve its stated audience?
 - Can someone act on it without asking follow-up questions?
 - Are code examples runnable, not pseudocode?
@@ -62,11 +63,11 @@ Review the draft against these checks:
 
 ## Supporting Files
 
-| File | Purpose |
-|------|---------|
-| `references/style-guide.md` | Common documentation mistakes and how to avoid them |
-| `references/section-checklist.md` | README section matrix by project type |
-| `assets/templates/` | Scaffolding for specific doc types (zero context cost) |
+| File                              | Purpose                                                |
+| --------------------------------- | ------------------------------------------------------ |
+| `references/style-guide.md`       | Common documentation mistakes and how to avoid them    |
+| `references/section-checklist.md` | README section matrix by project type                  |
+| `assets/templates/`               | Scaffolding for specific doc types (zero context cost) |
 
 ## The Bottom Line
 

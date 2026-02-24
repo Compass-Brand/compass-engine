@@ -5,6 +5,7 @@
 Use `src/github/profiles/` for repo-type-specific overlays that extend the baseline without changing it.
 
 Current overlays:
+
 - `dependabot-node.yml`
 - `dependabot-python.yml`
 - `dependabot-submodule-compass-engine.yml`

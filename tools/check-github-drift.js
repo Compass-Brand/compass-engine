@@ -44,10 +44,7 @@ async function compareFiles(relPath) {
   const srcPath = path.join(SOURCE_ROOT, relPath);
   const dstPath = path.join(TARGET_ROOT, relPath);
 
-  const [srcContent, dstContent] = await Promise.all([
-    fs.readFile(srcPath),
-    fs.readFile(dstPath),
-  ]);
+  const [srcContent, dstContent] = await Promise.all([fs.readFile(srcPath), fs.readFile(dstPath)]);
 
   return srcContent.equals(dstContent);
 }
@@ -85,11 +82,7 @@ async function run() {
     if (!same) differentContent.push(relPath);
   }
 
-  if (
-    missingInTarget.length === 0
-    && extraInTarget.length === 0
-    && differentContent.length === 0
-  ) {
+  if (missingInTarget.length === 0 && extraInTarget.length === 0 && differentContent.length === 0) {
     console.log('No .github drift detected.');
     return;
   }

@@ -249,7 +249,7 @@ name: Weekly Dependency Check
 
 on:
   schedule:
-    - cron: "0 9 * * 1"
+    - cron: '0 9 * * 1'
 
 jobs:
   check:

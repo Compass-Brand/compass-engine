@@ -18,7 +18,7 @@ This repository serves as the central hub for Compass Brand development tools:
 - **src/** - Source files for Claude Code configuration and BMAD customizations
 - **dist/** - Built output ready for distribution
 - **tools/** - Build, distribution, and workflow automation
-- **_bmad-output/** - BMAD runtime artifacts and custom creations
+- **\_bmad-output/** - BMAD runtime artifacts and custom creations
 - **docs/** - Documentation and guides
 
 ## What is BMAD?
@@ -29,11 +29,11 @@ BMAD (Breakthrough Method of Agile AI-Driven Development) is a structured method
 
 ## Tech Stack
 
-| Layer         | Technology    |
-| ------------- | ------------- |
-| Documentation | Markdown      |
-| Automation    | Python, Bash  |
-| Testing       | pytest        |
+| Layer         | Technology   |
+| ------------- | ------------ |
+| Documentation | Markdown     |
+| Automation    | Python, Bash |
+| Testing       | pytest       |
 
 ---
 

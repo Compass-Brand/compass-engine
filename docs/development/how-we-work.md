@@ -9,6 +9,7 @@ This document defines how work is done in `compass-engine`.
 `compass-engine` is the source repository for shared engineering tooling distributed to Compass Brand repositories.
 
 Primary outputs:
+
 - `.claude`
 - `.codex`
 - `.opencode`
@@ -48,6 +49,7 @@ Primary outputs:
 - `src/planning-templates/`: planning template source for downstream repos
 
 See also:
+
 - `tools/README.md`
 - `reference/README.md`
 - `src/planning-templates/README.md`

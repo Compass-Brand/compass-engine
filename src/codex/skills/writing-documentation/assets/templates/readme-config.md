@@ -1,4 +1,5 @@
 <!-- Template from writing-documentation skill. Delete this line. -->
+
 # [Directory Name]
 
 > [One sentence: what this config controls]
@@ -7,8 +8,8 @@
 
 ## What's Here
 
-| Path | Purpose |
-|------|---------|
+| Path         | Purpose              |
+| ------------ | -------------------- |
 | `[filename]` | [What it configures] |
 | `[filename]` | [What it configures] |
 | `[filename]` | [What it configures] |
