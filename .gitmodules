@@ -2,3 +2,11 @@
 	path = BMAD-METHOD
 	url = https://github.com/bmad-code-org/BMAD-METHOD.git
 	branch = main
+[submodule "bmad-builder"]
+	path = bmad-builder
+	url = https://github.com/bmad-code-org/bmad-builder.git
+	branch = main
+[submodule "bmad-method-test-architecture-enterprise"]
+	path = bmad-method-test-architecture-enterprise
+	url = https://github.com/bmad-code-org/bmad-method-test-architecture-enterprise.git
+	branch = main

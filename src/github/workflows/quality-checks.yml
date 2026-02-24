@@ -212,7 +212,7 @@ jobs:
 
       - name: Run ESLint
         if: steps.check-js.outputs.has_js == 'true'
-        run: eslint . --ext .js,.ts,.mjs,.jsx,.tsx --format=stylish --ignore-pattern node_modules/ --ignore-pattern BMAD-METHOD/ --ignore-pattern dist/ --ignore-pattern .beads/ --ignore-pattern .claude/ --ignore-pattern .codex/ --ignore-pattern .opencode/ --ignore-pattern .serena/
+        run: eslint . --ext .js,.ts,.mjs,.jsx,.tsx --format=stylish --ignore-pattern node_modules/ --ignore-pattern BMAD-METHOD/ --ignore-pattern bmad-builder/ --ignore-pattern bmad-method-test-architecture-enterprise/ --ignore-pattern dist/ --ignore-pattern .beads/ --ignore-pattern .claude/ --ignore-pattern .codex/ --ignore-pattern .opencode/ --ignore-pattern .serena/
 
       - name: Run Prettier check
         if: steps.check-js.outputs.has_js == 'true'

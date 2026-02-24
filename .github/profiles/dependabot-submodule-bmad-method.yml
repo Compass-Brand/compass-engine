@@ -16,3 +16,5 @@ updates:
       - 'submodule'
     allow:
       - dependency-name: 'BMAD-METHOD'
+      - dependency-name: 'bmad-builder'
+      - dependency-name: 'bmad-method-test-architecture-enterprise'

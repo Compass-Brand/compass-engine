@@ -1,7 +1,15 @@
 {
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!node_modules", "!dist", "!BMAD-METHOD", "!.beads"]
+    "includes": [
+      "**",
+      "!node_modules",
+      "!dist",
+      "!BMAD-METHOD",
+      "!bmad-builder",
+      "!bmad-method-test-architecture-enterprise",
+      "!.beads"
+    ]
   },
   "formatter": {
     "enabled": true,
