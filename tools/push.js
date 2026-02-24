@@ -13,6 +13,18 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
 const DIST_ROOT = path.join(ROOT, 'dist');
+const DEFAULT_PROJECT_CANDIDATES = [
+  '.',
+  'compass-forge',
+  'compass-services',
+  'compass-initiative',
+  'compass-modules',
+  'compass-brand-infrastructure',
+  'compass-brand-setup',
+  'mcps',
+  'legacy-system-analyzer',
+  'competitor-analysis-toolkit',
+];
 
 const TARGETS = {
   claude: {
@@ -23,7 +35,14 @@ const TARGETS = {
   codex: {
     destName: '.codex',
     distName: '.codex',
-    localOnly: ['auth.json', 'history.jsonl', 'models_cache.json', 'sessions', 'tmp', 'version.json'],
+    localOnly: [
+      'auth.json',
+      'history.jsonl',
+      'models_cache.json',
+      'sessions',
+      'tmp',
+      'version.json',
+    ],
   },
   opencode: {
     destName: '.opencode',
@@ -52,6 +71,7 @@ function parseArgs() {
     all: false,
     dryRun: false,
     targets: [...DEFAULT_TARGETS],
+    projectsConfig: null,
   };
 
   for (let i = 0; i < args.length; i++) {
@@ -69,6 +89,8 @@ function parseArgs() {
         .map((item) => item.trim().toLowerCase())
         .filter(Boolean);
       options.targets = list;
+    } else if (arg === '--projects-config' && args[i + 1]) {
+      options.projectsConfig = path.resolve(args[++i]);
     } else if (arg === '--help') {
       console.log(`
 Compass Engine Push
@@ -80,6 +102,7 @@ Options:
   --project <path>       Push to specific project (default: current directory)
   --all                  Push to all discovered Compass Brand projects
   --targets <list>       Comma-separated targets (claude,codex,opencode,github,root)
+  --projects-config <p>  Optional file with one project path per line
   --dry-run              Show actions without modifying files
   --help                 Show this message
 `);
@@ -113,6 +136,96 @@ async function copyDir(src, dest) {
       await fs.copyFile(srcPath, destPath);
     }
   }
+}
+
+async function listFilesRecursive(rootPath, currentPath = rootPath, files = []) {
+  const entries = await fs.readdir(currentPath, { withFileTypes: true });
+  for (const entry of entries) {
+    const entryPath = path.join(currentPath, entry.name);
+    if (entry.isDirectory()) {
+      await listFilesRecursive(rootPath, entryPath, files);
+    } else {
+      files.push(path.relative(rootPath, entryPath).replace(/\\/g, '/'));
+    }
+  }
+  return files;
+}
+
+async function readRootManifest(projectPath) {
+  const manifestPath = await getRootManifestPath(projectPath);
+  try {
+    const raw = await fs.readFile(manifestPath, 'utf-8');
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed.files)) return [];
+    return parsed.files.filter((rel) => typeof rel === 'string');
+  } catch (err) {
+    if (err.code === 'ENOENT') return [];
+    throw err;
+  }
+}
+
+async function writeRootManifest(projectPath, files) {
+  const manifestPath = await getRootManifestPath(projectPath);
+  await fs.mkdir(path.dirname(manifestPath), { recursive: true });
+  const payload = {
+    version: 1,
+    generatedAt: new Date().toISOString(),
+    files: [...files].sort(),
+  };
+  await fs.writeFile(manifestPath, `${JSON.stringify(payload, null, 2)}\n`);
+}
+
+async function resolveGitDir(projectPath) {
+  const gitPath = path.join(projectPath, '.git');
+  if (!(await exists(gitPath))) return null;
+
+  const stat = await fs.stat(gitPath);
+  if (stat.isDirectory()) return gitPath;
+
+  if (!stat.isFile()) return null;
+
+  const content = await fs.readFile(gitPath, 'utf-8');
+  const match = content.match(/^gitdir:\s*(.+)\s*$/im);
+  if (!match) return null;
+
+  return path.resolve(projectPath, match[1].trim());
+}
+
+async function getRootManifestPath(projectPath) {
+  const gitDir = await resolveGitDir(projectPath);
+  if (gitDir) {
+    return path.join(gitDir, 'compass-engine-root-sync.json');
+  }
+  return path.join(projectPath, '.compass-engine', 'root-sync-manifest.json');
+}
+
+function resolveWithinProject(projectPath, relativePath) {
+  const absolute = path.resolve(projectPath, relativePath);
+  const normalizedProject = `${path.resolve(projectPath)}${path.sep}`;
+  if (!absolute.startsWith(normalizedProject) && absolute !== path.resolve(projectPath)) {
+    throw new Error(`Refusing to operate outside project root: ${relativePath}`);
+  }
+  return absolute;
+}
+
+async function syncRootTarget(projectPath, sourcePath, options) {
+  const currentFiles = await listFilesRecursive(sourcePath);
+  const previousFiles = await readRootManifest(projectPath);
+  const staleFiles = previousFiles.filter((rel) => !currentFiles.includes(rel));
+
+  if (options.dryRun) {
+    console.log(`    [DRY RUN] Merge files from dist/root into project root`);
+    if (staleFiles.length > 0) {
+      console.log(`    [DRY RUN] Remove ${staleFiles.length} stale root-managed files`);
+    }
+    return;
+  }
+
+  for (const relPath of staleFiles) {
+    await fs.rm(resolveWithinProject(projectPath, relPath), { recursive: true, force: true });
+  }
+  await copyDir(sourcePath, projectPath);
+  await writeRootManifest(projectPath, currentFiles);
 }
 
 async function readContentOrDir(filePath) {
@@ -161,10 +274,9 @@ async function syncTarget(projectPath, targetName, options) {
   const displayName = target.destName || '(project root files)';
   console.log(`  Syncing ${displayName}...`);
 
-  const backups = {};
-  for (const relPath of target.localOnly) {
-    const backup = await readContentOrDir(path.join(destPath, relPath));
-    if (backup !== null) backups[relPath] = backup;
+  if (targetName === 'root') {
+    await syncRootTarget(projectPath, sourcePath, options);
+    return;
   }
 
   if (options.dryRun) {
@@ -176,6 +288,12 @@ async function syncTarget(projectPath, targetName, options) {
     return;
   }
 
+  const backups = {};
+  for (const relPath of target.localOnly) {
+    const backup = await readContentOrDir(path.join(destPath, relPath));
+    if (backup !== null) backups[relPath] = backup;
+  }
+
   if (target.replace === false) {
     await copyDir(sourcePath, destPath);
   } else {
@@ -183,8 +301,12 @@ async function syncTarget(projectPath, targetName, options) {
     await copyDir(sourcePath, destPath);
   }
 
-  for (const [relPath, backup] of Object.entries(backups)) {
-    await restoreContent(path.join(destPath, relPath), backup);
+  for (const relPath of target.localOnly) {
+    const localPath = path.join(destPath, relPath);
+    await fs.rm(localPath, { recursive: true, force: true });
+    if (backups[relPath]) {
+      await restoreContent(localPath, backups[relPath]);
+    }
   }
 }
 
@@ -232,18 +354,9 @@ async function discoverProjects(workspaceRoot, configPath) {
     if (projects.length > 0) return projects;
   }
 
-  const candidates = [
-    workspaceRoot,
-    path.join(workspaceRoot, 'compass-forge'),
-    path.join(workspaceRoot, 'compass-services'),
-    path.join(workspaceRoot, 'compass-initiative'),
-    path.join(workspaceRoot, 'compass-modules'),
-    path.join(workspaceRoot, 'compass-brand-infrastructure'),
-    path.join(workspaceRoot, 'compass-brand-setup'),
-    path.join(workspaceRoot, 'mcps'),
-    path.join(workspaceRoot, 'legacy-system-analyzer'),
-    path.join(workspaceRoot, 'competitor-analysis-toolkit'),
-  ];
+  const candidates = DEFAULT_PROJECT_CANDIDATES.map((candidate) =>
+    candidate === '.' ? workspaceRoot : path.join(workspaceRoot, candidate),
+  );
 
   for (const candidate of candidates) {
     if (await exists(path.join(candidate, '.git'))) projects.push(candidate);
@@ -276,7 +389,11 @@ async function push() {
 
   if (options.all) {
     const workspaceRoot = path.resolve(ROOT, '..', '..');
-    const projects = await discoverProjects(workspaceRoot);
+    const configPath =
+      options.projectsConfig ||
+      process.env.COMPASS_PROJECTS_FILE ||
+      path.join(ROOT, '.compass-projects');
+    const projects = await discoverProjects(workspaceRoot, configPath);
     console.log(`\nFound ${projects.length} projects`);
 
     for (const projectPath of projects) {

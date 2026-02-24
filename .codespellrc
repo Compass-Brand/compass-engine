@@ -1,0 +1,4 @@
+[codespell]
+skip = .git,*.lock,node_modules,dist,BMAD-METHOD,.beads
+quiet-level = 2
+ignore-words-list = crate,fo,nd,te
