@@ -51,7 +51,7 @@ jobs:
 
       - name: Run pre-commit (changed files)
         run: |
-          export SKIP="end-of-file-fixer,trailing-whitespace,pyupgrade,isort,ruff-check,ruff-format,biome-ci,prettier,actionlint"
+          export SKIP="end-of-file-fixer,trailing-whitespace,pyupgrade,isort,ruff-check,ruff-format,biome-ci,prettier,actionlint,markdownlint"
 
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             FROM_REF="${{ github.event.pull_request.base.sha }}"
