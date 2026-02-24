@@ -86,6 +86,15 @@ Includes:
   - `kubeconform`
   - `zizmor`
 
+### CodeQL Security Analysis
+
+- `src/github/workflows/codeql.yml`
+- Trigger: push, pull request, and weekly schedule.
+- Current language baseline: `javascript`.
+- The workflow checks repository Code Scanning API availability first:
+  - runs analysis when API returns HTTP `200`
+  - skips with actionable warnings for `403`/`404` and other API failures
+
 ### Deep Analysis (outside PR fast path)
 
 - `src/github/workflows/necessist.yml`
@@ -102,6 +111,39 @@ Includes:
   - `kubectl-who-can`
   - `tracee` notes/self-hosted guidance
   - `siderophile`
+
+## CodeQL Setup and Troubleshooting
+
+### One-time repository setup
+
+1. Ensure the baseline workflow exists in the target repo:
+   - `.github/workflows/codeql.yml`
+2. Enable Code Scanning in GitHub:
+   - Repository `Settings` -> `Security` -> `Code security and analysis`
+3. If the repo is private/internal, ensure GitHub Advanced Security is enabled.
+
+### Verify CodeQL is active
+
+1. Open a PR or push a commit.
+2. Confirm the check run:
+   - `CodeQL Security Scanning / Analyze` is `Success`.
+3. Optional API verification:
+
+```bash
+gh api repos/<owner>/<repo>/code-scanning/alerts?per_page=1 --include
+```
+
+Expected result:
+
+- HTTP `200` means code scanning is active and accessible to the workflow token.
+
+### Common skip cases
+
+- HTTP `404`: Code scanning is not enabled for the repository.
+- HTTP `403`: Missing access or feature entitlement (commonly GHAS requirement on private/internal repos).
+- Other HTTP statuses: temporary API/platform issue or permission mismatch.
+
+The workflow logs now print setup guidance and links whenever CodeQL is skipped.
 
 ## Operational Commands
 

@@ -64,6 +64,23 @@ Deep analysis jobs run outside the PR fast path:
 - `src/github/workflows/necessist.yml` -> manual and weekly `necessist` runs
 - `src/github/workflows/runtime-security.yml` -> cluster/runtime security checks (manual)
 
+## CodeQL
+
+CodeQL is shipped in the GitHub baseline workflow:
+
+- `src/github/workflows/codeql.yml` (source)
+- `.github/workflows/codeql.yml` (applied in this repository)
+
+To get CodeQL fully active in any target repository:
+
+1. Apply the GitHub baseline workflow files.
+2. Enable GitHub Code Scanning in repository settings.
+3. For private/internal repos, enable GitHub Advanced Security.
+
+Operational details and troubleshooting are documented in:
+
+- [Linting and Security Gates](docs/development/linting-and-security.md#codeql-setup-and-troubleshooting)
+
 ## Repository Structure
 
 ```text

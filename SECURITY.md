@@ -21,7 +21,19 @@ If you discover a security issue in this repository or distributed tooling:
 ## Scope
 
 Security reports may include:
+
 - secret exposure risks
 - workflow/action supply chain risks
 - unsafe default configuration in distributed bundles
 - privilege escalation paths in automation scripts
+
+## Automated Security Scanning
+
+This repository and downstream `.github` bundle consumers use automated security checks, including:
+
+- CodeQL (`.github/workflows/codeql.yml`)
+- Trivy filesystem scanning
+- gitleaks and secret-detection hooks in pre-commit
+- GitHub Actions policy checks (`actionlint`, `zizmor`)
+
+CodeQL requires repository-level Code Scanning to be enabled. For private/internal repositories, GitHub Advanced Security is also required.
