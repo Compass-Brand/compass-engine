@@ -287,7 +287,7 @@ jobs:
 
       - name: Setup Terraform
         if: steps.detect.outputs.run == 'true'
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v4
 
       - name: Setup TFLint
         if: steps.detect.outputs.run == 'true'
