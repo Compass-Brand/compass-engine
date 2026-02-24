@@ -105,6 +105,7 @@ compass-engine/
 - [Sync Architecture](docs/architecture/sync.md)
 - [GitHub Standardization](docs/architecture/github-standardization.md)
 - [Development Model](docs/development/how-we-work.md)
+- [Linting and Security Gates](docs/development/linting-and-security.md)
 - [Custom BMAD Modules](docs/development/bmad/custom-modules.md)
 - [OpenCode Plugin Development](docs/development/opencode/plugin-development.md)
 - [Modifying Claude](docs/development/claude/modifying-claude.md)
