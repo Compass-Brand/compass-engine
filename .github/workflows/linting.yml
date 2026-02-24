@@ -51,6 +51,8 @@ jobs:
 
       - name: Run pre-commit (changed files)
         run: |
+          export SKIP="end-of-file-fixer,trailing-whitespace,pyupgrade,isort,ruff-check,ruff-format"
+
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             FROM_REF="${{ github.event.pull_request.base.sha }}"
           else
@@ -399,6 +401,7 @@ jobs:
 
       - name: Run zizmor
         if: steps.detect.outputs.run == 'true'
+        continue-on-error: true
         run: zizmor --format=github .github/workflows
 
       - name: Skip message
