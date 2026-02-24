@@ -1,0 +1,14 @@
+extends: default
+
+ignore: |
+  node_modules/
+  dist/
+  BMAD-METHOD/
+  .beads/
+
+rules:
+  document-start: disable
+  new-lines: disable
+  line-length: disable
+  truthy:
+    check-keys: false

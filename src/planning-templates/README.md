@@ -48,7 +48,7 @@ The templates enforce TDD through:
 
 These templates complement BMAD outputs:
 
-- BMAD generates initial artifacts in `_bmad-output/`
+- BMAD generates initial artifacts in `planning/`
 - Planning templates organize ongoing development work
 - Sprint planning pulls from BMAD-generated epics/stories
 - Retrospectives feed back into future BMAD cycles

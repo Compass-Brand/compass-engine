@@ -1,39 +1,31 @@
 # Compass Engine Documentation
 
-Central documentation hub for compass-engine.
+Last reviewed: 2026-02-24
+
+Central documentation for the Compass Engine tooling source.
+
+BMAD deep reference documentation is maintained upstream in `BMAD-METHOD/docs/`.
 
 ## Quick Links
 
-| I want to... | Read this |
-|--------------|-----------|
-| Get started | [Getting Started](./getting-started/installation.md) |
-| Modify Claude Code config | [Modifying Claude](./claude/modifying-claude.md) |
-| Modify BMAD workflows | [Modifying BMAD](./bmad/modifying-bmad.md) |
-| Understand distribution | [Sync Architecture](./architecture/sync.md) |
-| Build and push changes | [Build Process](./architecture/build.md) |
+| I want to...                                     | Read this                                                                   |
+| ------------------------------------------------ | --------------------------------------------------------------------------- |
+| Install and run build/push                       | [Getting Started](./getting-started/installation.md)                        |
+| Understand build outputs                         | [Build Process](./architecture/build.md)                                    |
+| Understand multi-target sync                     | [Sync Architecture](./architecture/sync.md)                                 |
+| See Compass-wide GitHub standardization baseline | [GitHub Standardization](./architecture/github-standardization.md)          |
+| Enable and troubleshoot CodeQL scanning          | [Linting and Security Gates](./development/linting-and-security.md)         |
+| Plan OpenCode plugin direction                   | [OpenCode Plugin Strategy](./architecture/opencode-plugin-strategy.md)      |
+| Understand day-to-day development in this repo   | [Development Model](./development/how-we-work.md)                           |
+| Build custom BMAD modules                        | [Custom BMAD Modules](./development/bmad/custom-modules.md)                 |
+| Build OpenCode plugin capabilities               | [OpenCode Plugin Development](./development/opencode/plugin-development.md) |
+| Modify Claude bundle                             | [Modifying Claude](./development/claude/modifying-claude.md)                |
+| Modify BMAD customizations                       | [Modifying BMAD](./development/bmad/modifying-bmad.md)                      |
 
-## Documentation Structure
+## Bundles Managed by This Repo
 
-```text
-docs/
-├── getting-started/     # Installation and first steps
-│   └── installation.md
-├── claude/              # Claude Code configuration
-│   └── modifying-claude.md
-├── bmad/                # BMAD customizations
-│   └── modifying-bmad.md
-├── architecture/        # System architecture
-│   ├── build.md
-│   └── sync.md
-└── reference/           # API and reference docs
-```
-
-## What is Compass Engine?
-
-Compass Engine is the central development tools repository for all Compass Brand projects. It contains:
-
-1. **Claude Code Configuration** - agents, commands, skills, rules, hooks
-2. **BMAD Customizations** - modified workflows, custom agents
-3. **Distribution Tooling** - build and push mechanisms
-
-All Compass Brand projects receive their `.claude/` configuration from this repository.
+- `.claude`
+- `.codex`
+- `.opencode`
+- `.github`
+- beads bootstrap snippets

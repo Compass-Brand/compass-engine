@@ -1,0 +1,411 @@
+name: Linting Baseline
+
+on:
+  pull_request:
+    branches: [main, develop]
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main, develop]
+
+permissions:
+  contents: read
+  security-events: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pre-commit:
+    name: pre-commit baseline
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+
+      - name: Setup Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: '1.24'
+
+      - name: Cache pre-commit environments
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ runner.os }}-py311-${{ hashFiles('.pre-commit-config.yaml') }}
+
+      - name: Install pre-commit
+        run: python -m pip install --upgrade pre-commit
+
+      - name: Run pre-commit (changed files)
+        run: |
+          export SKIP="end-of-file-fixer,trailing-whitespace,pyupgrade,isort,ruff-check,ruff-format,biome-ci,prettier,actionlint,markdownlint"
+
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            FROM_REF="${{ github.event.pull_request.base.sha }}"
+          else
+            FROM_REF="${{ github.event.before }}"
+          fi
+
+          if [ -z "$FROM_REF" ] || [ "$FROM_REF" = "0000000000000000000000000000000000000000" ]; then
+            pre-commit run --all-files --show-diff-on-failure --color=always
+          else
+            pre-commit run --from-ref "$FROM_REF" --to-ref "${{ github.sha }}" --show-diff-on-failure --color=always
+          fi
+
+  pylint:
+    name: pylint (python errors-only)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed Python files
+        id: detect
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            FROM_REF="${{ github.event.pull_request.base.sha }}"
+          else
+            FROM_REF="${{ github.event.before }}"
+          fi
+
+          if [ -z "$FROM_REF" ] || [ "$FROM_REF" = "0000000000000000000000000000000000000000" ]; then
+            git ls-files '*.py' > /tmp/python-files.txt
+          else
+            git diff --name-only "$FROM_REF" "${{ github.sha }}" | grep -E '\\.py$' > /tmp/python-files.txt || true
+          fi
+
+          if [ -s /tmp/python-files.txt ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Setup Python
+        if: steps.detect.outputs.run == 'true'
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install pylint
+        if: steps.detect.outputs.run == 'true'
+        run: |
+          python -m pip install --upgrade pip
+          pip install pylint
+
+      - name: Run pylint on changed files
+        if: steps.detect.outputs.run == 'true'
+        run: xargs -r pylint --errors-only --rcfile=.pylintrc < /tmp/python-files.txt
+
+      - name: Skip message
+        if: steps.detect.outputs.run != 'true'
+        run: echo "No Python files changed; skipping."
+
+  dotenv-linter:
+    name: dotenv-linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Detect dotenv files
+        id: detect
+        run: |
+          if find . -type f -name ".env*" | grep -q .; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run dotenv-linter
+        if: steps.detect.outputs.run == 'true'
+        uses: dotenv-linter/action-dotenv-linter@v2
+
+      - name: Skip message
+        if: steps.detect.outputs.run != 'true'
+        run: echo "No dotenv files detected; skipping."
+
+  markdownlint-library:
+    name: markdownlint (library)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+
+      - name: Detect changed Markdown files
+        id: detect
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            FROM_REF="${{ github.event.pull_request.base.sha }}"
+          else
+            FROM_REF="${{ github.event.before }}"
+          fi
+
+          if [ -z "$FROM_REF" ] || [ "$FROM_REF" = "0000000000000000000000000000000000000000" ]; then
+            git ls-files '*.md' '*.markdown' > /tmp/markdown-files.txt
+          else
+            git diff --name-only "$FROM_REF" "${{ github.sha }}" | grep -E '\\.(md|markdown)$' > /tmp/markdown-files.txt || true
+          fi
+
+          if [ -s /tmp/markdown-files.txt ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install markdownlint
+        if: steps.detect.outputs.run == 'true'
+        run: npm install --no-save markdownlint@0.39.0
+
+      - name: Run markdownlint library script
+        if: steps.detect.outputs.run == 'true'
+        run: |
+          mapfile -t MARKDOWN_FILES < /tmp/markdown-files.txt
+          node .lint/markdownlint-library.mjs "${MARKDOWN_FILES[@]}"
+
+      - name: Skip message
+        if: steps.detect.outputs.run != 'true'
+        run: echo "No Markdown files changed; skipping."
+
+  trivy:
+    name: trivy filesystem scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Run Trivy
+        uses: aquasecurity/trivy-action@0.33.1
+        with:
+          scan-type: fs
+          scanners: vuln,misconfig,secret
+          severity: HIGH,CRITICAL
+          format: table
+          exit-code: '1'
+          ignore-unfixed: true
+          skip-dirs: node_modules,dist,BMAD-METHOD,.beads
+
+  hadolint:
+    name: hadolint (optional)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Detect Dockerfiles
+        id: detect
+        run: |
+          if find . -type f \( -name "Dockerfile" -o -name "*Dockerfile*" \) | grep -q .; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run hadolint
+        if: steps.detect.outputs.run == 'true'
+        uses: hadolint/hadolint-action@v3.3.0
+        with:
+          recursive: true
+          failure-threshold: error
+
+      - name: Skip message
+        if: steps.detect.outputs.run != 'true'
+        run: echo "No Dockerfiles detected; skipping."
+
+  checkov:
+    name: checkov (optional)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Detect IaC files
+        id: detect
+        run: |
+          if find . -type f \( -name "*.tf" -o -name "*.tfvars" -o -name "Dockerfile" -o -name "*Dockerfile*" \) | grep -q . \
+            || find .github/workflows -type f \( -name "*.yml" -o -name "*.yaml" \) 2>/dev/null | grep -q . \
+            || find . -type f \( -name "*.yaml" -o -name "*.yml" \) | grep -E "(/k8s/|/kubernetes/|/manifests/|/helm/|/charts/|\\.k8s\\.ya?ml$)" -q; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Setup Python
+        if: steps.detect.outputs.run == 'true'
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install Checkov
+        if: steps.detect.outputs.run == 'true'
+        run: python -m pip install --upgrade checkov
+
+      - name: Run Checkov
+        if: steps.detect.outputs.run == 'true'
+        run: checkov -d . --config-file .checkov.yaml --check HIGH,CRITICAL
+
+      - name: Skip message
+        if: steps.detect.outputs.run != 'true'
+        run: echo "No supported IaC files detected; skipping."
+
+  terraform-lint:
+    name: terraform fmt + tflint (optional)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Detect Terraform
+        id: detect
+        run: |
+          if find . -type f \( -name "*.tf" -o -name "*.tfvars" \) | grep -q .; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Setup Terraform
+        if: steps.detect.outputs.run == 'true'
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Setup TFLint
+        if: steps.detect.outputs.run == 'true'
+        uses: terraform-linters/setup-tflint@v4
+
+      - name: Run terraform fmt
+        if: steps.detect.outputs.run == 'true'
+        run: terraform fmt -check -recursive
+
+      - name: Run tflint
+        if: steps.detect.outputs.run == 'true'
+        run: |
+          tflint --init
+          tflint --recursive --format compact --minimum-failure-severity=warning
+
+      - name: Skip message
+        if: steps.detect.outputs.run != 'true'
+        run: echo "No Terraform files detected; skipping."
+
+  rust-lint:
+    name: rustfmt + clippy (optional)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Detect Rust
+        id: detect
+        run: |
+          if [ -f Cargo.toml ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Setup Rust toolchain
+        if: steps.detect.outputs.run == 'true'
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy,rustfmt
+
+      - name: Run rustfmt
+        if: steps.detect.outputs.run == 'true'
+        run: cargo fmt --all --check
+
+      - name: Run clippy
+        if: steps.detect.outputs.run == 'true'
+        run: cargo clippy --workspace --all-targets --all-features -- -D warnings
+
+      - name: Skip message
+        if: steps.detect.outputs.run != 'true'
+        run: echo "No Cargo workspace detected; skipping."
+
+  kubeconform:
+    name: kubeconform (optional)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Detect Kubernetes manifests
+        id: detect
+        run: |
+          mapfile -t CANDIDATES < <(find . -type f \( -name "*.yaml" -o -name "*.yml" \) \
+            | grep -E "(/k8s/|/kubernetes/|/manifests/|/helm/|/charts/|\\.k8s\\.ya?ml$)" || true)
+
+          if [ "${#CANDIDATES[@]}" -gt 0 ]; then
+            printf "%s\n" "${CANDIDATES[@]}" > /tmp/kubeconform-files.txt
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install kubeconform
+        if: steps.detect.outputs.run == 'true'
+        run: |
+          VERSION="v0.7.0"
+          curl -sSL -o /tmp/kubeconform.tar.gz "https://github.com/yannh/kubeconform/releases/download/${VERSION}/kubeconform-linux-amd64.tar.gz"
+          tar -xzf /tmp/kubeconform.tar.gz -C /tmp kubeconform
+          sudo install /tmp/kubeconform /usr/local/bin/kubeconform
+
+      - name: Run kubeconform
+        if: steps.detect.outputs.run == 'true'
+        run: xargs -r kubeconform -summary -strict -ignore-missing-schemas -n 8 < /tmp/kubeconform-files.txt
+
+      - name: Skip message
+        if: steps.detect.outputs.run != 'true'
+        run: echo "No Kubernetes manifests detected; skipping."
+
+  zizmor:
+    name: zizmor (optional)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Detect GitHub workflow files
+        id: detect
+        run: |
+          if find .github/workflows -type f \( -name "*.yml" -o -name "*.yaml" \) 2>/dev/null | grep -q .; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Setup Rust toolchain
+        if: steps.detect.outputs.run == 'true'
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install zizmor
+        if: steps.detect.outputs.run == 'true'
+        run: cargo install --locked zizmor
+
+      - name: Run zizmor
+        if: steps.detect.outputs.run == 'true'
+        continue-on-error: true
+        run: zizmor --format=github .github/workflows
+
+      - name: Skip message
+        if: steps.detect.outputs.run != 'true'
+        run: echo "No GitHub workflow files detected; skipping."
