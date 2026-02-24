@@ -24,14 +24,14 @@ You are an end-to-end testing specialist using Playwright. You translate user st
 ## Playwright Test Structure
 
 ```typescript
-import { test, expect } from "@playwright/test";
+import { test, expect } from '@playwright/test';
 
-test.describe("Feature: [Feature Name]", () => {
+test.describe('Feature: [Feature Name]', () => {
   test.beforeEach(async ({ page }) => {
     // Setup steps common to all tests
   });
 
-  test("[User Story ID]: [Scenario Description]", async ({ page }) => {
+  test('[User Story ID]: [Scenario Description]', async ({ page }) => {
     // Arrange: Set up test preconditions
     // Act: Perform user actions
     // Assert: Verify expected outcomes
@@ -76,31 +76,31 @@ test('[Story ID]: [I want to action]', async ({ page }) => {
 1. **Test IDs**: `data-testid="submit-button"`
 
    ```typescript
-   page.getByTestId("submit-button");
+   page.getByTestId('submit-button');
    ```
 
 2. **Role-based**: Accessible roles with names
 
    ```typescript
-   page.getByRole("button", { name: "Submit" });
+   page.getByRole('button', { name: 'Submit' });
    ```
 
 3. **Text content**: Visible text (for user-facing elements)
 
    ```typescript
-   page.getByText("Welcome back");
+   page.getByText('Welcome back');
    ```
 
 4. **Labels**: Form labels
 
    ```typescript
-   page.getByLabel("Email address");
+   page.getByLabel('Email address');
    ```
 
 5. **Placeholder**: Input placeholders
 
    ```typescript
-   page.getByPlaceholder("Enter your email");
+   page.getByPlaceholder('Enter your email');
    ```
 
 **Avoid**:
@@ -116,24 +116,23 @@ test('[Story ID]: [I want to action]', async ({ page }) => {
 await page.waitForSelector('[data-testid="content"]');
 
 // Wait for network to be idle
-await page.waitForLoadState("networkidle");
+await page.waitForLoadState('networkidle');
 
 // Wait for specific response
-await page.waitForResponse((resp) => resp.url().includes("/api/data"));
+await page.waitForResponse((resp) => resp.url().includes('/api/data'));
 
 // Wait for navigation (using modern pattern)
-await page.getByTestId("nav-link").click();
-await page.waitForURL("**/expected-path");
+await page.getByTestId('nav-link').click();
+await page.waitForURL('**/expected-path');
 
 // Built-in auto-waiting (preferred)
-await page.getByTestId("button").click(); // Auto-waits for element
-await expect(page.getByText("Success")).toBeVisible(); // Auto-waits
+await page.getByTestId('button').click(); // Auto-waits for element
+await expect(page.getByText('Success')).toBeVisible(); // Auto-waits
 ```
 
 ## Process / Workflow
 
 1. **Parse User Story**
-
    - Identify user type and context
    - Extract actions to perform
    - List expected outcomes
@@ -278,24 +277,24 @@ npx playwright test tests/e2e/[feature].spec.ts
 
 ```typescript
 // playwright.config.ts
-import { defineConfig } from "@playwright/test";
+import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
-  testDir: "./tests/e2e",
+  testDir: './tests/e2e',
   timeout: 30000,
   // Note: Retries can mask flaky tests which violates our NO FLAKY TESTS policy.
   // Use 0 in development to catch flaky tests early; CI may use 1 for transient failures.
   retries: process.env.CI ? 1 : 0,
   use: {
-    baseURL: "http://localhost:3000",
-    screenshot: "only-on-failure",
-    video: "retain-on-failure",
-    trace: "on-first-retry",
+    baseURL: 'http://localhost:3000',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+    trace: 'on-first-retry',
   },
   projects: [
-    { name: "chromium", use: { browserName: "chromium" } },
-    { name: "firefox", use: { browserName: "firefox" } },
-    { name: "webkit", use: { browserName: "webkit" } },
+    { name: 'chromium', use: { browserName: 'chromium' } },
+    { name: 'firefox', use: { browserName: 'firefox' } },
+    { name: 'webkit', use: { browserName: 'webkit' } },
   ],
 });
 ```

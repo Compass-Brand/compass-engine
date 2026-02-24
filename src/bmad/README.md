@@ -3,6 +3,7 @@
 `src/bmad/` is the customization layer that sits on top of `BMAD-METHOD/` (upstream).
 
 Principles:
+
 - never edit `BMAD-METHOD/` directly
 - create custom modules in `src/bmad/modules/`
 - document custom decisions close to modified module content

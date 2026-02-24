@@ -37,7 +37,7 @@ Detailed instructions for Claude Code when this command is invoked.
 
 1. First step
 2. Second step
-...
+   ...
 ```
 
 2. Build and test:
@@ -55,8 +55,8 @@ npm run build
 ---
 name: my-agent
 description: What this agent specializes in
-tools: ["Read", "Grep", "Glob"]  # Tools this agent can use
-model: sonnet  # Optional: sonnet, opus, haiku
+tools: ['Read', 'Grep', 'Glob'] # Tools this agent can use
+model: sonnet # Optional: sonnet, opus, haiku
 ---
 
 # My Agent
@@ -125,12 +125,14 @@ Step-by-step instructions for the skill.
 ### `src/claude/config/`
 
 Place configuration files here:
+
 - `auto-fix-rules.json` - Auto-fix patterns for PR reviews
 - `context-modes.json` - Context mode definitions
 
 ### `src/claude/templates/`
 
 Settings templates:
+
 - `settings.json.template` - Base settings
 - `settings.local.json.example` - Example local settings
 

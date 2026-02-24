@@ -9,10 +9,13 @@ How compass-engine distributes tooling to Compass Brand repositories.
 Each selected target is synced with replacement + local-state restore.
 
 For each target:
+
 1. Backup local-only paths
-2. Remove destination directory
+2. Remove destination directory (or merge for `root`)
 3. Copy fresh content from `dist/`
 4. Restore preserved local paths
+
+For `root`, sync is merge-based and additionally removes files previously managed by `root` that no longer exist in `dist/root`, tracked in git-local metadata (`.git/compass-engine-root-sync.json`, with `.compass-engine/root-sync-manifest.json` fallback outside git repos).
 
 ## Targets
 
@@ -20,8 +23,9 @@ For each target:
 - `codex` -> `.codex`
 - `opencode` -> `.opencode`
 - `github` -> `.github`
+- `root` -> project root (managed baseline files)
 
-Default push includes all four targets.
+Default push includes all five targets.
 
 ## Push Commands
 
@@ -45,13 +49,16 @@ npm run push -- --all --dry-run
 - `.codex`: `auth.json`, `history.jsonl`, `models_cache.json`, `sessions/`, `tmp/`, `version.json`
 - `.opencode`: `state/`, `cache/`
 - `.github`: none
+- `root`: none (merge strategy; stale managed files removed via manifest)
 
 ## Project Discovery
 
 Push discovers projects by:
-1. optional `COMPASS_PROJECTS`
-2. known workspace paths
-3. Git repo detection (`.git`)
+
+1. optional config file (`--projects-config <path>`, `COMPASS_PROJECTS_FILE`, or `compass-engine/.compass-projects`)
+2. optional `COMPASS_PROJECTS` (path-delimited list)
+3. known workspace paths (`.`, `compass-forge`, `compass-services`, `compass-initiative`, `compass-modules`, `compass-brand-infrastructure`, `compass-brand-setup`, `mcps`, `legacy-system-analyzer`, `competitor-analysis-toolkit`)
+4. Git repo detection (`.git`)
 
 ## Security Rule
 

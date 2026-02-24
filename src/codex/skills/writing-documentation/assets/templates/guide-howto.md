@@ -1,4 +1,5 @@
 <!-- Template from writing-documentation skill. Delete this line. -->
+
 # How to [Accomplish Specific Goal]
 
 > **Prerequisites:** [what the reader needs]
@@ -40,6 +41,7 @@
 ## Troubleshooting
 
 ### [Problem 1]
+
 **Symptom:** [what you see]
 **Cause:** [why it happens]
 **Fix:** [how to resolve]

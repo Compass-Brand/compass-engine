@@ -12,12 +12,7 @@
   },
   "_comment_enableAllProjectMcpServers": "SECURITY: true enables ALL project MCP servers (broad permission). Acceptable for local dev. Set to false in CI, shared hosts, staging, or production environments where you want to limit network/service exposure. Configure individual servers via enabledMcpjsonServers instead.",
   "enableAllProjectMcpServers": true,
-  "enabledMcpjsonServers": [
-    "forgetful",
-    "postgres",
-    "context7",
-    "serena"
-  ],
+  "enabledMcpjsonServers": ["forgetful", "postgres", "context7", "serena"],
   "_comment_hooks": "Optional: Enable these hooks for automatic learning detection",
   "_example_hooks": {
     "hooks": {

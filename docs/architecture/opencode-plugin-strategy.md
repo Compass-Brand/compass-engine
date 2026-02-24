@@ -21,6 +21,7 @@ Create a Compass Brand OpenCode plugin that exposes BMAD workflows as first-clas
 - `provider-interop`: bridges for Claude/Codex command parity
 
 Implementation root in this repo:
+
 - `src/opencode/plugins/`
 
 ## Integration Points

@@ -18,15 +18,8 @@ const DIST_ROOT = path.join(ROOT, 'dist');
 
 const CLAUDE_DIST = path.join(DIST_ROOT, '.claude');
 const CLAUDE_SRC = path.join(SRC, 'claude');
-const CLAUDE_DIRS = [
-  'agents',
-  'commands',
-  'skills',
-  'rules',
-  'contexts',
-  'config',
-  'scripts',
-];
+const CLAUDE_DIRS = ['agents', 'commands', 'skills', 'rules', 'contexts', 'config', 'scripts'];
+const CLAUDE_REQUIRED_DIRS = ['agents', 'commands', 'skills', 'rules'];
 
 const TARGETS = [
   {
@@ -61,11 +54,7 @@ const TARGETS = [
   },
 ];
 
-const CLAUDE_LOCAL_ONLY = [
-  'settings.local.json',
-  'scratchpad',
-  'commands/local',
-];
+const CLAUDE_LOCAL_ONLY = ['settings.local.json', 'scratchpad', 'commands/local'];
 
 function normalizePath(filePath) {
   return filePath.replace(/\\/g, '/');
@@ -77,10 +66,7 @@ function shouldSkip(relativePath, skipPaths) {
   const normalizedPath = normalizePath(relativePath);
   return skipPaths.some((skipPath) => {
     const normalizedSkip = normalizePath(skipPath);
-    return (
-      normalizedPath === normalizedSkip
-      || normalizedPath.startsWith(`${normalizedSkip}/`)
-    );
+    return normalizedPath === normalizedSkip || normalizedPath.startsWith(`${normalizedSkip}/`);
   });
 }
 
@@ -123,6 +109,15 @@ async function cleanDist() {
 async function buildClaude() {
   console.log('\nBuilding .claude...');
   await fs.mkdir(CLAUDE_DIST, { recursive: true });
+
+  for (const requiredDir of CLAUDE_REQUIRED_DIRS) {
+    const requiredPath = path.join(CLAUDE_SRC, requiredDir);
+    if (!(await exists(requiredPath))) {
+      throw new Error(
+        `Missing required Claude source directory: ${path.relative(ROOT, requiredPath)}`,
+      );
+    }
+  }
 
   for (const dir of CLAUDE_DIRS) {
     const srcDir = path.join(CLAUDE_SRC, dir);

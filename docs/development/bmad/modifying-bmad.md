@@ -19,6 +19,7 @@ node tools/create-bmad-module.js --name compass-bmm --from bmm --code cbmm
 ```
 
 Output is created in:
+
 - `src/bmad/modules/compass-bmm/`
 - `src/bmad/modules/compass-bmm/module.yaml` (code/name rewritten)
 - `src/bmad/modules/compass-bmm/custom-module.json` (provenance metadata)
