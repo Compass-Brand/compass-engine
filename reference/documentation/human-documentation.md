@@ -7,7 +7,7 @@
 
 ### Root
 ```
-├── READEME.md                                          #
+├── README.md                                           #
 ├── CONTRIBUTING.md                                     #
 ├── CHANGELOG.md                                        #
 ├── LICENSE.md                                          #
@@ -25,7 +25,7 @@ $project/
     ├── guides/                                         # how-to guides
         ├── [$topic]                                    # specific per topic
     ├── reference/                                      # API and config reference
-        ├── [$topic]                                    # specifc per topic
+        ├── [$topic]                                    # specific per topic
     ├── architecture/                                   # technical design
         ├── system-overview.md                          # high-level description of the entire system.
         ├── decisions/                                  # ADRs
