@@ -2,6 +2,9 @@ minimum_pre_commit_version: '3.7.0'
 default_install_hook_types:
   - pre-commit
   - pre-push
+default_stages:
+  - pre-commit
+  - pre-push
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -33,13 +36,9 @@ repos:
     rev: 0839f92796ae388643a08a21640a029b322be5c2
     hooks:
       - id: ruff-check
+        args: ['--config=.ruff.toml', '--fix', '--exit-non-zero-on-fix']
+      - id: ruff-format
         args: ['--config=.ruff.toml']
-
-  - repo: https://github.com/pre-commit/mirrors-pylint
-    rev: a1b176a5ee919967cf01e87c0222bd64b94fe0de
-    hooks:
-      - id: pylint
-        args: ['--errors-only', '--rcfile=.pylintrc']
 
   - repo: https://github.com/PyCQA/isort
     rev: b5f06a7b1d53b7b561f00f40f814ef1698864bac
@@ -51,7 +50,8 @@ repos:
     rev: 30a25fe087e31d0345be0ffed4360e4651a44b6e
     hooks:
       - id: yamllint
-        args: ['-c=.yamllint.yaml']
+        args: ['-c=.yamllint.yaml', '--strict']
+        types: [yaml]
 
   - repo: https://github.com/gitleaks/gitleaks
     rev: 8d1f98c7967eb1e79cb44ac6241a124e145d2165
@@ -70,6 +70,7 @@ repos:
     hooks:
       - id: biome-ci
         args: ['--config-path=biome.json']
+        files: "\\.(js|mjs|cjs|jsx|ts|tsx|json|jsonc)$"
         exclude: '^src/root/'
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
@@ -80,6 +81,20 @@ repos:
 
   - repo: local
     hooks:
+      - id: pylint
+        name: pylint (system, manual)
+        language: system
+        entry: pylint --errors-only --rcfile=.pylintrc
+        types: [python]
+        stages: [manual]
+
+      - id: dotenv-linter
+        name: dotenv-linter (system, manual)
+        language: system
+        entry: dotenv-linter
+        files: "(^|/)\\.env(\\..*)?$"
+        stages: [manual]
+
       - id: eslint
         name: eslint
         language: node
@@ -92,7 +107,7 @@ repos:
         name: prettier
         language: node
         entry: prettier --check
-        files: "\\.(js|mjs|cjs|jsx|ts|tsx|json|ya?ml|md)$"
+        files: "\\.(ya?ml|md)$"
         additional_dependencies:
           - prettier@3.6.2
 
@@ -108,9 +123,13 @@ repos:
         always_run: false
         pass_filenames: false
         language_version: python3
+        args: ['--profile=basic']
         files: "(^|/)(playbooks|roles|ansible)/|(^|/)ansible\\.cfg$"
 
   - repo: https://github.com/bridgecrewio/checkov
     rev: d175b3722045457e23d2701a1ab15ee8f4634f47
     hooks:
       - id: checkov
+        pass_filenames: false
+        args: ['-d', '.', '--config-file=.checkov.yaml']
+        stages: [manual]

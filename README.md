@@ -47,10 +47,22 @@ pre-commit install
 pre-commit run --all-files
 ```
 
+Heavy hooks are configured as manual stages and can be invoked on demand:
+
+```bash
+pre-commit run --hook-stage manual pylint
+pre-commit run --hook-stage manual checkov
+```
+
 Project outputs receive the same baseline through:
 
 - `src/root/` -> project root files (`.pre-commit-config.yaml`, lint configs)
 - `src/github/workflows/` -> project CI workflows (PR lint/security checks)
+
+Deep analysis jobs run outside the PR fast path:
+
+- `src/github/workflows/necessist.yml` -> manual and weekly `necessist` runs
+- `src/github/workflows/runtime-security.yml` -> cluster/runtime security checks (manual)
 
 ## Repository Structure
 

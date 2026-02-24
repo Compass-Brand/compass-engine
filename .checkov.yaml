@@ -1,5 +1,14 @@
 quiet: true
 compact: true
+framework:
+  - terraform
+  - kubernetes
+  - dockerfile
+  - github_actions
+  - secrets
+check:
+  - HIGH
+  - CRITICAL
 skip-path:
   - BMAD-METHOD
   - dist
