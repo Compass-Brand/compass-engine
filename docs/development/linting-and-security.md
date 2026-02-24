@@ -90,7 +90,7 @@ Includes:
 
 - `src/github/workflows/codeql.yml`
 - Trigger: push, pull request, and weekly schedule.
-- Current language baseline: `javascript`.
+- Current language baseline: `javascript` and `python` (separate categories).
 - The workflow checks repository Code Scanning API availability first:
   - runs analysis when API returns HTTP `200`
   - skips with actionable warnings for `403`/`404` and other API failures

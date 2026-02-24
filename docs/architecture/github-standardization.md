@@ -43,7 +43,7 @@ Org baseline (`src/github/`):
 - `workflows/quality-checks.yml` using latest shared Compass pattern
 - `workflows/pr-size-labeler.yml`
 - `workflows/stale.yml` on `actions/stale@v10`
-- `workflows/codeql.yml` on `codeql-action@v4` (javascript baseline)
+- `workflows/codeql.yml` on `codeql-action@v4` (javascript + python categories)
 - `dependabot.yml` baseline for `github-actions` updates
 
 Repo-specific overlays (`src/github/profiles/`):
