@@ -51,7 +51,7 @@ jobs:
 
       - name: Run pre-commit (changed files)
         run: |
-          export SKIP="end-of-file-fixer,trailing-whitespace,pyupgrade,isort,ruff-check,ruff-format"
+          export SKIP="end-of-file-fixer,trailing-whitespace,pyupgrade,isort,ruff-check,ruff-format,biome-ci,prettier,actionlint"
 
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             FROM_REF="${{ github.event.pull_request.base.sha }}"
@@ -180,7 +180,9 @@ jobs:
 
       - name: Run markdownlint library script
         if: steps.detect.outputs.run == 'true'
-        run: node .lint/markdownlint-library.mjs $(cat /tmp/markdown-files.txt)
+        run: |
+          mapfile -t MARKDOWN_FILES < /tmp/markdown-files.txt
+          node .lint/markdownlint-library.mjs "${MARKDOWN_FILES[@]}"
 
       - name: Skip message
         if: steps.detect.outputs.run != 'true'
