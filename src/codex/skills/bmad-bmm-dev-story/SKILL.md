@@ -3,6 +3,7 @@ description: 'Execute a story by implementing tasks/subtasks, writing tests, val
 disable-model-invocation: true
 name: bmad-bmm-dev-story
 ---
+
 IT IS CRITICAL THAT YOU FOLLOW THESE STEPS - while staying in character as the current agent persona you may have loaded:
 
 <steps CRITICAL="TRUE">
@@ -12,4 +13,3 @@ IT IS CRITICAL THAT YOU FOLLOW THESE STEPS - while staying in character as the c
 4. Follow workflow.xml instructions EXACTLY as written to process and follow the specific workflow config and its instructions
 5. Save outputs after EACH section when generating any documents from templates
 </steps>
-

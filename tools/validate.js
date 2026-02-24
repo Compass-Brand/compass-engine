@@ -12,6 +12,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
+const SOURCE_ROOT = path.join(ROOT, 'src');
 
 const REQUIRED_PATHS = [
   'tools/build.js',
@@ -71,6 +72,94 @@ async function validateCodexConfig() {
   return true;
 }
 
+function shouldScanSourceFile(filePath) {
+  const normalized = filePath.replace(/\\/g, '/');
+  const skipSuffixes = ['.example', '.template', '.sample'];
+  if (skipSuffixes.some((suffix) => normalized.endsWith(suffix))) return false;
+  if (normalized.includes('/fixtures/')) return false;
+
+  const allowedExtensions = new Set([
+    '.js',
+    '.mjs',
+    '.cjs',
+    '.ts',
+    '.tsx',
+    '.json',
+    '.toml',
+    '.yaml',
+    '.yml',
+    '.env',
+    '.ini',
+    '.conf',
+  ]);
+  return allowedExtensions.has(path.extname(filePath).toLowerCase());
+}
+
+async function listFilesRecursive(rootPath, currentPath = rootPath, files = []) {
+  const entries = await fs.readdir(currentPath, { withFileTypes: true });
+  for (const entry of entries) {
+    const fullPath = path.join(currentPath, entry.name);
+    if (entry.isDirectory()) {
+      await listFilesRecursive(rootPath, fullPath, files);
+    } else {
+      files.push(fullPath);
+    }
+  }
+  return files;
+}
+
+function isLikelyPlaceholder(value) {
+  const normalized = value.toLowerCase();
+  return (
+    normalized.includes('example') ||
+    normalized.includes('changeme') ||
+    normalized.includes('your_') ||
+    normalized.includes('your-') ||
+    normalized.includes('dummy') ||
+    normalized.includes('test') ||
+    normalized.includes('${') ||
+    normalized.includes('{{')
+  );
+}
+
+function findSecretIndicators(content) {
+  const lines = content.split('\n');
+  for (let idx = 0; idx < lines.length; idx++) {
+    const line = lines[idx];
+
+    if (/\bctx7sk-[a-z0-9]{20,}\b/i.test(line)) {
+      return `line ${idx + 1}: ctx7 token pattern`;
+    }
+
+    if (/\b(ghp|gho|sk)-[a-z0-9]{20,}\b/i.test(line)) {
+      return `line ${idx + 1}: API token-like pattern`;
+    }
+
+    const apiKeyMatch = line.match(/api[_-]?key\s*[:=]\s*["']([^"']+)["']/i);
+    if (apiKeyMatch && !isLikelyPlaceholder(apiKeyMatch[1])) {
+      return `line ${idx + 1}: api_key assignment`;
+    }
+  }
+
+  return null;
+}
+
+async function validateSourceSecretScan() {
+  const files = await listFilesRecursive(SOURCE_ROOT);
+  let ok = true;
+  for (const filePath of files) {
+    if (!shouldScanSourceFile(filePath)) continue;
+    const content = await fs.readFile(filePath, 'utf-8');
+    const finding = findSecretIndicators(content);
+    if (finding) {
+      console.error(`ERROR potential secret in ${path.relative(ROOT, filePath)} (${finding})`);
+      ok = false;
+    }
+  }
+  if (ok) console.log('OK source secret scan');
+  return ok;
+}
+
 async function run() {
   console.log('\n=================================');
   console.log('  Compass Engine Validate');
@@ -79,6 +168,7 @@ async function run() {
   const checks = await Promise.all([
     validateRequiredPaths(),
     validateCodexConfig(),
+    validateSourceSecretScan(),
   ]);
 
   if (checks.every(Boolean)) {

@@ -1,4 +1,5 @@
 <!-- Template from writing-documentation skill. Delete this line. -->
+
 # [Project Name]
 
 > [One-line description of what this project does]

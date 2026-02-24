@@ -3,13 +3,13 @@ name: resolve-pr-reviews
 description: Automated workflow for resolving CodeRabbit and Greptile review comments using parallel subagents
 hooks:
   Stop:
-    - matcher: "*"
+    - matcher: '*'
       hooks:
         - type: command
           command: 'bash "$CLAUDE_PROJECT_DIR/scripts/hooks/verify-pr-completion.sh"'
           timeout: 30
   SubagentStop:
-    - matcher: "*"
+    - matcher: '*'
       hooks:
         - type: command
           command: 'bash "$CLAUDE_PROJECT_DIR/scripts/hooks/track-subagent-batch.sh"'

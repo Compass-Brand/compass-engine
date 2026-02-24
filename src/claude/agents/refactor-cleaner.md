@@ -202,7 +202,7 @@ git revert [commit-hash]
 ```
 ````
 
-````
+`````
 
 ### Blocked Report (When Tests Fail)
 
@@ -227,7 +227,7 @@ git revert [commit-hash]
 
 1. [What needs to be fixed first]
 2. [Re-run this analysis after fixes]
-````
+`````
 
 ## Safety Checks
 

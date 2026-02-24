@@ -1,4 +1,5 @@
 <!-- Template from writing-documentation skill. Delete this line. -->
+
 # [Project Name]
 
 > [One-line description]
@@ -13,11 +14,11 @@
 
 ## Tech Stack
 
-| Technology | Why |
-|-----------|-----|
+| Technology           | Why               |
+| -------------------- | ----------------- |
 | [Language/Framework] | [Brief rationale] |
-| [Library/Tool] | [Brief rationale] |
-| [Service/API] | [Brief rationale] |
+| [Library/Tool]       | [Brief rationale] |
+| [Service/API]        | [Brief rationale] |
 
 ## Getting Started
 

@@ -33,14 +33,14 @@ Invoke when:
 Search Forgetful for PR review patterns:
 
 mcp__forgetful__execute_forgetful_tool with:
-- tool: "search_memories"
-- params: {
-    "query": "pr-review recurring issue",
-    # Note: project_id 2 is for compass-brand. Change this for other projects:
-    # 1=legacy-system-analyzer, 3=competitor-analysis-toolkit, 4=compass-engine
-    "project_id": 2,
-    "limit": 20
-  }
+  - tool: 'search_memories'
+  - params: {
+        'query': 'pr-review recurring issue',
+        # Note: project_id 2 is for compass-brand. Change this for other projects:
+        # 1=legacy-system-analyzer, 3=competitor-analysis-toolkit, 4=compass-engine
+        'project_id': 2,
+        'limit': 20,
+      }
 ```
 
 Look for issues that appear 3+ times across different PRs.
@@ -49,24 +49,16 @@ Look for issues that appear 3+ times across different PRs.
 
 ```yaml
 mcp__forgetful__execute_forgetful_tool with:
-- tool: "search_memories"
-- params: {
-    "query": "auto-fix success pattern",
-    "project_id": 2,
-    "limit": 10
-  }
+  - tool: 'search_memories'
+  - params: { 'query': 'auto-fix success pattern', 'project_id': 2, 'limit': 10 }
 ```
 
 ### Find Rollback Patterns
 
 ```yaml
 mcp__forgetful__execute_forgetful_tool with:
-- tool: "search_memories"
-- params: {
-    "query": "pr-review rollback",
-    "project_id": 2,
-    "limit": 10
-  }
+  - tool: 'search_memories'
+  - params: { 'query': 'pr-review rollback', 'project_id': 2, 'limit': 10 }
 ```
 
 ### Analyze by File Type

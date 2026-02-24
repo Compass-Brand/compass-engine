@@ -175,14 +175,11 @@ Use words Claude would search for:
 interface RetryOptions {
   maxAttempts: number;
   delayMs: number;
-  backoff?: "linear" | "exponential";
+  backoff?: 'linear' | 'exponential';
 }
 
-async function retryOperation<T>(
-  operation: () => Promise<T>,
-  options: RetryOptions,
-): Promise<T> {
-  const { maxAttempts, delayMs, backoff = "linear" } = options;
+async function retryOperation<T>(operation: () => Promise<T>, options: RetryOptions): Promise<T> {
+  const { maxAttempts, delayMs, backoff = 'linear' } = options;
 
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
@@ -191,22 +188,20 @@ async function retryOperation<T>(
       if (attempt === maxAttempts) throw error;
 
       const delay =
-        backoff === "exponential"
-          ? delayMs * Math.pow(2, attempt - 1)
-          : delayMs * attempt;
+        backoff === 'exponential' ? delayMs * Math.pow(2, attempt - 1) : delayMs * attempt;
 
       await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
 
-  throw new Error("Unreachable");
+  throw new Error('Unreachable');
 }
 
 // Usage
 const data = await retryOperation(() => fetchUserData(userId), {
   maxAttempts: 3,
   delayMs: 1000,
-  backoff: "exponential",
+  backoff: 'exponential',
 });
 ```
 

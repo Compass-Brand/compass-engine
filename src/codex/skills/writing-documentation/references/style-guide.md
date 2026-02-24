@@ -4,22 +4,22 @@ Common documentation mistakes and how to avoid them. Applies across all doc type
 
 ## Common Mistakes
 
-| Mistake | Why It's Bad | Fix |
-|---------|-------------|-----|
-| No install steps | Never assume setup is obvious. Even "obvious" steps prevent confusion. | Always include explicit setup instructions with exact commands. |
-| No examples | Abstract descriptions don't stick. Readers learn from concrete examples. | Show, don't tell. Include copy-pasteable code for every feature. |
-| Wall of text | Dense paragraphs get skimmed or skipped entirely. | Use headers, tables, lists, diagrams. Break content into scannable chunks. |
-| Stale content | Wrong docs are worse than no docs — they actively mislead. | Add "last reviewed" dates. Set up CI link checking. Review quarterly. |
-| Generic tone | "The user should..." is impersonal and vague. | Write for YOUR specific audience. Use "you" for the reader. |
-| Jargon without definition | Readers outside your team won't know your acronyms. | Define terms on first use, or maintain a glossary. |
-| "Click here" links | Screen readers announce "click here" with no context. | Use descriptive link text: "see the installation guide" not "click here". |
-| Bold as headers | Using **bold text** instead of proper ## headers breaks navigation. | Use semantic heading hierarchy (h1 → h2 → h3). |
-| Multiple h1 tags | Confuses document structure and screen readers. | One h1 per document (the title). Use h2+ for sections. |
-| Skipped heading levels | h1 → h3 (skipping h2) breaks hierarchy. | Maintain sequential heading levels. |
-| Mixed formatting | Inconsistent code fences, list styles, or table formats. | Pick conventions and stick to them throughout. |
-| Missing code fence language | Unlabeled code blocks don't get syntax highlighting. | Always specify the language: ```python, ```bash, ```json, etc. |
-| Outdated screenshots | Screenshots from old UI versions confuse readers. | Use text descriptions where possible. When screenshots are necessary, date them. |
-| Assuming knowledge | "Obviously, you'll need to configure the reverse proxy." | State prerequisites explicitly. What's obvious to you isn't obvious to everyone. |
+| Mistake                     | Why It's Bad                                                             | Fix                                                                              |
+| --------------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
+| No install steps            | Never assume setup is obvious. Even "obvious" steps prevent confusion.   | Always include explicit setup instructions with exact commands.                  |
+| No examples                 | Abstract descriptions don't stick. Readers learn from concrete examples. | Show, don't tell. Include copy-pasteable code for every feature.                 |
+| Wall of text                | Dense paragraphs get skimmed or skipped entirely.                        | Use headers, tables, lists, diagrams. Break content into scannable chunks.       |
+| Stale content               | Wrong docs are worse than no docs — they actively mislead.               | Add "last reviewed" dates. Set up CI link checking. Review quarterly.            |
+| Generic tone                | "The user should..." is impersonal and vague.                            | Write for YOUR specific audience. Use "you" for the reader.                      |
+| Jargon without definition   | Readers outside your team won't know your acronyms.                      | Define terms on first use, or maintain a glossary.                               |
+| "Click here" links          | Screen readers announce "click here" with no context.                    | Use descriptive link text: "see the installation guide" not "click here".        |
+| Bold as headers             | Using **bold text** instead of proper ## headers breaks navigation.      | Use semantic heading hierarchy (h1 → h2 → h3).                                   |
+| Multiple h1 tags            | Confuses document structure and screen readers.                          | One h1 per document (the title). Use h2+ for sections.                           |
+| Skipped heading levels      | h1 → h3 (skipping h2) breaks hierarchy.                                  | Maintain sequential heading levels.                                              |
+| Mixed formatting            | Inconsistent code fences, list styles, or table formats.                 | Pick conventions and stick to them throughout.                                   |
+| Missing code fence language | Unlabeled code blocks don't get syntax highlighting.                     | Always specify the language: `python, `bash, ```json, etc.                       |
+| Outdated screenshots        | Screenshots from old UI versions confuse readers.                        | Use text descriptions where possible. When screenshots are necessary, date them. |
+| Assuming knowledge          | "Obviously, you'll need to configure the reverse proxy."                 | State prerequisites explicitly. What's obvious to you isn't obvious to everyone. |
 
 ## Prose Quality
 

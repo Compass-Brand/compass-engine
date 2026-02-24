@@ -1,4 +1,5 @@
 <!-- Template from writing-documentation skill. Delete this line. -->
+
 # [ADR-NNNN] [Title]
 
 > Status: [Proposed | Accepted | Deprecated | Superseded by [ADR-NNNN](link)]
@@ -16,23 +17,29 @@
 ## Consequences
 
 ### Positive
+
 - [Benefit 1]
 - [Benefit 2]
 
 ### Negative
+
 - [Tradeoff or cost 1]
 - [Tradeoff or cost 2]
 
 ### Neutral
+
 - [Side effect or observation]
 
 ## Alternatives Considered
 
 ### [Alternative 1]
+
 [Brief description and why it was rejected]
 
 ### [Alternative 2]
+
 [Brief description and why it was rejected]
 
 ## References
+
 - [Link to relevant docs, discussions, or research]

@@ -17,6 +17,7 @@ npm run create:bmad-module -- --name compass-bmm --from bmm --code cbmm
 ```
 
 Generated output:
+
 - `src/bmad/modules/compass-bmm/`
 - `src/bmad/modules/compass-bmm/module.yaml`
 - `src/bmad/modules/compass-bmm/custom-module.json`
@@ -30,6 +31,7 @@ Generated output:
 ## Update Workflow
 
 When upstream BMAD changes:
+
 1. Update `BMAD-METHOD/`.
 2. Review diffs against custom modules.
 3. Reconcile custom module behavior explicitly.

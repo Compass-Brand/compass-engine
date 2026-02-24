@@ -1,4 +1,5 @@
 <!-- Template from writing-documentation skill. Delete this line. -->
+
 # Tutorial: [What You'll Build]
 
 > **Time:** [estimated duration]
@@ -8,6 +9,7 @@
 ## What You'll Learn
 
 By the end of this tutorial, you will:
+
 - [Outcome 1]
 - [Outcome 2]
 - [Outcome 3]
@@ -63,9 +65,11 @@ By the end of this tutorial, you will:
 ## Troubleshooting
 
 ### [Common problem 1]
+
 **Symptom:** [what you see]
 **Fix:** [how to resolve]
 
 ### [Common problem 2]
+
 **Symptom:** [what you see]
 **Fix:** [how to resolve]
