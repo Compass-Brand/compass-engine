@@ -11,10 +11,11 @@ This directory is the planning reference index for Compass Engine.
 ## Domain
 
 `framework/` is the canonical planning framework domain.
+`docs/` contains guidance and rationale for using that framework.
 
 Read order:
 1. `framework/README.md`
-2. `framework/docs/how-to-use.md`
+2. `docs/how-to-use.md`
 3. `framework/current/phase.md`
 
 ## Structure
@@ -22,9 +23,9 @@ Read order:
 ```text
 reference/planning/
 ├── README.md
+├── docs/
 └── framework/
     ├── README.md
-    ├── docs/
     ├── current/
     ├── previous/
     ├── lessons/

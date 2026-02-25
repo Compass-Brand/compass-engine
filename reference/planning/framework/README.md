@@ -13,7 +13,7 @@ This layout is optimized for brownfield continuation where teams run multiple BM
 
 ## Core Areas
 
-- `docs/`: operational guidance and rationale for this framework.
+- `../docs/`: operational guidance and rationale for this framework.
 - `current/`: active phase working set.
 - `previous/`: immutable snapshots of completed phases.
 - `lessons/`: carry-forward practices and anti-patterns from completed phases.
@@ -28,7 +28,7 @@ This layout is optimized for brownfield continuation where teams run multiple BM
 ## Lifecycle
 
 1. Run active work only in `current/`.
-2. Close the phase using `docs/phase-closeout-checklist.md`.
+2. Close the phase using `../docs/phase-closeout-checklist.md`.
 3. Move closed artifacts into `previous/`.
 4. Extract reusable findings into `lessons/`.
 5. Update `roadmap/roadmap.md` and archive superseded roadmap materials.
