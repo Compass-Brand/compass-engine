@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { execFileSync } from 'node:child_process';
 import process from 'node:process';
-import markdownlint from 'markdownlint';
+import * as markdownlint from 'markdownlint';
 
 let files = process.argv
   .slice(2)

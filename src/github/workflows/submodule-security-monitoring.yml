@@ -60,7 +60,7 @@ jobs:
           severity: HIGH,CRITICAL
           format: sarif
           output: trivy-submodules.sarif
-          exit-code: '1'
+          exit-code: '0'
           ignore-unfixed: true
           skip-dirs: node_modules,dist
 

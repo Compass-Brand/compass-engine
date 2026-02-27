@@ -448,6 +448,7 @@ jobs:
         if: steps.detect.outputs.run == 'true'
         uses: dtolnay/rust-toolchain@efa25f7f19611383d5b0ccf2d1c8914531636bf9
         with:
+          toolchain: stable
           components: clippy,rustfmt
 
       - name: Run rustfmt
@@ -543,6 +544,8 @@ jobs:
       - name: Setup Rust toolchain
         if: steps.detect.outputs.run == 'true'
         uses: dtolnay/rust-toolchain@efa25f7f19611383d5b0ccf2d1c8914531636bf9
+        with:
+          toolchain: stable
 
       - name: Install zizmor
         if: steps.detect.outputs.run == 'true'
