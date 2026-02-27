@@ -350,9 +350,7 @@ async function highlightCode(code, lang, options = {}) {
 
             if (options.onLoadingEnd) options.onLoadingEnd();
 
-            if (loaded) {
-                langSupported = true;
-            } else {
+            if (!loaded) {
                 // Language not available - return unsupported styling
                 return `<pre class="shiki shiki-unsupported"><code>${escapeHtml(code)}</code></pre>`;
             }
