@@ -4,8 +4,26 @@ on:
   pull_request:
     branches: [main, develop]
     types: [opened, synchronize, reopened]
+    paths-ignore:
+      - '**/*.png'
+      - '**/*.jpg'
+      - '**/*.jpeg'
+      - '**/*.gif'
+      - '**/*.svg'
+      - '**/*.ico'
+      - '**/*.webp'
+      - '**/*.pdf'
   push:
     branches: [main, develop]
+    paths-ignore:
+      - '**/*.png'
+      - '**/*.jpg'
+      - '**/*.jpeg'
+      - '**/*.gif'
+      - '**/*.svg'
+      - '**/*.ico'
+      - '**/*.webp'
+      - '**/*.pdf'
 
 env:
   ALLOWED_LICENSES: MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, 0BSD, Unlicense, WTFPL, CC0-1.0, CC-BY-3.0, CC-BY-4.0, Python-2.0, PSF-2.0, MPL-2.0
@@ -21,9 +39,10 @@ jobs:
   validate:
     name: Pre-Push Validation
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           fetch-depth: 0
 
@@ -39,7 +58,7 @@ jobs:
           done
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238
         with:
           node-version: '20'
 
@@ -52,9 +71,10 @@ jobs:
   security-scan:
     name: Security Scan
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name: Check for merge conflict markers
         run: |
@@ -69,20 +89,20 @@ jobs:
         run: |
           echo "Scanning for potential secrets..."
           FOUND=0
-          # Check for common secret patterns
           SECRET_MATCHES="$(grep -rn "PRIVATE.KEY\|-----BEGIN.*PRIVATE\|sk-[a-zA-Z0-9]\{20,\}\|ghp_[a-zA-Z0-9]\{36\}\|gho_[a-zA-Z0-9]\{36\}\|api[_-]?key.*['\"][a-zA-Z0-9]\{20,\}" --include="*.py" --include="*.ts" --include="*.js" --include="*.json" --include="*.yaml" --include="*.yml" . 2>/dev/null | grep -v node_modules | grep -v ".example" | grep -vE '(^|/)(\.github|src/github)/workflows/quality-checks\.yml:' | head -10 || true)"
           if [ -n "$SECRET_MATCHES" ]; then
             echo "$SECRET_MATCHES"
             echo "::warning::Potential hardcoded secrets detected - please review"
             FOUND=1
           fi
-          # Check for AWS keys (exclude test fixtures and examples)
+
           AWS_MATCHES="$(grep -rn "AKIA[0-9A-Z]\{16\}" --include="*.py" --include="*.ts" --include="*.js" --include="*.json" . 2>/dev/null | grep -v node_modules | grep -v "test" | grep -v "example" | grep -v "fixture" | grep -v ".github/" | head -5 || true)"
           if [ -n "$AWS_MATCHES" ]; then
             echo "$AWS_MATCHES"
             echo "::warning::AWS access key pattern found - please review"
             FOUND=1
           fi
+
           if [ "$FOUND" -eq 1 ]; then
             echo "::error::Secret patterns detected - review findings above"
             exit 1
@@ -92,10 +112,11 @@ jobs:
   docs-audit:
     name: Documentation Audit
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     if: github.event_name == 'pull_request'
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           fetch-depth: 0
 
@@ -118,40 +139,43 @@ jobs:
   syntax-check:
     name: Syntax Validation
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name: Validate JSON/YAML
-        uses: GrantBirki/json-yaml-validate@v4
+        uses: GrantBirki/json-yaml-validate@4b493a196a711807aec01c5ace08147f21b025bd
 
       - name: Lint GitHub Actions workflows
-        uses: docker://rhysd/actionlint:latest
+        uses: rhysd/actionlint@2df6872d4bde2b030214429d65f7aeee79ceee47
         with:
           args: -color
 
   editorconfig-check:
     name: EditorConfig
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name: Check EditorConfig
-        uses: editorconfig-checker/action-editorconfig-checker@main
+        uses: editorconfig-checker/action-editorconfig-checker@ff2b7f22fb3dfdca5c54339c3ade98b0b3327ae6
 
   license-review:
     name: License Compliance
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     if: github.event_name == 'pull_request'
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           submodules: recursive
 
       - name: Check dependency licenses
-        uses: actions/dependency-review-action@v4
+        uses: actions/dependency-review-action@05fe4576374b728f0c523d6a13d64c25081e0803
         with:
           allow-licenses: ${{ env.ALLOWED_LICENSES }}
 
@@ -160,6 +184,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+
+          if [ ! -f .gitmodules ]; then
+            echo "No .gitmodules file found; skipping submodule license checks."
+            exit 0
+          fi
 
           ALLOWED_SPDX="${ALLOWED_LICENSES//,/ }"
           NOASSERTION_ALLOWED_REPOS="bmad-code-org/BMAD-METHOD bmad-code-org/bmad-builder bmad-code-org/bmad-method-test-architecture-enterprise bmad-code-org/bmad-module-creative-intelligence-suite bmad-code-org/bmad-method-wds-expansion BlackUnicornSecurity/BMAD-CYBERSEC Hidden-History/pov-oversight-agent"
@@ -201,83 +230,3 @@ jobs:
               exit 1
             fi
           done < <(git config --file .gitmodules --get-regexp '^submodule\..*\.url$')
-
-  python-lint:
-    name: Python Lint (Ruff)
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Check for Python files
-        id: check-python
-        run: |
-          if find . -name "*.py" -not -path "./node_modules/*" -not -path "./.venv/*" | head -1 | grep -q .; then
-            echo "has_python=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "has_python=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Set up Python
-        if: steps.check-python.outputs.has_python == 'true'
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.11'
-
-      - name: Install Ruff
-        if: steps.check-python.outputs.has_python == 'true'
-        run: pip install ruff
-
-      - name: Run Ruff linter
-        if: steps.check-python.outputs.has_python == 'true'
-        run: ruff check . --output-format=github
-
-      - name: Run Ruff formatter check
-        if: steps.check-python.outputs.has_python == 'true'
-        run: ruff format --check .
-
-  js-lint:
-    name: JavaScript/TypeScript Lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Check for JS/TS files
-        id: check-js
-        run: |
-          if find . \( -name "*.js" -o -name "*.ts" -o -name "*.mjs" -o -name "*.tsx" -o -name "*.jsx" \) 2>/dev/null | grep -v node_modules | head -1 | grep -q .; then
-            echo "has_js=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "has_js=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Setup Node.js
-        if: steps.check-js.outputs.has_js == 'true'
-        uses: actions/setup-node@v6
-        with:
-          node-version: '20'
-
-      - name: Install linters
-        if: steps.check-js.outputs.has_js == 'true'
-        run: npm install -g eslint@9.22.0 prettier@3.5.3
-
-      - name: Run ESLint
-        if: steps.check-js.outputs.has_js == 'true'
-        run: eslint . --ext .js,.ts,.mjs,.jsx,.tsx --format=stylish
-
-      - name: Run Prettier check
-        if: steps.check-js.outputs.has_js == 'true'
-        run: prettier --check "**/*.{js,ts,mjs,jsx,tsx,json}" --ignore-path .gitignore
-
-  markdown-lint:
-    name: Markdown Lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Run markdownlint
-        uses: DavidAnson/markdownlint-cli2-action@v22
-        with:
-          globs: '**/*.md'

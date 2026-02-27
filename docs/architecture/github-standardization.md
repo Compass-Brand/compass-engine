@@ -1,6 +1,6 @@
 # GitHub Standardization
 
-Last reviewed: 2026-02-24
+Last reviewed: 2026-02-27
 
 This document defines the Compass Brand GitHub standard based on the current state of local Compass repositories.
 
@@ -36,7 +36,7 @@ Dependabot exists in all audited repos, but package ecosystems vary.
 4. `dependabot.yml` ecosystems differ per repo (actions-only, npm, pip, submodules).
 5. Engine has repo-specific workflow logic (`check-bmad-updates`) that should not be in org baseline.
 
-## Standard v1 (Defined Here)
+## Standard v2 (Defined Here)
 
 Org baseline (`src/github/`):
 
@@ -45,6 +45,18 @@ Org baseline (`src/github/`):
 - `workflows/stale.yml` on `actions/stale@v10`
 - `workflows/codeql.yml` on `codeql-action@v4` (javascript + python categories)
 - `dependabot.yml` baseline for `github-actions` updates
+- pinned action refs (commit SHA instead of moving tags/branches)
+- timeout budgets on every workflow job
+- job-level least-privilege token permissions
+- SARIF upload for scanners where supported (`warn and continue` when unavailable)
+- branch scope standard: `main` + `develop`
+- CODEOWNERS protection for workflow/dependabot files
+
+Linting execution standard:
+
+- pull requests run scoped checks using the PR diff
+- pushes to protected branches (`main`, `develop`) run full-scope checks
+- heavy workflows use trigger-level path filtering for obvious non-code artifacts
 
 Repo-specific overlays (`src/github/profiles/`):
 
@@ -70,5 +82,5 @@ Repo-specific overlays (`src/github/profiles/`):
 ## Next Standardization Pass
 
 1. Apply baseline + appropriate overlays to each audited repo.
-2. Roll out `.github` drift-check scripts/workflows across Compass repos (implemented in `compass-engine`).
+2. Verify branch protection enables code owner review in each repository.
 3. Enforce drift checks in CI for governance.
