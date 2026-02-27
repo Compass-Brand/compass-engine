@@ -1,11 +1,19 @@
 #!/usr/bin/env node
 import { execFileSync } from 'node:child_process';
+import { existsSync } from 'node:fs';
 import process from 'node:process';
 import { lint as markdownlint } from 'markdownlint/promise';
 
+const RESEARCH_PREFIX = 'reference/BMAD/research/';
+
+function normalize(filePath) {
+  return filePath.replace(/\\/g, '/');
+}
+
 let files = process.argv
   .slice(2)
-  .filter((file) => file.endsWith('.md') || file.endsWith('.markdown'));
+  .filter((file) => file.endsWith('.md') || file.endsWith('.markdown'))
+  .filter((file) => !normalize(file).startsWith(RESEARCH_PREFIX));
 
 if (files.length === 0) {
   try {
@@ -18,6 +26,12 @@ if (files.length === 0) {
     files = [];
   }
 }
+
+files = files
+  .map((file) => file.trim())
+  .filter(Boolean)
+  .filter((file) => !normalize(file).startsWith(RESEARCH_PREFIX))
+  .filter((file) => existsSync(file));
 
 if (files.length === 0) {
   process.exit(0);

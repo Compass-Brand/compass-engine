@@ -19,7 +19,6 @@ const DIST_ROOT = path.join(ROOT, 'dist');
 const CLAUDE_DIST = path.join(DIST_ROOT, '.claude');
 const CLAUDE_SRC = path.join(SRC, 'claude');
 const CLAUDE_DIRS = ['agents', 'commands', 'skills', 'rules', 'contexts', 'config', 'scripts'];
-const CLAUDE_REQUIRED_DIRS = ['agents', 'commands', 'skills', 'rules'];
 
 const TARGETS = [
   {
@@ -110,15 +109,6 @@ async function buildClaude() {
   console.log('\nBuilding .claude...');
   await fs.mkdir(CLAUDE_DIST, { recursive: true });
 
-  for (const requiredDir of CLAUDE_REQUIRED_DIRS) {
-    const requiredPath = path.join(CLAUDE_SRC, requiredDir);
-    if (!(await exists(requiredPath))) {
-      throw new Error(
-        `Missing required Claude source directory: ${path.relative(ROOT, requiredPath)}`,
-      );
-    }
-  }
-
   for (const dir of CLAUDE_DIRS) {
     const srcDir = path.join(CLAUDE_SRC, dir);
     const destDir = path.join(CLAUDE_DIST, dir);
@@ -174,19 +164,21 @@ async function validateBuild() {
   console.log('\nValidating build output...');
 
   const requiredChecks = [
-    { label: '.claude/agents', path: path.join(CLAUDE_DIST, 'agents') },
-    { label: '.claude/commands', path: path.join(CLAUDE_DIST, 'commands') },
-    { label: '.claude/skills', path: path.join(CLAUDE_DIST, 'skills') },
-    { label: '.claude/rules', path: path.join(CLAUDE_DIST, 'rules') },
-    { label: '.codex/skills', path: path.join(DIST_ROOT, '.codex', 'skills') },
-    { label: '.codex/prompts', path: path.join(DIST_ROOT, '.codex', 'prompts') },
-    { label: '.opencode/agent', path: path.join(DIST_ROOT, '.opencode', 'agent') },
-    { label: '.opencode/command', path: path.join(DIST_ROOT, '.opencode', 'command') },
+    { label: '.claude', path: CLAUDE_DIST },
+    { label: '.claude/README.md', path: path.join(CLAUDE_DIST, 'README.md') },
     { label: '.github/workflows', path: path.join(DIST_ROOT, '.github', 'workflows') },
     { label: 'root/.coderabbit.yaml', path: path.join(DIST_ROOT, 'root', '.coderabbit.yaml') },
     { label: 'root/.editorconfig', path: path.join(DIST_ROOT, 'root', '.editorconfig') },
     { label: 'root/.gitattributes', path: path.join(DIST_ROOT, 'root', '.gitattributes') },
   ];
+
+  if (await exists(path.join(SRC, 'codex'))) {
+    requiredChecks.push({ label: '.codex', path: path.join(DIST_ROOT, '.codex') });
+  }
+
+  if (await exists(path.join(SRC, 'opencode'))) {
+    requiredChecks.push({ label: '.opencode', path: path.join(DIST_ROOT, '.opencode') });
+  }
 
   let isValid = true;
   for (const check of requiredChecks) {

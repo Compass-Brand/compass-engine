@@ -12,6 +12,7 @@ export default [
       'pov-oversight-agent/**',
       'BMAD-METHOD/**',
       '.beads/**',
+      'reference/BMAD/research/**',
       '.codex/**',
       '.claude/**',
       '.opencode/**',
