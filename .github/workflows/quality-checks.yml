@@ -181,7 +181,7 @@ jobs:
                 ;;
             esac
             repo="${repo%.git}"
-            spdx="$(gh api "repos/${repo}" --jq '.license.spdx_id // \"NOASSERTION\"')"
+            spdx="$(gh api "repos/${repo}" --jq '.license.spdx_id // "NOASSERTION"')"
 
             echo "${repo}: ${spdx}"
 
