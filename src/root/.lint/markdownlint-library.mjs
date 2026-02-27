@@ -45,11 +45,13 @@ if (files.length === 0) {
 const config = {
   default: true,
   MD007: false,
+  MD012: false,
   MD013: false,
   MD022: false,
   MD023: false,
   MD024: false,
   MD025: false,
+  MD026: false,
   MD029: false,
   MD031: false,
   MD032: false,
