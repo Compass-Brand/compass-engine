@@ -189,11 +189,11 @@ jobs:
             FROM_REF="${{ github.event.pull_request.base.sha }}"
             git diff --name-only --diff-filter=ACMR "$FROM_REF" "${{ github.sha }}" \
               | grep -E '\.(md|markdown)$' \
-              | grep -Ev '^reference/BMAD/' \
+              | grep -Ev '^reference/BMAD/research/|^\.claude-trace/' \
               | while IFS= read -r file; do [ -f "$file" ] && echo "$file"; done > /tmp/markdown-files.txt || true
           else
             git ls-files '*.md' '*.markdown' \
-              | grep -Ev '^reference/BMAD/' \
+              | grep -Ev '^reference/BMAD/research/|^\.claude-trace/' \
               | while IFS= read -r file; do [ -f "$file" ] && echo "$file"; done > /tmp/markdown-files.txt || true
           fi
 

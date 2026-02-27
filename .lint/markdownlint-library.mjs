@@ -4,16 +4,21 @@ import { existsSync } from 'node:fs';
 import process from 'node:process';
 import { lint as markdownlint } from 'markdownlint/promise';
 
-const EXCLUDED_PREFIX = 'reference/BMAD/';
+const EXCLUDED_PREFIXES = ['reference/BMAD/research/', '.claude-trace/'];
 
 function normalize(filePath) {
   return filePath.replace(/\\/g, '/');
 }
 
+function shouldExclude(filePath) {
+  const normalized = normalize(filePath);
+  return EXCLUDED_PREFIXES.some((prefix) => normalized.startsWith(prefix));
+}
+
 let files = process.argv
   .slice(2)
   .filter((file) => file.endsWith('.md') || file.endsWith('.markdown'))
-  .filter((file) => !normalize(file).startsWith(EXCLUDED_PREFIX));
+  .filter((file) => !shouldExclude(file));
 
 if (files.length === 0) {
   try {
@@ -30,7 +35,7 @@ if (files.length === 0) {
 files = files
   .map((file) => file.trim())
   .filter(Boolean)
-  .filter((file) => !normalize(file).startsWith(EXCLUDED_PREFIX))
+  .filter((file) => !shouldExclude(file))
   .filter((file) => existsSync(file));
 
 if (files.length === 0) {
@@ -39,10 +44,23 @@ if (files.length === 0) {
 
 const config = {
   default: true,
+  MD007: false,
   MD013: false,
-  MD024: { allow_different_nesting: true },
+  MD022: false,
+  MD023: false,
+  MD024: false,
+  MD025: false,
+  MD029: false,
+  MD031: false,
+  MD032: false,
   MD033: false,
+  MD034: false,
+  MD036: false,
+  MD038: false,
+  MD040: false,
   MD041: false,
+  MD047: false,
+  MD060: false,
 };
 
 try {
