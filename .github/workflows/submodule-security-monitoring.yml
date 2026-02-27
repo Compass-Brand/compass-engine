@@ -1,6 +1,11 @@
 name: Submodule Security Monitoring
 
 on:
+  pull_request:
+    branches: [main, develop]
+    types: [opened, reopened, synchronize]
+  push:
+    branches: [main, develop]
   schedule:
     - cron: '30 9 * * *'
   workflow_dispatch:
@@ -51,18 +56,30 @@ jobs:
         run: |
           set -euo pipefail
 
-          mapfile -t SUBMODULES < <(git config --file .gitmodules --get-regexp '^submodule\..*\.path$' | awk '{print $2}')
+          mapfile -t SUBMODULE_ENTRIES < <(git config --file .gitmodules --get-regexp '^submodule\..*\.path$')
 
-          if [ "${#SUBMODULES[@]}" -eq 0 ]; then
+          if [ "${#SUBMODULE_ENTRIES[@]}" -eq 0 ]; then
             echo 'matrix={"submodule":[]}' >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
-          json="$(printf '%s\n' "${SUBMODULES[@]}" | jq -R . | jq -cs '{submodule: .}')"
+          json="$(
+            printf '%s\n' "${SUBMODULE_ENTRIES[@]}" \
+              | jq -R '
+                split(" ") as $parts
+                | ($parts[0] // "") as $key
+                | ($parts[1:] | join(" ")) as $path
+                | {
+                    name: ($key | sub("^submodule\\."; "") | sub("\\.path$"; "")),
+                    path: $path
+                  }
+              ' \
+              | jq -cs '{submodule: .}'
+          )"
           echo "matrix=${json}" >> "$GITHUB_OUTPUT"
 
   monitor-submodule-upstream:
-    name: Monitor submodule upstream drift (${{ matrix.submodule }})
+    name: Monitor submodule upstream drift (${{ matrix.submodule.path }})
     needs: discover-submodules
     if: ${{ fromJSON(needs.discover-submodules.outputs.matrix).submodule[0] != null }}
     runs-on: ubuntu-latest
@@ -80,8 +97,9 @@ jobs:
         id: compare
         run: |
           set -euo pipefail
-          SUBMODULE_PATH="${{ matrix.submodule }}"
-          TARGET_BRANCH="$(git config --file .gitmodules --get "submodule.${SUBMODULE_PATH}.branch" || echo main)"
+          SUBMODULE_PATH="${{ matrix.submodule.path }}"
+          SUBMODULE_NAME="${{ matrix.submodule.name }}"
+          TARGET_BRANCH="$(git config --file .gitmodules --get "submodule.${SUBMODULE_NAME}.branch" || echo main)"
 
           git -C "$SUBMODULE_PATH" fetch origin "$TARGET_BRANCH"
 
@@ -105,7 +123,7 @@ jobs:
         if: steps.compare.outputs.sha_mismatch == 'true'
         uses: actions/github-script@v7
         env:
-          SUBMODULE: ${{ matrix.submodule }}
+          SUBMODULE: ${{ matrix.submodule.path }}
           TARGET_BRANCH: ${{ steps.compare.outputs.branch }}
           CURRENT_SHA: ${{ steps.compare.outputs.current_sha }}
           UPSTREAM_SHA: ${{ steps.compare.outputs.upstream_sha }}
@@ -133,12 +151,45 @@ jobs:
             const existing = issues.find((issue) => !issue.pull_request && issue.title === title);
 
             if (existing) {
-              await github.rest.issues.createComment({
+              const comments = await github.paginate(github.rest.issues.listComments, {
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: existing.number,
-                body
+                per_page: 100
               });
+
+              const extractUpstreamSha = (text) => {
+                const match = text?.match(/- Upstream: `([0-9a-f]{7,40})`/i);
+                return match ? match[1] : null;
+              };
+
+              const previousComment = [...comments]
+                .reverse()
+                .find((comment) => comment.body?.includes('Automated monitoring detected that'));
+
+              const lastReportedSha = extractUpstreamSha(previousComment?.body) || extractUpstreamSha(existing.body);
+              const upstreamSha = process.env.UPSTREAM_SHA;
+              const shortUpstreamSha = upstreamSha.slice(0, 7);
+
+              if (lastReportedSha === upstreamSha || lastReportedSha === shortUpstreamSha) {
+                return;
+              }
+
+              if (previousComment) {
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: previousComment.id,
+                  body
+                });
+              } else {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: existing.number,
+                  body
+                });
+              }
             } else {
               await github.rest.issues.create({
                 owner: context.repo.owner,

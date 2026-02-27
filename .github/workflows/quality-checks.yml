@@ -189,7 +189,7 @@ jobs:
               echo "::error::Disallowed submodule license for ${repo}: ${spdx}"
               exit 1
             fi
-          done < <(git config --file .gitmodules --get-regexp '^submodule\\..*\\.url$')
+          done < <(git config --file .gitmodules --get-regexp '^submodule\..*\.url$')
 
   python-lint:
     name: Python Lint (Ruff)
