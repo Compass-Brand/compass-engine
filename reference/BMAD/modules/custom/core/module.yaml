@@ -1,0 +1,146 @@
+code: core
+name: "BMad Core Module"
+
+header: "BMad Core Configuration"
+subheader: "Configure the core settings for your BMad installation.\nThese settings will be used across all modules and agents."
+
+user_name:
+  prompt: "What should agents call you? (Use your name or a team name)"
+  default: "BMad"
+  result: "{value}"
+
+communication_language:
+  prompt: "What language should agents use when chatting with you?"
+  default: "English"
+  result: "{value}"
+
+document_output_language:
+  prompt: "Preferred document output language?"
+  default: "English"
+  result: "{value}"
+
+output_folder:
+  prompt: "Where should output files be saved?"
+  default: "_bmad-output"
+  result: "{project-root}/{value}"
+
+planning_root:
+  result: "{project-root}/planning/framework"
+
+planning_current:
+  result: "{planning_root}/current"
+
+planning_roadmap:
+  result: "{planning_root}/roadmap"
+
+roadmap_archive_dir:
+  result: "{planning_roadmap}/archive"
+
+roadmap_archive_brainstorming_dir:
+  result: "{roadmap_archive_dir}/brainstorming"
+
+roadmap_archive_research_dir:
+  result: "{roadmap_archive_dir}/research"
+
+roadmap_archive_product_brief_dir:
+  result: "{roadmap_archive_dir}/product-brief"
+
+planning_previous:
+  result: "{planning_root}/previous"
+
+planning_lessons:
+  result: "{planning_root}/lessons"
+
+phase_snapshot_file:
+  result: "{planning_current}/phase.md"
+
+current_brainstorming_dir:
+  result: "{planning_current}/brainstorming"
+
+roadmap_brainstorming_dir:
+  result: "{planning_roadmap}/brainstorming"
+
+docs_root:
+  result: "{project-root}/docs"
+
+docs_human_root:
+  result: "{docs_root}/human"
+
+docs_human_policies_dir:
+  result: "{docs_human_root}/policies"
+
+docs_human_templates_dir:
+  result: "{docs_human_root}/templates"
+
+docs_human_overrides_file:
+  result: "{docs_human_policies_dir}/user-overrides.md"
+
+docs_ai_root:
+  result: "{docs_root}/ai"
+
+docs_architecture_dir:
+  result: "{docs_root}/architecture"
+
+docs_architecture_decisions_dir:
+  result: "{docs_architecture_dir}/decisions"
+
+docs_development_dir:
+  result: "{docs_root}/development"
+
+docs_getting_started_dir:
+  result: "{docs_root}/getting-started"
+
+docs_guides_dir:
+  result: "{docs_root}/guides"
+
+docs_reference_dir:
+  result: "{docs_root}/reference"
+
+docs_tmp_migration_root:
+  result: "{project-root}/tmp/docs-migration"
+
+docs_framework_root:
+  result: "{project-root}/_bmad/core/documentation-framework"
+
+docs_framework_human_root:
+  result: "{docs_framework_root}/human"
+
+docs_framework_human_policies_dir:
+  result: "{docs_framework_human_root}/policies"
+
+docs_framework_human_templates_dir:
+  result: "{docs_framework_human_root}/templates"
+
+docs_framework_ai_root:
+  result: "{docs_framework_root}/ai"
+
+# Directories to create during installation (declarative, no code execution)
+directories:
+  - "{planning_root}"
+  - "{planning_current}"
+  - "{planning_roadmap}"
+  - "{roadmap_archive_dir}"
+  - "{roadmap_archive_brainstorming_dir}"
+  - "{roadmap_archive_research_dir}"
+  - "{roadmap_archive_product_brief_dir}"
+  - "{planning_previous}"
+  - "{planning_lessons}"
+  - "{current_brainstorming_dir}"
+  - "{roadmap_brainstorming_dir}"
+  - "{docs_root}"
+  - "{docs_human_root}"
+  - "{docs_human_policies_dir}"
+  - "{docs_human_templates_dir}"
+  - "{docs_ai_root}"
+  - "{docs_architecture_dir}"
+  - "{docs_architecture_decisions_dir}"
+  - "{docs_development_dir}"
+  - "{docs_getting_started_dir}"
+  - "{docs_guides_dir}"
+  - "{docs_reference_dir}"
+  - "{docs_tmp_migration_root}"
+  - "{docs_framework_root}"
+  - "{docs_framework_human_root}"
+  - "{docs_framework_human_policies_dir}"
+  - "{docs_framework_human_templates_dir}"
+  - "{docs_framework_ai_root}"

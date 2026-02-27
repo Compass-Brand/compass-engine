@@ -1,0 +1,15 @@
+<task id="_bmad/core/tasks/workflow.xml" name="Execute Workflow" internal="true" standalone="false"
+  description="Compatibility shim: delegates XML calls to markdown workflow engine">
+  <objective>Load and execute the markdown implementation of the workflow engine</objective>
+  <llm critical="true">
+    <i>This XML file is a compatibility shim.</i>
+    <i>Immediately load and execute {project-root}/_bmad/core/tasks/workflow.md</i>
+    <i>Follow the markdown workflow engine instructions exactly.</i>
+  </llm>
+  <flow>
+    <step n="1" title="Delegate to Markdown Engine">
+      <action>Load {project-root}/_bmad/core/tasks/workflow.md</action>
+      <action>Execute all instructions exactly as written</action>
+    </step>
+  </flow>
+</task>

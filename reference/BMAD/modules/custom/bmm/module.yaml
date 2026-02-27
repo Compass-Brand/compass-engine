@@ -1,0 +1,403 @@
+code: bmm
+name: "BMad Method Agile-AI Driven-Development"
+description: "AI-driven agile development framework with integrated test architecture"
+default_selected: true # This module will be selected by default for new installations
+
+# Variables from Core Config inserted:
+## user_name
+## communication_language
+## document_output_language
+## output_folder
+## project_root
+
+project_name:
+  prompt: "What is your project called?"
+  default: "{directory_name}"
+  result: "{value}"
+
+user_skill_level:
+  prompt:
+    - "What is your development experience level?"
+    - "This affects how agents explain concepts in chat."
+  default: "intermediate"
+  result: "{value}"
+  single-select:
+    - value: "beginner"
+      label: "Beginner - Explain things clearly"
+    - value: "intermediate"
+      label: "Intermediate - Balance detail with speed"
+    - value: "expert"
+      label: "Expert - Be direct and technical"
+
+planning_root:
+  prompt: "Where should Compass planning artifacts live?"
+  default: "planning/framework"
+  result: "{project-root}/{value}"
+
+planning_current:
+  result: "{planning_root}/current"
+
+planning_roadmap:
+  result: "{planning_root}/roadmap"
+
+planning_previous:
+  result: "{planning_root}/previous"
+
+planning_lessons:
+  result: "{planning_root}/lessons"
+
+phase_snapshot_file:
+  result: "{planning_current}/phase.md"
+
+current_brainstorming_dir:
+  result: "{planning_current}/brainstorming"
+
+current_research_dir:
+  result: "{planning_current}/research"
+
+current_prd_dir:
+  result: "{planning_current}/planning/prd"
+
+current_product_brief_dir:
+  result: "{planning_current}/planning/product-brief"
+
+current_ux_dir:
+  result: "{planning_current}/planning/ux-design"
+
+current_architecture_dir:
+  result: "{planning_current}/planning/architecture"
+
+current_epics_dir:
+  result: "{planning_current}/planning/epics"
+
+current_story_dir:
+  result: "{planning_current}/implementation/stories"
+
+current_evidence_dir:
+  result: "{planning_current}/implementation/evidence"
+
+current_testing_dir:
+  result: "{planning_current}/testing"
+
+roadmap_brainstorming_dir:
+  result: "{planning_roadmap}/brainstorming"
+
+roadmap_research_dir:
+  result: "{planning_roadmap}/research"
+
+roadmap_product_brief_dir:
+  result: "{planning_roadmap}/product-brief"
+
+roadmap_archive_dir:
+  result: "{planning_roadmap}/archive"
+
+roadmap_archive_brainstorming_dir:
+  result: "{roadmap_archive_dir}/brainstorming"
+
+roadmap_archive_research_dir:
+  result: "{roadmap_archive_dir}/research"
+
+roadmap_archive_product_brief_dir:
+  result: "{roadmap_archive_dir}/product-brief"
+
+docs_root:
+  result: "{project-root}/docs"
+
+docs_human_root:
+  result: "{docs_root}/human"
+
+docs_human_policies_dir:
+  result: "{docs_human_root}/policies"
+
+docs_human_templates_dir:
+  result: "{docs_human_root}/templates"
+
+docs_human_overrides_file:
+  result: "{docs_human_policies_dir}/user-overrides.md"
+
+docs_ai_root:
+  result: "{docs_root}/ai"
+
+docs_architecture_dir:
+  result: "{docs_root}/architecture"
+
+docs_architecture_decisions_dir:
+  result: "{docs_architecture_dir}/decisions"
+
+docs_development_dir:
+  result: "{docs_root}/development"
+
+docs_getting_started_dir:
+  result: "{docs_root}/getting-started"
+
+docs_guides_dir:
+  result: "{docs_root}/guides"
+
+docs_reference_dir:
+  result: "{docs_root}/reference"
+
+docs_tmp_migration_root:
+  result: "{project-root}/tmp/docs-migration"
+
+docs_tmp_cleanup_enabled:
+  prompt: "Allow docs workflows to remove temporary migration copies when explicitly requested?"
+  default: false
+  result: "{value}"
+  single-select:
+    - value: false
+      label: "No - Keep migration snapshots by default (Recommended)"
+    - value: true
+      label: "Yes - Permit explicit cleanup actions"
+
+docs_framework_root:
+  result: "{project-root}/_bmad/core/documentation-framework"
+
+docs_framework_human_root:
+  result: "{docs_framework_root}/human"
+
+docs_framework_human_policies_dir:
+  result: "{docs_framework_human_root}/policies"
+
+docs_framework_human_templates_dir:
+  result: "{docs_framework_human_root}/templates"
+
+docs_framework_ai_root:
+  result: "{docs_framework_root}/ai"
+
+# Backward-compatible aliases used by existing BMAD workflows.
+planning_artifacts:
+  result: "{planning_current}/planning"
+
+implementation_artifacts:
+  result: "{planning_current}/implementation"
+
+project_knowledge:
+  result: "{docs_root}"
+
+test_artifacts:
+  result: "{current_testing_dir}"
+
+# Used by integrated test-architecture workflows.
+tea_use_playwright_utils:
+  prompt: "Enable Playwright Utils integration?"
+  default: true
+  result: "{value}"
+  single-select:
+    - value: true
+      label: "Yes - Use production utilities (Recommended)"
+    - value: false
+      label: "No - Generate from scratch"
+
+tea_browser_automation:
+  prompt: "How should test workflows interact with browsers during generation?"
+  default: "auto"
+  result: "{value}"
+  single-select:
+    - value: "auto"
+      label: "Auto - Smart selection (Recommended)"
+    - value: "cli"
+      label: "CLI only - Playwright CLI (@playwright/cli)"
+    - value: "mcp"
+      label: "MCP only - Playwright MCP servers"
+    - value: "none"
+      label: "None - No live browser interaction"
+
+test_stack_type:
+  prompt: "What type of project is this?"
+  default: "auto"
+  result: "{value}"
+  single-select:
+    - value: "auto"
+      label: "Auto-detect from project files (Recommended)"
+    - value: "frontend"
+      label: "Frontend (Node.js, React, Vue, Angular)"
+    - value: "backend"
+      label: "Backend (Python, Java, Go, .NET, Rust)"
+    - value: "fullstack"
+      label: "Full-stack (both frontend and backend)"
+
+ci_platform:
+  prompt: "Which CI/CD platform do you use?"
+  default: "auto"
+  result: "{value}"
+  single-select:
+    - value: "auto"
+      label: "Auto-detect from repository (Recommended)"
+    - value: "github-actions"
+      label: "GitHub Actions"
+    - value: "gitlab-ci"
+      label: "GitLab CI"
+    - value: "jenkins"
+      label: "Jenkins"
+    - value: "azure-devops"
+      label: "Azure DevOps Pipelines"
+    - value: "harness"
+      label: "Harness CI"
+    - value: "circle-ci"
+      label: "CircleCI"
+    - value: "other"
+      label: "Other/Custom"
+
+test_framework:
+  prompt: "Which test framework are you using?"
+  default: "auto"
+  result: "{value}"
+  single-select:
+    - value: "auto"
+      label: "Auto-detect from project files (Recommended)"
+    - value: "playwright"
+      label: "Playwright (JavaScript/TypeScript)"
+    - value: "cypress"
+      label: "Cypress (JavaScript/TypeScript)"
+    - value: "jest"
+      label: "Jest (JavaScript/TypeScript)"
+    - value: "vitest"
+      label: "Vitest (JavaScript/TypeScript)"
+    - value: "pytest"
+      label: "pytest (Python)"
+    - value: "junit"
+      label: "JUnit (Java/Kotlin)"
+    - value: "go-test"
+      label: "Go test (Go)"
+    - value: "dotnet-test"
+      label: "dotnet test (C#/.NET)"
+    - value: "rspec"
+      label: "RSpec (Ruby)"
+    - value: "other"
+      label: "Other/Custom"
+
+risk_threshold:
+  prompt: "What risk level requires mandatory testing?"
+  default: "p1"
+  result: "{value}"
+  single-select:
+    - value: "p0"
+      label: "P0 only (Critical systems)"
+    - value: "p1"
+      label: "P1+ (High & Critical)"
+    - value: "p2"
+      label: "P2+ (Medium, High & Critical)"
+    - value: "p3"
+      label: "All (P0-P3)"
+
+test_design_output:
+  prompt: "Where should test design documents be stored?"
+  default: "test-design"
+  result: "{test_artifacts}/{value}"
+
+test_review_output:
+  prompt: "Where should test review reports be stored?"
+  default: "test-reviews"
+  result: "{test_artifacts}/{value}"
+
+trace_output:
+  prompt: "Where should traceability reports be stored?"
+  default: "traceability"
+  result: "{test_artifacts}/{value}"
+
+post-install-notes:
+  planning_root:
+    "planning/framework": |
+      Planning layout:
+        Broad planning artifacts (brainstorming, research, product briefs) route to:
+        - planning/framework/roadmap/...
+        Delivery-phase artifacts route to:
+        - planning/framework/current/...
+        Phase lifecycle uses:
+        - planning/framework/current, planning/framework/previous, planning/framework/lessons, planning/framework/roadmap
+  docs_root:
+    "{project-root}/docs": |
+      Documentation layout:
+        Product documentation is written to:
+        - docs/architecture
+        - docs/development
+        - docs/getting-started
+        - docs/guides
+        - docs/reference
+        Human policy/template governance is synced to:
+        - docs/human/policies
+        - docs/human/templates
+        Legacy docs migration snapshots are staged in:
+        - tmp/docs-migration/<YYYY-MM-DD>/
+  test_stack_type:
+    auto: |
+      Stack Auto-Detection:
+        Test workflows detect project type from manifest files:
+        - Frontend: package.json with react/vue/angular, playwright.config.*, vite.config.*
+        - Backend: pyproject.toml, pom.xml, go.mod, *.csproj, Gemfile, Cargo.toml
+        - Full-stack: both frontend and backend indicators present
+  ci_platform:
+    auto: |
+      CI Platform Auto-Detection:
+        Test workflows detect CI platform from repository files:
+        - GitHub Actions: .github/workflows/
+        - GitLab CI: .gitlab-ci.yml
+        - Jenkins: Jenkinsfile
+        - Azure DevOps: azure-pipelines.yml
+        - Harness: .harness/
+        - CircleCI: .circleci/config.yml
+  tea_browser_automation:
+    cli: |
+      Playwright CLI Setup:
+        npm install -g @playwright/cli@latest
+        playwright-cli install --skills    # Run from project root
+        Node.js 18+ required.
+    mcp: |
+      Playwright MCP Setup (two servers):
+        1. playwright    - npx @playwright/mcp@latest
+        2. playwright-test - npx playwright run-test-mcp-server
+        Configure both MCP servers in your IDE settings.
+        See: https://github.com/microsoft/playwright-mcp
+    auto: |
+      Playwright CLI Setup:
+        npm install -g @playwright/cli@latest
+        playwright-cli install --skills    # Run from project root
+        Node.js 18+ required.
+
+      Playwright MCP Setup (two servers):
+        1. playwright    - npx @playwright/mcp@latest
+        2. playwright-test - npx playwright run-test-mcp-server
+        Configure both MCP servers in your IDE settings.
+        See: https://github.com/microsoft/playwright-mcp
+
+# Directories to create during installation (declarative, no code execution)
+directories:
+  - "{planning_root}"
+  - "{planning_current}"
+  - "{planning_roadmap}"
+  - "{planning_previous}"
+  - "{planning_lessons}"
+  - "{current_brainstorming_dir}"
+  - "{current_research_dir}"
+  - "{current_prd_dir}"
+  - "{current_product_brief_dir}"
+  - "{current_ux_dir}"
+  - "{current_architecture_dir}"
+  - "{current_epics_dir}"
+  - "{current_story_dir}"
+  - "{current_evidence_dir}"
+  - "{current_testing_dir}"
+  - "{roadmap_brainstorming_dir}"
+  - "{roadmap_research_dir}"
+  - "{roadmap_product_brief_dir}"
+  - "{roadmap_archive_dir}"
+  - "{roadmap_archive_brainstorming_dir}"
+  - "{roadmap_archive_research_dir}"
+  - "{roadmap_archive_product_brief_dir}"
+  - "{project_knowledge}"
+  - "{docs_human_root}"
+  - "{docs_human_policies_dir}"
+  - "{docs_human_templates_dir}"
+  - "{docs_ai_root}"
+  - "{docs_architecture_dir}"
+  - "{docs_architecture_decisions_dir}"
+  - "{docs_development_dir}"
+  - "{docs_getting_started_dir}"
+  - "{docs_guides_dir}"
+  - "{docs_reference_dir}"
+  - "{docs_tmp_migration_root}"
+  - "{docs_framework_root}"
+  - "{docs_framework_human_root}"
+  - "{docs_framework_human_policies_dir}"
+  - "{docs_framework_human_templates_dir}"
+  - "{docs_framework_ai_root}"
