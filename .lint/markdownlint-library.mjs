@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { execFileSync } from 'node:child_process';
 import process from 'node:process';
-import * as markdownlint from 'markdownlint';
+import { lint as markdownlint } from 'markdownlint/promise';
 
 let files = process.argv
   .slice(2)
@@ -32,7 +32,7 @@ const config = {
 };
 
 try {
-  const results = await markdownlint.promises.markdownlint({
+  const results = await markdownlint({
     files,
     config,
   });
