@@ -1,0 +1,15 @@
+<task id="_bmad/core/tasks/editorial-review-structure.xml" name="Editorial Review - Structure" standalone="false"
+  description="Compatibility shim: delegates XML calls to markdown task">
+  <objective>Load and execute the markdown implementation of Editorial Review - Structure</objective>
+  <llm critical="true">
+    <i>This XML file is a compatibility shim.</i>
+    <i>Immediately load and execute {project-root}/_bmad/core/tasks/editorial-review-structure.md</i>
+    <i>Follow the markdown task instructions exactly.</i>
+  </llm>
+  <flow>
+    <step n="1" title="Delegate to Markdown Task">
+      <action>Load {project-root}/_bmad/core/tasks/editorial-review-structure.md</action>
+      <action>Execute all instructions exactly as written</action>
+    </step>
+  </flow>
+</task>

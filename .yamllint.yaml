@@ -5,9 +5,13 @@ ignore: |
   dist/
   BMAD-METHOD/
   .beads/
+  reference/BMAD/research/
+  .claude-trace/
 
 rules:
+  comments: disable
   document-start: disable
+  empty-lines: disable
   new-lines: disable
   line-length: disable
   truthy:

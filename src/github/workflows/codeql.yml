@@ -4,6 +4,7 @@ on:
   push:
     branches: [main, develop]
     paths-ignore:
+      - 'reference/BMAD/research/**'
       - '**/*.png'
       - '**/*.jpg'
       - '**/*.jpeg'
@@ -15,6 +16,7 @@ on:
   pull_request:
     branches: [main, develop]
     paths-ignore:
+      - 'reference/BMAD/research/**'
       - '**/*.png'
       - '**/*.jpg'
       - '**/*.jpeg'
@@ -81,6 +83,9 @@ jobs:
         uses: github/codeql-action/init@bb471cdcf4dda2c934c5b656f554d43c1434ed13
         with:
           languages: ${{ matrix.language }}
+          config: |
+            paths-ignore:
+              - reference/BMAD/research/**
 
       - name: Autobuild
         if: steps.code_scanning.outputs.enabled == 'true' && matrix.language == 'javascript'

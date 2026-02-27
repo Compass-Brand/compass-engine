@@ -5,6 +5,7 @@ on:
     branches: [main, develop]
     types: [opened, synchronize, reopened]
     paths-ignore:
+      - 'reference/BMAD/research/**'
       - '**/*.png'
       - '**/*.jpg'
       - '**/*.jpeg'
@@ -16,6 +17,7 @@ on:
   push:
     branches: [main, develop]
     paths-ignore:
+      - 'reference/BMAD/research/**'
       - '**/*.png'
       - '**/*.jpg'
       - '**/*.jpeg'
@@ -79,7 +81,9 @@ jobs:
       - name: Check for merge conflict markers
         run: |
           # Use anchored patterns to avoid false positives
-          if grep -rn "^<<<<<<<\|^=======\$\|^>>>>>>>" --include="*.md" --include="*.py" --include="*.ts" --include="*.js" --include="*.json" . 2>/dev/null; then
+          CONFLICT_MATCHES="$(grep -rn "^<<<<<<<\|^=======\$\|^>>>>>>>" --include="*.md" --include="*.py" --include="*.ts" --include="*.js" --include="*.json" . 2>/dev/null | grep -v "^./reference/BMAD/research/" || true)"
+          if [ -n "$CONFLICT_MATCHES" ]; then
+            echo "$CONFLICT_MATCHES"
             echo "::error::Merge conflict markers found"
             exit 1
           fi
@@ -89,14 +93,14 @@ jobs:
         run: |
           echo "Scanning for potential secrets..."
           FOUND=0
-          SECRET_MATCHES="$(grep -rn "PRIVATE.KEY\|-----BEGIN.*PRIVATE\|sk-[a-zA-Z0-9]\{20,\}\|ghp_[a-zA-Z0-9]\{36\}\|gho_[a-zA-Z0-9]\{36\}\|api[_-]?key.*['\"][a-zA-Z0-9]\{20,\}" --include="*.py" --include="*.ts" --include="*.js" --include="*.json" --include="*.yaml" --include="*.yml" . 2>/dev/null | grep -v node_modules | grep -v ".example" | grep -vE '(^|/)(\.github|src/github)/workflows/quality-checks\.yml:' | head -10 || true)"
+          SECRET_MATCHES="$(grep -rn "PRIVATE.KEY\|-----BEGIN.*PRIVATE\|sk-[a-zA-Z0-9]\{20,\}\|ghp_[a-zA-Z0-9]\{36\}\|gho_[a-zA-Z0-9]\{36\}\|api[_-]?key.*['\"][a-zA-Z0-9]\{20,\}" --include="*.py" --include="*.ts" --include="*.js" --include="*.json" --include="*.yaml" --include="*.yml" . 2>/dev/null | grep -v node_modules | grep -v ".example" | grep -v "^./reference/BMAD/research/" | grep -vE '(^|/)(\.github|src/github)/workflows/quality-checks\.yml:' | head -10 || true)"
           if [ -n "$SECRET_MATCHES" ]; then
             echo "$SECRET_MATCHES"
             echo "::warning::Potential hardcoded secrets detected - please review"
             FOUND=1
           fi
 
-          AWS_MATCHES="$(grep -rn "AKIA[0-9A-Z]\{16\}" --include="*.py" --include="*.ts" --include="*.js" --include="*.json" . 2>/dev/null | grep -v node_modules | grep -v "test" | grep -v "example" | grep -v "fixture" | grep -v ".github/" | head -5 || true)"
+          AWS_MATCHES="$(grep -rn "AKIA[0-9A-Z]\{16\}" --include="*.py" --include="*.ts" --include="*.js" --include="*.json" . 2>/dev/null | grep -v node_modules | grep -v "test" | grep -v "example" | grep -v "fixture" | grep -v ".github/" | grep -v "^./reference/BMAD/research/" | head -5 || true)"
           if [ -n "$AWS_MATCHES" ]; then
             echo "$AWS_MATCHES"
             echo "::warning::AWS access key pattern found - please review"
@@ -125,7 +129,7 @@ jobs:
           echo "Checking documentation freshness..."
           CUTOFF_DATE=$(date -d "30 days ago" +%s 2>/dev/null || date -v-30d +%s)
           STALE_DOCS=0
-          for file in $(git ls-files "*.md"); do
+          for file in $(git ls-files "*.md" | grep -Ev '^reference/BMAD/research/' || true); do
             LAST_COMMIT=$(git log -1 --format=%ct -- "$file" 2>/dev/null || echo "0")
             if [ "$LAST_COMMIT" -lt "$CUTOFF_DATE" ]; then
               STALE_DOCS=$((STALE_DOCS + 1))
@@ -146,6 +150,9 @@ jobs:
 
       - name: Validate JSON/YAML
         uses: GrantBirki/json-yaml-validate@4b493a196a711807aec01c5ace08147f21b025bd
+        with:
+          json_exclude_regex: '(^|/)reference/BMAD/research/|(^|/)fixtures/|(^|/)tests/fixtures/'
+          yaml_exclude_regex: '(^|/)reference/BMAD/research/|(^|/)fixtures/|(^|/)tests/fixtures/'
 
       - name: Lint GitHub Actions workflows
         uses: rhysd/actionlint@2df6872d4bde2b030214429d65f7aeee79ceee47

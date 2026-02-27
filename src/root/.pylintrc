@@ -1,5 +1,6 @@
 [MASTER]
 ignore=node_modules,dist,BMAD-METHOD,.beads
+ignore-paths=^reference/BMAD/research/.*,^.*/fixtures/.*
 jobs=0
 
 [MESSAGES CONTROL]

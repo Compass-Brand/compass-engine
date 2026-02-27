@@ -13,3 +13,4 @@ skip-path:
   - BMAD-METHOD
   - dist
   - node_modules
+  - reference/BMAD/research

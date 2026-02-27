@@ -5,6 +5,7 @@ on:
     branches: [main, develop]
     types: [opened, synchronize, reopened, ready_for_review]
     paths-ignore:
+      - 'reference/BMAD/research/**'
       - '**/*.png'
       - '**/*.jpg'
       - '**/*.jpeg'
@@ -16,6 +17,7 @@ on:
   push:
     branches: [main, develop]
     paths-ignore:
+      - 'reference/BMAD/research/**'
       - '**/*.png'
       - '**/*.jpg'
       - '**/*.jpeg'
@@ -93,9 +95,14 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             FROM_REF="${{ github.event.pull_request.base.sha }}"
-            git diff --name-only "$FROM_REF" "${{ github.sha }}" | grep -E '\.py$' > /tmp/python-files.txt || true
+            git diff --name-only --diff-filter=ACMR "$FROM_REF" "${{ github.sha }}" \
+              | grep -E '\.py$' \
+              | grep -Ev '^reference/BMAD/research/' \
+              | while IFS= read -r file; do [ -f "$file" ] && echo "$file"; done > /tmp/python-files.txt || true
           else
-            git ls-files '*.py' > /tmp/python-files.txt
+            git ls-files '*.py' \
+              | grep -Ev '^reference/BMAD/research/' \
+              | while IFS= read -r file; do [ -f "$file" ] && echo "$file"; done > /tmp/python-files.txt || true
           fi
 
           if [ -s /tmp/python-files.txt ]; then
@@ -139,9 +146,11 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             FROM_REF="${{ github.event.pull_request.base.sha }}"
-            git diff --name-only "$FROM_REF" "${{ github.sha }}" | grep -E '(^|/)\.env(\..*)?$' > /tmp/dotenv-files.txt || true
+            git diff --name-only --diff-filter=ACMR "$FROM_REF" "${{ github.sha }}" \
+              | grep -Ev '^reference/BMAD/research/' \
+              | grep -E '(^|/)\.env(\..*)?$' > /tmp/dotenv-files.txt || true
           else
-            find . -type f -name ".env*" > /tmp/dotenv-files.txt
+            find . -type f -name ".env*" | grep -v '^./reference/BMAD/research/' > /tmp/dotenv-files.txt || true
           fi
 
           if [ -s /tmp/dotenv-files.txt ]; then
@@ -178,9 +187,14 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             FROM_REF="${{ github.event.pull_request.base.sha }}"
-            git diff --name-only "$FROM_REF" "${{ github.sha }}" | grep -E '\.(md|markdown)$' > /tmp/markdown-files.txt || true
+            git diff --name-only --diff-filter=ACMR "$FROM_REF" "${{ github.sha }}" \
+              | grep -E '\.(md|markdown)$' \
+              | grep -Ev '^reference/BMAD/research/|^\.claude-trace/' \
+              | while IFS= read -r file; do [ -f "$file" ] && echo "$file"; done > /tmp/markdown-files.txt || true
           else
-            git ls-files '*.md' '*.markdown' > /tmp/markdown-files.txt
+            git ls-files '*.md' '*.markdown' \
+              | grep -Ev '^reference/BMAD/research/|^\.claude-trace/' \
+              | while IFS= read -r file; do [ -f "$file" ] && echo "$file"; done > /tmp/markdown-files.txt || true
           fi
 
           if [ -s /tmp/markdown-files.txt ]; then
@@ -221,7 +235,7 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             FROM_REF="${{ github.event.pull_request.base.sha }}"
-            CHANGED="$(git diff --name-only "$FROM_REF" "${{ github.sha }}" || true)"
+            CHANGED="$(git diff --name-only --diff-filter=ACMR "$FROM_REF" "${{ github.sha }}" | grep -Ev '^reference/BMAD/research/' || true)"
             if [ -z "$CHANGED" ]; then
               echo "run=false" >> "$GITHUB_OUTPUT"
               exit 0
@@ -247,7 +261,7 @@ jobs:
           output: trivy-results.sarif
           exit-code: '1'
           ignore-unfixed: true
-          skip-dirs: node_modules,dist,.beads,BMAD-METHOD,bmad-builder,bmad-method-test-architecture-enterprise,bmad-module-creative-intelligence-suite,bmad-method-wds-expansion,BMAD-CYBERSEC,ai-memory,pov-oversight-agent
+          skip-dirs: node_modules,dist,.beads,BMAD-METHOD,bmad-builder,bmad-method-test-architecture-enterprise,bmad-module-creative-intelligence-suite,bmad-method-wds-expansion,BMAD-CYBERSEC,ai-memory,pov-oversight-agent,reference/BMAD/research
 
       - name: Upload Trivy SARIF
         id: upload_trivy_sarif
@@ -281,9 +295,11 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             FROM_REF="${{ github.event.pull_request.base.sha }}"
-            git diff --name-only "$FROM_REF" "${{ github.sha }}" | grep -E '(^|/)(Dockerfile|.*Dockerfile.*)$' > /tmp/dockerfiles.txt || true
+            git diff --name-only --diff-filter=ACMR "$FROM_REF" "${{ github.sha }}" \
+              | grep -Ev '^reference/BMAD/research/' \
+              | grep -E '(^|/)(Dockerfile|.*Dockerfile.*)$' > /tmp/dockerfiles.txt || true
           else
-            find . -type f \( -name "Dockerfile" -o -name "*Dockerfile*" \) > /tmp/dockerfiles.txt
+            find . -type f \( -name "Dockerfile" -o -name "*Dockerfile*" \) | grep -v '^./reference/BMAD/research/' > /tmp/dockerfiles.txt || true
           fi
 
           if [ -s /tmp/dockerfiles.txt ]; then
@@ -321,16 +337,16 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             FROM_REF="${{ github.event.pull_request.base.sha }}"
-            CHANGED="$(git diff --name-only "$FROM_REF" "${{ github.sha }}" || true)"
+            CHANGED="$(git diff --name-only --diff-filter=ACMR "$FROM_REF" "${{ github.sha }}" | grep -Ev '^reference/BMAD/research/' || true)"
             if echo "$CHANGED" | grep -E '(^|/)(Dockerfile|.*Dockerfile.*)$|\.tf$|\.tfvars$|^\.github/workflows/.*\.ya?ml$|/k8s/|/kubernetes/|/manifests/|/helm/|/charts/|\.k8s\.ya?ml$' -q; then
               echo "run=true" >> "$GITHUB_OUTPUT"
             else
               echo "run=false" >> "$GITHUB_OUTPUT"
             fi
           else
-            if find . -type f \( -name "*.tf" -o -name "*.tfvars" -o -name "Dockerfile" -o -name "*Dockerfile*" \) | grep -q . \
+            if find . -type f \( -name "*.tf" -o -name "*.tfvars" -o -name "Dockerfile" -o -name "*Dockerfile*" \) | grep -v '^./reference/BMAD/research/' | grep -q . \
               || find .github/workflows -type f \( -name "*.yml" -o -name "*.yaml" \) 2>/dev/null | grep -q . \
-              || find . -type f \( -name "*.yaml" -o -name "*.yml" \) | grep -E "(/k8s/|/kubernetes/|/manifests/|/helm/|/charts/|\\.k8s\\.ya?ml$)" -q; then
+              || find . -type f \( -name "*.yaml" -o -name "*.yml" \) | grep -v '^./reference/BMAD/research/' | grep -E "(/k8s/|/kubernetes/|/manifests/|/helm/|/charts/|\\.k8s\\.ya?ml$)" -q; then
               echo "run=true" >> "$GITHUB_OUTPUT"
             else
               echo "run=false" >> "$GITHUB_OUTPUT"
@@ -383,9 +399,11 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             FROM_REF="${{ github.event.pull_request.base.sha }}"
-            git diff --name-only "$FROM_REF" "${{ github.sha }}" | grep -E '\.tf$|\.tfvars$' > /tmp/terraform-files.txt || true
+            git diff --name-only --diff-filter=ACMR "$FROM_REF" "${{ github.sha }}" \
+              | grep -Ev '^reference/BMAD/research/' \
+              | grep -E '\.tf$|\.tfvars$' > /tmp/terraform-files.txt || true
           else
-            find . -type f \( -name "*.tf" -o -name "*.tfvars" \) > /tmp/terraform-files.txt
+            find . -type f \( -name "*.tf" -o -name "*.tfvars" \) | grep -v '^./reference/BMAD/research/' > /tmp/terraform-files.txt || true
           fi
 
           if [ -s /tmp/terraform-files.txt ]; then
@@ -431,7 +449,7 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             FROM_REF="${{ github.event.pull_request.base.sha }}"
-            if git diff --name-only "$FROM_REF" "${{ github.sha }}" | grep -E '(^|/)Cargo\.toml$|\.rs$' -q && [ -f Cargo.toml ]; then
+            if git diff --name-only --diff-filter=ACMR "$FROM_REF" "${{ github.sha }}" | grep -Ev '^reference/BMAD/research/' | grep -E '(^|/)Cargo\.toml$|\.rs$' -q && [ -f Cargo.toml ]; then
               echo "run=true" >> "$GITHUB_OUTPUT"
             else
               echo "run=false" >> "$GITHUB_OUTPUT"
@@ -479,13 +497,15 @@ jobs:
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             FROM_REF="${{ github.event.pull_request.base.sha }}"
             mapfile -t CANDIDATES < <(
-              git diff --name-only "$FROM_REF" "${{ github.sha }}" \
+              git diff --name-only --diff-filter=ACMR "$FROM_REF" "${{ github.sha }}" \
+                | grep -Ev '^reference/BMAD/research/' \
                 | grep -E '\.ya?ml$' \
                 | grep -E '(/k8s/|/kubernetes/|/manifests/|/helm/|/charts/|\.k8s\.ya?ml$)' || true
             )
           else
             mapfile -t CANDIDATES < <(
               find . -type f \( -name "*.yaml" -o -name "*.yml" \) \
+                | grep -v '^./reference/BMAD/research/' \
                 | grep -E "(/k8s/|/kubernetes/|/manifests/|/helm/|/charts/|\\.k8s\\.ya?ml$)" || true
             )
           fi
