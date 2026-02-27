@@ -1,0 +1,200 @@
+name: Submodule Security Monitoring
+
+on:
+  pull_request:
+    branches: [main, develop]
+    types: [opened, reopened, synchronize]
+  push:
+    branches: [main, develop]
+  schedule:
+    - cron: '30 9 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  trivy-submodule-scan:
+    name: Trivy Submodule Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - name: Run Trivy
+        uses: aquasecurity/trivy-action@0.34.1
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln,misconfig,secret
+          severity: HIGH,CRITICAL
+          format: table
+          exit-code: '1'
+          ignore-unfixed: true
+          skip-dirs: node_modules,dist
+
+  discover-submodules:
+    name: Discover Submodules
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.collect.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Build matrix from .gitmodules
+        id: collect
+        run: |
+          set -euo pipefail
+
+          mapfile -t SUBMODULE_ENTRIES < <(git config --file .gitmodules --get-regexp '^submodule\..*\.path$')
+
+          if [ "${#SUBMODULE_ENTRIES[@]}" -eq 0 ]; then
+            echo 'matrix={"submodule":[]}' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          json="$(
+            printf '%s\n' "${SUBMODULE_ENTRIES[@]}" \
+              | jq -R '
+                split(" ") as $parts
+                | ($parts[0] // "") as $key
+                | ($parts[1:] | join(" ")) as $path
+                | {
+                    name: ($key | sub("^submodule\\."; "") | sub("\\.path$"; "")),
+                    path: $path
+                  }
+              ' \
+              | jq -cs '{submodule: .}'
+          )"
+          echo "matrix=${json}" >> "$GITHUB_OUTPUT"
+
+  monitor-submodule-upstream:
+    name: Monitor submodule upstream drift (${{ matrix.submodule.path }})
+    needs: discover-submodules
+    if: ${{ fromJSON(needs.discover-submodules.outputs.matrix).submodule[0] != null }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.discover-submodules.outputs.matrix) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Compare pinned commit to upstream
+        id: compare
+        run: |
+          set -euo pipefail
+          SUBMODULE_PATH="${{ matrix.submodule.path }}"
+          SUBMODULE_NAME="${{ matrix.submodule.name }}"
+          TARGET_BRANCH="$(git config --file .gitmodules --get "submodule.${SUBMODULE_NAME}.branch" || echo main)"
+
+          git -C "$SUBMODULE_PATH" fetch origin "$TARGET_BRANCH"
+
+          CURRENT_SHA="$(git -C "$SUBMODULE_PATH" rev-parse HEAD)"
+          UPSTREAM_SHA="$(git -C "$SUBMODULE_PATH" rev-parse "origin/$TARGET_BRANCH")"
+
+          if [ "$CURRENT_SHA" != "$UPSTREAM_SHA" ]; then
+            SHA_MISMATCH="true"
+          else
+            SHA_MISMATCH="false"
+          fi
+
+          {
+            echo "branch=$TARGET_BRANCH"
+            echo "current_sha=$CURRENT_SHA"
+            echo "upstream_sha=$UPSTREAM_SHA"
+            echo "sha_mismatch=$SHA_MISMATCH"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Open or update monitoring issue
+        if: steps.compare.outputs.sha_mismatch == 'true' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.fork == false)
+        uses: actions/github-script@v7
+        env:
+          SUBMODULE: ${{ matrix.submodule.path }}
+          TARGET_BRANCH: ${{ steps.compare.outputs.branch }}
+          CURRENT_SHA: ${{ steps.compare.outputs.current_sha }}
+          UPSTREAM_SHA: ${{ steps.compare.outputs.upstream_sha }}
+        with:
+          script: |
+            const submodule = process.env.SUBMODULE;
+            const title = `Submodule update available: ${submodule}`;
+            const body = [
+              `Automated monitoring detected that \`${submodule}\` does not match upstream.`,
+              '',
+              `- Branch: \`${process.env.TARGET_BRANCH}\``,
+              `- Pinned: \`${process.env.CURRENT_SHA.slice(0, 7)}\``,
+              `- Upstream: \`${process.env.UPSTREAM_SHA.slice(0, 7)}\``,
+              '',
+              'Review the upstream changes and update the submodule pin if approved.'
+            ].join('\n');
+
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              per_page: 100
+            });
+
+            const existing = issues.find((issue) => !issue.pull_request && issue.title === title);
+
+            if (existing) {
+              const comments = await github.paginate(github.rest.issues.listComments, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                per_page: 100
+              });
+
+              const extractUpstreamSha = (text) => {
+                const match = text?.match(/- Upstream: `([0-9a-f]{7,40})`/i);
+                return match ? match[1] : null;
+              };
+
+              const previousComment = [...comments]
+                .reverse()
+                .find((comment) => comment.body?.includes('Automated monitoring detected that'));
+
+              const lastReportedSha = extractUpstreamSha(previousComment?.body) || extractUpstreamSha(existing.body);
+              const upstreamSha = process.env.UPSTREAM_SHA;
+              const shortUpstreamSha = upstreamSha.slice(0, 7);
+
+              if (lastReportedSha === upstreamSha || lastReportedSha === shortUpstreamSha) {
+                return;
+              }
+
+              if (previousComment) {
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: previousComment.id,
+                  body
+                });
+              } else {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: existing.number,
+                  body
+                });
+              }
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body
+              });
+            }

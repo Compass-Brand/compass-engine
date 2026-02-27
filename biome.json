@@ -1,7 +1,20 @@
 {
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!node_modules", "!dist", "!BMAD-METHOD", "!.beads"]
+    "includes": [
+      "**",
+      "!node_modules",
+      "!dist",
+      "!BMAD-METHOD",
+      "!bmad-builder",
+      "!bmad-method-test-architecture-enterprise",
+      "!bmad-module-creative-intelligence-suite",
+      "!bmad-method-wds-expansion",
+      "!BMAD-CYBERSEC",
+      "!ai-memory",
+      "!pov-oversight-agent",
+      "!.beads"
+    ]
   },
   "formatter": {
     "enabled": true,
