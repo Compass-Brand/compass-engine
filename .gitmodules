@@ -10,3 +10,23 @@
 	path = bmad-method-test-architecture-enterprise
 	url = https://github.com/bmad-code-org/bmad-method-test-architecture-enterprise.git
 	branch = main
+[submodule "bmad-module-creative-intelligence-suite"]
+	path = bmad-module-creative-intelligence-suite
+	url = https://github.com/bmad-code-org/bmad-module-creative-intelligence-suite.git
+	branch = main
+[submodule "bmad-method-wds-expansion"]
+	path = bmad-method-wds-expansion
+	url = https://github.com/bmad-code-org/bmad-method-wds-expansion.git
+	branch = main
+[submodule "ai-memory"]
+	path = ai-memory
+	url = https://github.com/Hidden-History/ai-memory.git
+	branch = main
+[submodule "pov-oversight-agent"]
+	path = pov-oversight-agent
+	url = https://github.com/Hidden-History/pov-oversight-agent.git
+	branch = main
+[submodule "BMAD-CYBERSEC"]
+	path = BMAD-CYBERSEC
+	url = https://github.com/BlackUnicornSecurity/BMAD-CYBERSEC.git
+	branch = BMAD-CYBEROPS-RP
