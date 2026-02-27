@@ -18,3 +18,8 @@ updates:
       - dependency-name: 'BMAD-METHOD'
       - dependency-name: 'bmad-builder'
       - dependency-name: 'bmad-method-test-architecture-enterprise'
+      - dependency-name: 'bmad-module-creative-intelligence-suite'
+      - dependency-name: 'bmad-method-wds-expansion'
+      - dependency-name: 'BMAD-CYBERSEC'
+      - dependency-name: 'ai-memory'
+      - dependency-name: 'pov-oversight-agent'

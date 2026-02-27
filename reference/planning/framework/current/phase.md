@@ -1,8 +1,8 @@
 # Current Phase
 
 - Phase name: TBD
-- Start date: TBD
-- Target completion date: TBD
+- Start date: TBD (format: YYYY-MM-DD)
+- Target completion date: TBD (format: YYYY-MM-DD)
 - Owner: TBD
 
 ## Goals

@@ -8,7 +8,7 @@ This guide defines daily usage for `reference/planning/framework/`.
 2. Open `../framework/current/phase.md` and confirm phase metadata is current.
 3. Place each new artifact in its required location (table below).
 4. Keep active work in `../framework/current/` only.
-5. Use `phase-closeout-checklist.md` when the phase is complete.
+5. Use [phase-closeout-checklist.md](./phase-closeout-checklist.md) when the phase is complete.
 
 ## Artifact Placement
 

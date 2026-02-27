@@ -37,7 +37,7 @@ Use this checklist before moving an active phase into `framework/previous/`.
 ## Validation Checks
 
 1. `../framework/current/` contains only next-phase starter structure.
-2. Closed phase artifacts exist only in `../framework/previous/<phase-slug>-<YYYY-MM-DD>/`.
+2. Closed-phase artifacts exist only in `../framework/previous/<phase-slug>-<YYYY-MM-DD>/`.
 3. Lesson entry exists and is actionable.
 4. `../framework/roadmap/roadmap.md` reflects new status.
 

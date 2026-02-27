@@ -144,11 +144,34 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          submodules: recursive
 
       - name: Check dependency licenses
         uses: actions/dependency-review-action@v4
         with:
           allow-licenses: MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, 0BSD, Unlicense, WTFPL, CC0-1.0, CC-BY-3.0, CC-BY-4.0, Python-2.0, PSF-2.0, MPL-2.0
+
+      - name: Check submodule repository licenses
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          ALLOWED_SPDX="MIT Apache-2.0 BSD-2-Clause BSD-3-Clause ISC 0BSD Unlicense WTFPL CC0-1.0 CC-BY-3.0 CC-BY-4.0 Python-2.0 PSF-2.0 MPL-2.0"
+
+          while read -r key url; do
+            repo="${url#https://github.com/}"
+            repo="${repo%.git}"
+            spdx="$(gh api "repos/${repo}" --jq '.license.spdx_id // \"NOASSERTION\"')"
+
+            echo "${repo}: ${spdx}"
+
+            if ! echo " ${ALLOWED_SPDX} " | grep -Fq " ${spdx} "; then
+              echo "::error::Disallowed submodule license for ${repo}: ${spdx}"
+              exit 1
+            fi
+          done < <(git config --file .gitmodules --get-regexp '^submodule\\..*\\.url$')
 
   python-lint:
     name: Python Lint (Ruff)
@@ -212,7 +235,7 @@ jobs:
 
       - name: Run ESLint
         if: steps.check-js.outputs.has_js == 'true'
-        run: eslint . --ext .js,.ts,.mjs,.jsx,.tsx --format=stylish --ignore-pattern node_modules/ --ignore-pattern BMAD-METHOD/ --ignore-pattern bmad-builder/ --ignore-pattern bmad-method-test-architecture-enterprise/ --ignore-pattern dist/ --ignore-pattern .beads/ --ignore-pattern .claude/ --ignore-pattern .codex/ --ignore-pattern .opencode/ --ignore-pattern .serena/
+        run: eslint . --ext .js,.ts,.mjs,.jsx,.tsx --format=stylish --ignore-pattern node_modules/ --ignore-pattern BMAD-METHOD/ --ignore-pattern bmad-builder/ --ignore-pattern bmad-method-test-architecture-enterprise/ --ignore-pattern bmad-module-creative-intelligence-suite/ --ignore-pattern bmad-method-wds-expansion/ --ignore-pattern BMAD-CYBERSEC/ --ignore-pattern ai-memory/ --ignore-pattern pov-oversight-agent/ --ignore-pattern dist/ --ignore-pattern .beads/ --ignore-pattern .claude/ --ignore-pattern .codex/ --ignore-pattern .opencode/ --ignore-pattern .serena/
 
       - name: Run Prettier check
         if: steps.check-js.outputs.has_js == 'true'
