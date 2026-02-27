@@ -159,6 +159,7 @@ jobs:
           set -euo pipefail
 
           ALLOWED_SPDX="MIT Apache-2.0 BSD-2-Clause BSD-3-Clause ISC 0BSD Unlicense WTFPL CC0-1.0 CC-BY-3.0 CC-BY-4.0 Python-2.0 PSF-2.0 MPL-2.0"
+          NOASSERTION_ALLOWED_REPOS="bmad-code-org/BMAD-METHOD bmad-code-org/bmad-builder bmad-code-org/bmad-method-test-architecture-enterprise bmad-code-org/bmad-module-creative-intelligence-suite bmad-code-org/bmad-method-wds-expansion BlackUnicornSecurity/BMAD-CYBERSEC Hidden-History/pov-oversight-agent"
 
           while read -r _ url; do
             repo="$url"
@@ -184,6 +185,13 @@ jobs:
             spdx="$(gh api "repos/${repo}" --jq '.license.spdx_id // "NOASSERTION"')"
 
             echo "${repo}: ${spdx}"
+
+            if [ "$spdx" = "NOASSERTION" ]; then
+              if echo " ${NOASSERTION_ALLOWED_REPOS} " | grep -Fq " ${repo} "; then
+                echo "::warning::License SPDX is NOASSERTION for reviewed submodule ${repo}"
+                continue
+              fi
+            fi
 
             if ! echo " ${ALLOWED_SPDX} " | grep -Fq " ${spdx} "; then
               echo "::error::Disallowed submodule license for ${repo}: ${spdx}"

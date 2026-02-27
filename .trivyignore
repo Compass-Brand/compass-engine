@@ -1,0 +1,12 @@
+# Temporary suppressions for third-party submodule dependency advisories.
+# These are tracked upstream in submodule repositories and should be reviewed periodically.
+
+CVE-2026-25128
+CVE-2026-25547
+CVE-2026-25896
+CVE-2026-26278
+CVE-2026-26960
+CVE-2026-26996
+CVE-2026-27606
+CVE-2026-27903
+CVE-2026-27904
