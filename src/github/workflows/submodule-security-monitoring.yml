@@ -35,9 +35,40 @@ jobs:
           ignore-unfixed: true
           skip-dirs: node_modules,dist
 
-  monitor-bmad-method-wds-expansion:
-    name: Monitor bmad-method-wds-expansion
+  discover-submodules:
+    name: Discover Submodules
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.collect.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Build matrix from .gitmodules
+        id: collect
+        run: |
+          set -euo pipefail
+
+          mapfile -t SUBMODULES < <(git config --file .gitmodules --get-regexp '^submodule\..*\.path$' | awk '{print $2}')
+
+          if [ "${#SUBMODULES[@]}" -eq 0 ]; then
+            echo 'matrix={"submodule":[]}' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          json="$(printf '%s\n' "${SUBMODULES[@]}" | jq -R . | jq -cs '{submodule: .}')"
+          echo "matrix=${json}" >> "$GITHUB_OUTPUT"
+
+  monitor-submodule-upstream:
+    name: Monitor submodule upstream drift (${{ matrix.submodule }})
+    needs: discover-submodules
+    if: ${{ fromJSON(needs.discover-submodules.outputs.matrix).submodule[0] != null }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.discover-submodules.outputs.matrix) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -49,36 +80,41 @@ jobs:
         id: compare
         run: |
           set -euo pipefail
-          SUBMODULE_PATH="bmad-method-wds-expansion"
-          TARGET_BRANCH="$(git config --file .gitmodules --get submodule.bmad-method-wds-expansion.branch || echo main)"
+          SUBMODULE_PATH="${{ matrix.submodule }}"
+          TARGET_BRANCH="$(git config --file .gitmodules --get "submodule.${SUBMODULE_PATH}.branch" || echo main)"
 
           git -C "$SUBMODULE_PATH" fetch origin "$TARGET_BRANCH"
 
           CURRENT_SHA="$(git -C "$SUBMODULE_PATH" rev-parse HEAD)"
           UPSTREAM_SHA="$(git -C "$SUBMODULE_PATH" rev-parse "origin/$TARGET_BRANCH")"
 
-          echo "branch=$TARGET_BRANCH" >> "$GITHUB_OUTPUT"
-          echo "current_sha=$CURRENT_SHA" >> "$GITHUB_OUTPUT"
-          echo "upstream_sha=$UPSTREAM_SHA" >> "$GITHUB_OUTPUT"
-
           if [ "$CURRENT_SHA" != "$UPSTREAM_SHA" ]; then
-            echo "behind=true" >> "$GITHUB_OUTPUT"
+            SHA_MISMATCH="true"
           else
-            echo "behind=false" >> "$GITHUB_OUTPUT"
+            SHA_MISMATCH="false"
           fi
 
+          {
+            echo "branch=$TARGET_BRANCH"
+            echo "current_sha=$CURRENT_SHA"
+            echo "upstream_sha=$UPSTREAM_SHA"
+            echo "sha_mismatch=$SHA_MISMATCH"
+          } >> "$GITHUB_OUTPUT"
+
       - name: Open or update monitoring issue
-        if: steps.compare.outputs.behind == 'true'
+        if: steps.compare.outputs.sha_mismatch == 'true'
         uses: actions/github-script@v7
         env:
+          SUBMODULE: ${{ matrix.submodule }}
           TARGET_BRANCH: ${{ steps.compare.outputs.branch }}
           CURRENT_SHA: ${{ steps.compare.outputs.current_sha }}
           UPSTREAM_SHA: ${{ steps.compare.outputs.upstream_sha }}
         with:
           script: |
-            const title = 'Submodule update available: bmad-method-wds-expansion';
+            const submodule = process.env.SUBMODULE;
+            const title = `Submodule update available: ${submodule}`;
             const body = [
-              'Automated monitoring detected that `bmad-method-wds-expansion` is behind upstream.',
+              `Automated monitoring detected that \`${submodule}\` does not match upstream.`,
               '',
               `- Branch: \`${process.env.TARGET_BRANCH}\``,
               `- Pinned: \`${process.env.CURRENT_SHA.slice(0, 7)}\``,
@@ -87,14 +123,14 @@ jobs:
               'Review the upstream changes and update the submodule pin if approved.'
             ].join('\n');
 
-            const { data: issues } = await github.rest.issues.listForRepo({
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: 'open',
               per_page: 100
             });
 
-            const existing = issues.find((issue) => issue.title === title);
+            const existing = issues.find((issue) => !issue.pull_request && issue.title === title);
 
             if (existing) {
               await github.rest.issues.createComment({

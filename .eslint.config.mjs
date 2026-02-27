@@ -3,6 +3,13 @@ export default [
     ignores: [
       'node_modules/**',
       'dist/**',
+      'bmad-builder/**',
+      'bmad-method-test-architecture-enterprise/**',
+      'bmad-module-creative-intelligence-suite/**',
+      'bmad-method-wds-expansion/**',
+      'BMAD-CYBERSEC/**',
+      'ai-memory/**',
+      'pov-oversight-agent/**',
       'BMAD-METHOD/**',
       '.beads/**',
       '.codex/**',

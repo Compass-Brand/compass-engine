@@ -18,9 +18,8 @@ This repository treats every entry in `.gitmodules` as a third-party dependency 
 - `quality-checks.yml` resolves each submodule repository license from GitHub and fails if the SPDX identifier is outside the allowed set.
 
 4. Periodic monitoring
-- `submodule-security-monitoring.yml` checks `bmad-method-wds-expansion` against its configured upstream branch and opens/updates an issue when the pinned commit is behind.
+- `submodule-security-monitoring.yml` checks every configured submodule against its upstream branch and opens/updates an issue when the pinned commit does not match upstream.
 
 ## Allowed Submodule SPDX Licenses
 
 `MIT`, `Apache-2.0`, `BSD-2-Clause`, `BSD-3-Clause`, `ISC`, `0BSD`, `Unlicense`, `WTFPL`, `CC0-1.0`, `CC-BY-3.0`, `CC-BY-4.0`, `Python-2.0`, `PSF-2.0`, `MPL-2.0`
-
