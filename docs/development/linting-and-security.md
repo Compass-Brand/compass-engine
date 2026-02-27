@@ -1,6 +1,6 @@
 # Linting and Security Gates
 
-Last reviewed: 2026-02-24
+Last reviewed: 2026-02-27
 
 This repo ships a shared linting/security baseline for both:
 
@@ -71,12 +71,18 @@ To avoid formatter conflicts:
 
 - `src/github/workflows/linting.yml`
 
+Execution policy:
+
+- PRs run scoped checks based on changed files.
+- Pushes to `main`/`develop` run full-scope checks.
+- Obvious non-code artifact-only updates are filtered with `paths-ignore`.
+
 Includes:
 
 - `pre-commit` baseline job (with pre-commit cache)
-- dedicated `pylint` job for changed Python files
-- `dotenv-linter`
-- `markdownlint` library job
+- dedicated `pylint` job (PR diff scoped, full on protected push)
+- `dotenv-linter` (PR diff scoped, full on protected push)
+- `markdownlint` library job (PR diff scoped, full on protected push)
 - `trivy` filesystem scan (HIGH/CRITICAL gate)
 - optional jobs by repo contents:
   - `hadolint`
@@ -85,6 +91,18 @@ Includes:
   - `rustfmt + clippy`
   - `kubeconform`
   - `zizmor`
+
+Security reporting policy:
+
+- Trivy and Checkov produce SARIF.
+- SARIF uploads use GitHub Code Scanning when available.
+- If SARIF upload is unavailable in a repository, workflows emit a warning and continue.
+
+Hardening policy:
+
+- all workflow actions are pinned to immutable commit SHAs
+- all jobs define `timeout-minutes`
+- token permissions are minimized at job scope
 
 ### CodeQL Security Analysis
 

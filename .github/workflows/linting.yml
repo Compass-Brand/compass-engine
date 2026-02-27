@@ -4,12 +4,29 @@ on:
   pull_request:
     branches: [main, develop]
     types: [opened, synchronize, reopened, ready_for_review]
+    paths-ignore:
+      - '**/*.png'
+      - '**/*.jpg'
+      - '**/*.jpeg'
+      - '**/*.gif'
+      - '**/*.svg'
+      - '**/*.ico'
+      - '**/*.webp'
+      - '**/*.pdf'
   push:
     branches: [main, develop]
+    paths-ignore:
+      - '**/*.png'
+      - '**/*.jpg'
+      - '**/*.jpeg'
+      - '**/*.gif'
+      - '**/*.svg'
+      - '**/*.ico'
+      - '**/*.webp'
+      - '**/*.pdf'
 
 permissions:
   contents: read
-  security-events: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -19,29 +36,30 @@ jobs:
   pre-commit:
     name: pre-commit baseline
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           fetch-depth: 0
 
       - name: Setup Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: '3.11'
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238
         with:
           node-version: '20'
 
       - name: Setup Go
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417
         with:
           go-version: '1.24'
 
       - name: Cache pre-commit environments
-        uses: actions/cache@v5
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
         with:
           path: ~/.cache/pre-commit
           key: pre-commit-${{ runner.os }}-py311-${{ hashFiles('.pre-commit-config.yaml') }}
@@ -49,44 +67,35 @@ jobs:
       - name: Install pre-commit
         run: python -m pip install --upgrade pre-commit
 
-      - name: Run pre-commit (changed files)
+      - name: Run pre-commit (PR diff, full on protected push)
         run: |
           export SKIP="end-of-file-fixer,trailing-whitespace,pyupgrade,isort,ruff-check,ruff-format,biome-ci,prettier,actionlint,markdownlint"
 
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             FROM_REF="${{ github.event.pull_request.base.sha }}"
-          else
-            FROM_REF="${{ github.event.before }}"
-          fi
-
-          if [ -z "$FROM_REF" ] || [ "$FROM_REF" = "0000000000000000000000000000000000000000" ]; then
-            pre-commit run --all-files --show-diff-on-failure --color=always
-          else
             pre-commit run --from-ref "$FROM_REF" --to-ref "${{ github.sha }}" --show-diff-on-failure --color=always
+          else
+            pre-commit run --all-files --show-diff-on-failure --color=always
           fi
 
   pylint:
     name: pylint (python errors-only)
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           fetch-depth: 0
 
-      - name: Detect changed Python files
+      - name: Detect Python scope
         id: detect
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             FROM_REF="${{ github.event.pull_request.base.sha }}"
+            git diff --name-only "$FROM_REF" "${{ github.sha }}" | grep -E '\.py$' > /tmp/python-files.txt || true
           else
-            FROM_REF="${{ github.event.before }}"
-          fi
-
-          if [ -z "$FROM_REF" ] || [ "$FROM_REF" = "0000000000000000000000000000000000000000" ]; then
             git ls-files '*.py' > /tmp/python-files.txt
-          else
-            git diff --name-only "$FROM_REF" "${{ github.sha }}" | grep -E '\\.py$' > /tmp/python-files.txt || true
           fi
 
           if [ -s /tmp/python-files.txt ]; then
@@ -97,7 +106,7 @@ jobs:
 
       - name: Setup Python
         if: steps.detect.outputs.run == 'true'
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: '3.11'
 
@@ -107,25 +116,35 @@ jobs:
           python -m pip install --upgrade pip
           pip install pylint
 
-      - name: Run pylint on changed files
+      - name: Run pylint on scoped files
         if: steps.detect.outputs.run == 'true'
         run: xargs -r pylint --errors-only --rcfile=.pylintrc < /tmp/python-files.txt
 
       - name: Skip message
         if: steps.detect.outputs.run != 'true'
-        run: echo "No Python files changed; skipping."
+        run: echo "No Python files in current scope; skipping."
 
   dotenv-linter:
     name: dotenv-linter
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          fetch-depth: 0
 
-      - name: Detect dotenv files
+      - name: Detect dotenv scope
         id: detect
         run: |
-          if find . -type f -name ".env*" | grep -q .; then
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            FROM_REF="${{ github.event.pull_request.base.sha }}"
+            git diff --name-only "$FROM_REF" "${{ github.sha }}" | grep -E '(^|/)\.env(\..*)?$' > /tmp/dotenv-files.txt || true
+          else
+            find . -type f -name ".env*" > /tmp/dotenv-files.txt
+          fi
+
+          if [ -s /tmp/dotenv-files.txt ]; then
             echo "run=true" >> "$GITHUB_OUTPUT"
           else
             echo "run=false" >> "$GITHUB_OUTPUT"
@@ -133,39 +152,35 @@ jobs:
 
       - name: Run dotenv-linter
         if: steps.detect.outputs.run == 'true'
-        uses: dotenv-linter/action-dotenv-linter@v3
+        uses: dotenv-linter/action-dotenv-linter@9a2281a0795f8bd6fd01a4da36b5c8df885f06bc
 
       - name: Skip message
         if: steps.detect.outputs.run != 'true'
-        run: echo "No dotenv files detected; skipping."
+        run: echo "No dotenv files in current scope; skipping."
 
   markdownlint-library:
     name: markdownlint (library)
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238
         with:
           node-version: '20'
 
-      - name: Detect changed Markdown files
+      - name: Detect Markdown scope
         id: detect
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             FROM_REF="${{ github.event.pull_request.base.sha }}"
+            git diff --name-only "$FROM_REF" "${{ github.sha }}" | grep -E '\.(md|markdown)$' > /tmp/markdown-files.txt || true
           else
-            FROM_REF="${{ github.event.before }}"
-          fi
-
-          if [ -z "$FROM_REF" ] || [ "$FROM_REF" = "0000000000000000000000000000000000000000" ]; then
             git ls-files '*.md' '*.markdown' > /tmp/markdown-files.txt
-          else
-            git diff --name-only "$FROM_REF" "${{ github.sha }}" | grep -E '\\.(md|markdown)$' > /tmp/markdown-files.txt || true
           fi
 
           if [ -s /tmp/markdown-files.txt ]; then
@@ -186,37 +201,92 @@ jobs:
 
       - name: Skip message
         if: steps.detect.outputs.run != 'true'
-        run: echo "No Markdown files changed; skipping."
+        run: echo "No Markdown files in current scope; skipping."
 
   trivy:
     name: trivy filesystem scan
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      security-events: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          fetch-depth: 0
+
+      - name: Detect Trivy scope
+        id: detect
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            FROM_REF="${{ github.event.pull_request.base.sha }}"
+            CHANGED="$(git diff --name-only "$FROM_REF" "${{ github.sha }}" || true)"
+            if [ -z "$CHANGED" ]; then
+              echo "run=false" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+
+            if echo "$CHANGED" | grep -Ev '\.(md|markdown|png|jpg|jpeg|gif|svg|ico|webp|pdf)$' | grep -q .; then
+              echo "run=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "run=false" >> "$GITHUB_OUTPUT"
+            fi
+          else
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Run Trivy
-        uses: aquasecurity/trivy-action@0.34.1
+        if: steps.detect.outputs.run == 'true'
+        uses: aquasecurity/trivy-action@e368e328979b113139d6f9068e03accaed98a518
         with:
           scan-type: fs
           scanners: vuln,misconfig,secret
           severity: HIGH,CRITICAL
-          format: table
+          format: sarif
+          output: trivy-results.sarif
           exit-code: '1'
           ignore-unfixed: true
           skip-dirs: node_modules,dist,.beads,BMAD-METHOD,bmad-builder,bmad-method-test-architecture-enterprise,bmad-module-creative-intelligence-suite,bmad-method-wds-expansion,BMAD-CYBERSEC,ai-memory,pov-oversight-agent
 
+      - name: Upload Trivy SARIF
+        id: upload_trivy_sarif
+        if: steps.detect.outputs.run == 'true' && always()
+        continue-on-error: true
+        uses: github/codeql-action/upload-sarif@bb471cdcf4dda2c934c5b656f554d43c1434ed13
+        with:
+          sarif_file: trivy-results.sarif
+          category: trivy
+
+      - name: Warn when Trivy SARIF upload is unavailable
+        if: steps.detect.outputs.run == 'true' && steps.upload_trivy_sarif.outcome == 'failure'
+        run: echo "::warning::Trivy SARIF upload was skipped or unavailable; continuing per policy."
+
+      - name: Skip message
+        if: steps.detect.outputs.run != 'true'
+        run: echo "No Trivy-relevant files in current PR scope; skipping."
+
   hadolint:
     name: hadolint (optional)
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          fetch-depth: 0
 
-      - name: Detect Dockerfiles
+      - name: Detect Dockerfile scope
         id: detect
         run: |
-          if find . -type f \( -name "Dockerfile" -o -name "*Dockerfile*" \) | grep -q .; then
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            FROM_REF="${{ github.event.pull_request.base.sha }}"
+            git diff --name-only "$FROM_REF" "${{ github.sha }}" | grep -E '(^|/)(Dockerfile|.*Dockerfile.*)$' > /tmp/dockerfiles.txt || true
+          else
+            find . -type f \( -name "Dockerfile" -o -name "*Dockerfile*" \) > /tmp/dockerfiles.txt
+          fi
+
+          if [ -s /tmp/dockerfiles.txt ]; then
             echo "run=true" >> "$GITHUB_OUTPUT"
           else
             echo "run=false" >> "$GITHUB_OUTPUT"
@@ -224,36 +294,52 @@ jobs:
 
       - name: Run hadolint
         if: steps.detect.outputs.run == 'true'
-        uses: hadolint/hadolint-action@v3.3.0
+        uses: hadolint/hadolint-action@2332a7b74a6de0dda2e2221d575162eba76ba5e5
         with:
           recursive: true
           failure-threshold: error
 
       - name: Skip message
         if: steps.detect.outputs.run != 'true'
-        run: echo "No Dockerfiles detected; skipping."
+        run: echo "No Dockerfiles in current scope; skipping."
 
   checkov:
     name: checkov (optional)
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      security-events: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          fetch-depth: 0
 
-      - name: Detect IaC files
+      - name: Detect IaC scope
         id: detect
         run: |
-          if find . -type f \( -name "*.tf" -o -name "*.tfvars" -o -name "Dockerfile" -o -name "*Dockerfile*" \) | grep -q . \
-            || find .github/workflows -type f \( -name "*.yml" -o -name "*.yaml" \) 2>/dev/null | grep -q . \
-            || find . -type f \( -name "*.yaml" -o -name "*.yml" \) | grep -E "(/k8s/|/kubernetes/|/manifests/|/helm/|/charts/|\\.k8s\\.ya?ml$)" -q; then
-            echo "run=true" >> "$GITHUB_OUTPUT"
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            FROM_REF="${{ github.event.pull_request.base.sha }}"
+            CHANGED="$(git diff --name-only "$FROM_REF" "${{ github.sha }}" || true)"
+            if echo "$CHANGED" | grep -E '(^|/)(Dockerfile|.*Dockerfile.*)$|\.tf$|\.tfvars$|^\.github/workflows/.*\.ya?ml$|/k8s/|/kubernetes/|/manifests/|/helm/|/charts/|\.k8s\.ya?ml$' -q; then
+              echo "run=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "run=false" >> "$GITHUB_OUTPUT"
+            fi
           else
-            echo "run=false" >> "$GITHUB_OUTPUT"
+            if find . -type f \( -name "*.tf" -o -name "*.tfvars" -o -name "Dockerfile" -o -name "*Dockerfile*" \) | grep -q . \
+              || find .github/workflows -type f \( -name "*.yml" -o -name "*.yaml" \) 2>/dev/null | grep -q . \
+              || find . -type f \( -name "*.yaml" -o -name "*.yml" \) | grep -E "(/k8s/|/kubernetes/|/manifests/|/helm/|/charts/|\\.k8s\\.ya?ml$)" -q; then
+              echo "run=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "run=false" >> "$GITHUB_OUTPUT"
+            fi
           fi
 
       - name: Setup Python
         if: steps.detect.outputs.run == 'true'
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
         with:
           python-version: '3.11'
 
@@ -263,23 +349,46 @@ jobs:
 
       - name: Run Checkov
         if: steps.detect.outputs.run == 'true'
-        run: checkov -d . --config-file .checkov.yaml --check HIGH,CRITICAL
+        run: checkov -d . --config-file .checkov.yaml --check HIGH,CRITICAL -o sarif --output-file-path checkov-results.sarif
+
+      - name: Upload Checkov SARIF
+        id: upload_checkov_sarif
+        if: steps.detect.outputs.run == 'true' && always()
+        continue-on-error: true
+        uses: github/codeql-action/upload-sarif@bb471cdcf4dda2c934c5b656f554d43c1434ed13
+        with:
+          sarif_file: checkov-results.sarif
+          category: checkov
+
+      - name: Warn when Checkov SARIF upload is unavailable
+        if: steps.detect.outputs.run == 'true' && steps.upload_checkov_sarif.outcome == 'failure'
+        run: echo "::warning::Checkov SARIF upload was skipped or unavailable; continuing per policy."
 
       - name: Skip message
         if: steps.detect.outputs.run != 'true'
-        run: echo "No supported IaC files detected; skipping."
+        run: echo "No supported IaC files in current scope; skipping."
 
   terraform-lint:
     name: terraform fmt + tflint (optional)
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          fetch-depth: 0
 
-      - name: Detect Terraform
+      - name: Detect Terraform scope
         id: detect
         run: |
-          if find . -type f \( -name "*.tf" -o -name "*.tfvars" \) | grep -q .; then
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            FROM_REF="${{ github.event.pull_request.base.sha }}"
+            git diff --name-only "$FROM_REF" "${{ github.sha }}" | grep -E '\.tf$|\.tfvars$' > /tmp/terraform-files.txt || true
+          else
+            find . -type f \( -name "*.tf" -o -name "*.tfvars" \) > /tmp/terraform-files.txt
+          fi
+
+          if [ -s /tmp/terraform-files.txt ]; then
             echo "run=true" >> "$GITHUB_OUTPUT"
           else
             echo "run=false" >> "$GITHUB_OUTPUT"
@@ -287,11 +396,11 @@ jobs:
 
       - name: Setup Terraform
         if: steps.detect.outputs.run == 'true'
-        uses: hashicorp/setup-terraform@v4
+        uses: hashicorp/setup-terraform@5e8dbf3c6d9deaf4193ca7a8fb23f2ac83bb6c85
 
       - name: Setup TFLint
         if: steps.detect.outputs.run == 'true'
-        uses: terraform-linters/setup-tflint@v6
+        uses: terraform-linters/setup-tflint@0c688f0e33c43029df9334b85caeff28837a53bd
 
       - name: Run terraform fmt
         if: steps.detect.outputs.run == 'true'
@@ -305,28 +414,41 @@ jobs:
 
       - name: Skip message
         if: steps.detect.outputs.run != 'true'
-        run: echo "No Terraform files detected; skipping."
+        run: echo "No Terraform files in current scope; skipping."
 
   rust-lint:
     name: rustfmt + clippy (optional)
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          fetch-depth: 0
 
-      - name: Detect Rust
+      - name: Detect Rust scope
         id: detect
         run: |
-          if [ -f Cargo.toml ]; then
-            echo "run=true" >> "$GITHUB_OUTPUT"
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            FROM_REF="${{ github.event.pull_request.base.sha }}"
+            if git diff --name-only "$FROM_REF" "${{ github.sha }}" | grep -E '(^|/)Cargo\.toml$|\.rs$' -q && [ -f Cargo.toml ]; then
+              echo "run=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "run=false" >> "$GITHUB_OUTPUT"
+            fi
           else
-            echo "run=false" >> "$GITHUB_OUTPUT"
+            if [ -f Cargo.toml ]; then
+              echo "run=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "run=false" >> "$GITHUB_OUTPUT"
+            fi
           fi
 
       - name: Setup Rust toolchain
         if: steps.detect.outputs.run == 'true'
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@efa25f7f19611383d5b0ccf2d1c8914531636bf9
         with:
+          toolchain: stable
           components: clippy,rustfmt
 
       - name: Run rustfmt
@@ -339,20 +461,34 @@ jobs:
 
       - name: Skip message
         if: steps.detect.outputs.run != 'true'
-        run: echo "No Cargo workspace detected; skipping."
+        run: echo "No Rust files in current scope; skipping."
 
   kubeconform:
     name: kubeconform (optional)
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          fetch-depth: 0
 
-      - name: Detect Kubernetes manifests
+      - name: Detect Kubernetes scope
         id: detect
         run: |
-          mapfile -t CANDIDATES < <(find . -type f \( -name "*.yaml" -o -name "*.yml" \) \
-            | grep -E "(/k8s/|/kubernetes/|/manifests/|/helm/|/charts/|\\.k8s\\.ya?ml$)" || true)
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            FROM_REF="${{ github.event.pull_request.base.sha }}"
+            mapfile -t CANDIDATES < <(
+              git diff --name-only "$FROM_REF" "${{ github.sha }}" \
+                | grep -E '\.ya?ml$' \
+                | grep -E '(/k8s/|/kubernetes/|/manifests/|/helm/|/charts/|\.k8s\.ya?ml$)' || true
+            )
+          else
+            mapfile -t CANDIDATES < <(
+              find . -type f \( -name "*.yaml" -o -name "*.yml" \) \
+                | grep -E "(/k8s/|/kubernetes/|/manifests/|/helm/|/charts/|\\.k8s\\.ya?ml$)" || true
+            )
+          fi
 
           if [ "${#CANDIDATES[@]}" -gt 0 ]; then
             printf "%s\n" "${CANDIDATES[@]}" > /tmp/kubeconform-files.txt
@@ -375,27 +511,41 @@ jobs:
 
       - name: Skip message
         if: steps.detect.outputs.run != 'true'
-        run: echo "No Kubernetes manifests detected; skipping."
+        run: echo "No Kubernetes manifests in current scope; skipping."
 
   zizmor:
     name: zizmor (optional)
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          fetch-depth: 0
 
-      - name: Detect GitHub workflow files
+      - name: Detect workflow scope
         id: detect
         run: |
-          if find .github/workflows -type f \( -name "*.yml" -o -name "*.yaml" \) 2>/dev/null | grep -q .; then
-            echo "run=true" >> "$GITHUB_OUTPUT"
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            FROM_REF="${{ github.event.pull_request.base.sha }}"
+            if git diff --name-only "$FROM_REF" "${{ github.sha }}" | grep -E '^\.github/workflows/.*\.(yml|yaml)$' -q; then
+              echo "run=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "run=false" >> "$GITHUB_OUTPUT"
+            fi
           else
-            echo "run=false" >> "$GITHUB_OUTPUT"
+            if find .github/workflows -type f \( -name "*.yml" -o -name "*.yaml" \) 2>/dev/null | grep -q .; then
+              echo "run=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "run=false" >> "$GITHUB_OUTPUT"
+            fi
           fi
 
       - name: Setup Rust toolchain
         if: steps.detect.outputs.run == 'true'
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@efa25f7f19611383d5b0ccf2d1c8914531636bf9
+        with:
+          toolchain: stable
 
       - name: Install zizmor
         if: steps.detect.outputs.run == 'true'
@@ -408,4 +558,4 @@ jobs:
 
       - name: Skip message
         if: steps.detect.outputs.run != 'true'
-        run: echo "No GitHub workflow files detected; skipping."
+        run: echo "No workflow changes in current scope; skipping."
