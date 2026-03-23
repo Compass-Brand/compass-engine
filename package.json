@@ -1,27 +1,33 @@
 {
   "name": "@compass-brand/compass-engine",
   "version": "0.1.0",
-  "description": "Central development tools for Compass Brand projects - BMAD, Claude Code config, workflow tools",
+  "description": "Canonical Compass Brand engine for BMAD, planning, documentation, and developer tooling",
   "type": "module",
-  "main": "tools/build.js",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./cli": "./src/cli.js"
+  },
   "bin": {
-    "compass-engine": "./tools/cli.js"
+    "compass-engine": "./src/cli.js"
   },
   "scripts": {
+    "sync:client-bundles": "node tools/sync-client-bundles.js",
     "build": "node tools/build.js",
     "push": "node tools/push.js",
     "validate": "node tools/validate.js",
     "check:github-drift": "node tools/check-github-drift.js",
     "check:root-drift": "node tools/check-root-drift.js",
-    "check": "npm run validate && npm run check:github-drift && npm run check:root-drift && npm run build && npm run push -- --dry-run --targets claude,codex,opencode,github,root",
+    "check": "npm run validate && npm run check:github-drift && npm run check:root-drift && npm run build && npm run push -- --dry-run --targets bmad,planning,documentation,claude,codex,opencode,github,root",
     "create:bmad-module": "node tools/create-bmad-module.js",
     "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
-    "prepublishOnly": "npm run build"
+  "prepublishOnly": "npm run build"
   },
   "files": [
-    "dist/**/*",
+    "src/**/*",
     "tools/*.js",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "keywords": [
     "bmad",

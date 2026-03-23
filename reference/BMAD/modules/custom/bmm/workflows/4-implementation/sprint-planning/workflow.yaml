@@ -3,7 +3,7 @@ description: 'Generate sprint status tracking from epics. Use when the user says
 author: "BMad"
 
 # Critical variables from config
-config_source: "{project-root}/_bmad/bmm/config.yaml"
+config_source: "{project-root}/reference/BMAD/modules/custom/bmm/config.yaml"
 user_name: "{config_source}:user_name"
 communication_language: "{config_source}:communication_language"
 date: system-generated
@@ -13,7 +13,7 @@ current_story_dir: "{config_source}:current_story_dir"
 current_epics_dir: "{config_source}:current_epics_dir"
 
 # Workflow components
-installed_path: "{project-root}/_bmad/bmm/workflows/4-implementation/sprint-planning"
+installed_path: "{project-root}/reference/BMAD/modules/custom/bmm/workflows/4-implementation/sprint-planning"
 instructions: "{installed_path}/instructions.md"
 template: "{installed_path}/sprint-status-template.yaml"
 validation: "{installed_path}/checklist.md"
@@ -29,8 +29,8 @@ story_location: "{current_story_dir}" # Relative path for file-system, Future wi
 story_location_absolute: "{current_story_dir}" # Absolute path for file operations
 
 # Source files (file-system only)
-epics_location: "{current_epics_dir}" # Directory containing epic*.md files
-epics_pattern: "epic*.md" # Pattern to find epic files
+epics_location: "{current_epics_dir}" # Directory containing epics.md, bmm-epics.md, or sharded epic files
+epics_pattern: "*epic*.md" # Matches epics.md, bmm-epics.md, and epic-1.md style files
 
 # Output configuration
 status_file: "{current_story_dir}/sprint-status.yaml"

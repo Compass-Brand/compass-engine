@@ -11,6 +11,43 @@ This directory is the source for distributed `.github/` defaults.
 - `CODEOWNERS`
 - `profiles/` (repo-type overlays such as Node/Python/submodule dependabot variants)
 
+## Installer Selection
+
+The push/install surface can install either the full GitHub bundle or a selected subset.
+
+Common examples:
+
+```bash
+# full GitHub bundle
+compass-engine push --targets github
+
+# baseline plus linting only
+compass-engine push --targets github --github-features baseline,linting
+
+# baseline plus a repo overlay
+compass-engine push --targets github --github-features baseline,profile-node
+```
+
+Available GitHub feature groups:
+
+- `baseline`
+- `codeowners`
+- `dependabot`
+- `quality-checks`
+- `linting`
+- `codeql`
+- `pr-size-labeler`
+- `stale`
+- `necessist`
+- `runtime-security`
+- `submodule-security-monitoring`
+- `github-drift`
+- `profile-node`
+- `profile-python`
+- `profile-submodule-compass-engine`
+- `profile-submodule-bmad-method`
+- `profile-check-bmad-updates`
+
 ## CodeQL Enablement in Target Repositories
 
 The baseline includes `.github/workflows/codeql.yml`, but CodeQL will only run after repository-level security settings are enabled.

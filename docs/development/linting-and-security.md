@@ -174,7 +174,12 @@ npm run build
 
 # Sync lint/workflow outputs into the current repo
 npm run push -- --targets github,root
+
+# Sync only selected CI/CD feature groups
+npm run push -- --targets github,root --github-features baseline,linting --root-features baseline,javascript,docs
 ```
+
+Feature-group selection is useful when a repo only needs part of the Compass CI/CD baseline. Omit the feature flags to install the full shipped GitHub and root bundles.
 
 ## Updating Tool Versions
 

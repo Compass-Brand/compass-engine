@@ -1,63 +1,62 @@
-# Planning Templates
+# Planning Framework
 
-This folder contains templates for the Compass Brand planning folder structure. These templates are designed to be distributed to all repositories in the ecosystem.
+This directory defines the roadmap-driven Compass BMAD planning framework.
 
-## Templates
+In deployed project repositories this bundle lives under root `planning/`. The editable source for this bundle is maintained in `compass-engine`.
 
-| Template | Purpose |
-|----------|---------|
-| `product-backlog.yaml` | Prioritized backlog with estimates and TDD gates |
-| `sprint-goal-template.md` | Sprint objectives and commitments |
-| `sprint-backlog-template.yaml` | Sprint work items with TDD tracking |
-| `retrospective-template.md` | What went well/improve/actions |
-| `epic-template.md` | Epic definition with Definition of Done |
-| `story-template.md` | User story with TDD requirements |
-| `adr-template.md` | Architecture Decision Record |
-| `spike-template.md` | Technical investigation format |
-| `test-plan-template.md` | Epic-level test strategy |
-| `acceptance-tests-template.md` | Given/When/Then acceptance criteria |
+## Purpose
 
-## Usage
+- provide the deployed layout for project-level and phase-level planning
+- separate reusable framework guidance from live project planning state
+- support repeatable multi-phase development instead of one-off MVP planning
 
-### Manual Setup
+## Domains
 
-Copy the templates to a new repo's `planning/` folder:
+- the root `planning/` control surface is the live planning framework layout
+- `docs/` contains usage guidance, conventions, and lifecycle rationale
+- `templates/` contains starter artifacts for roadmap, phase, and implementation support work
 
-```bash
-cp -r src/planning-templates/* /path/to/repo/planning/
+Workspace and parent repos may also use orchestration-specific control surfaces:
+
+- `repositories.yaml`
+- `current/initiative-index.yaml`
+- `current/initiatives/`
+
+## Primary Entry Commands
+
+- use `/bmad-bmm-init-planning` to scaffold or normalize the live planning framework
+- use `/bmad-bmm-sync-repositories` to refresh the approved repo-topology registry when repos are added, moved, or missed
+- use `/bmad-bmm-workspace-bootstrap` from workspace or parent repos to initialize selected child repos into the BMAD planning and docs structure
+- use `/bmad-bmm-project-roadmap` to create or update approved roadmap state before `Phase Sync`
+- use templates directly only when a remaining planning step does not yet have a dedicated workflow
+
+## Read Order
+
+1. `README.md`
+2. `docs/how-to-use.md`
+3. `docs/workflow-map.md`
+4. `templates/README.md`
+5. `roadmap/roadmap.md`
+6. `current/phase.md`
+
+When machine state matters, also load:
+
+1. `repositories.yaml` when repo routing or ownership matters
+1. `roadmap/roadmap.yaml`
+2. `current/phase-state.yaml`
+3. `current/initiative-index.yaml` when multiple concurrent initiatives are active
+
+## Structure
+
+```text
+planning/
+├── README.md
+├── repositories.yaml
+├── current/
+├── previous/
+├── lessons/
+├── roadmap/
+├── docs/
+├── templates/
+└── ...
 ```
-
-### Scaffold Script
-
-Use the scaffold script to set up a complete planning structure:
-
-```bash
-./scripts/scaffold-planning.sh /path/to/repo
-```
-
-## TDD Enforcement
-
-The templates enforce TDD through:
-
-1. **Story template**: Requires TDD checklist completion
-2. **Sprint backlog**: Tracks `tdd_gate` status for each item
-3. **Test plan**: Must exist before stories are "ready-for-dev"
-4. **Acceptance tests**: Written in Given/When/Then format before implementation
-
-## Integration with BMAD
-
-These templates complement BMAD outputs:
-
-- BMAD generates initial artifacts in `planning/`
-- Planning templates organize ongoing development work
-- Sprint planning pulls from BMAD-generated epics/stories
-- Retrospectives feed back into future BMAD cycles
-
-## Customization
-
-Repos may customize templates for their specific needs while maintaining:
-
-- TDD checklist in all story templates
-- Acceptance criteria format (Given/When/Then)
-- Sprint backlog TDD gate tracking
-- ADR format consistency

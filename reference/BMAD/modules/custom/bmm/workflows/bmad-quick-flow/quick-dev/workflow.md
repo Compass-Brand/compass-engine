@@ -25,7 +25,7 @@ This uses **step-file architecture** for focused execution:
 
 ### Configuration Loading
 
-Load config from `{project-root}/_bmad/bmm/config.yaml` and resolve:
+Load config from `{project-root}/reference/BMAD/modules/custom/bmm/config.yaml` and resolve:
 
 - `user_name`, `communication_language`, `user_skill_level`
 - `current_story_dir`, `current_evidence_dir`, `current_testing_dir`, `current_architecture_dir`
@@ -34,17 +34,17 @@ Load config from `{project-root}/_bmad/bmm/config.yaml` and resolve:
 
 ### Paths
 
-- `installed_path` = `{project-root}/_bmad/bmm/workflows/bmad-quick-flow/quick-dev`
+- `installed_path` = `{project-root}/reference/BMAD/modules/custom/bmm/workflows/bmad-quick-flow/quick-dev`
 - `project_context` = `**/project-context.md` (load if exists)
 
 ### Related Workflows
 
-- `quick_spec_workflow` = `{project-root}/_bmad/bmm/workflows/bmad-quick-flow/quick-spec/workflow.md`
-- `party_mode_exec` = `{project-root}/_bmad/core/workflows/party-mode/workflow.md`
-- `advanced_elicitation` = `{project-root}/_bmad/core/workflows/advanced-elicitation/workflow.xml`
+- `quick_spec_workflow` = `{project-root}/reference/BMAD/modules/custom/bmm/workflows/bmad-quick-flow/quick-spec/workflow.md`
+- `party_mode_exec` = `{project-root}/reference/BMAD/modules/custom/core/workflows/party-mode/workflow.md`
+- `advanced_elicitation` = `{project-root}/reference/BMAD/modules/custom/core/workflows/advanced-elicitation/workflow.xml`
 
 ---
 
 ## EXECUTION
 
-Read fully and follow: `{project-root}/_bmad/bmm/workflows/bmad-quick-flow/quick-dev/steps/step-01-mode-detection.md` to begin the workflow.
+Read fully and follow: `{project-root}/reference/BMAD/modules/custom/bmm/workflows/bmad-quick-flow/quick-dev/steps/step-01-mode-detection.md` to begin the workflow.

@@ -11,7 +11,7 @@ description: 'Focused brainstorming for active implementation work. Use when the
 
 ## CONFIGURATION
 
-Load config from `{project-root}/_bmad/bmm/config.yaml` and resolve:
+Load config from `{project-root}/reference/BMAD/modules/custom/bmm/config.yaml` and resolve:
 - `project_name`, `user_name`
 - `communication_language`, `document_output_language`
 - `current_brainstorming_dir`, `current_epics_dir`, `current_story_dir`

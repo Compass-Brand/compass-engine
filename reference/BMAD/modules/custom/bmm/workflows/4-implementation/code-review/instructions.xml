@@ -1,5 +1,5 @@
 <workflow>
-  <critical>The workflow execution engine is governed by: {project-root}/_bmad/core/tasks/workflow.xml</critical>
+  <critical>The workflow execution engine is governed by: {project-root}/reference/BMAD/modules/custom/core/tasks/workflow.xml</critical>
   <critical>You MUST have already loaded and processed: {installed_path}/workflow.yaml</critical>
   <critical>Communicate all responses in {communication_language} and language MUST be tailored to {user_skill_level}</critical>
   <critical>Generate all documents in {document_output_language}</critical>
@@ -12,7 +12,7 @@
   <critical>Read EVERY file in the File List - verify implementation against story requirements</critical>
   <critical>Tasks marked complete but not done = CRITICAL finding</critical>
   <critical>Acceptance Criteria not implemented = HIGH severity finding</critical>
-  <critical>Do not review files that are not part of the application's source code. Always exclude the _bmad/ and _bmad-output/ folders from the review. Always exclude IDE and CLI configuration folders like .cursor/ and .windsurf/ and .claude/</critical>
+  <critical>Do not review files that are not part of the application's source code. Always exclude the reference/BMAD/, _bmad/, and _bmad-output/ folders from the review. Always exclude IDE and CLI configuration folders like .cursor/ and .windsurf/ and .claude/</critical>
 
 
   <step n="1" goal="Load story and discover changes">
@@ -112,6 +112,13 @@
     <action>Categorize findings: HIGH (must fix), MEDIUM (should fix), LOW (nice to fix)</action>
     <action>Set {{fixed_count}} = 0</action>
     <action>Set {{action_count}} = 0</action>
+    <action>Create or update a `Senior Developer Review (AI)` section in the story file with:
+      - Review date and reviewer label
+      - Outcome summary (Approve / Changes Requested / Blocked)
+      - Severity counts and git/story discrepancy summary
+      - `Action Items` checkbox list for every HIGH and MEDIUM finding
+    </action>
+    <action>Ensure the action-item wording can be matched to any `Review Follow-ups (AI)` tasks added under Tasks/Subtasks</action>
 
     <output>**🔥 CODE REVIEW FINDINGS, {user_name}!**
 
@@ -151,6 +158,7 @@
       <action>Add/update tests as needed</action>
       <action>Update File List in story if files changed</action>
       <action>Update story Dev Agent Record with fixes applied</action>
+      <action>Mark automatically resolved `Senior Developer Review (AI) → Action Items` entries as complete</action>
       <action>Set {{fixed_count}} = number of HIGH and MEDIUM issues fixed</action>
       <action>Set {{action_count}} = 0</action>
     </check>
@@ -158,6 +166,7 @@
     <check if="user chooses 2">
       <action>Add "Review Follow-ups (AI)" subsection to Tasks/Subtasks</action>
       <action>For each issue: `- [ ] [AI-Review][Severity] Description [file:line]`</action>
+      <action>Leave the matching `Senior Developer Review (AI) → Action Items` entries unchecked so dev-story can resume them later</action>
       <action>Set {{action_count}} = number of action items created</action>
       <action>Set {{fixed_count}} = 0</action>
     </check>
@@ -170,9 +179,16 @@
 
   <step n="5" goal="Update story status and sync sprint tracking">
     <!-- Determine new status based on review outcome -->
-    <check if="all HIGH and MEDIUM issues fixed AND all ACs implemented">
+    <check if="all HIGH and MEDIUM issues fixed AND all ACs implemented AND {test_artifacts}/test-review.md exists AND {test_artifacts}/traceability-matrix.md exists">
       <action>Set {{new_status}} = "done"</action>
       <action>Update story Status field to "done"</action>
+    </check>
+    <check if="all HIGH and MEDIUM issues fixed AND all ACs implemented AND ({test_artifacts}/test-review.md does NOT exist OR {test_artifacts}/traceability-matrix.md does NOT exist)">
+      <action>Set {{new_status}} = "review"</action>
+      <action>Update story Status field to "review"</action>
+      <output>⚠️ Code review findings are resolved, but the TEA exit evidence is incomplete.
+        Run `test-review` and `trace` so the story can move from review to done with explicit quality evidence.
+      </output>
     </check>
     <check if="HIGH or MEDIUM issues remain OR ACs not fully implemented">
       <action>Set {{new_status}} = "in-progress"</action>
@@ -197,6 +213,12 @@
         <action>Update development_status[{{story_key}}] = "done"</action>
         <action>Save file, preserving ALL comments and structure</action>
         <output>✅ Sprint status synced: {{story_key}} → done</output>
+      </check>
+
+      <check if="{{new_status}} == 'review'">
+        <action>Update development_status[{{story_key}}] = "review"</action>
+        <action>Save file, preserving ALL comments and structure</action>
+        <output>🧪 Sprint status synced: {{story_key}} → review</output>
       </check>
 
       <check if="{{new_status}} == 'in-progress'">

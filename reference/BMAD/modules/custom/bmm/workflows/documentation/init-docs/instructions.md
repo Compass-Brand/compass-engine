@@ -1,12 +1,14 @@
 # Initialize Docs Workflow
 
-<critical>The workflow engine is governed by: {project-root}/_bmad/core/tasks/workflow.xml</critical>
-<critical>You MUST have already loaded and resolved: {project-root}/_bmad/bmm/workflows/documentation/init-docs/workflow.yaml</critical>
+<critical>The workflow engine is governed by: {project-root}/reference/BMAD/modules/custom/core/tasks/workflow.xml</critical>
+<critical>You MUST have already loaded and resolved: {project-root}/reference/BMAD/modules/custom/bmm/workflows/documentation/init-docs/workflow.yaml</critical>
 <critical>Communicate all responses in {communication_language}</critical>
 
 ## Goal
 
-Migrate existing repository documentation into Compass opinionated documentation layout under `{docs_root}` while preserving all legacy content in a dated migration snapshot under `{docs_tmp_migration_root}`.
+Migrate existing repository documentation into the Compass deployed documentation layout under `{docs_root}` while preserving all legacy content in a dated migration snapshot under `{docs_tmp_migration_root}`.
+
+Use the canonical documentation framework in `{docs_framework_root}` as the standards source. In `compass-engine` this framework is authored in `reference/documentation/`, but deployed project outputs belong in `docs/`.
 
 ## Step 1: Preflight and Snapshot Date
 
@@ -47,12 +49,17 @@ Ensure all required Compass docs directories and index files exist:
 - `{docs_guides_dir}/README.md`
 - `{docs_reference_dir}/README.md`
 
+For newly created index files, use the applicable templates from `{docs_framework_human_templates_dir}`.
+Ensure `{docs_root}/README.md` records docs ownership, review cadence, and the repo docs ownership model.
+
 ## Step 5: Sync Built-In Policy and Template Assets
 
 1. Copy baseline policy files from `{docs_framework_human_policies_dir}` to `{docs_human_policies_dir}`.
 2. Copy baseline templates from `{docs_framework_human_templates_dir}` to `{docs_human_templates_dir}`.
 3. Copy `{docs_framework_ai_root}/README.md` to `{docs_ai_root}/README.md` if missing.
 4. Ensure `{docs_human_overrides_file}` exists with placeholder content if missing.
+
+These files are the project-local documentation control plane. They support the live deployed docs tree but do not replace the reader-facing docs under the primary `docs/*` destinations.
 
 ## Step 6: Transform Legacy Content into Target Structure
 
@@ -69,11 +76,19 @@ When useful, reuse native extraction heuristics from:
 - `{legacy_full_scan_instructions}`
 - `{legacy_deep_dive_instructions}`
 
+While transforming content:
+
+- choose a primary Diataxis mode for each new guide or reference document
+- create or update ADRs in `{docs_architecture_decisions_dir}` when a major decision is expensive to reverse
+- add lifecycle state and owner/review metadata when a document is becoming an active project doc
+- record promotion gaps when a planning artifact is not yet stable enough to become canonical docs
+
 ## Step 7: Build Navigation and Cross-links
 
 1. Update `{docs_root}/README.md` to index major docs sections.
 2. Ensure each docs subdirectory `README.md` links to contained docs.
 3. Ensure internal links are relative.
+4. Add related links between explanation, how-to, tutorial, and reference pages when operationally relevant.
 
 ## Step 8: Emit Initialization Report
 
@@ -82,6 +97,8 @@ Write `{default_output_file}` including:
 - snapshot path
 - migrated inputs count
 - generated/updated outputs count
+- docs owner and ownership-model status
+- lifecycle or promotion gaps still open
 - unresolved migration gaps
 - recommended follow-up command: `/bmad-bmm-update-docs`
 

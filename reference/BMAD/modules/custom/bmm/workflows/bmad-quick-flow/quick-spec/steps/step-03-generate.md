@@ -112,7 +112,7 @@ stepsCompleted: [1, 2, 3]
 ---
 ```
 
-c) **Read fully and follow: `{project-root}/_bmad/bmm/workflows/bmad-quick-flow/quick-spec/steps/step-04-review.md` (Step 4)**
+c) **Read fully and follow: `{project-root}/reference/BMAD/modules/custom/bmm/workflows/bmad-quick-flow/quick-spec/steps/step-04-review.md` (Step 4)**
 
 ## REQUIRED OUTPUTS:
 
@@ -124,4 +124,3 @@ c) **Read fully and follow: `{project-root}/_bmad/bmm/workflows/bmad-quick-flow/
 
 - [ ] `stepsCompleted: [1, 2, 3]` set in frontmatter.
 - [ ] Spec meets the **READY FOR DEVELOPMENT** standard.
-

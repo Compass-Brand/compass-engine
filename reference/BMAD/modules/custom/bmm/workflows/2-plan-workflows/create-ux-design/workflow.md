@@ -24,7 +24,7 @@ This uses **micro-file architecture** for disciplined execution:
 
 ### Configuration Loading
 
-Load config from `{project-root}/_bmad/bmm/config.yaml` and resolve:
+Load config from `{project-root}/reference/BMAD/modules/custom/bmm/config.yaml` and resolve:
 
 - `project_name`, `planning_root`, `planning_current`, `current_ux_dir`, `user_name`
 - `communication_language`, `document_output_language`, `user_skill_level`
@@ -32,12 +32,11 @@ Load config from `{project-root}/_bmad/bmm/config.yaml` and resolve:
 
 ### Paths
 
-- `installed_path` = `{project-root}/_bmad/bmm/workflows/2-plan-workflows/create-ux-design`
+- `installed_path` = `{project-root}/reference/BMAD/modules/custom/bmm/workflows/2-plan-workflows/create-ux-design`
 - `template_path` = `{installed_path}/ux-design-template.md`
 - `default_output_file` = `{current_ux_dir}/ux-design-specification.md`
 
 ## EXECUTION
 
 - ✅ YOU MUST ALWAYS SPEAK OUTPUT In your Agent communication style with the config `{communication_language}`
-- Read fully and follow: `{project-root}/_bmad/bmm/workflows/2-plan-workflows/create-ux-design/steps/step-01-init.md` to begin the UX design workflow.
-
+- Read fully and follow: `{project-root}/reference/BMAD/modules/custom/bmm/workflows/2-plan-workflows/create-ux-design/steps/step-01-init.md` to begin the UX design workflow.

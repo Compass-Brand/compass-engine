@@ -3,12 +3,12 @@ name: 'step-10-nonfunctional'
 description: 'Define quality attributes that matter for this specific product'
 
 # File References
-nextStepFile: '{project-root}/_bmad/bmm/workflows/2-plan-workflows/create-prd/steps-c/step-11-polish.md'
+nextStepFile: '{project-root}/reference/BMAD/modules/custom/bmm/workflows/2-plan-workflows/create-prd/steps-c/step-11-polish.md'
 outputFile: '{current_prd_dir}/prd.md'
 
 # Task References
-advancedElicitationTask: '{project-root}/_bmad/core/workflows/advanced-elicitation/workflow.xml'
-partyModeWorkflow: '{project-root}/_bmad/core/workflows/party-mode/workflow.md'
+advancedElicitationTask: '{project-root}/reference/BMAD/modules/custom/core/workflows/advanced-elicitation/workflow.xml'
+partyModeWorkflow: '{project-root}/reference/BMAD/modules/custom/core/workflows/party-mode/workflow.md'
 ---
 
 # Step 10: Non-Functional Requirements

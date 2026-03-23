@@ -15,11 +15,19 @@ This file provides guidance to Claude Code when working in this repository.
 This repository serves as the central hub for Compass Brand development tools:
 
 - **BMAD-METHOD/** - Core BMAD methodology (upstream submodule)
-- **src/** - Source files for Claude Code configuration and BMAD customizations
+- **reference/** - Framework, provenance, research, and audit context that does not ship
+- **src/** - Active shipped source bundles for Compass Engine
 - **dist/** - Built output ready for distribution
-- **tools/** - Build, distribution, and workflow automation
+- **tools/** - Maintainer build, push, validation, and scaffolding scripts
 - **\_bmad-output/** - BMAD runtime artifacts and custom creations
 - **docs/** - Documentation and guides
+
+## Working Rule
+
+- update shipped assets in `src/`
+- keep `reference/` limited to workflow/framework reference, provenance, and research
+- do not build new runtime behavior in `reference/`
+- when build or push behavior changes, update `tools/` and the matching `src/` surfaces together
 
 ## What is BMAD?
 

@@ -5,11 +5,11 @@ Operational tooling scripts for `compass-engine`.
 ## Active Tools
 
 - `tools/build.js`
-  - Builds all distributable bundles from `src/` to `dist/`.
+  - Maintainer-facing build script that turns `src/` into `dist/`.
 - `tools/push.js`
-  - Syncs selected targets from `dist/` into destination repositories.
+  - Maintainer-facing push script that syncs selected targets from `dist/` into destination repositories.
 - `tools/validate.js`
-  - Validates required source layout and checks for obvious secret leaks.
+  - Maintainer-facing validation script for source layout and secret hygiene.
 - `tools/create-bmad-module.js`
   - Scaffolds a custom BMAD module into `src/bmad/modules/` from upstream.
 - `tools/check-github-drift.js`
@@ -29,3 +29,5 @@ npm run check
 npm run push -- --all
 npm run create:bmad-module -- --name compass-bmm --from bmm --code cbmm
 ```
+
+For a shipped CLI entrypoint, use `compass-engine <command>`. The package runtime entrypoint lives in `src/cli.js`; root `tools/` remains the maintainer-script surface for this repository.

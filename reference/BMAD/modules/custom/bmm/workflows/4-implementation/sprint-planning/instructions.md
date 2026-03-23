@@ -1,7 +1,7 @@
 # Sprint Planning - Sprint Status Generator
 
-<critical>The workflow execution engine is governed by: {project-root}/_bmad/core/tasks/workflow.xml</critical>
-<critical>You MUST have already loaded and processed: {project-root}/_bmad/bmm/workflows/4-implementation/sprint-planning/workflow.yaml</critical>
+<critical>The workflow execution engine is governed by: {project-root}/reference/BMAD/modules/custom/core/tasks/workflow.xml</critical>
+<critical>You MUST have already loaded and processed: {project-root}/reference/BMAD/modules/custom/bmm/workflows/4-implementation/sprint-planning/workflow.yaml</critical>
 
 ## 📚 Document Discovery - Full Epic Loading
 
@@ -26,7 +26,7 @@
 <action>Load {project_context} for project-wide patterns and conventions (if exists)</action>
 <action>Communicate in {communication_language} with {user_name}</action>
 <action>Look for all files matching `{epics_pattern}` in {epics_location}</action>
-<action>Could be a single `epics.md` file or multiple `epic-1.md`, `epic-2.md` files</action>
+<action>Could be a single `epics.md` or `bmm-epics.md` file, or multiple `epic-1.md`, `epic-2.md` files</action>
 
 <action>For each epic file found, extract:</action>
 
@@ -41,7 +41,7 @@
 - Convert title to kebab-case: `user-authentication`
 - Final key: `1-1-user-authentication`
 
-<action>Build complete inventory of all epics and stories from all epic files</action>
+<action>Build complete inventory of all epics and stories from the resolved epics document set</action>
 </step>
 
   <step n="0.5" goal="Discover and load project documents">
@@ -147,10 +147,10 @@ development_status:
 <step n="5" goal="Validate and report">
 <action>Perform validation checks:</action>
 
-- [ ] Every epic in epic files appears in {status_file}
-- [ ] Every story in epic files appears in {status_file}
+- [ ] Every epic in the epics document set appears in {status_file}
+- [ ] Every story in the epics document set appears in {status_file}
 - [ ] Every epic has a corresponding retrospective entry
-- [ ] No items in {status_file} that don't exist in epic files
+- [ ] No items in {status_file} that don't exist in the epics document set
 - [ ] All status values are legal (match state machine definitions)
 - [ ] File is valid YAML syntax
 

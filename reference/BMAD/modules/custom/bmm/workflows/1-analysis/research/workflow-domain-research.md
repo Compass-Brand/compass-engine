@@ -15,7 +15,7 @@ description: 'Conduct domain and industry research. Use when the user says "lets
 
 ## CONFIGURATION
 
-Load config from `{project-root}/_bmad/bmm/config.yaml` and resolve:
+Load config from `{project-root}/reference/BMAD/modules/custom/bmm/config.yaml` and resolve:
 - `project_name`, `planning_root`, `planning_roadmap`, `roadmap_research_dir`, `user_name`
 - `communication_language`, `document_output_language`, `user_skill_level`
 - `date` as a system-generated value
@@ -52,4 +52,3 @@ After gathering the topic and goals:
 **Note:** The discovered topic from the discussion should be passed to the initialization step, so it doesn't need to ask "What do you want to research?" again - it can focus on refining the scope for domain research.
 
 **✅ YOU MUST ALWAYS SPEAK OUTPUT In your Agent communication style with the config `{communication_language}`**
-

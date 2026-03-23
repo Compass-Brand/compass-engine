@@ -34,7 +34,7 @@ This uses **micro-file architecture** for disciplined execution:
 
 ### Configuration Loading
 
-Load config from `{project-root}/_bmad/core/config.yaml` and resolve:
+Load config from `{project-root}/reference/BMAD/modules/custom/core/config.yaml` and resolve:
 
 - `project_name`, `output_folder`, `user_name`
 - `planning_root`, `planning_current`, `planning_roadmap`, `roadmap_brainstorming_dir`
@@ -43,12 +43,12 @@ Load config from `{project-root}/_bmad/core/config.yaml` and resolve:
 
 ### Paths
 
-- `installed_path` = `{project-root}/_bmad/core/workflows/brainstorming`
+- `installed_path` = `{project-root}/reference/BMAD/modules/custom/core/workflows/brainstorming`
 - `template_path` = `{installed_path}/template.md`
 - `brain_techniques_path` = `{installed_path}/brain-methods.csv`
 - `default_output_file` = `{roadmap_brainstorming_dir}/brainstorming-session-{{date}}.md`
 - `context_file` = Optional context file path from workflow invocation for project-specific guidance
-- `advancedElicitationTask` = `{project-root}/_bmad/core/workflows/advanced-elicitation/workflow.md`
+- `advancedElicitationTask` = `{project-root}/reference/BMAD/modules/custom/core/workflows/advanced-elicitation/workflow.md`
 
 ### Routing Rule
 
@@ -62,4 +62,3 @@ Load config from `{project-root}/_bmad/core/config.yaml` and resolve:
 Read fully and follow: `steps/step-01-session-setup.md` to begin the workflow.
 
 **Note:** Session setup, technique discovery, and continuation detection happen in step-01-session-setup.md.
-

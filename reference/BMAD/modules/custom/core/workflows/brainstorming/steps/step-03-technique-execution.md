@@ -1,7 +1,7 @@
 # Step 3: Interactive Technique Execution and Facilitation
 
 ---
-advancedElicitationTask: '{project-root}/_bmad/core/workflows/advanced-elicitation/workflow.md'
+advancedElicitationTask: '{project-root}/reference/BMAD/modules/custom/core/workflows/advanced-elicitation/workflow.md'
 ---
 
 ## MANDATORY EXECUTION RULES (READ FIRST):
@@ -397,4 +397,3 @@ When user selects 'C', append the content directly to `{roadmap_brainstorming_di
 After technique completion and user confirmation, load `./step-04-idea-organization.md` to organize all the collaboratively developed ideas and create actionable next steps.
 
 Remember: This is creative coaching, not technique delivery! The user's creative energy is your guide, not the technique structure.
-

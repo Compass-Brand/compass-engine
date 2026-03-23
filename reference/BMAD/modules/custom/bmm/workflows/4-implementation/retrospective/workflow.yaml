@@ -2,7 +2,7 @@
 name: "retrospective"
 description: 'Post-epic review to extract lessons and assess success. Use when the user says "run a retrospective" or "lets retro the epic [epic]"'
 
-config_source: "{project-root}/_bmad/bmm/config.yaml"
+config_source: "{project-root}/reference/BMAD/modules/custom/bmm/config.yaml"
 user_name: "{config_source}:user_name"
 communication_language: "{config_source}:communication_language"
 user_skill_level: "{config_source}:user_skill_level"
@@ -18,12 +18,12 @@ current_story_dir: "{config_source}:current_story_dir"
 current_evidence_dir: "{config_source}:current_evidence_dir"
 project_context: "**/project-context.md"
 
-installed_path: "{project-root}/_bmad/bmm/workflows/4-implementation/retrospective"
+installed_path: "{project-root}/reference/BMAD/modules/custom/bmm/workflows/4-implementation/retrospective"
 template: false
 instructions: "{installed_path}/instructions.md"
 
 required_inputs:
-  - agent_manifest: "{project-root}/_bmad/_config/agent-manifest.csv"
+  - agent_manifest: "{project-root}/reference/BMAD/_config/agent-manifest.csv"
 
 # Smart input file references - handles both whole docs and sharded docs
 # Priority: Whole document first, then sharded version

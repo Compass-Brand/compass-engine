@@ -34,7 +34,7 @@ Discover the project's technology stack, existing patterns, and critical impleme
 
 First, check if project context already exists:
 
-- Look for file at `{project_knowledge}/project-context.md or {project-root}/**/project-context.md`
+- Look for file at `{current_project_context_dir}/project-context.md` or `{project-root}/**/project-context.md`
 - If exists: Read complete file to understand existing rules
 - Present to user: "Found existing project context with {number_of_sections} sections. Would you like to update this or create a new one?"
 
@@ -123,7 +123,7 @@ Based on discovery, create or update the context document:
 
 #### A. Fresh Document Setup (if no existing context)
 
-Copy template from `{installed_path}/project-context-template.md` to `{output_folder}/project-context.md`
+Copy template from `{installed_path}/project-context-template.md` to `{current_project_context_dir}/project-context.md`
 Initialize frontmatter fields.
 
 #### B. Existing Document Update
@@ -179,6 +179,6 @@ Ready to create/update your project context. This will help AI agents implement 
 
 ## NEXT STEP:
 
-After user selects [C] to continue, load `{project-root}/_bmad/bmm/workflows/generate-project-context/steps/step-02-generate.md` to collaboratively generate the specific project context rules.
+After user selects [C] to continue, load `{project-root}/reference/BMAD/modules/custom/bmm/workflows/generate-project-context/steps/step-02-generate.md` to collaboratively generate the specific project context rules.
 
 Remember: Do NOT proceed to step-02 until user explicitly selects [C] from the menu and discovery is confirmed and the initial file has been written as directed in this discovery step!

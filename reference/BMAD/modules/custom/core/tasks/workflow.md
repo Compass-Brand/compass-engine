@@ -92,10 +92,10 @@ When checkpoint encountered:
 - `[y]` YOLO remaining document
 
 Actions:
-- `a`: run `{project-root}/_bmad/core/workflows/advanced-elicitation/workflow.md`
+- `a`: run `{project-root}/reference/BMAD/modules/custom/core/workflows/advanced-elicitation/workflow.md`
 - `c`: continue to next instruction
-- `o`: run `{project-root}/_bmad/core/workflows/autonomous-refinement-loop/workflow.md`
-- `p`: run `{project-root}/_bmad/core/workflows/party-mode/workflow.md`
+- `o`: run `{project-root}/reference/BMAD/modules/custom/core/workflows/autonomous-refinement-loop/workflow.md`
+- `p`: run `{project-root}/reference/BMAD/modules/custom/core/workflows/party-mode/workflow.md`
 - `y`: enter `#yolo` mode for remaining workflow
 
 #### 2d. Step Completion Prompt
@@ -179,5 +179,5 @@ If no sharded match:
 ## Final Critical Rules
 - This file is the workflow execution engine source of truth.
 - Follow instructions exactly.
-- All workflow calls using legacy path `{project-root}/_bmad/core/tasks/workflow.xml` must remain compatible through shim.
+- All workflow calls using legacy path `{project-root}/reference/BMAD/modules/custom/core/tasks/workflow.xml` must remain compatible through shim.
 - Execution style is facilitative and collaborative; do not skip required sections.

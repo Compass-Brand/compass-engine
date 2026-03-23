@@ -18,7 +18,7 @@ wipFile: '{current_architecture_dir}/tech-spec-wip.md'
 
 ## CONTEXT:
 
-- Requires `{wipFile}` from Step 3. 
+- Requires `{wipFile}` from Step 3.
 - MUST present COMPLETE spec content. Iterate until user is satisfied.
 - **Criteria**: The spec MUST meet the **READY FOR DEVELOPMENT** standard defined in `workflow.md`.
 
@@ -153,7 +153,7 @@ b) **HALT and wait for user selection.**
 
 1. **Invoke Adversarial Review Task**:
        > With `{finalFile}` constructed, load and follow the review task. If possible, use information asymmetry: load this task, and only it, in a separate subagent or process with read access to the project, but no context except the `{finalFile}`.
-       <invoke-task>Review {finalFile} using {project-root}/_bmad/core/tasks/review-adversarial-general.xml</invoke-task>
+       <invoke-task>Review {finalFile} using {project-root}/reference/BMAD/modules/custom/core/tasks/review-adversarial-general.xml</invoke-task>
        > **Platform fallback:** If task invocation not available, load the task file and follow its instructions inline, passing `{finalFile}` as the content.
        > The task should: review `{finalFile}` and return a list of findings.
 
@@ -164,7 +164,7 @@ b) **HALT and wait for user selection.**
        > DO NOT exclude findings based on severity or validity unless explicitly asked to do so.
        > Order findings by severity.
        > Number the ordered findings (F1, F2, F3, etc.).
-       > If TodoWrite or similar tool is available, turn each finding into a TODO, include ID, severity, validity, and description in the TODO; otherwise present findings as a table with columns: ID, Severity, Validity, Description
+       > If `bd` is available, create one Beads issue per finding and include the finding ID, severity, validity, and description in the issue title or notes; otherwise present findings as a table with columns: ID, Severity, Validity, Description
 
     3. Return here and redisplay menu.
 
@@ -198,4 +198,3 @@ Ship it!"
 - [ ] Requested changes implemented.
 - [ ] Spec verified against **READY FOR DEVELOPMENT** standard.
 - [ ] `stepsCompleted: [1, 2, 3, 4]` set and file renamed.
-
