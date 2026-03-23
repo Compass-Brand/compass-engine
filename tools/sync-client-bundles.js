@@ -86,7 +86,11 @@ function uniq(values) {
 }
 
 function escapeYaml(value) {
-  return String(value).replace(/"/g, '\\"');
+  return String(value)
+    .replace(/\\/g, '\\\\')
+    .replace(/"/g, '\\"')
+    .replace(/\r/g, '\\r')
+    .replace(/\n/g, '\\n');
 }
 
 function phaseHeading(phase) {
