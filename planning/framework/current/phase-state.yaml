@@ -25,7 +25,7 @@ blocked_workstreams: []
 integration_gates: []
 routing_decisions: []
 lane_decisions:
-  storytelling_mode: off
+  storytelling_mode: "off"
   wds_mode: conditional
   security_mode: auto
   security_active: false

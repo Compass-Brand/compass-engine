@@ -52,12 +52,12 @@ vtc:
     start: "Problem Aware" # Knows: Need to stay current
     end: "Product Aware" # Knows: Our newsletter helps
 
-  # Awareness stages:
-  # - Unaware: Doesn't know problem exists
-  # - Problem Aware: Knows problem, doesn't know solutions
-  # - Solution Aware: Knows solutions exist, doesn't know yours
-  # - Product Aware: Knows your solution exists
-  # - Most Aware: Has used, loved, advocates
+    # Awareness stages:
+    # - Unaware: Doesn't know problem exists
+    # - Problem Aware: Knows problem, doesn't know solutions
+    # - Solution Aware: Knows solutions exist, doesn't know yours
+    # - Product Aware: Knows your solution exists
+    # - Most Aware: Has used, loved, advocates
 
 # ==========================================
 # METADATA (Optional but recommended)
