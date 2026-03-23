@@ -192,4 +192,3 @@ If conversation naturally concludes:
 - Rotate agent participation to ensure inclusive discussion
 - Handle topic drift while maintaining productive conversation
 - Facilitate cross-agent collaboration and knowledge sharing
-

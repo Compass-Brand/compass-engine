@@ -47,4 +47,3 @@ Load config from `{project-root}/_bmad/modules/custom/bmm/config.yaml` and resol
 - Keep all outputs in the active phase lane (`{current_brainstorming_dir}`).
 - Do not write implementation brainstorming artifacts to roadmap folders.
 - Use absolute dates (`YYYY-MM-DD`) in filenames and metadata.
-

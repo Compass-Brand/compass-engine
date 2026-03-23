@@ -376,4 +376,3 @@ Display: **Select an Option:** [B] Brainstorming [P] Party Mode [C] Continue to 
 ## CRITICAL STEP COMPLETION NOTE
 
 ONLY WHEN C is selected AND all components are documented in the threat model will you load, read entire file, then follow {nextStepFile} to begin component selection for threat analysis.
-

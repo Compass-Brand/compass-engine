@@ -28,4 +28,3 @@ agent:
     - trigger: "LW or fuzzy match on list-workflows"
       action: "list all workflows from {project-root}/_bmad/_config/workflow-manifest.csv"
       description: "[LW] List Workflows"
-

@@ -48,4 +48,3 @@ Load config from `{project-root}/_bmad/modules/custom/bmm/config.yaml` and resol
 Read fully and follow: `{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/create-architecture/steps/step-01-init.md` to begin the workflow.
 
 **Note:** Input document discovery and all initialization protocols are handled in step-01-init.md.
-

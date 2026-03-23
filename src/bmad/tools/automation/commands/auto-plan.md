@@ -231,4 +231,3 @@ auto-plan --phase-id phase-002 --mode brownfield --approval-mode manual
 - Detailed analysis, PRD, WDS, architecture, security artifacts when applicable, test design, CI/CD alignment, and readiness artifacts are drafted across staged approval checkpoints.
 - Epics, stories, and readiness outputs stay in `draft/` locations until readiness approval is granted.
 - Human review remains required at roadmap, PRD, architecture, and readiness gates.
-

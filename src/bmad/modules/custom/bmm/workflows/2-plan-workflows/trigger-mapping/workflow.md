@@ -92,4 +92,3 @@ Load and read full config from `{project-root}/_bmad/modules/custom/bmm/config.y
 
 1. Update design log
 2. Suggest the next action or proceed to `Outline Scenarios`
-

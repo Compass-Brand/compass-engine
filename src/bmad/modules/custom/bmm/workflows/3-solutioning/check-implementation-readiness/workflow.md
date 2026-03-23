@@ -52,4 +52,3 @@ Load and read full config from {project-root}/_bmad/modules/custom/bmm/config.ya
 ### 2. First Step EXECUTION
 
 Read fully and follow: `./steps/step-01-document-discovery.md` to begin the workflow.
-

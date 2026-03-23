@@ -149,4 +149,3 @@ ONLY WHEN [C continue option] is selected and [current state confirmed], will yo
 - Proceeding without user confirmation of current state
 
 **Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.
-

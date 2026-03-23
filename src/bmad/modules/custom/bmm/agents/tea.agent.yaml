@@ -65,4 +65,3 @@ agent:
     - trigger: RV or fuzzy match on test-review
       workflow: "{project-root}/_bmad/modules/custom/bmm/workflows/testarch/test-review/workflow.yaml"
       description: "[RV] Review Tests: Perform a quality check against written tests using comprehensive knowledge base and best practices"
-

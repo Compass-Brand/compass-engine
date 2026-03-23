@@ -203,4 +203,3 @@ ONLY WHEN [C continue option] is selected and [success metrics finalized and sav
 - Not updating frontmatter properly
 
 **Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.
-

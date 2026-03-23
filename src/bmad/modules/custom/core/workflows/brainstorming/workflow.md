@@ -62,4 +62,3 @@ Load config from `{project-root}/_bmad/modules/custom/core/config.yaml` and reso
 Read fully and follow: `steps/step-01-session-setup.md` to begin the workflow.
 
 **Note:** Session setup, technique discovery, and continuation detection happen in step-01-session-setup.md.
-

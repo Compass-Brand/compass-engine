@@ -187,4 +187,3 @@ b) **HALT and wait for user selection.**
 - [ ] WIP check performed FIRST before any greeting.
 - [ ] `{wipFile}` created with correct frontmatter, Overview, Context for Development, and `stepsCompleted: [1]`.
 - [ ] User selected [C] to continue.
-

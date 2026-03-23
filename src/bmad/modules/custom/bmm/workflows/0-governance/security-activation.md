@@ -37,4 +37,3 @@ When the lane is not active:
 - `/bmad-cybersec-threat-modeling`
 - `/bmad-cybersec-security-architecture-review`
 - `/bmad-cybersec-secure-gates`
-

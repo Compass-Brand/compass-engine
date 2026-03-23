@@ -155,4 +155,3 @@ Repeat forever:
 - Return the latest refined `working_content` to the caller.
 - Keep output focused on the target artifact/section; do not generate separate reports.
 - Include a final inline summary with total iterations and ledger disposition counts.
-

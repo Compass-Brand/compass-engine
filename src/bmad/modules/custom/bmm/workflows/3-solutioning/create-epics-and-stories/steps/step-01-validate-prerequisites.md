@@ -257,4 +257,3 @@ ONLY WHEN C is selected and all requirements are saved to document and frontmatt
 - Not saving requirements to output file
 
 **Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.
-

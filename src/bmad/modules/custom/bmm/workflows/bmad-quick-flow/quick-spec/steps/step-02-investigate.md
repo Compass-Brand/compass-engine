@@ -141,4 +141,3 @@ Display: "**Select:** [A] Advanced Elicitation [P] Party Mode [C] Continue to Ge
 
 - [ ] Technical mapping performed and documented.
 - [ ] `stepsCompleted: [1, 2]` set in frontmatter.
-

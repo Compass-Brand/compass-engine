@@ -316,4 +316,3 @@ When user selects 'C' for a category, append the content directly to `{current_p
 After completing all rule categories and user selects 'C' for the final category, load `{project-root}/_bmad/modules/custom/bmm/workflows/generate-project-context/steps/step-03-complete.md` to finalize the project context file.
 
 Remember: Do NOT proceed to step-03 until all categories are complete and user explicitly selects 'C' for each!
-

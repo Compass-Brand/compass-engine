@@ -143,4 +143,3 @@ Write `{default_output_file}` including:
 ## Step 9: Optional Cleanup (Explicit Only)
 
 If user explicitly requests cleanup and `docs_tmp_cleanup_enabled` is true, remove the selected snapshot folder. Otherwise keep `{snapshot_root}` unchanged.
-

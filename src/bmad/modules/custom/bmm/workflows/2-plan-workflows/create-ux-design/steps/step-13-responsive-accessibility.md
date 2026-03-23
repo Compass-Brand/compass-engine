@@ -262,4 +262,3 @@ When user selects 'C', append the content directly to the document using the str
 After user selects 'C' and content is saved to document, load `{project-root}/_bmad/modules/custom/bmm/workflows/2-plan-workflows/create-ux-design/steps/step-14-complete.md` to finalize the UX design workflow.
 
 Remember: Do NOT proceed to step-14 until user explicitly selects 'C' from the A/P/C menu and content is saved!
-

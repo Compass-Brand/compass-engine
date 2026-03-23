@@ -160,4 +160,3 @@ Product Brief complete. Read fully and follow: `{project-root}/_bmad/modules/cus
 This product brief is now complete and serves as the strategic foundation for the entire product lifecycle. All subsequent design, architecture, and development work should trace back to the vision, user needs, and success criteria documented in this brief.
 
 **Product Brief completed for the current target repo.**
-

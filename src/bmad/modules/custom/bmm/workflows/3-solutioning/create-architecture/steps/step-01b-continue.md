@@ -171,4 +171,3 @@ Valid step files to load:
 - `{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/create-architecture/steps/step-08-complete.md`
 
 Remember: The goal is smooth, transparent resumption that respects the work already done while giving the user control over how to proceed.
-

@@ -132,4 +132,3 @@ If the scenario has a `design_intent` from Phase 3 handover, pre-select that act
 
 1. Update design log
 2. Suggest next action or return to Scenario Dashboard
-

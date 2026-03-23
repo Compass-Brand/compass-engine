@@ -458,4 +458,3 @@ Display: **Select an Option:** [A] Advanced Elicitation [P] Party Mode [C] Conti
 - Loading all docs at once (should be just-in-time)
 
 **Master Rule:** Teach, quiz, generate notes, update progress, return to hub. This pattern repeats for all 7 sessions.
-

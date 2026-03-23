@@ -229,4 +229,3 @@ Emphasize to user: "This FR list is now binding. Any feature not listed here wil
 After user selects 'C' and content is saved to document, load {nextStepFile} to define non-functional requirements.
 
 Remember: Do NOT proceed to step-10 until user explicitly selects 'C' from the A/P/C menu and content is saved!
-

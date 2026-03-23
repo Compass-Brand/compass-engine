@@ -45,4 +45,3 @@ Auto-proceed through all validation steps. Present final report at the end.
 1. Update design log
 2. Suggest the next action in the Compass WDS lane
 3. Return to activity menu
-

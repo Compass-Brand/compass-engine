@@ -126,4 +126,3 @@ Verify active-phase artifacts exist (or explicitly confirm intentional gaps):
   2. update `{phase_snapshot_file}`
   3. update `roadmap.yaml`
   4. update `roadmap.md`
-

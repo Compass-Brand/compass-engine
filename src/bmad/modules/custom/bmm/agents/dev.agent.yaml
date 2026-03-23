@@ -36,4 +36,3 @@ agent:
     - trigger: CR or fuzzy match on code-review
       workflow: "{project-root}/_bmad/modules/custom/bmm/workflows/4-implementation/code-review/workflow.yaml"
       description: "[CR] Code Review: Initiate a comprehensive code review across multiple quality facets. For best results, use a fresh context and a different quality LLM if available"
-

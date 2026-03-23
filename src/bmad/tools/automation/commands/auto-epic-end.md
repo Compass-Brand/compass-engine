@@ -78,4 +78,3 @@ auto-epic-end --phase-id phase-002 --epic-id epic-03 --approval-mode manual
 - The epic is either approved for closure or clearly blocked.
 - The next epic is previewed with carry-over and dependency notes.
 - Docs updates and lessons candidates are prepared for human review.
-

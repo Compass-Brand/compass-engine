@@ -88,4 +88,3 @@ Then load, read the full file and then execute `./steps-v/step-v-01-validate.md`
 **IF mode == edit:**
 Prompt for what to edit: "What would you like to edit in the teaching workflow?"
 Then load, read the full file and then execute `./steps-e/step-e-01-assess-workflow.md`
-

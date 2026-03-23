@@ -181,4 +181,3 @@ If no sharded match:
 - Follow instructions exactly.
 - All workflow calls using legacy path `{project-root}/_bmad/modules/custom/core/tasks/workflow.xml` must remain compatible through shim.
 - Execution style is facilitative and collaborative; do not skip required sections.
-

@@ -247,4 +247,3 @@ Read fully and follow: {nextStepFile} (step-e-03-edit.md)
 - Proceeding without user approval
 
 **Master Rule:** Plan before editing. Thorough analysis ensures we make the right changes in the right order. User approval prevents misalignment.
-

@@ -198,4 +198,3 @@ Ship it!"
 - [ ] Requested changes implemented.
 - [ ] Spec verified against **READY FOR DEVELOPMENT** standard.
 - [ ] `stepsCompleted: [1, 2, 3, 4]` set and file renamed.
-

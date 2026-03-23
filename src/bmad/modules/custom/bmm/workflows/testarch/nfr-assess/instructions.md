@@ -41,4 +41,3 @@ If the user selects **Resume** mode, load, read completely, and execute:
 `{project-root}/_bmad/modules/custom/bmm/workflows/testarch/nfr-assess/steps-c/step-01b-resume.md`
 
 This checks the output document for progress tracking frontmatter and routes to the next incomplete step.
-

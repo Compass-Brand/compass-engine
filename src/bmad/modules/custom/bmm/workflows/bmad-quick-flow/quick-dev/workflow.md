@@ -48,4 +48,3 @@ Load config from `{project-root}/_bmad/modules/custom/bmm/config.yaml` and resol
 ## EXECUTION
 
 Read fully and follow: `{project-root}/_bmad/modules/custom/bmm/workflows/bmad-quick-flow/quick-dev/steps/step-01-mode-detection.md` to begin the workflow.
-

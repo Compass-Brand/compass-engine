@@ -38,4 +38,3 @@ agent:
     - trigger: OS or fuzzy match on outline-scenarios
       workflow: "{project-root}/_bmad/modules/custom/bmm/workflows/2-plan-workflows/outline-scenarios/workflow.md"
       description: "[OS] Outline Scenarios: turn the Trigger Map into scenario outlines for the current UX lane"
-

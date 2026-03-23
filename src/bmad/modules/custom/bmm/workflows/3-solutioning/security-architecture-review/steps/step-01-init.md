@@ -293,4 +293,3 @@ After document initialization and architecture context gathering:
 ## CRITICAL STEP COMPLETION NOTE
 
 ONLY WHEN initialization setup is complete, architecture context is documented, and user confirms readiness will you then update frontmatter to `stepsCompleted: [1]`, then immediately load, read entire file, then follow `{nextStepFile}` to begin STRIDE threat modeling.
-

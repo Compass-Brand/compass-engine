@@ -147,4 +147,3 @@ When C is selected, the workflow is complete and the epics.md is ready for devel
 Epics and Stories complete. Read fully and follow: `{project-root}/_bmad/modules/custom/core/tasks/help.md`
 
 Upon Completion of task output: offer to answer any questions about the Epics and Stories.
-

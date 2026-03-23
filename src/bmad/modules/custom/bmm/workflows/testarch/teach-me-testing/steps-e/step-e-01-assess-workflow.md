@@ -139,4 +139,3 @@ Display: **Select an Option:** [A] Advanced Elicitation [P] Party Mode [C] Conti
 ✅ Edit requirements clearly understood, target files identified, edit plan documented, user approves plan.
 
 **Master Rule:** Understand before editing. Get clear requirements first.
-

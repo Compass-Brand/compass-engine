@@ -116,4 +116,3 @@ Write `{default_output_file}` including:
 - recommended next step:
   - `/bmad-bmm-workspace-bootstrap` when newly added repos now need initialization
   - `/bmad-bmm-project-roadmap` when topology is current and planning can proceed
-

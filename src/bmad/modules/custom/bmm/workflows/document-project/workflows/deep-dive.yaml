@@ -29,4 +29,3 @@ existing_index_path: "" # Path to existing index.md
 
 # Configuration
 autonomous: false # Requires user input to select target area
-

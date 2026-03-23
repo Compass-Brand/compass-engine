@@ -225,4 +225,3 @@ ONLY WHEN [C continue option] is selected and [classification saved to frontmatt
 - Proceeding without user selecting 'C'
 
 **Master Rule:** This is classification and understanding only. No content generation yet. Build on what the user already has. Have natural conversations, don't follow scripts.
-

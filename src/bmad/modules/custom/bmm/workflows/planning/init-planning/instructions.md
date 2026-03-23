@@ -185,4 +185,3 @@ The report MUST describe the current target repo generically. Do not refer to so
 ## Step 8: Optional Cleanup (Explicit Only)
 
 If the user explicitly requests cleanup and `{planning_tmp_cleanup_enabled}` is true, remove the selected snapshot folder. Otherwise keep `{snapshot_root}` unchanged.
-

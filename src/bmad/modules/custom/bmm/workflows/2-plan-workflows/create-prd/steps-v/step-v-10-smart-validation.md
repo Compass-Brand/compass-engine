@@ -207,4 +207,3 @@ Without delay, read fully and follow: {nextStepFile} (step-v-11-holistic-quality
 - Not auto-proceeding
 
 **Master Rule:** FRs should be high-quality, not just present. SMART framework provides objective quality measure.
-

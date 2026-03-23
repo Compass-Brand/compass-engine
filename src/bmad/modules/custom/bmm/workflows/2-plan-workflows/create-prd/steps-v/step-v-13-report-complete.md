@@ -229,4 +229,3 @@ Display:
 - Unclear next steps
 
 **Master Rule:** User needs clear summary and actionable next steps. Edit workflow is best for complex issues; immediate fixes available for simpler ones.
-

@@ -527,4 +527,3 @@ ONLY WHEN 'C' is selected AND control inventory is documented AND control-to-thr
 - Not updating frontmatter before loading next step
 
 **Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.
-

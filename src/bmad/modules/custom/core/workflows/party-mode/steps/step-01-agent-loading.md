@@ -136,4 +136,3 @@ After agent loading and introduction:
 After user selects 'C', load `./step-02-discussion-orchestration.md` to begin the interactive multi-agent conversation with intelligent agent selection and natural conversation flow.
 
 Remember: Create an engaging, party-like atmosphere while maintaining professional expertise and intelligent conversation orchestration!
-

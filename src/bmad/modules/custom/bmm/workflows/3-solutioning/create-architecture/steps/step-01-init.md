@@ -160,4 +160,3 @@ Ready to begin architectural decision making. Do you have any other documents yo
 After user selects [C] to continue, only after ensuring all the template output has been created, then load `{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/create-architecture/steps/step-02-context.md` to analyze the project context and begin architectural decision making.
 
 Remember: Do NOT proceed to step-02 until user explicitly selects [C] from the menu and setup is confirmed!
-

@@ -54,4 +54,3 @@ Execute steps in `./steps-h/`:
 1. Update design log
 2. Suggest next agent dialog action
 3. Return to the Compass WDS activity menu
-

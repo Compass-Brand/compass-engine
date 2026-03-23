@@ -172,4 +172,3 @@ Display:
 - Loading step-02 when Mode A (tech-spec provided)
 - Attempting to "return" after escalation instead of EXIT
 - No explicit NEXT directive at step completion
-

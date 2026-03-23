@@ -228,4 +228,3 @@ If the command targets a story, set `story_key={{next_story_id}}` when prompted.
 </step>
 
 </workflow>
-

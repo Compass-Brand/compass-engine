@@ -22,4 +22,3 @@ validation: "{installed_path}/checklist.md"
 
 # Output
 default_output_file: "{planning_current}/initiative-routing-report-{date}.md"
-

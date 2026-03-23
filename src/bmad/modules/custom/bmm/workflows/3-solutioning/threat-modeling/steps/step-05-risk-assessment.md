@@ -328,4 +328,3 @@ Display: **Select an Option:** [P] Party Mode [C] Continue to Mitigation Strateg
 ## CRITICAL STEP COMPLETION NOTE
 
 ONLY WHEN C is selected AND all threats are risk-assessed in the threat model will you load, read entire file, then follow {nextStepFile} to begin mitigation strategy development.
-

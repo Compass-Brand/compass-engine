@@ -97,4 +97,3 @@ Write `{default_output_file}` including:
 - blocked workstreams
 - required repo-local next steps
 - recommended next action for each target repo: run `/bmad-bmm-phase-sync` in the authoritative repo root
-

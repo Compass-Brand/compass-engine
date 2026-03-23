@@ -262,4 +262,3 @@ Without delay, read fully and follow: {nextStepFile} (step-v-12-completeness-val
 - Not auto-proceeding
 
 **Master Rule:** This evaluates the WHOLE document, not just components. Answers "Is this a good PRD?" and "What would make it great?"
-

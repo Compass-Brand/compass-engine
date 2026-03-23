@@ -32,4 +32,3 @@ agent:
     - trigger: TH or fuzzy match on threat-modeling
       workflow: "{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/threat-modeling/workflow.md"
       description: "[TH] Threat Modeling: run STRIDE against the current architecture and capture mitigations for the active slice"
-

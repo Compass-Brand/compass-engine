@@ -282,4 +282,3 @@ After setup completion, immediately load, read entire file, then follow `{nextSt
 ## CRITICAL STEP COMPLETION NOTE
 
 ONLY WHEN initialization setup is complete and document is created (OR continuation is properly routed), will you then immediately load, read entire file, then follow `{nextStepFile}` to begin component decomposition.
-

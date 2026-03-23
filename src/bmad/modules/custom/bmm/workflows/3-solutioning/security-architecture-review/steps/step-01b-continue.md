@@ -214,4 +214,3 @@ Do NOT modify any security analysis content in the output document during this c
 - Losing track of completed analysis work
 
 **Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.
-

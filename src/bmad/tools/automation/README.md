@@ -112,4 +112,3 @@ These files define the approved shipped automation contract. They do not yet:
 - assume a specific plugin runtime
 - require background jobs, queues, or scheduled automation
 - replace explicit human approvals
-

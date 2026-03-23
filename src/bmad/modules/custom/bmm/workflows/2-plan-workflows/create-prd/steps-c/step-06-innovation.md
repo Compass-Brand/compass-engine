@@ -224,4 +224,3 @@ Skip this step and load `{nextStepFile}` if:
 After user selects 'C' and content is saved to document (or step is skipped), load `{nextStepFile}`.
 
 Remember: Do NOT proceed to step-07 until user explicitly selects 'C' from the A/P/C menu (or confirms step skip)!
-

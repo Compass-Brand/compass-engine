@@ -203,5 +203,3 @@ ONLY WHEN [C continue option] is selected and [frontmatter properly updated with
 - Proceeding without user selecting 'C' (Continue)
 
 **Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.
-
-

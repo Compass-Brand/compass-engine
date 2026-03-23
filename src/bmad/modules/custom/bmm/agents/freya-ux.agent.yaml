@@ -36,4 +36,3 @@ agent:
     - trigger: DD or fuzzy match on design-delivery
       exec: "{project-root}/_bmad/modules/custom/bmm/workflows/2-plan-workflows/wds-ux-design/workflow-handover.md"
       description: "[DD] Design Delivery: package approved specs into delivery-ready handoff artifacts"
-

@@ -299,4 +299,3 @@ Return to {nextStepFile}
 - Not updating progress
 
 **Master Rule:** Teach patterns, quiz, update, return to hub.
-

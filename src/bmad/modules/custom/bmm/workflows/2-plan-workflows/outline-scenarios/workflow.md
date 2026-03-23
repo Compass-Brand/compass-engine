@@ -109,4 +109,3 @@ Load and execute `./steps-c/step-01-load-context.md` to begin.
 
 1. Update design log
 2. Suggest the next action or proceed to `Create UX` or `Conceptual Specifications`
-

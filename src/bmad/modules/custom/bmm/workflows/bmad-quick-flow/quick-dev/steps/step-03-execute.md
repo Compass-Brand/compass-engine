@@ -109,4 +109,3 @@ When ALL tasks are complete (or halted on blocker), read fully and follow: `{pro
 - Not running tests after changes
 - Giving up after first failure
 - Not following project-context rules (if exists)
-

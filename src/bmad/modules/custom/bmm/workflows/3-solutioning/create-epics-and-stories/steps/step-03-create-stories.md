@@ -270,4 +270,3 @@ ONLY WHEN [C continue option] is selected and [all epics and stories saved to do
 - Not following proper formatting
 
 **Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.
-

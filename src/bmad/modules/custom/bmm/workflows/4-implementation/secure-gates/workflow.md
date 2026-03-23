@@ -66,4 +66,3 @@ Also read:
 - Use `draft/security/` while approval is pending.
 - Do not overwrite prior reports without clear user intent; create date-stamped files.
 - If the gate is blocked, state the blocking conditions first.
-

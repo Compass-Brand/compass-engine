@@ -159,4 +159,3 @@ ONLY WHEN [C continue option] is selected and [current state confirmed], will yo
 - Not maintaining context consistency from previous session
 
 **Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.
-
