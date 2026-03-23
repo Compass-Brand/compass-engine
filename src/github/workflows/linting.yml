@@ -261,7 +261,7 @@ jobs:
           output: trivy-results.sarif
           exit-code: '1'
           ignore-unfixed: true
-          skip-dirs: node_modules,dist,.beads,BMAD-METHOD,bmad-builder,bmad-method-test-architecture-enterprise,bmad-module-creative-intelligence-suite,bmad-method-wds-expansion,BMAD-CYBERSEC,ai-memory,pov-oversight-agent,reference/BMAD/research
+          skip-dirs: node_modules,dist,.beads,BMAD-METHOD,reference/BMAD/research
 
       - name: Upload Trivy SARIF
         id: upload_trivy_sarif
