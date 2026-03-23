@@ -6,6 +6,7 @@
       "!node_modules",
       "!dist",
       "!BMAD-METHOD",
+      "!reference/BMAD/research",
       "!.beads"
     ]
   },
