@@ -198,7 +198,7 @@ jobs:
           fi
 
           ALLOWED_SPDX="${ALLOWED_LICENSES//,/ }"
-          NOASSERTION_ALLOWED_REPOS="bmad-code-org/BMAD-METHOD"
+          NOASSERTION_ALLOWED_REPOS="bmad-code-org/BMAD-METHOD bmad-code-org/bmad-builder bmad-code-org/bmad-method-test-architecture-enterprise bmad-code-org/bmad-module-creative-intelligence-suite bmad-code-org/bmad-method-wds-expansion Hidden-History/pov-oversight-agent BlackUnicornSecurity/BMAD-CYBERSEC"
 
           while read -r _ url; do
             repo="$url"
