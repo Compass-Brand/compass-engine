@@ -8,6 +8,25 @@ This directory is the canonical documentation framework for Compass Engine.
 - Ensure documentation quality and structure are consistent across all projects.
 - Keep policy decisions, authoring templates, and enforcement guidance in one place.
 
+## Deployment Model
+
+This framework is authored in `compass-engine` under `reference/documentation/`, but deployed project repos should use root-level documentation surfaces:
+
+- `docs/` for live project documentation
+- `planning/` for live project planning artifacts
+
+`reference/documentation/` is the framework source in this repo, not the deployed destination in target repos.
+
+## BMAD Integration
+
+The Compass BMAD docs lane must consume this framework when running:
+
+- `Initialize Docs`
+- `Update Docs`
+- `Validate Docs`
+
+Use [BMAD Integration](./BMAD-integration.md) for the phase-to-doc mapping, authority order, and report expectations.
+
 ## Domain Split
 
 ### Human Domain

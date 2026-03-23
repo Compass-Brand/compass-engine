@@ -1,0 +1,47 @@
+# Reference-stage resolved core config for authored BMAD assets.
+
+project_name: "compass-engine"
+user_name: "Trevor Leigh"
+communication_language: "English"
+document_output_language: "English"
+user_skill_level: "expert"
+output_folder: "{project-root}/reference/BMAD/output"
+
+planning_root: "{project-root}/reference/planning/framework"
+planning_current: "{planning_root}/current"
+planning_roadmap: "{planning_root}/roadmap"
+planning_previous: "{planning_root}/previous"
+planning_lessons: "{planning_root}/lessons"
+
+phase_snapshot_file: "{planning_current}/phase.md"
+phase_state_file: "{planning_current}/phase-state.yaml"
+
+current_brainstorming_dir: "{planning_current}/brainstorming"
+roadmap_brainstorming_dir: "{planning_roadmap}/brainstorming"
+
+roadmap_archive_dir: "{planning_roadmap}/archive"
+roadmap_archive_brainstorming_dir: "{roadmap_archive_dir}/brainstorming"
+roadmap_archive_research_dir: "{roadmap_archive_dir}/research"
+roadmap_archive_product_brief_dir: "{roadmap_archive_dir}/product-brief"
+
+docs_root: "{project-root}/docs"
+docs_human_root: "{docs_root}/human"
+docs_human_policies_dir: "{docs_human_root}/policies"
+docs_human_templates_dir: "{docs_human_root}/templates"
+docs_human_overrides_file: "{docs_human_policies_dir}/user-overrides.md"
+docs_ai_root: "{docs_root}/ai"
+docs_architecture_dir: "{docs_root}/architecture"
+docs_architecture_decisions_dir: "{docs_architecture_dir}/decisions"
+docs_development_dir: "{docs_root}/development"
+docs_getting_started_dir: "{docs_root}/getting-started"
+docs_guides_dir: "{docs_root}/guides"
+docs_reference_dir: "{docs_root}/reference"
+docs_tmp_migration_root: "{project-root}/tmp/docs-migration"
+
+docs_framework_root: "{project-root}/reference/documentation"
+docs_framework_human_root: "{docs_framework_root}/human"
+docs_framework_human_policies_dir: "{docs_framework_human_root}/policies"
+docs_framework_human_templates_dir: "{docs_framework_human_root}/templates"
+docs_framework_ai_root: "{docs_framework_root}/ai"
+
+project_knowledge: "{docs_root}"

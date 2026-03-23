@@ -1,5 +1,5 @@
 <workflow>
-  <critical>The workflow execution engine is governed by: {project-root}/_bmad/core/tasks/workflow.xml</critical>
+  <critical>The workflow execution engine is governed by: {project-root}/reference/BMAD/modules/custom/core/tasks/workflow.xml</critical>
   <critical>You MUST have already loaded and processed: {installed_path}/workflow.yaml</critical>
   <critical>Communicate all responses in {communication_language} and language MUST be tailored to {user_skill_level}</critical>
   <critical>Generate all documents in {document_output_language}</critical>
@@ -30,7 +30,8 @@
       <action>Find the FIRST story (by reading in order from top to bottom) where:
         - Key matches pattern: number-number-name (e.g., "1-2-user-auth")
         - NOT an epic key (epic-X) or retrospective (epic-X-retrospective)
-        - Status value equals "ready-for-dev"
+        - Status value equals "in-progress" or "ready-for-dev"
+        - Prefer "in-progress" stories first so review follow-up work resumes without manual story selection
       </action>
 
       <check if="no ready-for-dev or in-progress story found">
@@ -408,4 +409,3 @@
   </step>
 
 </workflow>
-

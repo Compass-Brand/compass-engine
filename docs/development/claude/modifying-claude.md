@@ -19,6 +19,12 @@ src/claude/
 └── templates/   # Settings templates
 ```
 
+Generated BMAD adapters:
+
+- `src/claude/commands/bmad/` is generated from `src/bmad/_config/bmad-help.csv`
+- run `npm run sync:client-bundles` after changing the BMAD catalog
+- do not hand-edit generated files in `src/claude/commands/bmad/`
+
 ## Adding a New Command
 
 1. Create a new `.md` file in `src/claude/commands/`:

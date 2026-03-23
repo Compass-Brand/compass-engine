@@ -4,13 +4,13 @@ version: "2.0.0"
 description: 'Legacy alias for docs initialization. Routes to the Compass docs migration workflow.'
 author: "Compass"
 
-config_source: "{project-root}/_bmad/bmm/config.yaml"
+config_source: "{project-root}/reference/BMAD/modules/custom/bmm/config.yaml"
 communication_language: "{config_source}:communication_language"
 docs_root: "{config_source}:docs_root"
 date: system-generated
 
-installed_path: "{project-root}/_bmad/bmm/workflows/document-project"
+installed_path: "{project-root}/reference/BMAD/modules/custom/bmm/workflows/document-project"
 instructions: "{installed_path}/instructions.md"
-validation: "{project-root}/_bmad/bmm/workflows/documentation/init-docs/checklist.md"
+validation: "{project-root}/reference/BMAD/modules/custom/bmm/workflows/documentation/init-docs/checklist.md"
 
-delegated_workflow: "{project-root}/_bmad/bmm/workflows/documentation/init-docs/workflow.yaml"
+delegated_workflow: "{project-root}/reference/BMAD/modules/custom/bmm/workflows/documentation/init-docs/workflow.yaml"

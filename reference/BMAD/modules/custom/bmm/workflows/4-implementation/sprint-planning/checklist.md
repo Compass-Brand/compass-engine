@@ -4,14 +4,14 @@
 
 ### Complete Coverage Check
 
-- [ ] Every epic found in epic\*.md files appears in sprint-status.yaml
-- [ ] Every story found in epic\*.md files appears in sprint-status.yaml
+- [ ] Every epic found in the epics document set (`epics.md`, `bmm-epics.md`, or sharded `epic-*.md`) appears in sprint-status.yaml
+- [ ] Every story found in the epics document set appears in sprint-status.yaml
 - [ ] Every epic has a corresponding retrospective entry
-- [ ] No items in sprint-status.yaml that don't exist in epic files
+- [ ] No items in sprint-status.yaml that don't exist in the epics document set
 
 ### Parsing Verification
 
-Compare epic files against generated sprint-status.yaml:
+Compare the epics document set against generated sprint-status.yaml:
 
 ```
 Epic Files Contains:                Sprint Status Contains:

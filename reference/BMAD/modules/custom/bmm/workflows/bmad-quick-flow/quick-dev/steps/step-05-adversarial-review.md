@@ -60,7 +60,7 @@ Merge all changes into `{diff_output}`.
 With `{diff_output}` constructed, load and follow the review task. If possible, use information asymmetry: load this step, and only it, in a separate subagent or process with read access to the project, but no context except the `{diff_output}`.
 
 ```xml
-<invoke-task>Review {diff_output} using {project-root}/_bmad/core/tasks/review-adversarial-general.xml</invoke-task>
+<invoke-task>Review {diff_output} using {project-root}/reference/BMAD/modules/custom/core/tasks/review-adversarial-general.xml</invoke-task>
 ```
 
 **Platform fallback:** If task invocation not available, load the task file and follow its instructions inline, passing `{diff_output}` as the content.
@@ -77,13 +77,13 @@ Evaluate severity (Critical, High, Medium, Low) and validity (real, noise, undec
 DO NOT exclude findings based on severity or validity unless explicitly asked to do so.
 Order findings by severity.
 Number the ordered findings (F1, F2, F3, etc.).
-If TodoWrite or similar tool is available, turn each finding into a TODO, include ID, severity, validity, and description in the TODO; otherwise present findings as a table with columns: ID, Severity, Validity, Description
+If `bd` is available, create one Beads issue per finding and include the finding ID, severity, validity, and description in the issue title or notes; otherwise present findings as a table with columns: ID, Severity, Validity, Description
 
 ---
 
 ## NEXT STEP
 
-With findings in hand, read fully and follow: `{project-root}/_bmad/bmm/workflows/bmad-quick-flow/quick-dev/steps/step-06-resolve-findings.md` for user to choose resolution approach.
+With findings in hand, read fully and follow: `{project-root}/reference/BMAD/modules/custom/bmm/workflows/bmad-quick-flow/quick-dev/steps/step-06-resolve-findings.md` for user to choose resolution approach.
 
 ---
 

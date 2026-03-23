@@ -2,7 +2,7 @@
 name: 'step-06-final-assessment'
 description: 'Compile final assessment and polish the readiness report'
 
-outputFile: '{current_testing_dir}/implementation-readiness-report-{{date}}.md'
+outputFile: '{current_testing_gates_draft_dir}/implementation-readiness-report-{{date}}.md'
 ---
 
 # Step 6: Final Assessment
@@ -109,7 +109,7 @@ The assessment found [number] issues requiring attention. Review the detailed re
 
 The implementation readiness workflow is now complete. The report contains all findings and recommendations for the user to consider.
 
-Implementation Readiness complete. Read fully and follow: `{project-root}/_bmad/core/tasks/help.md`
+Implementation Readiness complete. Read fully and follow: `{project-root}/reference/BMAD/modules/custom/core/tasks/help.md`
 
 ---
 

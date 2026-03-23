@@ -43,26 +43,104 @@ const TARGETS = {
       'tmp',
       'version.json',
     ],
+    syncStrategy: 'managed',
+    manifestName: 'compass-engine-codex-sync.json',
   },
   opencode: {
     destName: '.opencode',
     distName: '.opencode',
     localOnly: ['state', 'cache'],
+    syncStrategy: 'managed',
+    manifestName: 'compass-engine-opencode-sync.json',
+  },
+  bmad: {
+    destName: '_bmad',
+    distName: '_bmad',
+    localOnly: [],
+  },
+  planning: {
+    destName: 'planning',
+    distName: 'planning',
+    localOnly: [],
+    syncStrategy: 'managed',
+    manifestName: 'compass-engine-planning-sync.json',
+    cleanupPaths: ['framework'],
+  },
+  documentation: {
+    destName: 'docs',
+    distName: 'docs',
+    localOnly: [],
+    syncStrategy: 'managed',
+    manifestName: 'compass-engine-docs-sync.json',
+    preservePaths: ['README.md'],
   },
   github: {
     destName: '.github',
     distName: '.github',
     localOnly: [],
+    syncStrategy: 'managed',
+    manifestName: 'compass-engine-github-sync.json',
   },
   root: {
     destName: '',
     distName: 'root',
     localOnly: [],
-    replace: false,
+    syncStrategy: 'managed',
+    manifestName: 'compass-engine-root-sync.json',
   },
 };
 
-const DEFAULT_TARGETS = ['claude', 'codex', 'opencode', 'github', 'root'];
+const DEFAULT_TARGETS = [
+  'bmad',
+  'planning',
+  'documentation',
+  'claude',
+  'codex',
+  'opencode',
+  'github',
+  'root',
+];
+
+const GITHUB_FEATURE_GROUPS = {
+  baseline: [
+    'codeowners',
+    'dependabot',
+    'quality-checks',
+    'pr-size-labeler',
+    'stale',
+    'codeql',
+  ],
+  codeowners: ['CODEOWNERS'],
+  dependabot: ['dependabot.yml'],
+  'quality-checks': ['workflows/quality-checks.yml'],
+  linting: ['workflows/linting.yml'],
+  codeql: ['workflows/codeql.yml'],
+  'pr-size-labeler': ['workflows/pr-size-labeler.yml'],
+  stale: ['workflows/stale.yml'],
+  necessist: ['workflows/necessist.yml'],
+  'runtime-security': ['workflows/runtime-security.yml'],
+  'submodule-security-monitoring': ['workflows/submodule-security-monitoring.yml'],
+  'github-drift': ['workflows/github-drift.yml'],
+  'profile-node': ['profiles/dependabot-node.yml'],
+  'profile-python': ['profiles/dependabot-python.yml'],
+  'profile-submodule-compass-engine': ['profiles/dependabot-submodule-compass-engine.yml'],
+  'profile-submodule-bmad-method': ['profiles/dependabot-submodule-bmad-method.yml'],
+  'profile-check-bmad-updates': ['profiles/workflows/check-bmad-updates.yml'],
+};
+
+const ROOT_FEATURE_GROUPS = {
+  baseline: ['.editorconfig', '.gitattributes', '.pre-commit-config.yaml', '.coderabbit.yaml'],
+  javascript: ['.eslint.config.mjs', 'biome.json', '.prettierignore', '.prettierrc.json'],
+  python: ['.isort.cfg', '.pylintrc', '.ruff.toml'],
+  docs: ['.codespellrc', '.markdownlint.yaml', '.yamllint.yaml', '.lint'],
+  security: ['.gitleaks.toml', '.checkov.yaml'],
+  containers: ['.hadolint.yaml', '.ansible-lint'],
+  terraform: ['.tflint.hcl'],
+};
+
+function listFeatureNames(featureGroups) {
+  return Object.keys(featureGroups).sort().join(', ');
+}
 
 function parseArgs() {
   const args = process.argv.slice(2);
@@ -72,6 +150,8 @@ function parseArgs() {
     dryRun: false,
     targets: [...DEFAULT_TARGETS],
     projectsConfig: null,
+    githubFeatures: null,
+    rootFeatures: null,
   };
 
   for (let i = 0; i < args.length; i++) {
@@ -91,6 +171,16 @@ function parseArgs() {
       options.targets = list;
     } else if (arg === '--projects-config' && args[i + 1]) {
       options.projectsConfig = path.resolve(args[++i]);
+    } else if (arg === '--github-features' && args[i + 1]) {
+      options.githubFeatures = args[++i]
+        .split(',')
+        .map((item) => item.trim().toLowerCase())
+        .filter(Boolean);
+    } else if (arg === '--root-features' && args[i + 1]) {
+      options.rootFeatures = args[++i]
+        .split(',')
+        .map((item) => item.trim().toLowerCase())
+        .filter(Boolean);
     } else if (arg === '--help') {
       console.log(`
 Compass Engine Push
@@ -101,10 +191,16 @@ Usage:
 Options:
   --project <path>       Push to specific project (default: current directory)
   --all                  Push to all discovered Compass Brand projects
-  --targets <list>       Comma-separated targets (claude,codex,opencode,github,root)
+  --targets <list>       Comma-separated targets (bmad,planning,documentation,claude,codex,opencode,github,root)
+  --github-features <l>  Optional GitHub bundle subset (all or: ${listFeatureNames(GITHUB_FEATURE_GROUPS)})
+  --root-features <l>    Optional root bundle subset (all or: ${listFeatureNames(ROOT_FEATURE_GROUPS)})
   --projects-config <p>  Optional file with one project path per line
   --dry-run              Show actions without modifying files
   --help                 Show this message
+
+Notes:
+  documentation target manages docs control-plane files only and preserves project-owned docs/README.md
+  github and root targets install the full shipped bundle unless feature subsets are provided
 `);
       process.exit(0);
     }
@@ -138,6 +234,15 @@ async function copyDir(src, dest) {
   }
 }
 
+async function copySelectedFiles(sourceRoot, destRoot, files) {
+  for (const relativePath of files) {
+    const sourcePath = path.join(sourceRoot, relativePath);
+    const destinationPath = path.join(destRoot, relativePath);
+    await fs.mkdir(path.dirname(destinationPath), { recursive: true });
+    await fs.copyFile(sourcePath, destinationPath);
+  }
+}
+
 async function listFilesRecursive(rootPath, currentPath = rootPath, files = []) {
   const entries = await fs.readdir(currentPath, { withFileTypes: true });
   for (const entry of entries) {
@@ -151,8 +256,8 @@ async function listFilesRecursive(rootPath, currentPath = rootPath, files = []) 
   return files;
 }
 
-async function readRootManifest(projectPath) {
-  const manifestPath = await getRootManifestPath(projectPath);
+async function readManagedManifest(projectPath, manifestName) {
+  const manifestPath = await getManagedManifestPath(projectPath, manifestName);
   try {
     const raw = await fs.readFile(manifestPath, 'utf-8');
     const parsed = JSON.parse(raw);
@@ -164,8 +269,73 @@ async function readRootManifest(projectPath) {
   }
 }
 
-async function writeRootManifest(projectPath, files) {
-  const manifestPath = await getRootManifestPath(projectPath);
+function resolveFeatureSelection(featureGroups, requested, label) {
+  if (!requested || requested.length === 0 || requested.includes('all')) {
+    return null;
+  }
+
+  const resolvedPaths = new Set();
+  const activeStack = new Set();
+
+  function visit(featureName) {
+    const items = featureGroups[featureName];
+    if (!items) {
+      throw new Error(
+        `Unknown ${label} feature: ${featureName}. Available values: all, ${listFeatureNames(featureGroups)}`,
+      );
+    }
+    if (activeStack.has(featureName)) {
+      throw new Error(`Circular ${label} feature definition detected at: ${featureName}`);
+    }
+
+    activeStack.add(featureName);
+    for (const item of items) {
+      if (featureGroups[item]) {
+        visit(item);
+      } else {
+        resolvedPaths.add(item);
+      }
+    }
+    activeStack.delete(featureName);
+  }
+
+  for (const featureName of requested) {
+    visit(featureName);
+  }
+
+  return [...resolvedPaths].sort();
+}
+
+async function expandSelectedPaths(sourceRoot, selectedPaths) {
+  const files = new Set();
+
+  for (const relativePath of selectedPaths) {
+    const absolutePath = path.join(sourceRoot, relativePath);
+    let stat;
+    try {
+      stat = await fs.stat(absolutePath);
+    } catch (err) {
+      if (err.code === 'ENOENT') {
+        throw new Error(`Selected bundle path does not exist: ${relativePath}`);
+      }
+      throw err;
+    }
+
+    if (stat.isDirectory()) {
+      const nestedFiles = await listFilesRecursive(absolutePath);
+      for (const nestedFile of nestedFiles) {
+        files.add(path.join(relativePath, nestedFile).replace(/\\/g, '/'));
+      }
+    } else {
+      files.add(relativePath.replace(/\\/g, '/'));
+    }
+  }
+
+  return [...files].sort();
+}
+
+async function writeManagedManifest(projectPath, manifestName, files) {
+  const manifestPath = await getManagedManifestPath(projectPath, manifestName);
   await fs.mkdir(path.dirname(manifestPath), { recursive: true });
   const payload = {
     version: 1,
@@ -191,12 +361,12 @@ async function resolveGitDir(projectPath) {
   return path.resolve(projectPath, match[1].trim());
 }
 
-async function getRootManifestPath(projectPath) {
+async function getManagedManifestPath(projectPath, manifestName) {
   const gitDir = await resolveGitDir(projectPath);
   if (gitDir) {
-    return path.join(gitDir, 'compass-engine-root-sync.json');
+    return path.join(gitDir, manifestName);
   }
-  return path.join(projectPath, '.compass-engine', 'root-sync-manifest.json');
+  return path.join(projectPath, '.compass-engine', manifestName);
 }
 
 function resolveWithinProject(projectPath, relativePath) {
@@ -208,24 +378,50 @@ function resolveWithinProject(projectPath, relativePath) {
   return absolute;
 }
 
-async function syncRootTarget(projectPath, sourcePath, options) {
-  const currentFiles = await listFilesRecursive(sourcePath);
-  const previousFiles = await readRootManifest(projectPath);
-  const staleFiles = previousFiles.filter((rel) => !currentFiles.includes(rel));
+async function syncManagedTarget(projectPath, sourcePath, target, options, currentFiles = null) {
+  const managedFiles = currentFiles || (await listFilesRecursive(sourcePath));
+  const previousFiles = await readManagedManifest(projectPath, target.manifestName);
+  const preservePaths = new Set(target.preservePaths || []);
+  const cleanupPaths = target.cleanupPaths || [];
+  const staleFiles = previousFiles.filter(
+    (rel) => !managedFiles.includes(rel) && !preservePaths.has(rel),
+  );
+  const destRoot = target.destName ? path.join(projectPath, target.destName) : projectPath;
+  const displayTarget = target.destName || 'project root';
 
   if (options.dryRun) {
-    console.log(`    [DRY RUN] Merge files from dist/root into project root`);
+    console.log(`    [DRY RUN] Merge files from dist/${target.distName} into ${displayTarget}`);
+    if (currentFiles) {
+      console.log(`    [DRY RUN] Install ${managedFiles.length} selected managed files in ${displayTarget}`);
+    }
     if (staleFiles.length > 0) {
-      console.log(`    [DRY RUN] Remove ${staleFiles.length} stale root-managed files`);
+      console.log(`    [DRY RUN] Remove ${staleFiles.length} stale managed files in ${displayTarget}`);
+    }
+    if (cleanupPaths.length > 0) {
+      console.log(
+        `    [DRY RUN] Remove legacy managed paths in ${displayTarget}: ${cleanupPaths.join(', ')}`,
+      );
+    }
+    if (preservePaths.size > 0) {
+      console.log(
+        `    [DRY RUN] Preserve project-owned paths in ${displayTarget}: ${[...preservePaths].join(', ')}`,
+      );
     }
     return;
   }
 
   for (const relPath of staleFiles) {
-    await fs.rm(resolveWithinProject(projectPath, relPath), { recursive: true, force: true });
+    await fs.rm(resolveWithinProject(destRoot, relPath), { recursive: true, force: true });
   }
-  await copyDir(sourcePath, projectPath);
-  await writeRootManifest(projectPath, currentFiles);
+  for (const relPath of cleanupPaths) {
+    await fs.rm(resolveWithinProject(destRoot, relPath), { recursive: true, force: true });
+  }
+  if (currentFiles) {
+    await copySelectedFiles(sourcePath, destRoot, managedFiles);
+  } else {
+    await copyDir(sourcePath, destRoot);
+  }
+  await writeManagedManifest(projectPath, target.manifestName, managedFiles);
 }
 
 async function readContentOrDir(filePath) {
@@ -274,8 +470,32 @@ async function syncTarget(projectPath, targetName, options) {
   const displayName = target.destName || '(project root files)';
   console.log(`  Syncing ${displayName}...`);
 
+  let selectedFiles = null;
+  if (targetName === 'github') {
+    const requestedPaths = resolveFeatureSelection(
+      GITHUB_FEATURE_GROUPS,
+      options.githubFeatures,
+      'github',
+    );
+    if (requestedPaths) {
+      selectedFiles = await expandSelectedPaths(sourcePath, requestedPaths);
+      console.log(`    Selected GitHub features: ${options.githubFeatures.join(', ')}`);
+    }
+  } else if (targetName === 'root') {
+    const requestedPaths = resolveFeatureSelection(ROOT_FEATURE_GROUPS, options.rootFeatures, 'root');
+    if (requestedPaths) {
+      selectedFiles = await expandSelectedPaths(sourcePath, requestedPaths);
+      console.log(`    Selected root features: ${options.rootFeatures.join(', ')}`);
+    }
+  }
+
   if (targetName === 'root') {
-    await syncRootTarget(projectPath, sourcePath, options);
+    await syncManagedTarget(projectPath, sourcePath, target, options, selectedFiles);
+    return;
+  }
+
+  if (target.syncStrategy === 'managed') {
+    await syncManagedTarget(projectPath, sourcePath, target, options, selectedFiles);
     return;
   }
 
@@ -330,14 +550,39 @@ async function loadProjectConfig(configPath, workspaceRoot) {
   }
 }
 
+async function discoverWorkspaceGitRepos(workspaceRoot) {
+  const projects = [];
+  const entries = await fs.readdir(workspaceRoot, { withFileTypes: true });
+
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue;
+    if (entry.name === 'node_modules' || entry.name === 'dist') continue;
+
+    const candidate = path.join(workspaceRoot, entry.name);
+    if (await exists(path.join(candidate, '.git'))) {
+      projects.push(candidate);
+    }
+  }
+
+  return projects;
+}
+
 async function discoverProjects(workspaceRoot, configPath) {
   const projects = [];
+  const seen = new Set();
+
+  function addProject(projectPath) {
+    const normalized = path.resolve(projectPath);
+    if (seen.has(normalized)) return;
+    seen.add(normalized);
+    projects.push(normalized);
+  }
 
   if (configPath) {
     const fromConfig = await loadProjectConfig(configPath, workspaceRoot);
     if (fromConfig) {
       for (const projectPath of fromConfig) {
-        if (await exists(path.join(projectPath, '.git'))) projects.push(projectPath);
+        if (await exists(path.join(projectPath, '.git'))) addProject(projectPath);
       }
       return projects;
     }
@@ -349,7 +594,7 @@ async function discoverProjects(workspaceRoot, configPath) {
       const trimmed = envPath.trim();
       if (!trimmed) continue;
       const projectPath = path.isAbsolute(trimmed) ? trimmed : path.join(workspaceRoot, trimmed);
-      if (await exists(path.join(projectPath, '.git'))) projects.push(projectPath);
+      if (await exists(path.join(projectPath, '.git'))) addProject(projectPath);
     }
     if (projects.length > 0) return projects;
   }
@@ -359,7 +604,12 @@ async function discoverProjects(workspaceRoot, configPath) {
   );
 
   for (const candidate of candidates) {
-    if (await exists(path.join(candidate, '.git'))) projects.push(candidate);
+    if (await exists(path.join(candidate, '.git'))) addProject(candidate);
+  }
+
+  const workspaceGitRepos = await discoverWorkspaceGitRepos(workspaceRoot);
+  for (const projectPath of workspaceGitRepos) {
+    addProject(projectPath);
   }
 
   return projects;
@@ -407,7 +657,13 @@ async function push() {
   console.log('\nOK push complete\n');
 }
 
-push().catch((err) => {
-  console.error('Push failed:', err.message);
-  process.exit(1);
-});
+const isDirectRun = process.argv[1] && path.resolve(process.argv[1]) === __filename;
+
+if (isDirectRun) {
+  push().catch((err) => {
+    console.error('Push failed:', err.message);
+    process.exit(1);
+  });
+}
+
+export { push };

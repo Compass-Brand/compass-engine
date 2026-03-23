@@ -2,7 +2,7 @@
 
 This repository treats every entry in `.gitmodules` as a third-party dependency that must pass security and licensing controls before updates are merged.
 
-`bmad-method-wds-expansion` is explicitly covered by this policy.
+The current shipped repo contract keeps only `BMAD-METHOD` as an active submodule dependency. Other imported BMAD-era repos should be migrated, quarantined, or removed rather than retained as live root submodules.
 
 ## Required Controls
 

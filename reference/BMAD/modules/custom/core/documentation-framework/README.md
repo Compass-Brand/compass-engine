@@ -1,6 +1,12 @@
 # Documentation Reference Framework
 
-This directory is the canonical documentation framework for Compass Engine.
+This directory is a compatibility mirror for legacy BMAD-local references.
+
+The canonical documentation framework for Compass Engine now lives in:
+
+- `{project-root}/reference/documentation/`
+
+When guidance conflicts, the canonical framework in `reference/documentation/` wins.
 
 ## Purpose
 

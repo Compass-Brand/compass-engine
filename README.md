@@ -4,14 +4,26 @@ Central development tooling source for Compass Brand repositories.
 
 ## What This Repo Publishes
 
-- `beads` - Agent files appendages to ensure beads usage
-- `_bmad/` - Customization layer that sits on top of `BMAD-METHOD/`
+- `_bmad/` - Compass BMAD runtime layer
+- `planning/` - Compass planning framework bundle for deployed repos
+- `docs/` - Compass documentation framework bundle for deployed repos
 - `.claude/` - Claude Code agents, commands, skills, rules, hooks
 - `.codex/` - Codex skills, prompts, safe config template
-- `.github/` - Source for distributed `.github/` defaults.
+- `.github/` - Source for distributed `.github/` defaults
 - `.opencode/` - OpenCode agents and commands
-- `_planning/` - Compass Brand planning folder structure
-- `root` - Root level config files
+- `beads` - Beads bootstrap snippets and integration guidance
+- `root` - Root-level baseline config files
+
+## Source Of Truth
+
+- `src/` is the active shipped source for Compass Engine bundles.
+- `src/bmad/` is the canonical shipped BMAD source.
+- `src/planning/` is the canonical shipped planning source.
+- `src/documentation/` is the canonical shipped documentation source.
+- the published npm package ships `src`-backed assets, not `dist/`.
+- `reference/` is retained for framework context, provenance, audits, and research that should not ship.
+
+Do not treat `reference/` as the active runtime implementation tree.
 
 ## Quick Start
 
@@ -32,7 +44,8 @@ npm run push -- --all
 
 Prerequisites: Node.js 18+, Git, and `bd` (see [Installation](docs/getting-started/installation.md)).
 
-Use `npm run push -- --targets claude,codex,opencode,github,root` to limit targets.
+Use `npm run push -- --targets bmad,planning,documentation,claude,codex,opencode,github,root` to limit targets.
+For selective CI/CD installation, use `--github-features` and `--root-features` with the `github` and `root` targets.
 
 ## Linting
 
@@ -90,28 +103,30 @@ compass-engine/
 ├── .codex/                 # Codex CLI folder
 ├── .github/                # Github components folder
 ├── .opencode/              # Opencode folder
-├── _bmad/                  # BMAD components
-├── _planning/              # Planning folder
+├── _bmad/                  # Local BMAD runtime/test surface
+├── _planning/              # Internal planning history and productization records
 ├── BMAD-METHOD/            # Upstream BMAD submodule
-├── dist/                   # Generated distributable bundles
+├── dist/                   # Local/CI build artifacts generated from src/ (not published)
 ├── docs/                   # Documentation folder
-├── reference/              # Misc. references
+├── planning/               # Live planning control surface for this repo
+├── reference/              # Framework, provenance, audit, and research material
 ├── src/
 │   ├── beads/              # Beads source bundle
-│   ├── bmad/               # BMAD source bundle
-│   │   └── modules/        # BMAD custom module development source
+│   ├── bmad/               # Shipped BMAD source bundle -> downstream _bmad/
 │   ├── claude/             # Claude source bundle
 │   ├── codex/              # Codex source bundle
+│   ├── documentation/      # Shipped documentation source bundle -> downstream docs/
 │   ├── github/             # GitHub baseline source bundle
 │   ├── opencode/           # OpenCode source bundle
 │   │   └── plugins/        # OpenCode plugin development source
-│   ├── planning/           # Compass planning source bundle
+│   ├── planning/           # Shipped planning source bundle -> downstream planning/
 │   ├── root/               # Universal root components source bundle.
-│   └── scripts/
+│   ├── cli.js              # Shipped CLI entrypoint
+│   └── index.js            # Shipped package entrypoint
 └── tools/
-    ├── build.js
-    ├── push.js
-    └── validate.js
+    ├── build.js            # Maintainer build script
+    ├── push.js             # Maintainer push script
+    └── validate.js         # Maintainer validation script
 ```
 
 ## Documentation
@@ -127,6 +142,7 @@ compass-engine/
 - [OpenCode Plugin Development](docs/development/opencode/plugin-development.md)
 - [Modifying Claude](docs/development/claude/modifying-claude.md)
 - [Modifying BMAD](docs/development/bmad/modifying-bmad.md)
+- [Reference Materials](reference/README.md)
 
 ## Project Policy Files
 

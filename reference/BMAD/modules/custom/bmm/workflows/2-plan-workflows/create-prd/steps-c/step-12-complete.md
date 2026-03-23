@@ -87,7 +87,7 @@ Offer validation workflows to ensure PRD is ready for implementation:
 
 ### 4. Suggest Next Workflows
 
-PRD complete. Read fully and follow: `{project-root}/_bmad/core/tasks/help.md`
+PRD complete. Read fully and follow: `{project-root}/reference/BMAD/modules/custom/core/tasks/help.md`
 
 ### 5. Final Completion Confirmation
 

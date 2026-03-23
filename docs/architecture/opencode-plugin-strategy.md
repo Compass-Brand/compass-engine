@@ -26,7 +26,7 @@ Implementation root in this repo:
 
 ## Integration Points
 
-- Inputs: `.opencode/command/*`, `.opencode/agent/*`, BMAD module metadata
+- Inputs: `.opencode/commands/*`, `.opencode/agents/*`, BMAD module metadata
 - Outputs: downstream planning artifacts (`planning/` in target repos)
 - Tracking: `bd` issue lifecycle hooks
 

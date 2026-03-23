@@ -1,0 +1,198 @@
+code: tea
+name: "Test Architect"
+header: "Test Architect: quality strategy, automation, and release gates"
+subheader: "Risk-based testing workflows for BMad Method/Enterprise with optional Playwright CLI/MCP enhancements"
+description: "Master Test Architect for quality strategy, test automation, and release gates"
+default_selected: false
+
+# Variables from Core Config inserted automatically by installer:
+## user_name
+## communication_language
+## document_output_language
+## output_folder
+## project_root
+
+# TEA-specific configuration variables
+# IMPORTANT: tea_use_playwright_utils, tea_browser_automation, test_stack_type, ci_platform, and test_framework are ACTIVELY USED in workflows
+# Other variables are FUTURE placeholders for Phase 10 enhancements
+
+test_artifacts:
+  prompt: "Where should test artifacts be stored? (test plans, coverage reports, quality audits)"
+  default: "{output_folder}/test-artifacts"
+  result: "{project-root}/{value}"
+
+# ✅ ACTIVELY USED - Playwright Utils integration (referenced in 6 workflows: automate, atdd, framework, test-design, test-review, ci)
+# CRITICAL: Must be boolean (true/false) not string - workflows check "if config.tea_use_playwright_utils: true"
+tea_use_playwright_utils:
+  prompt: "Enable Playwright Utils integration?"
+  default: true
+  result: "{value}"
+  single-select:
+    - value: true
+      label: "Yes - Use production utilities (Recommended)"
+    - value: false
+      label: "No - Generate from scratch"
+
+# ✅ ACTIVELY USED - Browser automation strategy for TEA workflows
+# Controls how TEA interacts with live browsers during test generation
+# CRITICAL: Must be a string value: "auto" | "cli" | "mcp" | "none"
+tea_browser_automation:
+  prompt: "How should TEA interact with browsers during test generation?"
+  default: "auto"
+  result: "{value}"
+  single-select:
+    - value: "auto"
+      label: "Auto - Smart selection (Recommended)"
+    - value: "cli"
+      label: "CLI only - Playwright CLI (@playwright/cli)"
+    - value: "mcp"
+      label: "MCP only - Playwright MCP servers"
+    - value: "none"
+      label: "None - No live browser interaction"
+
+# ✅ ACTIVELY USED - Stack type detection for multi-framework support
+test_stack_type:
+  prompt: "What type of project is this?"
+  default: "auto"
+  result: "{value}"
+  single-select:
+    - value: "auto"
+      label: "Auto-detect from project files (Recommended)"
+    - value: "frontend"
+      label: "Frontend (Node.js, React, Vue, Angular)"
+    - value: "backend"
+      label: "Backend (Python, Java, Go, .NET, Rust)"
+    - value: "fullstack"
+      label: "Full-stack (both frontend and backend)"
+
+# ✅ ACTIVELY USED - CI/CD platform detection
+ci_platform:
+  prompt: "Which CI/CD platform do you use?"
+  default: "auto"
+  result: "{value}"
+  single-select:
+    - value: "auto"
+      label: "Auto-detect from repository (Recommended)"
+    - value: "github-actions"
+      label: "GitHub Actions"
+    - value: "gitlab-ci"
+      label: "GitLab CI"
+    - value: "jenkins"
+      label: "Jenkins"
+    - value: "azure-devops"
+      label: "Azure DevOps Pipelines"
+    - value: "harness"
+      label: "Harness CI"
+    - value: "circle-ci"
+      label: "CircleCI"
+    - value: "other"
+      label: "Other/Custom"
+
+# ✅ ACTIVELY USED - Test framework selection for multi-stack support
+test_framework:
+  prompt: "Which test framework are you using?"
+  default: "auto"
+  result: "{value}"
+  single-select:
+    - value: "auto"
+      label: "Auto-detect from project files (Recommended)"
+    - value: "playwright"
+      label: "Playwright (JavaScript/TypeScript)"
+    - value: "cypress"
+      label: "Cypress (JavaScript/TypeScript)"
+    - value: "jest"
+      label: "Jest (JavaScript/TypeScript)"
+    - value: "vitest"
+      label: "Vitest (JavaScript/TypeScript)"
+    - value: "pytest"
+      label: "pytest (Python)"
+    - value: "junit"
+      label: "JUnit (Java/Kotlin)"
+    - value: "go-test"
+      label: "Go test (Go)"
+    - value: "dotnet-test"
+      label: "dotnet test (C#/.NET)"
+    - value: "rspec"
+      label: "RSpec (Ruby)"
+    - value: "other"
+      label: "Other/Custom"
+
+# ⏭️ FUTURE - Risk threshold (not currently used in test-design workflow, marked for Phase 10)
+risk_threshold:
+  prompt: "What risk level requires mandatory testing?"
+  default: "p1"
+  result: "{value}"
+  single-select:
+    - value: "p0"
+      label: "P0 only (Critical systems)"
+    - value: "p1"
+      label: "P1+ (High & Critical)"
+    - value: "p2"
+      label: "P2+ (Medium, High & Critical)"
+    - value: "p3"
+      label: "All (P0-P3)"
+
+# ⏭️ FUTURE - Test output folders (not currently wired into workflows, marked for Phase 10)
+# IMPORTANT: test_artifacts already resolves to {project-root}/..., so don't re-prepend {project-root}
+test_design_output:
+  prompt: "Where should test design documents be stored?"
+  default: "test-design"
+  result: "{test_artifacts}/{value}"
+
+test_review_output:
+  prompt: "Where should test review reports be stored?"
+  default: "test-reviews"
+  result: "{test_artifacts}/{value}"
+
+trace_output:
+  prompt: "Where should traceability reports be stored?"
+  default: "traceability"
+  result: "{test_artifacts}/{value}"
+
+post-install-notes:
+  test_stack_type:
+    auto: |
+      Stack Auto-Detection:
+        TEA will detect your project type from manifest files:
+        - Frontend: package.json with react/vue/angular, playwright.config.*, vite.config.*
+        - Backend: pyproject.toml, pom.xml, go.mod, *.csproj, Gemfile, Cargo.toml
+        - Full-stack: both frontend and backend indicators present
+        Existing installations without test_stack_type default to "auto" (detects frontend).
+  ci_platform:
+    auto: |
+      CI Platform Auto-Detection:
+        TEA will detect your CI platform from repository files:
+        - GitHub Actions: .github/workflows/
+        - GitLab CI: .gitlab-ci.yml
+        - Jenkins: Jenkinsfile
+        - Azure DevOps: azure-pipelines.yml
+        - Harness: .harness/
+        - CircleCI: .circleci/config.yml
+        Existing installations without ci_platform default to "auto".
+  tea_browser_automation:
+    cli: |
+      Playwright CLI Setup:
+        npm install -g @playwright/cli@latest
+        playwright-cli install --skills    # Run from project root
+        Node.js 18+ required.
+    mcp: |
+      Playwright MCP Setup (two servers):
+        1. playwright    — npx @playwright/mcp@latest
+        2. playwright-test — npx playwright run-test-mcp-server
+        Configure both MCP servers in your IDE settings.
+        See: https://github.com/microsoft/playwright-mcp
+    auto: |
+      Playwright CLI Setup:
+        npm install -g @playwright/cli@latest
+        playwright-cli install --skills    # Run from project root
+        Node.js 18+ required.
+
+      Playwright MCP Setup (two servers):
+        1. playwright    — npx @playwright/mcp@latest
+        2. playwright-test — npx playwright run-test-mcp-server
+        Configure both MCP servers in your IDE settings.
+        See: https://github.com/microsoft/playwright-mcp
+
+# Directories to create during installation (declarative, no code execution)
+directories:
+  - "{test_artifacts}"
