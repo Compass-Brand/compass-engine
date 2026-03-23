@@ -188,4 +188,3 @@ When user selects 'C', append the content directly to the document. Only after t
 ## NEXT STEP:
 
 Remember: Do NOT proceed to step-03 until user explicitly selects 'C' from the menu and content is saved!
-

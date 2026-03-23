@@ -56,4 +56,3 @@ template: false
 instructions: "{installed_path}/instructions.md"
 checklist: "{installed_path}/checklist.md"
 default_output_file: "{current_evidence_dir}/sprint-change-proposal-{date}.md"
-

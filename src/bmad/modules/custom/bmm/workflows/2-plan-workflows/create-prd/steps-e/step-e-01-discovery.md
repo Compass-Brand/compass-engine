@@ -245,4 +245,3 @@ Present MENU OPTIONS below for user selection
 - Auto-proceeding without understanding intent
 
 **Master Rule:** Understand before editing. Detect format early so we can guide users appropriately. Auto-detect and use validation reports for prioritized improvements.
-

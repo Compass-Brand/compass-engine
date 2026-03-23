@@ -206,4 +206,3 @@ Read fully and follow: {nextStepFile} (step-e-02-review.md)
 - Not documenting conversion strategy
 
 **Master Rule:** Legacy PRDs need conversion assessment so users understand the work involved and can choose the best approach.
-

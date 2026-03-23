@@ -44,4 +44,3 @@ Load config from `{project-root}/_bmad/modules/custom/bmm/config.yaml` and resol
 - Keep implementation research in `{current_research_dir}`.
 - Do not store implementation research in roadmap research lanes.
 - Use absolute dates (`YYYY-MM-DD`) in filenames and metadata.
-

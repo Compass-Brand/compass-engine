@@ -279,4 +279,3 @@ ONLY WHEN 'C' is selected AND attack surface analysis is complete (or explicitly
 - Not updating frontmatter before loading next step
 
 **Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.
-

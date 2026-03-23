@@ -26,4 +26,3 @@ instructions: "{installed_path}/instructions.md"
 validation: "{installed_path}/checklist.md"
 
 default_output_file: "{docs_reference_dir}/documentation-validation-{date}.md"
-

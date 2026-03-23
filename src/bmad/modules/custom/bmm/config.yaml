@@ -122,4 +122,3 @@ risk_threshold: "p1"
 test_design_output: "{test_artifacts}/test-design"
 test_review_output: "{test_artifacts}/test-reviews"
 trace_output: "{test_artifacts}/traceability"
-

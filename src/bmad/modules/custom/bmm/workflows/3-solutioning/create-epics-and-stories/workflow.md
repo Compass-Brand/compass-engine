@@ -56,4 +56,3 @@ Load and read full config from {project-root}/_bmad/modules/custom/bmm/config.ya
 ### 2. First Step EXECUTION
 
 Read fully and follow: `{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/create-epics-and-stories/steps/step-01-validate-prerequisites.md` to begin the workflow.
-

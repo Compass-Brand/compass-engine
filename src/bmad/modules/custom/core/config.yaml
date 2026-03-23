@@ -45,4 +45,3 @@ docs_framework_human_templates_dir: "{docs_framework_human_root}/templates"
 docs_framework_ai_root: "{docs_framework_root}/ai"
 
 project_knowledge: "{docs_root}"
-

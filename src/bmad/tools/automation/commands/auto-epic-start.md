@@ -78,4 +78,3 @@ auto-epic-start --phase-id phase-002 --epic-id epic-03 --approval-mode manual
 - Story execution order is proposed.
 - Epic-level testing is prepared.
 - The epic is either marked ready for story execution or blocked pending approval.
-

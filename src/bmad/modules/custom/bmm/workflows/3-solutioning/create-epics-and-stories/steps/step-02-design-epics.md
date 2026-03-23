@@ -231,4 +231,3 @@ ONLY WHEN C is selected and the approved epics_list is saved to document, will y
 - epics_list not saved to document
 
 **Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.
-

@@ -10,4 +10,3 @@ Onboarding documentation for using and contributing to this repository.
 ## Use
 
 Start here when setting up the repository for the first time.
-

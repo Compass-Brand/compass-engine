@@ -94,4 +94,3 @@ auto-story --phase-id phase-002 --epic-id epic-03 --story-id story-03-02 --appro
 - The story is validated, implemented, tested, reviewed, and traced.
 - Merge is blocked until human approval is given.
 - Risky architectural or migration changes stop the run before irreversible work proceeds.
-

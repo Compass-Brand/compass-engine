@@ -14,4 +14,3 @@ Use this section for:
 ## Contents
 
 Add guides here as concrete repository procedures are documented.
-

@@ -52,4 +52,3 @@ agent:
     - trigger: EC or fuzzy match on explain-concept
       action: "Create a clear technical explanation with examples and diagrams for a complex concept. Break it down into digestible sections using task-oriented approach. Include code examples and Mermaid diagrams where helpful."
       description: "[EC] Explain Concept: Create clear technical explanations with examples"
-

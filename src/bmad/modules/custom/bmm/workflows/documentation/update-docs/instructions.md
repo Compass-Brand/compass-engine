@@ -70,4 +70,3 @@ Write `{default_output_file}` including:
 - promotion candidates or blockers
 - unresolved documentation gaps
 - recommendation to run `/bmad-bmm-validate-docs`
-

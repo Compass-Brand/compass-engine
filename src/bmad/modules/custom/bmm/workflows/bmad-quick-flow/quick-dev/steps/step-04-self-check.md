@@ -109,4 +109,3 @@ Proceed immediately to `{project-root}/_bmad/modules/custom/bmm/workflows/bmad-q
 - Missing AC verification
 - Ignoring pattern violations
 - Not updating tech-spec status (Mode A)
-

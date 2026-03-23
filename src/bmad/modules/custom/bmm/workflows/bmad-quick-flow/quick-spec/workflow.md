@@ -77,4 +77,3 @@ Load and read full config from `{main_config}` and resolve:
 ### 2. First Step Execution
 
 Read fully and follow: `{project-root}/_bmad/modules/custom/bmm/workflows/bmad-quick-flow/quick-spec/steps/step-01-understand.md` to begin the workflow.
-

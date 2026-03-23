@@ -102,4 +102,3 @@ With findings in hand, read fully and follow: `{project-root}/_bmad/modules/cust
 - Invoking task without providing diff input
 - Accepting zero findings without questioning
 - Presenting fewer findings than the review task returned without explicit instruction to do so
-

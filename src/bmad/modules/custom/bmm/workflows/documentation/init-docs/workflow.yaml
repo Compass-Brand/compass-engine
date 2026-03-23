@@ -40,4 +40,3 @@ legacy_requirements_csv: "{project-root}/_bmad/modules/custom/bmm/workflows/docu
 # Output
 migration_manifest: "{docs_reference_dir}/docs-migration-manifest-{date}.md"
 default_output_file: "{docs_reference_dir}/docs-initialization-report-{date}.md"
-

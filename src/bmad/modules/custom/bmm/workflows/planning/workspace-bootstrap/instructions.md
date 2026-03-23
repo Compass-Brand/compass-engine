@@ -163,4 +163,3 @@ On rerun:
 - skip repos already marked `initialized` or `already_aligned` unless explicitly reopened
 - rerun only failed, blocked, or newly targeted repos by default
 - do not regenerate snapshots for unchanged repos just because the aggregate workflow was rerun
-

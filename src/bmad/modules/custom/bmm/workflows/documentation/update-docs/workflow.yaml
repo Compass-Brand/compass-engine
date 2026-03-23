@@ -43,4 +43,3 @@ update_scope:
       label: "Release-level update"
 
 default_output_file: "{docs_reference_dir}/documentation-update-report-{date}.md"
-

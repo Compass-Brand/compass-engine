@@ -11,4 +11,3 @@ No ADRs recorded yet. Use `docs/human/templates/adr.md` when adding the first de
 - when a decision is expensive to reverse
 - when multiple alternatives were considered
 - when future maintainers will need the rationale
-

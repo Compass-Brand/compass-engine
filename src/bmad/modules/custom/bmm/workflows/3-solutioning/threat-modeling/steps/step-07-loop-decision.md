@@ -252,4 +252,3 @@ Based on decision:
 ## CRITICAL STEP COMPLETION NOTE
 
 ONLY WHEN progress is updated in frontmatter AND routing decision is made (more components OR proceed to summary) will you load and follow the appropriate next step file ({componentSelectionFile} or {summaryFile}).
-

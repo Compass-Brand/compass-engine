@@ -472,4 +472,3 @@ They remain `anytime` and do not insert into the Compass delivery spine.
 - `planning/templates/**`
 - `docs/**`
 - shipped extension workflows already normalized into `_bmad/modules/custom/bmm/workflows/`
-

@@ -463,4 +463,3 @@ Display: **Select an Option:** [A] Advanced Elicitation [P] Party Mode [C] Conti
 - Not routing to hub
 
 **Master Rule:** Teach, quiz, generate notes, update progress, return to hub.
-

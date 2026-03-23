@@ -14,4 +14,3 @@ If this repository consumes Compass Engine, describe how Compass-managed assets 
 ## Verify
 
 List the minimum checks that confirm installation succeeded.
-

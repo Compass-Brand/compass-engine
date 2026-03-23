@@ -55,4 +55,3 @@
 "bmad-autonomous-refinement-loop","Run autonomous party-mode and auto-elicitation loops with agent teams until zero unresolved issues remain; manual Party Mode and Advanced Elicitation remain available separately. Escalates only on blocked fixes.","core","_bmad/modules/custom/core/workflows/autonomous-refinement-loop/workflow.md"
 "bmad-brainstorming","Generate diverse ideas through interactive techniques. Broad strategic brainstorming writes to roadmap lane by default.","core","_bmad/modules/custom/core/workflows/brainstorming/workflow.md"
 "bmad-party-mode","Orchestrate multi-agent discussions. Use when you need multiple agent perspectives or want agents to collaborate.","core","_bmad/modules/custom/core/workflows/party-mode/workflow.md"
-

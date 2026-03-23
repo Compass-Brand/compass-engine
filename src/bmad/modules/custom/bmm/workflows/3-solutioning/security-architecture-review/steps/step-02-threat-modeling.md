@@ -471,4 +471,3 @@ ONLY WHEN 'C' is selected AND all 6 STRIDE categories have been analyzed AND thr
 - Generating threats without user input and validation
 
 **Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.
-

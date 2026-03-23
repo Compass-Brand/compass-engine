@@ -210,4 +210,3 @@ Return to {nextStepFile}.
 ✅ Fragment categories displayed, user explored chosen fragments, notes generated with exploration summary, progress updated, returned to hub.
 
 **Master Rule:** This session is exploratory and repeatable. User drives exploration, workflow facilitates.
-

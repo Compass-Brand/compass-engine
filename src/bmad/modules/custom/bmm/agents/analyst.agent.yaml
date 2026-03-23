@@ -41,4 +41,3 @@ agent:
     - trigger: DP or fuzzy match on init-docs or document-project
       workflow: "{project-root}/_bmad/modules/custom/bmm/workflows/documentation/init-docs/workflow.yaml"
       description: "[DP] Initialize Docs: Migrate existing docs into Compass opinionated docs layout while preserving legacy sources"
-

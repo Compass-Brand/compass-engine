@@ -217,4 +217,3 @@ ONLY WHEN [C continue option] is selected and [MVP scope finalized and saved to 
 - Not updating frontmatter properly
 
 **Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.
-

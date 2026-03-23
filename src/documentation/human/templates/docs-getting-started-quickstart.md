@@ -11,4 +11,3 @@ Document the shortest path to a first successful result in this repository.
 ## Verify
 
 Describe the expected result of the quickstart sequence.
-

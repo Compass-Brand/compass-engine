@@ -224,4 +224,3 @@ Display: **Select an Option:** [A] Advanced Elicitation [P] Party Mode [C] Conti
 - Not handling missing input documents gracefully
 
 **Master Rule:** Complete discovery and setup BEFORE validation. This step ensures everything is in place for systematic validation checks.
-

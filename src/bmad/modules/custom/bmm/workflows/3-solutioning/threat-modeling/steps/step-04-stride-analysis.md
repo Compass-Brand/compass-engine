@@ -499,4 +499,3 @@ Display: **Select an Option:** [B] Brainstorming [P] Party Mode [W] Web-Browsing
 ## CRITICAL STEP COMPLETION NOTE
 
 ONLY WHEN C is selected AND all STRIDE threats are documented in the threat model will you load, read entire file, then follow {nextStepFile} to begin risk assessment.
-

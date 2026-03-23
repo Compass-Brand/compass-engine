@@ -292,4 +292,3 @@ next_checkpoint: detailed_analysis
 - `phase-state.yaml` should also carry the Beads issue references for the active phase.
 - Do not write active phase metadata outside `{phase_snapshot_file}` and `{phase_state_file}`.
 - Do not archive in this workflow; use `phase-closeout`.
-

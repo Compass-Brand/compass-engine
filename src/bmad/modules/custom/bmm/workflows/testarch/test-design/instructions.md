@@ -103,4 +103,3 @@ When populating templates in step 5, apply the following guidance for these sect
 - Identify services and components that interact with or are affected by the feature under test
 - For each, define what existing regression tests must pass before release
 - Note any cross-team coordination needed for regression validation (e.g., shared staging environments, upstream API contracts)
-

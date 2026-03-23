@@ -124,4 +124,3 @@ c) **Read fully and follow: `{project-root}/_bmad/modules/custom/bmm/workflows/b
 
 - [ ] `stepsCompleted: [1, 2, 3]` set in frontmatter.
 - [ ] Spec meets the **READY FOR DEVELOPMENT** standard.
-

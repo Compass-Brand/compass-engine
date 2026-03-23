@@ -125,4 +125,3 @@ What would be most helpful?"
 After user confirms they're ready to continue, load the appropriate next step file based on the `lastStep` value from frontmatter.
 
 Remember: Do NOT load the next step until user explicitly selects [C] to continue!
-

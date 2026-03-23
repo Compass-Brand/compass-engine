@@ -14,4 +14,3 @@ instructions: "{installed_path}/instructions.md"
 validation: "{project-root}/_bmad/modules/custom/bmm/workflows/documentation/init-docs/checklist.md"
 
 delegated_workflow: "{project-root}/_bmad/modules/custom/bmm/workflows/documentation/init-docs/workflow.yaml"
-

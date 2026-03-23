@@ -127,4 +127,3 @@ Implementation Readiness complete. Read fully and follow: `{project-root}/_bmad/
 - Not reviewing previous findings
 - Incomplete summary
 - No clear recommendations
-

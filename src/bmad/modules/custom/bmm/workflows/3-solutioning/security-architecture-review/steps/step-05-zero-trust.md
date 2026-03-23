@@ -484,4 +484,3 @@ ONLY WHEN 'C' is selected AND zero-trust validation is complete across all 7 pri
 - Not updating frontmatter before loading next step
 
 **Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.
-

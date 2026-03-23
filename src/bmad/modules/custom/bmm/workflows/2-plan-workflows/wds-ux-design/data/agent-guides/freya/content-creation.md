@@ -267,4 +267,3 @@ Features (WHAT): 10K templates, smart pricing, e-signatures
 ---
 
 *Every word is a strategic choice. Content triggers psychology.*
-

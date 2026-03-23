@@ -7,4 +7,3 @@
 "workflow","Execute Workflow","Execute a BMAD workflow by loading config and following the instructions exactly.","core","_bmad/modules/custom/core/tasks/workflow.xml","false"
 "bmad-help","BMAD Help","Interactive help system for discovering BMAD modules, workflows, and commands.","core","_bmad/modules/custom/core/tasks/help.md","true"
 "brainstorming","Brainstorming","Compatibility shim for markdown brainstorming workflow calls.","core","_bmad/modules/custom/core/tasks/brainstorming.xml","false"
-

@@ -31,4 +31,3 @@ validation: "{installed_path}/checklist.md"
 # Output
 migration_manifest: "{planning_root}/planning-migration-manifest-{date}.md"
 default_output_file: "{planning_root}/planning-initialization-report-{date}.md"
-

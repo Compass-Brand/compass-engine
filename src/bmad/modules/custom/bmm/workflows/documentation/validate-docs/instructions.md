@@ -81,4 +81,3 @@ End with gate recommendation:
 - `PASS` if no blocking issues
 - `CONCERNS` if only warnings
 - `FAIL` if structure or policy blockers exist
-

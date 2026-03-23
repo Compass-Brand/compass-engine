@@ -53,4 +53,3 @@ input_file_patterns:
     whole: "{current_epics_dir}/*.md"
     sharded: "{current_epics_dir}/**/*.md"
     load_strategy: "SELECTIVE_LOAD" # Only load needed epic
-

@@ -59,4 +59,3 @@ Execute steps in `./steps-p/`:
 1. Update design log
 2. Suggest the next action or continue to `Design Delivery`
 3. Return to activity menu
-

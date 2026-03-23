@@ -47,4 +47,3 @@ Load config from `{project-root}/_bmad/modules/custom/bmm/config.yaml` and resol
 Load and execute `{project-root}/_bmad/modules/custom/bmm/workflows/generate-project-context/steps/step-01-discover.md` to begin the workflow.
 
 **Note:** Input document discovery and initialization protocols are handled in step-01-discover.md.
-

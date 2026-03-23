@@ -29,4 +29,3 @@ project_root_path: ""
 
 # Configuration
 autonomous: false # Requires user input at key decision points
-

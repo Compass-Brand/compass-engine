@@ -164,4 +164,3 @@ Do not update `current/phase.md` or `current/phase-state.yaml` here.
 
 Roadmap work stays in `roadmap/`.
 `Phase Sync` owns activation of the approved active slice into `current/`.
-

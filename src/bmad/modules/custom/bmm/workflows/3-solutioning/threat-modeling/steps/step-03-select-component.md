@@ -210,4 +210,3 @@ Immediately load, read entire file, then follow {nextStepFile} to begin STRIDE t
 ## CRITICAL STEP COMPLETION NOTE
 
 ONLY WHEN a component is selected (OR all components are analyzed) will you update frontmatter and immediately load and follow the appropriate next step file ({nextStepFile} for analysis or {summaryStepFile} if complete).
-

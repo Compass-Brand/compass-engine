@@ -65,4 +65,3 @@ Load and read full config from {project-root}/_bmad/modules/custom/bmm/config.ya
 ### 2. First Step EXECUTION
 
 Load, read the full file and then follow {workflow_path}/steps/step-01-init.md to begin the workflow.
-

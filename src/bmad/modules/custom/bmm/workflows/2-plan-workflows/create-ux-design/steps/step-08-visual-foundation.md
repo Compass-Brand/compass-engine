@@ -222,4 +222,3 @@ When user selects 'C', append the content directly to the document using the str
 After user selects 'C' and content is saved to document, load `{project-root}/_bmad/modules/custom/bmm/workflows/2-plan-workflows/create-ux-design/steps/step-09-design-directions.md` to generate design direction mockups.
 
 Remember: Do NOT proceed to step-09 until user explicitly selects 'C' from the A/P/C menu and content is saved!
-

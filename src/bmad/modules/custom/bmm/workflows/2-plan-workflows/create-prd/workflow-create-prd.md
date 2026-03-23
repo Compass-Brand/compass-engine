@@ -63,4 +63,3 @@ Load and read full config from {main_config} and resolve:
 "**Create Mode: Creating a new PRD from scratch.**"
 
 Read fully and follow: `{nextStep}` (steps-c/step-01-init.md)
-

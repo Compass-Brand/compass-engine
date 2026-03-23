@@ -200,4 +200,3 @@ ONLY WHEN [C continue option] is selected and [user personas finalized and saved
 - Not updating frontmatter properly
 
 **Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.
-

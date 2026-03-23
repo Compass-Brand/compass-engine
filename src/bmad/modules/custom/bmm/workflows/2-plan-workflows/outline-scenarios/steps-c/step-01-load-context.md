@@ -171,4 +171,3 @@ ONLY WHEN [C continue option] is selected and [context summary presented and ack
 - Not waiting for user acknowledgment before proceeding
 
 **Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.
-

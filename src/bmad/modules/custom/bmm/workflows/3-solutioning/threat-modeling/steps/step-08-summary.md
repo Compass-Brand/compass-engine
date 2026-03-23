@@ -595,4 +595,3 @@ Thank you for using the STRIDE Threat Modeling workflow!"
 ## CRITICAL STEP COMPLETION NOTE
 
 ONLY WHEN C is selected AND Section 6 is complete AND frontmatter is updated with workflowComplete: true will the workflow be considered finished. This is the final deliverable.
-

@@ -228,4 +228,3 @@ After determining next step, immediately load and follow the appropriate step fi
 ## CRITICAL STEP COMPLETION NOTE
 
 ONLY WHEN the routing decision is made based on stepsCompleted analysis will you immediately load and follow the appropriate next step file.
-

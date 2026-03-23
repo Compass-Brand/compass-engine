@@ -1442,4 +1442,3 @@ Charlie (Senior Dev): "Time to knock out that prep work."
 <guideline>Document everything - retrospective insights are valuable for future reference</guideline>
 <guideline>Two-part structure ensures both reflection AND preparation</guideline>
 </facilitation-guidelines>
-

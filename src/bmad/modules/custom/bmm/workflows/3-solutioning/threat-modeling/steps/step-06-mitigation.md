@@ -408,4 +408,3 @@ Display: **Select an Option:** [B] Brainstorming [P] Party Mode [W] Web-Browsing
 ## CRITICAL STEP COMPLETION NOTE
 
 ONLY WHEN C is selected AND all threats have mitigation strategies documented in the threat model will you load, read entire file, then follow {nextStepFile} to determine if more components need analysis.
-

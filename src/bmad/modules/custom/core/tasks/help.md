@@ -95,4 +95,3 @@ Determine what was just completed:
    - For conversational requests: match the user's tone while presenting clearly
 
 8. Return to the calling process after presenting recommendations.
-

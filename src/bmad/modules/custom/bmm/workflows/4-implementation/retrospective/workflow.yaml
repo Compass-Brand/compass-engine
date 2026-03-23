@@ -56,4 +56,3 @@ input_file_patterns:
 
 # Required files
 sprint_status_file: "{current_story_dir}/sprint-status.yaml"
-

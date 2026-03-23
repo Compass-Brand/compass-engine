@@ -232,4 +232,3 @@ Return to {nextStepFile}.
 ## 🚨 SUCCESS METRICS
 
 ✅ ATDD and Automate taught, TDD explained, quiz passed, notes generated, progress updated, returned to hub.
-

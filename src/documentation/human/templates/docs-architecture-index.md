@@ -14,4 +14,3 @@ Use this section for:
 - subsystem boundaries
 - integration patterns
 - major technical decisions
-

@@ -129,4 +129,3 @@ Each sketch should:
 ---
 
 *Strategic clarity achieved - now sketch with purpose!*
-

@@ -89,4 +89,3 @@ x. Proceed / No Further Actions
 - apply to latest accepted content state.
 - show what improved.
 - loop back for further selection until `x`.
-

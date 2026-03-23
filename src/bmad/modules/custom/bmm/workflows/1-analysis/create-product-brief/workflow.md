@@ -59,4 +59,3 @@ If the current repo is clearly a disposable smoke-test or validation-only repo, 
 ### 2. First Step EXECUTION
 
 Read fully and follow: `{project-root}/_bmad/modules/custom/bmm/workflows/1-analysis/create-product-brief/steps/step-01-init.md` to begin the workflow.
-

@@ -36,4 +36,3 @@ agent:
     - trigger: SG or fuzzy match on secure-gates
       workflow: "{project-root}/_bmad/modules/custom/bmm/workflows/4-implementation/secure-gates/workflow.md"
       description: "[SG] Secure Gates: apply the conditional readiness or release security gate using current evidence"
-

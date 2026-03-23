@@ -29,4 +29,3 @@ validation: "{installed_path}/checklist.md"
 # Output
 roadmap_proposal_file: "{planning_roadmap}/roadmap-update-proposal-{date}.md"
 default_output_file: "{planning_roadmap}/roadmap-update-report-{date}.md"
-

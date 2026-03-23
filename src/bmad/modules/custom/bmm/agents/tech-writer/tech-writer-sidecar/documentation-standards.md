@@ -38,4 +38,3 @@ Policy/template control plane lives in:
 - Keep internal links relative.
 - Keep documentation file names lowercase kebab-case.
 - Ensure each docs directory includes `README.md`.
-
