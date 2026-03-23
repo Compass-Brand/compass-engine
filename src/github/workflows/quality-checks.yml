@@ -60,7 +60,7 @@ jobs:
           done
 
       - name: Setup Node.js
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238
         with:
           node-version: '20'
 
@@ -198,7 +198,7 @@ jobs:
           fi
 
           ALLOWED_SPDX="${ALLOWED_LICENSES//,/ }"
-          NOASSERTION_ALLOWED_REPOS="bmad-code-org/BMAD-METHOD bmad-code-org/bmad-builder bmad-code-org/bmad-method-test-architecture-enterprise bmad-code-org/bmad-module-creative-intelligence-suite bmad-code-org/bmad-method-wds-expansion BlackUnicornSecurity/BMAD-CYBERSEC Hidden-History/pov-oversight-agent"
+          NOASSERTION_ALLOWED_REPOS="bmad-code-org/BMAD-METHOD"
 
           while read -r _ url; do
             repo="$url"
