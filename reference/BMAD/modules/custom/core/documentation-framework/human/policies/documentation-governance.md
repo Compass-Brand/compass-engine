@@ -120,6 +120,26 @@ Implementation Playbook (Mandatory):
 2. Assign an accountable owner and expiry date.
 3. Review exceptions in each quarterly documentation cycle.
 
+### 8. Promotion from planning artifacts
+
+Planning artifacts in `reference/planning/` MAY graduate into the repo `docs/` tree only when all of the following are true:
+
+- the content is stable for the current phase or repo baseline,
+- an owner is assigned,
+- lifecycle state is set,
+- the destination docs location is defined,
+- the artifact has been reviewed for structure, terminology, and links,
+- a replacement link or archive note is recorded if the planning artifact will later be frozen or superseded.
+
+Rationale: planning artifacts are intentionally volatile. Promotion without explicit ownership and lifecycle metadata turns working notes into accidental source-of-truth docs.
+
+Implementation Playbook (Mandatory):
+
+1. Record the promotion candidate in planning closeout or docs update evidence.
+2. Assign owner, lifecycle state, and destination path before moving content into `docs/`.
+3. Preserve a link from the promoted doc back to the stabilizing planning artifact or decision.
+4. Do not promote automation runtime files, gate packages, or phase-specific working evidence into `docs/`.
+
 ## Compliance checks
 
 - Baseline root files are present.
@@ -128,6 +148,7 @@ Implementation Playbook (Mandatory):
 - Exception records are complete and unexpired.
 - No unresolved placeholders remain.
 - Quarterly review evidence exists.
+- Promotions from planning artifacts include owner, lifecycle state, destination, and replacement or archive notes.
 
 ## Related
 

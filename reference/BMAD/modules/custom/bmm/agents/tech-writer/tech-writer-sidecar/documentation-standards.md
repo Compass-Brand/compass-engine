@@ -6,12 +6,12 @@ This file is a compatibility bridge for older prompts that still reference a sin
 
 Use these built-in framework sources as authoritative:
 
-1. `{project-root}/_bmad/core/documentation-framework/human/policies/documentation-governance.md`
-2. `{project-root}/_bmad/core/documentation-framework/human/policies/docs-structure-standard.md`
-3. `{project-root}/_bmad/core/documentation-framework/human/policies/style-standard.md`
-4. `{project-root}/_bmad/core/documentation-framework/human/policies/guides-standard.md`
-5. `{project-root}/_bmad/core/documentation-framework/human/policies/architecture-standard.md`
-6. `{project-root}/_bmad/core/documentation-framework/human/templates/*`
+1. `{project-root}/reference/documentation/human/policies/documentation-governance.md`
+2. `{project-root}/reference/documentation/human/policies/docs-structure-standard.md`
+3. `{project-root}/reference/documentation/human/policies/style-standard.md`
+4. `{project-root}/reference/documentation/human/policies/guides-standard.md`
+5. `{project-root}/reference/documentation/human/policies/architecture-standard.md`
+6. `{project-root}/reference/documentation/human/templates/*`
 
 Then apply project-specific overrides from:
 

@@ -4,6 +4,8 @@ Last reviewed: 2026-02-23
 
 How compass-engine compiles source bundles into distributable artifacts.
 
+`dist/` is a local and CI build artifact. The published npm package ships the `src`-backed bundle sources, not `dist/`.
+
 ## Build Command
 
 ```bash

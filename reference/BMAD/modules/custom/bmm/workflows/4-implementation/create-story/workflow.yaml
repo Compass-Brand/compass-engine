@@ -2,7 +2,7 @@ name: create-story
 description: 'Creates a dedicated story file with all the context the agent will need to implement it later. Use when the user says "create the next story" or "create story [story identifier]"'
 
 # Critical variables from config
-config_source: "{project-root}/_bmad/bmm/config.yaml"
+config_source: "{project-root}/reference/BMAD/modules/custom/bmm/config.yaml"
 user_name: "{config_source}:user_name"
 communication_language: "{config_source}:communication_language"
 document_output_language: "{config_source}:document_output_language"
@@ -17,7 +17,7 @@ current_architecture_dir: "{config_source}:current_architecture_dir"
 current_ux_dir: "{config_source}:current_ux_dir"
 
 # Workflow components
-installed_path: "{project-root}/_bmad/bmm/workflows/4-implementation/create-story"
+installed_path: "{project-root}/reference/BMAD/modules/custom/bmm/workflows/4-implementation/create-story"
 template: "{installed_path}/template.md"
 instructions: "{installed_path}/instructions.xml"
 validation: "{installed_path}/checklist.md"

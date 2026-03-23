@@ -3,7 +3,7 @@ name: 'step-01-preflight-and-context'
 description: 'Determine mode, verify framework, and load context and knowledge'
 outputFile: '{test_artifacts}/automation-summary.md'
 nextStepFile: './step-02-identify-targets.md'
-knowledgeIndex: '{project-root}/_bmad/bmm/testarch/tea-index.csv'
+knowledgeIndex: '{project-root}/reference/BMAD/modules/custom/bmm/testarch/tea-index.csv'
 ---
 
 # Step 1: Preflight & Context Loading

@@ -4,7 +4,11 @@ import { existsSync } from 'node:fs';
 import process from 'node:process';
 import { lint as markdownlint } from 'markdownlint/promise';
 
-const EXCLUDED_PREFIXES = ['reference/BMAD/research/', '.claude-trace/'];
+const EXCLUDED_PREFIXES = [
+  'reference/BMAD/',
+  'src/bmad/modules/',
+  '.claude-trace/',
+];
 
 function normalize(filePath) {
   return filePath.replace(/\\/g, '/');

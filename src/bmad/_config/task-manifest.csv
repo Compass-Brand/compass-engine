@@ -1,0 +1,10 @@
+"name","displayName","description","module","path","standalone"
+"index-docs","Index Docs","Create lightweight index for quick LLM scanning.","core","_bmad/modules/custom/core/tasks/index-docs.xml","true"
+"review-adversarial-general","Adversarial Review (General)","Cynically review content and produce findings.","core","_bmad/modules/custom/core/tasks/review-adversarial-general.xml","false"
+"shard-doc","Shard Document","Split large markdown documents into smaller, organized files.","core","_bmad/modules/custom/core/tasks/shard-doc.xml","false"
+"editorial-review-prose","Editorial Review - Prose","Review prose for clarity, tone, and communication issues.","core","_bmad/modules/custom/core/tasks/editorial-review-prose.xml","false"
+"editorial-review-structure","Editorial Review - Structure","Propose cuts, reorganization, and simplification while preserving comprehension.","core","_bmad/modules/custom/core/tasks/editorial-review-structure.xml","false"
+"workflow","Execute Workflow","Execute a BMAD workflow by loading config and following the instructions exactly.","core","_bmad/modules/custom/core/tasks/workflow.xml","false"
+"bmad-help","BMAD Help","Interactive help system for discovering BMAD modules, workflows, and commands.","core","_bmad/modules/custom/core/tasks/help.md","true"
+"brainstorming","Brainstorming","Compatibility shim for markdown brainstorming workflow calls.","core","_bmad/modules/custom/core/tasks/brainstorming.xml","false"
+

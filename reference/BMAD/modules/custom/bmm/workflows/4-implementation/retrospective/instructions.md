@@ -1,10 +1,10 @@
 # Retrospective - Epic Completion Review Instructions
 
-<critical>The workflow execution engine is governed by: {project-root}/_bmad/core/tasks/workflow.xml</critical>
-<critical>You MUST have already loaded and processed: {project-root}/_bmad/bmm/workflows/4-implementation/retrospective/workflow.yaml</critical>
+<critical>The workflow execution engine is governed by: {project-root}/reference/BMAD/modules/custom/core/tasks/workflow.xml</critical>
+<critical>You MUST have already loaded and processed: {project-root}/reference/BMAD/modules/custom/bmm/workflows/4-implementation/retrospective/workflow.yaml</critical>
 <critical>Communicate all responses in {communication_language} and language MUST be tailored to {user_skill_level}</critical>
 <critical>Generate all documents in {document_output_language}</critical>
-<critical>⚠️ ABSOLUTELY NO TIME ESTIMATES - NEVER mention hours, days, weeks, months, or ANY time-based predictions. AI has fundamentally changed development speed - what once took teams weeks/months can now be done by one person in hours. DO NOT give ANY time estimates whatsoever.</critical>
+<critical>⚠️ Avoid speculative delivery promises. Prefer qualitative effort bands, dependency ordering, and risk signals over calendar commitments. If the retrospective references effort, keep it relative and decision-supporting rather than predictive.</critical>
 
 <critical>
   DOCUMENT OUTPUT: Retrospective analysis. Concise insights, lessons learned, action items. User skill level ({user_skill_level}) affects conversation style ONLY, not retrospective content.
@@ -82,7 +82,7 @@ Bob (Scrum Master): "I'm having trouble detecting the completed epic from {sprin
   <action>PRIORITY 3: Fallback to stories folder</action>
 
 <action>Scan {current_story_dir} for highest numbered story files</action>
-<action>Extract epic numbers from story filenames (pattern: epic-X-Y-story-name.md)</action>
+<action>Extract epic numbers from story filenames (pattern: X-Y-story-name.md)</action>
 <action>Set {{detected_epic}} = highest epic number found</action>
 
   <output>
@@ -181,7 +181,7 @@ Charlie (Senior Dev): "Good idea - those dev notes always have gold in them."
 - Identify where developers struggled or made mistakes
 - Note unexpected complexity or gotchas discovered
 - Record technical decisions that didn't work out as planned
-- Track where estimates were way off (too high or too low)
+- Track where initial complexity assumptions were materially off
 
 **Review Feedback Patterns:**
 
@@ -387,7 +387,7 @@ Alice (Product Owner): "Good thinking - helps us connect what we learned to what
 <check if="next epic found">
   <action>Analyze next epic for:</action>
   - Epic title and objectives
-  - Planned stories and complexity estimates
+  - Planned stories and any complexity notes or sizing assumptions
   - Dependencies on Epic {{epic_number}} work
   - New technical requirements or capabilities needed
   - Potential risks or unknowns
@@ -459,12 +459,12 @@ Bob (Scrum Master): "Here's what we accomplished together."
 
 **EPIC {{epic_number}} SUMMARY:**
 
-Delivery Metrics:
+Delivery Indicators (use exact numbers only if they were actually tracked):
 
 - Completed: {{completed_stories}}/{{total_stories}} stories ({{completion_percentage}}%)
-- Velocity: {{actual_points}} story points{{#if planned_points}} (planned: {{planned_points}}){{/if}}
-- Duration: {{actual_sprints}} sprints{{#if planned_sprints}} (planned: {{planned_sprints}}){{/if}}
-- Average velocity: {{points_per_sprint}} points/sprint
+- Delivery pace: {{velocity_summary}}
+- Workload shape: {{workload_summary}}
+- Planning accuracy notes: {{planning_accuracy_summary}}
 
 Quality and Technical:
 
@@ -711,11 +711,11 @@ Alice (Product Owner): [Reacts to what {user_name} said] "I agree with {user_nam
 
 Charlie (Senior Dev): "Here's what I think we need technically before Epic {{next_epic_num}} can start..."
 
-Charlie (Senior Dev): "1. {{tech_prep_item_1}} - estimated {{hours_1}} hours"
-Charlie (Senior Dev): "2. {{tech_prep_item_2}} - estimated {{hours_2}} hours"
-Charlie (Senior Dev): "3. {{tech_prep_item_3}} - estimated {{hours_3}} hours"
+Charlie (Senior Dev): "1. {{tech_prep_item_1}} - effort band: {{effort_band_1}}"
+Charlie (Senior Dev): "2. {{tech_prep_item_2}} - effort band: {{effort_band_2}}"
+Charlie (Senior Dev): "3. {{tech_prep_item_3}} - effort band: {{effort_band_3}}"
 
-Elena (Junior Dev): "That's like {{total_hours}} hours! That's a full sprint of prep work!"
+Elena (Junior Dev): "That's a significant prep block. We need to treat it explicitly instead of pretending it will disappear."
 
 Charlie (Senior Dev): "Exactly. We can't just jump into Epic {{next_epic_num}} on Monday."
 
@@ -782,15 +782,15 @@ Bob (Scrum Master): "{user_name}, the team is finding a workable compromise here
 Bob (Scrum Master): "I'm hearing a clear picture of what we need before Epic {{next_epic_num}}. Let me summarize..."
 
 **CRITICAL PREPARATION (Must complete before epic starts):**
-{{list_critical_prep_items_with_owners_and_estimates}}
+{{list_critical_prep_items_with_owners_and_effort}}
 
 **PARALLEL PREPARATION (Can happen during early stories):**
-{{list_parallel_prep_items_with_owners_and_estimates}}
+{{list_parallel_prep_items_with_owners_and_effort}}
 
 **NICE-TO-HAVE PREPARATION (Would help but not blocking):**
 {{list_nice_to_have_prep_items}}
 
-Bob (Scrum Master): "Total critical prep effort: {{critical_hours}} hours ({{critical_days}} days)"
+Bob (Scrum Master): "Overall critical prep size: {{critical_effort_band}}"
 
 Alice (Product Owner): "That's manageable. We can communicate that to stakeholders."
 
@@ -911,14 +911,14 @@ Estimated: {{est_2}}
 **Knowledge Development:**
 [ ] {{research_task_1}}
 Owner: {{owner_3}}
-Estimated: {{est_3}}
+Effort band: {{est_3}}
 
 **Cleanup/Refactoring:**
 [ ] {{refactor_task_1}}
 Owner: {{owner_4}}
-Estimated: {{est_4}}
+Effort band: {{est_4}}
 
-**Total Estimated Effort:** {{total_hours}} hours ({{total_days}} days)
+**Overall Prep Size:** {{total_effort_band}}
 
 ═══════════════════════════════════════════════════════════
 ⚠️ CRITICAL PATH:
@@ -1078,7 +1078,7 @@ Bob (Scrum Master): "{user_name}, are you confident Epic {{epic_number}} is prod
   <output>
 Bob (Scrum Master): "Okay, let's capture that. What specific testing is still needed?"
 
-Dana (QA Engineer): "I can handle {{testing_work_needed}}, estimated {{testing_hours}} hours."
+Dana (QA Engineer): "I can handle {{testing_work_needed}}. I'd classify it as {{testing_effort_band}} effort."
 
 Bob (Scrum Master): "Adding to critical path: Complete {{testing_work_needed}} before Epic {{next_epic_num}}."
 </output>
@@ -1149,7 +1149,7 @@ Charlie (Senior Dev): [Helps {user_name} articulate technical concerns]
 
 Bob (Scrum Master): "What would it take to address these concerns and feel confident about stability?"
 
-Charlie (Senior Dev): "I'd say we need {{stability_work_needed}}, roughly {{stability_hours}} hours."
+Charlie (Senior Dev): "I'd say we need {{stability_work_needed}}. Call it {{stability_effort_band}} effort."
 
 Bob (Scrum Master): "{user_name}, is addressing this stability work worth doing before Epic {{next_epic_num}}?"
 </output>
@@ -1308,14 +1308,14 @@ Bob (Scrum Master): "See you all when prep work is done. Meeting adjourned!"
 
 <action>Generate comprehensive retrospective summary document including:</action>
 
-- Epic summary and metrics
+- Epic summary and optional delivery indicators
 - Team participants
 - Successes and strengths identified
 - Challenges and growth areas
 - Key insights and learnings
 - Previous retro follow-through analysis (if applicable)
 - Next epic preview and dependencies
-- Action items with owners and timelines
+- Action items with owners and sequencing notes
 - Preparation tasks for next epic
 - Critical path items
 - Significant discoveries and epic update recommendations (if any)
@@ -1403,7 +1403,7 @@ Retrospective document was saved successfully, but {sprint_status_file} may need
      {{/if}}
 
 **Team Performance:**
-Epic {{epic_number}} delivered {{completed_stories}} stories with {{velocity_summary}}. The retrospective surfaced {{insight_count}} key insights and {{significant_discovery_count}} significant discoveries. The team is well-positioned for Epic {{next_epic_num}} success.
+Epic {{epic_number}} delivered {{completed_stories}} stories with {{delivery_pace_summary}}. The retrospective surfaced {{insight_count}} key insights and {{significant_discovery_count}} significant discoveries. The team is well-positioned for Epic {{next_epic_num}} success.
 
 {{#if significant_discovery_count > 0}}
 ⚠️ **REMINDER**: Epic update required before starting Epic {{next_epic_num}}
@@ -1442,5 +1442,3 @@ Charlie (Senior Dev): "Time to knock out that prep work."
 <guideline>Document everything - retrospective insights are valuable for future reference</guideline>
 <guideline>Two-part structure ensures both reflection AND preparation</guideline>
 </facilitation-guidelines>
-
-

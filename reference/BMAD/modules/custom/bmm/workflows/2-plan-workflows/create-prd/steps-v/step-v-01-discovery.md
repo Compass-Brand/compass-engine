@@ -4,8 +4,8 @@ description: 'Document Discovery & Confirmation - Handle fresh context validatio
 
 # File references (ONLY variables used in this step)
 nextStepFile: './step-v-02-format-detection.md'
-advancedElicitationTask: '{project-root}/_bmad/core/workflows/advanced-elicitation/workflow.xml'
-partyModeWorkflow: '{project-root}/_bmad/core/workflows/party-mode/workflow.md'
+advancedElicitationTask: '{project-root}/reference/BMAD/modules/custom/core/workflows/advanced-elicitation/workflow.xml'
+partyModeWorkflow: '{project-root}/reference/BMAD/modules/custom/core/workflows/party-mode/workflow.md'
 prdPurpose: '../data/prd-purpose.md'
 ---
 
@@ -224,4 +224,3 @@ Display: **Select an Option:** [A] Advanced Elicitation [P] Party Mode [C] Conti
 - Not handling missing input documents gracefully
 
 **Master Rule:** Complete discovery and setup BEFORE validation. This step ensures everything is in place for systematic validation checks.
-

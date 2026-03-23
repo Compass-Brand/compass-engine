@@ -44,12 +44,11 @@ description: 'Validate PRD, UX, Architecture and Epics specs are complete. Use w
 
 ### 1. Module Configuration Loading
 
-Load and read full config from {project-root}/_bmad/bmm/config.yaml and resolve:
+Load and read full config from {project-root}/reference/BMAD/modules/custom/bmm/config.yaml and resolve:
 
-- `project_name`, `planning_root`, `planning_current`, `current_testing_dir`, `current_research_dir`, `user_name`, `communication_language`, `document_output_language`
+- `project_name`, `planning_root`, `planning_current`, `current_testing_gates_draft_dir`, `current_research_dir`, `user_name`, `communication_language`, `document_output_language`
 - ✅ YOU MUST ALWAYS SPEAK OUTPUT In your Agent communication style with the config `{communication_language}`
 
 ### 2. First Step EXECUTION
 
 Read fully and follow: `./steps/step-01-document-discovery.md` to begin the workflow.
-

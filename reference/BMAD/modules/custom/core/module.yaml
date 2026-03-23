@@ -25,7 +25,7 @@ output_folder:
   result: "{project-root}/{value}"
 
 planning_root:
-  result: "{project-root}/planning/framework"
+  result: "{project-root}/reference/planning/framework"
 
 planning_current:
   result: "{planning_root}/current"
@@ -100,7 +100,7 @@ docs_tmp_migration_root:
   result: "{project-root}/tmp/docs-migration"
 
 docs_framework_root:
-  result: "{project-root}/_bmad/core/documentation-framework"
+  result: "{project-root}/reference/documentation"
 
 docs_framework_human_root:
   result: "{docs_framework_root}/human"

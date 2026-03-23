@@ -33,11 +33,11 @@ From `workflow.yaml`, resolve:
 ### 2. First Step
 
 Load, read completely, and execute:
-`{project-root}/_bmad/bmm/workflows/testarch/trace/steps-c/step-01-load-context.md`
+`{project-root}/reference/BMAD/modules/custom/bmm/workflows/testarch/trace/steps-c/step-01-load-context.md`
 
 ### 3. Resume Support
 
 If the user selects **Resume** mode, load, read completely, and execute:
-`{project-root}/_bmad/bmm/workflows/testarch/trace/steps-c/step-01b-resume.md`
+`{project-root}/reference/BMAD/modules/custom/bmm/workflows/testarch/trace/steps-c/step-01b-resume.md`
 
 This checks the output document for progress tracking frontmatter and routes to the next incomplete step.

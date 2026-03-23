@@ -1,18 +1,27 @@
-# BMAD Customization Layer
+# Compass BMAD Runtime
 
-`src/bmad/` is the customization layer that sits on top of `BMAD-METHOD/` (upstream).
+This directory defines the Compass BMAD runtime layer.
 
-Principles:
+In deployed repositories this bundle lives at root `_bmad/`. The editable source for this bundle is maintained in `compass-engine`, not in downstream repos.
 
-- never edit `BMAD-METHOD/` directly
-- create custom modules in `src/bmad/modules/`
-- document custom decisions close to modified module content
-- keep BMAD runtime output out of this repository
+## Key Surfaces
 
-## Create a Custom Module
+- `BMAD-workflow.md` - canonical human-readable Compass BMAD workflow
+- `modules/custom/bmm/` - active Compass BMAD custom module layer
+- `modules/custom/core/` - active shared Compass core workflow layer
+- `tools/automation/` - automation specs, policies, and templates shipped with the method
+- `_config/` - shipped BMAD manifests and catalogs
 
-```bash
-node tools/create-bmad-module.js --name compass-bmm --from bmm --code cbmm
-```
+## Read Order
 
-This copies the upstream module into `src/bmad/modules/<name>/`, updates `module.yaml`, and writes `custom-module.json` metadata.
+1. `BMAD-workflow.md`
+2. `modules/custom/bmm/module-help.csv`
+3. `modules/custom/core/module-help.csv`
+4. `tools/automation/README.md`
+5. `../planning/README.md`
+
+## Boundaries
+
+- Do not treat imported sub-repo content as the active source of truth once it has been normalized into this source bundle.
+- When maintaining `compass-engine`, keep the shipped BMAD, planning, and documentation bundles aligned when workflow outputs or artifact paths change.
+- Downstream repos should not expect provenance, audits, or research-only material to be part of the deployed surface.

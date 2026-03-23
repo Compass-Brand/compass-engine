@@ -1,7 +1,7 @@
 ---
 name: create-prd
 description: 'Create a PRD from scratch. Use when the user says "lets create a product requirements document" or "I want to create a new PRD"'
-main_config: '{project-root}/_bmad/bmm/config.yaml'
+main_config: '{project-root}/reference/BMAD/modules/custom/bmm/config.yaml'
 nextStep: './steps-c/step-01-init.md'
 ---
 
@@ -61,4 +61,3 @@ Load and read full config from {main_config} and resolve:
 "**Create Mode: Creating a new PRD from scratch.**"
 
 Read fully and follow: `{nextStep}` (steps-c/step-01-init.md)
-

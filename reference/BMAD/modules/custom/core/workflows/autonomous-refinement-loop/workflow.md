@@ -2,8 +2,8 @@
 name: autonomous-refinement-loop
 description: "Run an autonomous, agent-team refinement loop that combines party-mode collaboration and advanced elicitation until zero unresolved issues remain."
 standalone: false
-advanced_elicitation_methods: "{project-root}/_bmad/core/workflows/advanced-elicitation/methods.csv"
-agent_manifest_path: "{project-root}/_bmad/_config/agent-manifest.csv"
+advanced_elicitation_methods: "{project-root}/reference/BMAD/modules/custom/core/workflows/advanced-elicitation/methods.csv"
+agent_manifest_path: "{project-root}/reference/BMAD/_config/agent-manifest.csv"
 ---
 
 # Workflow: Autonomous Refinement Loop
@@ -64,7 +64,7 @@ Maintain a persistent ledger record for each issue with:
 
 ## Flow
 ### 1. Initialize Context
-- Load config from `{project-root}/_bmad/core/config.yaml`.
+- Load config from `{project-root}/reference/BMAD/modules/custom/core/config.yaml`.
 - Load `{agent_manifest_path}` and identify agents relevant to the artifact domain.
 - Load `{advanced_elicitation_methods}` for remediation method selection.
 - Validate `content` is present and readable. If missing, halt and request content.

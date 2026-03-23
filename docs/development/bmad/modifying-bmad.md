@@ -1,33 +1,30 @@
 # Modifying BMAD Customizations
 
-Last reviewed: 2026-02-23
+Last reviewed: 2026-03-13
 
 Guide to extending BMAD in `compass-engine` without forking upstream internals.
 
 ## Source of Truth
 
 - Upstream: `BMAD-METHOD/` (read-only in normal workflow)
-- Custom layer: `src/bmad/`
-- Module development root: `src/bmad/modules/`
+- Current shipped custom layer: `src/bmad/`
+- Current module development root: `src/bmad/modules/custom/`
+- Retained framework/provenance layer: `reference/BMAD/`
 
-## Custom Module Workflow
+## Current Working Model
 
-Create a custom module derived from upstream:
-
-```bash
-node tools/create-bmad-module.js --name compass-bmm --from bmm --code cbmm
-```
-
-Output is created in:
-
-- `src/bmad/modules/compass-bmm/`
-- `src/bmad/modules/compass-bmm/module.yaml` (code/name rewritten)
-- `src/bmad/modules/compass-bmm/custom-module.json` (provenance metadata)
+- Make BMAD method changes in the shipped source layer:
+  - `src/bmad/BMAD-workflow.md`
+  - `src/bmad/modules/custom/bmm/`
+  - `src/bmad/modules/custom/core/`
+  - `src/bmad/tools/automation/`
+- Keep planning structure changes aligned in `src/planning/`.
+- Keep `reference/` limited to supporting context that should not ship.
 
 ## Why This Pattern
 
 - Keeps upstream updates easy (`BMAD-METHOD` can be synced independently)
-- Preserves a clear change boundary for Compass-specific planning behavior
+- Keeps shipped runtime assets in one canonical source tree
 - Makes module ownership explicit for future automation and documentation
 
 ## Upstream Sync
@@ -43,6 +40,6 @@ git commit -m "chore: sync BMAD-METHOD"
 ## Best Practices
 
 1. Do not edit upstream module files directly.
-2. Keep each customization in a module-specific folder under `src/bmad/modules/`.
-3. Record intent and tradeoffs in module-level notes or metadata.
-4. Re-run build/validate after customization changes.
+2. Keep current BMAD method changes in `src/bmad/modules/custom/`.
+3. Record intent, tradeoffs, provenance, and research in `reference/` when those materials should not ship.
+4. Re-run build/validate after productized BMAD source changes.

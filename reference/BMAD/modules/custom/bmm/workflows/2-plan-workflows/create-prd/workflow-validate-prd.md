@@ -1,7 +1,7 @@
 ---
 name: validate-prd
 description: 'Validate a PRD against standards. Use when the user says "validate this PRD" or "run PRD validation"'
-main_config: '{project-root}/_bmad/bmm/config.yaml'
+main_config: '{project-root}/reference/BMAD/modules/custom/bmm/config.yaml'
 validateWorkflow: './steps-v/step-v-01-discovery.md'
 ---
 
@@ -61,4 +61,3 @@ Load and read full config from {main_config} and resolve:
 "**Validate Mode: Validating an existing PRD against BMAD standards.**"
 
 Then read fully and follow: `{validateWorkflow}` (steps-v/step-v-01-discovery.md)
-

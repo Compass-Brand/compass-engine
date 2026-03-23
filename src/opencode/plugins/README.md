@@ -6,7 +6,7 @@ Rules:
 
 - Treat each plugin as its own folder under `src/opencode/plugins/`.
 - Keep implementation metadata and documentation with the plugin folder.
-- Keep OpenCode command/agent wrappers in `src/opencode/command/` and `src/opencode/agent/`.
+- Keep OpenCode command/agent wrappers in `src/opencode/commands/` and `src/opencode/agents/`.
 
 Recommended structure:
 

@@ -31,7 +31,7 @@ user_skill_level:
 
 planning_root:
   prompt: "Where should Compass planning artifacts live?"
-  default: "planning/framework"
+  default: "reference/planning/framework"
   result: "{project-root}/{value}"
 
 planning_current:
@@ -46,26 +46,114 @@ planning_previous:
 planning_lessons:
   result: "{planning_root}/lessons"
 
+planning_repositories_file:
+  result: "{planning_root}/repositories.yaml"
+
+planning_initiatives_root:
+  result: "{planning_current}/initiatives"
+
+planning_initiative_index_file:
+  result: "{planning_current}/initiative-index.yaml"
+
+planning_templates_root:
+  result: "{project-root}/reference/planning/templates"
+
+planning_tmp_migration_root:
+  result: "{project-root}/tmp/planning-migration"
+
+planning_tmp_cleanup_enabled:
+  prompt: "Allow planning workflows to remove temporary migration copies when explicitly requested?"
+  default: false
+  result: "{value}"
+  single-select:
+    - value: false
+      label: "No - Keep planning migration snapshots by default (Recommended)"
+    - value: true
+      label: "Yes - Permit explicit cleanup actions"
+
+roadmap_summary_file:
+  result: "{planning_roadmap}/roadmap.md"
+
+roadmap_state_file:
+  result: "{planning_roadmap}/roadmap.yaml"
+
 phase_snapshot_file:
   result: "{planning_current}/phase.md"
+
+phase_state_file:
+  result: "{planning_current}/phase-state.yaml"
 
 current_brainstorming_dir:
   result: "{planning_current}/brainstorming"
 
+current_detailed_brainstorming_dir:
+  result: "{current_brainstorming_dir}/detailed"
+
 current_research_dir:
   result: "{planning_current}/research"
+
+current_project_context_dir:
+  result: "{current_research_dir}/project-context"
+
+current_market_research_dir:
+  result: "{current_research_dir}/market"
+
+current_domain_research_dir:
+  result: "{current_research_dir}/domain"
+
+current_technical_research_dir:
+  result: "{current_research_dir}/technical"
+
+current_strategy_dir:
+  result: "{current_research_dir}/strategy"
+
+current_implementation_research_dir:
+  result: "{current_research_dir}/implementation"
 
 current_prd_dir:
   result: "{planning_current}/planning/prd"
 
 current_product_brief_dir:
-  result: "{planning_current}/planning/product-brief"
+  result: "{planning_current}/planning/brief"
 
 current_ux_dir:
   result: "{planning_current}/planning/ux-design"
 
+current_wds_root_dir:
+  result: "{current_ux_dir}"
+
+current_trigger_mapping_dir:
+  result: "{current_ux_dir}/trigger-mapping"
+
+current_outline_scenarios_dir:
+  result: "{current_ux_dir}/outline-scenarios"
+
+current_conceptual_specifications_dir:
+  result: "{current_ux_dir}/conceptual-specifications"
+
+current_design_delivery_dir:
+  result: "{current_ux_dir}/design-delivery"
+
+current_design_delivery_test_dir:
+  result: "{current_design_delivery_dir}/test-scenarios"
+
+current_design_delivery_handoff_dir:
+  result: "{current_design_delivery_dir}/handoff"
+
+current_ux_progress_dir:
+  result: "{current_ux_dir}/_progress"
+
+current_ux_agent_dialog_dir:
+  result: "{current_ux_progress_dir}/agent-dialogs"
+
 current_architecture_dir:
   result: "{planning_current}/planning/architecture"
+
+current_threat_modeling_dir:
+  result: "{current_architecture_dir}/threat-modeling"
+
+current_security_review_dir:
+  result: "{current_architecture_dir}/security-review"
 
 current_epics_dir:
   result: "{planning_current}/planning/epics"
@@ -73,17 +161,62 @@ current_epics_dir:
 current_story_dir:
   result: "{planning_current}/implementation/stories"
 
+current_retrospectives_dir:
+  result: "{planning_current}/implementation/retrospectives"
+
 current_evidence_dir:
   result: "{planning_current}/implementation/evidence"
 
 current_testing_dir:
   result: "{planning_current}/testing"
 
+current_test_design_dir:
+  result: "{current_testing_dir}/test-design"
+
+current_testing_automation_dir:
+  result: "{current_testing_dir}/automation"
+
+current_testing_reviews_dir:
+  result: "{current_testing_dir}/reviews"
+
+current_testing_gates_dir:
+  result: "{current_testing_dir}/gates"
+
+current_testing_gates_draft_dir:
+  result: "{current_testing_gates_dir}/draft"
+
+current_secure_gates_dir:
+  result: "{current_testing_gates_dir}/security"
+
+current_secure_readiness_gate_dir:
+  result: "{current_secure_gates_dir}/readiness"
+
+current_secure_release_gate_dir:
+  result: "{current_secure_gates_dir}/release"
+
+current_secure_gates_draft_dir:
+  result: "{current_testing_gates_draft_dir}/security"
+
 roadmap_brainstorming_dir:
   result: "{planning_roadmap}/brainstorming"
 
 roadmap_research_dir:
   result: "{planning_roadmap}/research"
+
+roadmap_market_research_dir:
+  result: "{roadmap_research_dir}/market"
+
+roadmap_domain_research_dir:
+  result: "{roadmap_research_dir}/domain"
+
+roadmap_technical_research_dir:
+  result: "{roadmap_research_dir}/technical"
+
+roadmap_strategy_dir:
+  result: "{planning_roadmap}/strategy"
+
+roadmap_storytelling_dir:
+  result: "{planning_roadmap}/storytelling"
 
 roadmap_product_brief_dir:
   result: "{planning_roadmap}/product-brief"
@@ -96,6 +229,21 @@ roadmap_archive_brainstorming_dir:
 
 roadmap_archive_research_dir:
   result: "{roadmap_archive_dir}/research"
+
+roadmap_archive_market_research_dir:
+  result: "{roadmap_archive_research_dir}/market"
+
+roadmap_archive_domain_research_dir:
+  result: "{roadmap_archive_research_dir}/domain"
+
+roadmap_archive_technical_research_dir:
+  result: "{roadmap_archive_research_dir}/technical"
+
+roadmap_archive_strategy_dir:
+  result: "{roadmap_archive_dir}/strategy"
+
+roadmap_archive_storytelling_dir:
+  result: "{roadmap_archive_dir}/storytelling"
 
 roadmap_archive_product_brief_dir:
   result: "{roadmap_archive_dir}/product-brief"
@@ -150,7 +298,7 @@ docs_tmp_cleanup_enabled:
       label: "Yes - Permit explicit cleanup actions"
 
 docs_framework_root:
-  result: "{project-root}/_bmad/core/documentation-framework"
+  result: "{project-root}/reference/documentation"
 
 docs_framework_human_root:
   result: "{docs_framework_root}/human"
@@ -367,22 +515,61 @@ directories:
   - "{planning_roadmap}"
   - "{planning_previous}"
   - "{planning_lessons}"
+  - "{planning_initiatives_root}"
+  - "{planning_tmp_migration_root}"
   - "{current_brainstorming_dir}"
+  - "{current_detailed_brainstorming_dir}"
   - "{current_research_dir}"
+  - "{current_project_context_dir}"
+  - "{current_market_research_dir}"
+  - "{current_domain_research_dir}"
+  - "{current_technical_research_dir}"
+  - "{current_strategy_dir}"
+  - "{current_implementation_research_dir}"
   - "{current_prd_dir}"
   - "{current_product_brief_dir}"
   - "{current_ux_dir}"
+  - "{current_trigger_mapping_dir}"
+  - "{current_outline_scenarios_dir}"
+  - "{current_conceptual_specifications_dir}"
+  - "{current_design_delivery_dir}"
+  - "{current_design_delivery_test_dir}"
+  - "{current_design_delivery_handoff_dir}"
+  - "{current_ux_progress_dir}"
+  - "{current_ux_agent_dialog_dir}"
   - "{current_architecture_dir}"
+  - "{current_threat_modeling_dir}"
+  - "{current_security_review_dir}"
   - "{current_epics_dir}"
   - "{current_story_dir}"
+  - "{current_retrospectives_dir}"
   - "{current_evidence_dir}"
   - "{current_testing_dir}"
+  - "{current_test_design_dir}"
+  - "{current_testing_automation_dir}"
+  - "{current_testing_reviews_dir}"
+  - "{current_testing_gates_dir}"
+  - "{current_testing_gates_draft_dir}"
+  - "{current_secure_gates_dir}"
+  - "{current_secure_readiness_gate_dir}"
+  - "{current_secure_release_gate_dir}"
+  - "{current_secure_gates_draft_dir}"
   - "{roadmap_brainstorming_dir}"
   - "{roadmap_research_dir}"
+  - "{roadmap_market_research_dir}"
+  - "{roadmap_domain_research_dir}"
+  - "{roadmap_technical_research_dir}"
+  - "{roadmap_strategy_dir}"
+  - "{roadmap_storytelling_dir}"
   - "{roadmap_product_brief_dir}"
   - "{roadmap_archive_dir}"
   - "{roadmap_archive_brainstorming_dir}"
   - "{roadmap_archive_research_dir}"
+  - "{roadmap_archive_market_research_dir}"
+  - "{roadmap_archive_domain_research_dir}"
+  - "{roadmap_archive_technical_research_dir}"
+  - "{roadmap_archive_strategy_dir}"
+  - "{roadmap_archive_storytelling_dir}"
   - "{roadmap_archive_product_brief_dir}"
   - "{project_knowledge}"
   - "{docs_human_root}"
