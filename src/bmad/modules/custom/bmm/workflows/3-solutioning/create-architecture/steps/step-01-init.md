@@ -138,6 +138,8 @@ Before proceeding, verify we have the essential inputs:
 
 **Input Documents Discovered:**
 
+_Replace each {{variable}} with the actual count from discovery and evaluate each {if}...{else}...{/if} block so the output shows real numbers and the correct branch text._
+
 - PRD: {{prdCount}} files {if prdCount > 0}✓ loaded{else}(none found - REQUIRED){/if}
 - Product briefs: {{briefCount}} files {if briefCount > 0}✓ loaded{else}(none found){/if}
 - UX Design: {{uxCount}} files {if uxCount > 0}✓ loaded{else}(none found){/if}
