@@ -164,7 +164,57 @@ This is the first-pass normalization table. Numeric scoring comes next after buc
 | `hcom` | `aannoo/hcom` | External integration and interoperability | Multi-agent orchestration | Rebuild | Cross-terminal agent messaging is core coordination infrastructure, not a commodity add-on |
 | `vibe-kanban` | `BloopAI/vibe-kanban` | BMAD workflow and command surface | Parallel planning systems | Skip | It can add visualization value, but the product includes its own kanban issue layer and workspace lifecycle, so raw adoption would still split task authority from `bd` |
 
-## Early Pilot Bias
+## Scored Implementable Candidate Comparison
+
+This scorecard covers every candidate still considered implementable after the provisional pass: all `Adopt as-is`, `Wrap`, and `Rebuild` candidates. Scores are comparative, not absolute. Higher totals indicate stronger overall fit, but pilot order also depends on implementation shape.
+
+Scoring legend:
+
+- `B` = BMAD fit
+- `A` = architecture fit
+- `P` = parity value
+- `L` = strategic leverage
+- `T` = security and trust
+- `M` = maintenance burden score, where higher means easier to maintain
+- `K` = lock-in score, where higher means lower lock-in
+- `C` = commodity factor
+
+| Candidate | Posture | B | A | P | L | T | M | K | C | Total | Recommended lane |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `opencode-beads` | Wrap | 5 | 5 | 4 | 5 | 4 | 4 | 4 | 3 | 34 | Pilot now |
+| `opencode-worktree` | Adopt as-is | 3 | 4 | 3 | 4 | 5 | 4 | 5 | 5 | 33 | Pilot now |
+| `type-inject` | Wrap | 3 | 4 | 4 | 4 | 4 | 3 | 4 | 4 | 30 | Pilot now |
+| `opencode-handoff` | Wrap | 4 | 4 | 4 | 4 | 4 | 4 | 4 | 2 | 30 | Follow-on wrap |
+| `plannotator` | Wrap | 4 | 4 | 4 | 4 | 4 | 3 | 4 | 2 | 29 | Follow-on wrap |
+| `opencode-agent-skills` | Wrap | 4 | 4 | 4 | 4 | 4 | 3 | 4 | 2 | 29 | Follow-on wrap |
+| `opencode-notify` | Adopt as-is | 2 | 3 | 2 | 3 | 5 | 4 | 5 | 5 | 29 | Optional utility |
+| `opencode-devcontainers` | Wrap | 3 | 4 | 3 | 4 | 4 | 3 | 4 | 3 | 28 | Follow-on wrap |
+| `open-plan-annotator` | Wrap | 4 | 4 | 4 | 3 | 4 | 3 | 4 | 2 | 28 | Follow-on wrap |
+| `opencode-notifier` | Adopt as-is | 2 | 3 | 2 | 3 | 4 | 4 | 5 | 5 | 28 | Optional utility |
+| `opencode-background-agents` | Rebuild | 4 | 5 | 5 | 5 | 3 | 2 | 3 | 1 | 28 | Strategic rebuild |
+| `octto` | Wrap | 4 | 3 | 3 | 4 | 4 | 3 | 4 | 2 | 27 | Follow-on wrap |
+| `opencode-dynamic-context-pruning` | Wrap | 3 | 4 | 3 | 4 | 4 | 3 | 4 | 2 | 27 | Follow-on wrap |
+| `cupcake` | Wrap | 4 | 4 | 4 | 4 | 4 | 3 | 3 | 1 | 27 | Follow-on wrap |
+| `OpenAgentsControl` | Rebuild | 4 | 5 | 4 | 5 | 3 | 2 | 3 | 1 | 27 | Strategic rebuild |
+| `opencode-snippets` | Adopt as-is | 1 | 2 | 1 | 2 | 5 | 5 | 5 | 5 | 26 | Optional utility |
+| `opencode-md-table-formatter` | Adopt as-is | 1 | 2 | 1 | 2 | 5 | 5 | 5 | 5 | 26 | Optional utility |
+| `pocket-universe` | Rebuild | 4 | 5 | 4 | 4 | 3 | 2 | 3 | 1 | 26 | Strategic rebuild |
+| `opencode-planning-toolkit` | Wrap | 3 | 4 | 3 | 4 | 4 | 3 | 3 | 1 | 25 | Follow-on wrap |
+| `opencode-agent-identity` | Wrap | 3 | 4 | 3 | 3 | 4 | 3 | 4 | 1 | 25 | Exploratory wrap |
+| `hcom` | Rebuild | 3 | 5 | 4 | 4 | 3 | 2 | 3 | 1 | 25 | Strategic rebuild |
+| `agent-of-empires` | Wrap | 2 | 3 | 3 | 3 | 3 | 2 | 4 | 3 | 23 | Exploratory wrap |
+| `opentmux` | Wrap | 2 | 3 | 2 | 3 | 3 | 3 | 4 | 3 | 23 | Exploratory wrap |
+| `opencode-agent-memory` | Rebuild | 3 | 4 | 3 | 4 | 3 | 2 | 2 | 1 | 22 | Strategic rebuild |
+
+Interpretation:
+
+- `Pilot now` means high fit and bounded enough scope to start without first inventing a new control plane.
+- `Follow-on wrap` means promising, but the wrapper contract should be designed after the first pilots.
+- `Strategic rebuild` means important capability area, but direct adoption would hand off too much workflow authority.
+- `Optional utility` means low-risk convenience rather than strategic differentiation.
+- `Exploratory wrap` means possible value, but not enough near-term leverage to outrank the higher-fit set.
+
+## Revised Pilot Set
 
 The strongest first-wave candidates from this initial pass are:
 
@@ -173,6 +223,7 @@ The strongest first-wave candidates from this initial pass are:
 | `opencode-beads` | Direct fit with the existing issue-tracking contract | Wrap |
 | `opencode-worktree` | Commodity utility with clear engineering leverage and low workflow coupling | Adopt as-is |
 | `type-inject` | Valuable code-intelligence utility if introduced behind Compass controls | Wrap |
+| `opencode-handoff` | Strong contextual fit for session continuity without immediately introducing a full memory substrate | Wrap |
 | `opencode-devcontainers` | Useful workspace utility, but more operationally invasive than `opencode-worktree` | Wrap |
 | `opencode-notify` or `opencode-notifier` | Low-risk notification pilot if local eventing becomes important | Adopt as-is |
 
@@ -184,6 +235,7 @@ The strongest first-wave candidates from this initial pass are:
 - `opencode-planning-toolkit` and `vibe-kanban` are more likely to create parallel planning state unless explicitly wrapped around Compass artifacts.
 - Official OpenCode plugin hooks make additive overlays technically feasible because plugins can observe events, add tools, and shape plan/review flows without owning the canonical state.
 - Official OpenCode skills support also matters because some planning plugins extend behavior by loading reusable instructions rather than only by adding commands or hooks.
+- The highest-value immediate pool is not identical to the highest-scoring strategic pool; rebuild-heavy orchestration candidates score for importance, but they are not first-wave pilots.
 
 ## Pilot Selection Rules
 
@@ -216,7 +268,7 @@ Dependency model:
 
 ## Recommended Next Step
 
-Turn the provisional calls into scored comparisons one bucket at a time, starting with repo/file/code utilities and the additive planning/review overlays.
+Use `bmad-engine-8zr` to turn the scored comparison into a shortlist of 2-3 pilot plugins, then create one implementation issue per approved pilot with an explicit adopt, wrap, or rebuild scope.
 
 ## Sources
 
