@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@opencode-ai/plugin": "1.0.143",
+    "@opencode-ai/sdk": "1.0.143",
+    "zod": "4.1.13"
+  }
+}
