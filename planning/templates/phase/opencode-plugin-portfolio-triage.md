@@ -46,6 +46,23 @@ Score each dimension from 1 to 5 unless noted otherwise.
 | Lock-in risk | Does it couple Compass to an external runtime, vendor, or opaque behavior? Lower lock-in should score higher. |
 | Commodity factor | Is this generic utility behavior that does not define Compass workflow? Higher means more commodity. |
 
+## OpenCode Plugin Model Checks
+
+Before deciding whether to adopt, wrap, rebuild, or skip, identify which official OpenCode extension surfaces the candidate uses.
+
+| Surface | What to check |
+| --- | --- |
+| Event hooks | Does the plugin observe or modify command, file, session, todo, shell, tool, or TUI events? |
+| Custom tools | Does it add new tools that should map to `provider-bmad`, `provider-tracking`, or `provider-interop`? |
+| Skills | Does it rely on bundled `SKILL.md` guidance rather than only executable hooks? |
+| Compaction | Does it change continuation or memory behavior using compaction hooks? |
+| Storage paths | Does it write to its own canonical plan, task, or workflow files? |
+
+Boundary rule:
+
+- Additive overlays that annotate, visualize, or guide work can still fit Compass well.
+- Plugins that become authoritative for tasks, plans, approvals, or artifact storage need stronger caution.
+
 ## Decision Rules
 
 - `Adopt as-is`
@@ -59,9 +76,9 @@ Score each dimension from 1 to 5 unless noted otherwise.
 
 ## Plugin Review Table
 
-| Plugin | Source | Primary group | BMAD fit | Architecture fit | Parity value | Strategic leverage | Security/trust | Maintenance | Lock-in | Commodity | Decision | Notes |
+| Plugin | Source | Primary group | OpenCode surface | BMAD fit | Architecture fit | Parity value | Strategic leverage | Security/trust | Maintenance | Lock-in | Commodity | Decision | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Example plugin | example/repo | Repo, file, and code utilities | 2 | 3 | 2 | 2 | 3 | 4 | 4 | 5 | Adopt as-is | Commodity helper with limited workflow impact |
+| Example plugin | example/repo | Repo, file, and code utilities | Hook + custom tool | 2 | 3 | 2 | 2 | 3 | 4 | 4 | 5 | Adopt as-is | Commodity helper with limited workflow impact |
 
 ## Shortlist Rules
 
