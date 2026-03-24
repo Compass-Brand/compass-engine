@@ -13,6 +13,7 @@ Recommended structure:
 ```text
 src/opencode/plugins/
   compass-beads.ts
+  compass-worktree.ts
   compass-bmad/
     README.md
     plugin.yaml

@@ -40,6 +40,8 @@ const REQUIRED_PATHS = [
   'src/opencode/plugins',
   'src/opencode/plugins/compass-beads.ts',
   'src/opencode/plugins/compass-beads/plugin.ts',
+  'src/opencode/plugins/compass-worktree.ts',
+  'src/opencode/plugins/compass-worktree/plugin.ts',
   'src/github/workflows',
   'src/root/.coderabbit.yaml',
   'src/root/.editorconfig',
