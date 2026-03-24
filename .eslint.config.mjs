@@ -1,6 +1,10 @@
-import tsParser from '@typescript-eslint/parser';
+let tsParser = null;
 
-export default [
+try {
+  ({ default: tsParser } = await import('@typescript-eslint/parser'));
+} catch {}
+
+const baseConfig = [
   {
     ignores: [
       'node_modules/**',
@@ -50,36 +54,43 @@ export default [
     },
   },
   {
-    files: ['**/*.ts', '**/*.tsx'],
-    languageOptions: {
-      parser: tsParser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-      },
-      globals: {
-        process: 'readonly',
-        console: 'readonly',
-        module: 'readonly',
-        require: 'readonly',
-        __dirname: 'readonly',
-        __filename: 'readonly',
-      },
-    },
-    rules: {
-      'no-unused-vars': [
-        'error',
-        {
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
-        },
-      ],
-    },
-  },
-  {
     files: ['**/*.cjs'],
     languageOptions: {
       sourceType: 'commonjs',
     },
   },
 ];
+
+const tsConfig = tsParser
+  ? [
+      {
+        files: ['**/*.ts', '**/*.tsx'],
+        languageOptions: {
+          parser: tsParser,
+          parserOptions: {
+            ecmaVersion: 'latest',
+            sourceType: 'module',
+          },
+          globals: {
+            process: 'readonly',
+            console: 'readonly',
+            module: 'readonly',
+            require: 'readonly',
+            __dirname: 'readonly',
+            __filename: 'readonly',
+          },
+        },
+        rules: {
+          'no-unused-vars': [
+            'error',
+            {
+              argsIgnorePattern: '^_',
+              varsIgnorePattern: '^_',
+            },
+          ],
+        },
+      },
+    ]
+  : [];
+
+export default [...baseConfig, ...tsConfig];

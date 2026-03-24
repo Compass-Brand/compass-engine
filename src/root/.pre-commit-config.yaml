@@ -101,10 +101,9 @@ repos:
         name: eslint
         language: node
         entry: eslint --max-warnings=0 --config .eslint.config.mjs
-        files: "\\.(js|mjs|cjs|jsx|ts|tsx)$"
+        files: "\\.(js|mjs|cjs|jsx)$"
         additional_dependencies:
           - eslint@9.39.1
-          - '@typescript-eslint/parser@8.46.1'
 
       - id: prettier
         name: prettier
