@@ -13,6 +13,8 @@ Recommended structure:
 ```text
 src/opencode/plugins/
   compass-beads.ts
+  compass-handoff.ts
+  compass-type-inject.ts
   compass-worktree.ts
   compass-bmad/
     README.md
