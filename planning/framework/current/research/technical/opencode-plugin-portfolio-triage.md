@@ -214,18 +214,27 @@ Interpretation:
 - `Optional utility` means low-risk convenience rather than strategic differentiation.
 - `Exploratory wrap` means possible value, but not enough near-term leverage to outrank the higher-fit set.
 
-## Revised Pilot Set
+## Approved Shortlist
 
-The strongest first-wave candidates from this initial pass are:
+The first implementation wave should stay narrow and intentionally mixed:
 
-| Candidate | Why it stands out | Current posture |
+- one tracking-native wrapper
+- one commodity utility adoption
+- one higher-value code-intelligence wrapper
+
+| Candidate | Posture | Why selected now | Follow-up issue |
+| --- | --- | --- | --- |
+| `opencode-beads` | Wrap | Best direct fit with existing Compass issue-tracking rules and `provider-tracking` architecture | `bmad-engine-reg` |
+| `opencode-worktree` | Adopt as-is | High utility, low workflow coupling, and bounded adoption surface | `bmad-engine-byc` |
+| `type-inject` | Wrap | Strong code-intelligence upside without forcing a new orchestration layer | `bmad-engine-9cb` |
+
+Reserve candidates for the next wave:
+
+| Candidate | Posture | Why not first-wave |
 | --- | --- | --- |
-| `opencode-beads` | Direct fit with the existing issue-tracking contract | Wrap |
-| `opencode-worktree` | Commodity utility with clear engineering leverage and low workflow coupling | Adopt as-is |
-| `type-inject` | Valuable code-intelligence utility if introduced behind Compass controls | Wrap |
-| `opencode-handoff` | Strong contextual fit for session continuity without immediately introducing a full memory substrate | Wrap |
-| `opencode-devcontainers` | Useful workspace utility, but more operationally invasive than `opencode-worktree` | Wrap |
-| `opencode-notify` or `opencode-notifier` | Low-risk notification pilot if local eventing becomes important | Adopt as-is |
+| `opencode-handoff` | Wrap | Strong fit, but session continuity should come after the first tracking and code-intelligence pilots are proven |
+| `plannotator` | Wrap | Valuable overlay, but approval UX should follow after core plugin contracts are stable |
+| `opencode-devcontainers` | Wrap | Useful, but more operationally invasive than the selected worktree utility pilot |
 
 ## Research Refinement Notes
 
@@ -236,6 +245,7 @@ The strongest first-wave candidates from this initial pass are:
 - Official OpenCode plugin hooks make additive overlays technically feasible because plugins can observe events, add tools, and shape plan/review flows without owning the canonical state.
 - Official OpenCode skills support also matters because some planning plugins extend behavior by loading reusable instructions rather than only by adding commands or hooks.
 - The highest-value immediate pool is not identical to the highest-scoring strategic pool; rebuild-heavy orchestration candidates score for importance, but they are not first-wave pilots.
+- The approved shortlist intentionally avoids first-wave rebuild work; it proves one wrapper in tracking, one direct utility adoption, and one wrapper in code intelligence before moving into broader orchestration or memory work.
 
 ## Pilot Selection Rules
 
@@ -249,6 +259,7 @@ The strongest first-wave candidates from this initial pass are:
 - Setup issue: `bmad-engine-ygy` (closed after framework creation)
 - Inventory issue: `bmad-engine-ess`
 - Refinement issue: `bmad-engine-pkr`
+- Scoring issue: `bmad-engine-3sn`
 - Category review issues:
   - `bmad-engine-4u2` workflow and command surface
   - `bmad-engine-hx3` tracking and session lifecycle
@@ -257,18 +268,25 @@ The strongest first-wave candidates from this initial pass are:
   - `bmad-engine-jm0` external integration and interoperability
 - Consolidation issue:
   - `bmad-engine-8zr` shortlist and pilot recommendations
+- Pilot implementation issues:
+  - `bmad-engine-reg` wrap `opencode-beads`
+  - `bmad-engine-byc` adopt `opencode-worktree`
+  - `bmad-engine-9cb` wrap `type-inject`
 
 Dependency model:
 
-- `bmad-engine-8zr` is blocked by all five category issues.
+- `bmad-engine-8zr` captured shortlist consolidation and pilot recommendation work.
 - `bmad-engine-ygy` captured framework setup only and is now closed.
 - `bmad-engine-ess` captures the initial inventory and provisional bucket assignments.
 - `bmad-engine-pkr` captures the refinement pass using official OpenCode plugin documentation plus deeper overlay research.
-- Pilot implementation issues should be created only after the shortlist is approved.
+- `bmad-engine-3sn` captures the scored comparison across all implementable candidates.
+- `bmad-engine-4u2`, `bmad-engine-hx3`, `bmad-engine-xlj`, `bmad-engine-bdp`, and `bmad-engine-jm0` are now closed because the category classifications were completed in the triage sheet.
+- `bmad-engine-reg`, `bmad-engine-byc`, and `bmad-engine-9cb` depend on `bmad-engine-8zr` so the shortlist decision remained the gate for implementation.
+- `bmad-engine-8zr` is now closed, so `bmad-engine-reg`, `bmad-engine-byc`, and `bmad-engine-9cb` are the active next-wave implementation issues.
 
 ## Recommended Next Step
 
-Use `bmad-engine-8zr` to turn the scored comparison into a shortlist of 2-3 pilot plugins, then create one implementation issue per approved pilot with an explicit adopt, wrap, or rebuild scope.
+Start implementation from `bmad-engine-reg`, `bmad-engine-byc`, and `bmad-engine-9cb`, then revisit reserve candidates after the first-wave plugin contracts are proven.
 
 ## Sources
 
