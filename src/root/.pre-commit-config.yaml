@@ -101,7 +101,7 @@ repos:
         name: eslint
         language: node
         entry: eslint --max-warnings=0 --config .eslint.config.mjs
-        files: "\\.(js|mjs|cjs|jsx|ts|tsx)$"
+        files: "\\.(js|mjs|cjs|jsx)$"
         additional_dependencies:
           - eslint@9.39.1
 

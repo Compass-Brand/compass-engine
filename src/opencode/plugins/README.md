@@ -12,6 +12,10 @@ Recommended structure:
 
 ```text
 src/opencode/plugins/
+  compass-beads.ts
+  compass-handoff.ts
+  compass-type-inject.ts
+  compass-worktree.ts
   compass-bmad/
     README.md
     plugin.yaml
@@ -19,3 +23,7 @@ src/opencode/plugins/
     providers/
     tests/
 ```
+
+If a plugin should auto-load from downstream `.opencode/plugins/`, add a top-level JS/TS entry shim in `src/opencode/plugins/` and keep the implementation assets in a matching folder beside it.
+
+If a local plugin imports external packages, declare them in `src/opencode/package.json` so the downstream `.opencode/package.json` can trigger OpenCode's Bun install on startup.
