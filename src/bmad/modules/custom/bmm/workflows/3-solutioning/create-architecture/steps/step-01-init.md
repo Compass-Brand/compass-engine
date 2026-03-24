@@ -1,4 +1,19 @@
+---
+name: 'step-01-init'
+description: 'Initialize the Architecture workflow by detecting continuation state and setting up the document'
+
+# File References
+nextStepFile: './step-02-context.md'
+continueStepFile: './step-01b-continue.md'
+outputFile: '{current_architecture_dir}/architecture.md'
+
+# Template Reference
+architectureTemplate: '../architecture-decision-template.md'
+---
+
 # Step 1: Architecture Workflow Initialization
+
+**Progress: Step 1 of 8** - Next: Project Context Analysis
 
 ## MANDATORY EXECUTION RULES (READ FIRST):
 
@@ -10,6 +25,7 @@
 - 💬 FOCUS on initialization and setup only - don't look ahead to future steps
 - 🚪 DETECT existing workflow state and handle continuation properly
 - ⚠️ ABSOLUTELY NO TIME ESTIMATES - AI development speed has fundamentally changed
+- 🧭 When this workflow is launched from the custom BMM bundle, continue on the local custom step chain only; do not swap to native step files if the custom files exist
 - ✅ YOU MUST ALWAYS SPEAK OUTPUT In your Agent communication style with the config `{communication_language}`
 
 ## EXECUTION PROTOCOLS:
@@ -85,6 +101,8 @@ Framework scaffolds do **not** count as substantive project documentation by the
 - For sharded folders, load ALL files to get complete picture, using the index first to potentially know the potential of each document
 - index.md is a guide to what's relevant whenever available
 - Track all successfully loaded files in frontmatter `inputDocuments` array
+- Track document counts in frontmatter `documentCounts`
+- Track `projectContextHint` in frontmatter as `greenfield` or `brownfield`
 - If only scaffold docs are available, prefer loading the minimal repo-specific context such as the PRD, roadmap product brief, roadmap, and phase files instead of bulk-loading framework scaffolds
 
 #### B. Validate Required Inputs
@@ -102,61 +120,88 @@ Before proceeding, verify we have the essential inputs:
 
 #### C. Create Initial Document
 
-Copy the template from `{installed_path}/architecture-decision-template.md` to `{current_architecture_dir}/architecture.md`
+**Document Setup:**
 
-#### D. Complete Initialization and Report
+- Copy the template from `{architectureTemplate}` to `{outputFile}`
+- Initialize frontmatter with proper structure including `inputDocuments`, `documentCounts`, and `projectContextHint`.
 
-Complete setup and report to user:
+#### D. Present Initialization Results
+
+**Setup Report to User:**
+
+"I've set up the Architecture workspace for this repo.
 
 **Document Setup:**
 
-- Created: `{current_architecture_dir}/architecture.md` from template
+- Created: `{outputFile}` from template
 - Initialized frontmatter with workflow state
 
 **Input Documents Discovered:**
-Report what was found:
-"Welcome {{user_name}}! I've set up your Architecture workspace for {{project_name}}.
-"I've set up the Architecture workspace for this repo.
 
-**Documents Found:**
-
-- PRD: {number of PRD files loaded or "None found - REQUIRED"}
-- Product Brief: {number of product brief files loaded or "None found"}
-- UX Design: {number of UX files loaded or "None found"}
-- Research: {number of research files loaded or "None found"}
-- Project docs: {number of substantive project files loaded or "None found or scaffold-only"}
-- Project context: {project_context_rules count of rules for AI agents found}
+- PRD: {{prdCount}} files {if prdCount > 0}✓ loaded{else}(none found - REQUIRED){/if}
+- Product briefs: {{briefCount}} files {if briefCount > 0}✓ loaded{else}(none found){/if}
+- UX Design: {{uxCount}} files {if uxCount > 0}✓ loaded{else}(none found){/if}
+- Research: {{researchCount}} files {if researchCount > 0}✓ loaded{else}(none found){/if}
+- Project docs: {{projectDocsCount}} substantive files {if projectDocsCount > 0}✓ loaded{else}(none found or scaffold-only){/if}
 
 **Files loaded:** {list of specific file names or "No additional documents found"}
 
-Ready to begin architectural decision making. Do you have any other documents you'd like me to include?
+**Project context:** {{projectContextHint}}
 
-[C] Continue to project context analysis
+{if projectContextHint == "brownfield"}
+📋 **Note:** This is a **brownfield project**. Existing substantive project documentation has been loaded, so architectural decisions should account for changes to an existing system.
+{else}
+📋 **Note:** This is a **greenfield project**. Scaffold-only docs do not change that classification. Architectural decisions should be informed by the product brief and the repo's stated purpose.
+{/if}
 
-## SUCCESS METRICS:
+Do you have any other documents you'd like me to include, or shall we continue to the next step?"
 
-✅ Existing workflow detected and handed off to step-01b correctly
-✅ Fresh workflow initialized with template and frontmatter
-✅ Input documents discovered and loaded using sharded-first logic
-✅ All discovered files tracked in frontmatter `inputDocuments`
-✅ PRD requirement validated and communicated
-✅ User confirmed document setup and can proceed
+### 4. Present MENU OPTIONS
 
-## FAILURE MODES:
+Display menu after setup report:
 
-❌ Proceeding with fresh initialization when existing workflow exists
-❌ Not updating frontmatter with discovered input documents
-❌ Creating document without proper template
-❌ Not checking sharded folders first before whole files
-❌ Not reporting what documents were found to user
-❌ Proceeding without validating PRD requirement
+"[C] Continue - Save this and move to Project Context Analysis (Step 2 of 8)"
 
-❌ **CRITICAL**: Reading only partial step file - leads to incomplete understanding and poor decisions
-❌ **CRITICAL**: Proceeding with 'C' without fully reading and understanding the next step file
-❌ **CRITICAL**: Making decisions without complete understanding of step requirements and protocols
+#### Menu Handling Logic:
 
-## NEXT STEP:
+- IF C: Update output file frontmatter, adding this step name to the end of the list of stepsCompleted, then read fully and follow: {nextStepFile}
+- IF user provides additional files: Load them, update inputDocuments and documentCounts, redisplay report
+- IF user asks questions: Answer and redisplay menu
 
-After user selects [C] to continue, only after ensuring all the template output has been created, then load `{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/create-architecture/steps/step-02-context.md` to analyze the project context and begin architectural decision making.
+#### EXECUTION RULES:
 
-Remember: Do NOT proceed to step-02 until user explicitly selects [C] from the menu and setup is confirmed!
+- ALWAYS halt and wait for user input after presenting menu
+- ONLY proceed to next step when user selects 'C'
+
+## CRITICAL STEP COMPLETION NOTE
+
+ONLY WHEN [C continue option] is selected and [frontmatter properly updated with this step added to stepsCompleted and documentCounts], will you then read fully and follow: `{nextStepFile}` to begin project context analysis.
+
+---
+
+## 🚨 SYSTEM SUCCESS/FAILURE METRICS
+
+### ✅ SUCCESS:
+
+- Existing workflow detected and properly handed off to step-01b
+- Fresh workflow initialized with template and proper frontmatter
+- Input documents discovered and loaded using sharded-first logic
+- All discovered files tracked in frontmatter `inputDocuments`
+- PRD requirement validated and communicated
+- User clearly informed of brownfield vs greenfield status
+- Menu presented and user input handled correctly
+- Frontmatter updated with this step name added to stepsCompleted before proceeding
+
+### ❌ SYSTEM FAILURE:
+
+- Proceeding with fresh initialization when existing workflow exists
+- Not updating frontmatter with discovered input documents
+- **Not storing document counts in frontmatter**
+- Creating document without proper template structure
+- Not checking sharded folders first before whole files
+- Not reporting discovered documents to user clearly
+- Proceeding without user selecting 'C' (Continue)
+- Proceeding without validating PRD requirement
+- Using config `project_name` as repo identity instead of deriving from `{project-root}`
+
+**Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.
