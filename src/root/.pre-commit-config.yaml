@@ -104,6 +104,7 @@ repos:
         files: "\\.(js|mjs|cjs|jsx|ts|tsx)$"
         additional_dependencies:
           - eslint@9.39.1
+          - '@typescript-eslint/parser@8.46.1'
 
       - id: prettier
         name: prettier
