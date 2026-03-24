@@ -4,11 +4,11 @@ Status: draft
 Owner:
 Last Updated: 2026-03-24
 Phase ID:
-Parent Issue: `bmad-engine-ygy`
+Parent Issue: `bmad-engine-ess`
 
 ## Objective
 
-- Sort approximately 30 candidate OpenCode plugins into a bounded review structure instead of a flat list.
+- Sort 40 candidate OpenCode plugins into a bounded review structure instead of a flat list.
 - Decide for each plugin whether Compass should adopt it as-is, wrap it, rebuild it in-house, or skip it.
 - Produce a shortlist of 2-3 pilot candidates that fit the Compass OpenCode plugin strategy.
 
@@ -17,6 +17,8 @@ Parent Issue: `bmad-engine-ygy`
 - Slice focus: OpenCode plugin portfolio triage for Compass workflow fit
 - Systems touched: `src/opencode/`, `src/bmad/`, `planning/`, `bd`
 - External dependencies: candidate third-party OpenCode plugins under review
+- Candidate count: 40 provided links
+- Source window: user-provided GitHub and DEV links on 2026-03-24
 
 ## Recommended Review Order
 
@@ -79,13 +81,77 @@ Score each dimension from 1 to 5 unless noted otherwise.
 - Commodity repo or file helpers are the best candidates for direct adoption.
 - Interoperability plugins should be evaluated for whether they reduce or increase cross-tool drift.
 
-## Review Table
+## Overlap Clusters
 
-Fill one row per candidate plugin.
+These clusters should be compared side by side rather than evaluated in isolation.
 
-| Plugin | Source | Primary group | BMAD fit | Architecture fit | Parity value | Strategic leverage | Security/trust | Maintenance | Lock-in | Commodity | Decision | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
+| Cluster | Candidates | Default posture |
+| --- | --- | --- |
+| Notifications | `opencode-notifier`, `opencode-notify`, `opencode-ntfy.sh` | Pick one low-friction path, do not ship multiple notifiers |
+| Planning and review surfaces | `plannotator`, `open-plan-annotator`, `opencode-planning-toolkit`, `vibe-kanban`, `octto` | Avoid duplicating `bd` and BMAD planning state |
+| Multi-agent orchestration | `opencode-workspace`, `oh-my-openagent`, `subtask2`, `opencode-background-agents`, `OpenAgentsControl`, `claude-code-teams-mcp`, `pocket-universe`, `swarm-tools`, `hcom`, `agent-of-empires`, `opencode-pilot` | Treat as reference or rebuild candidates, not direct dependencies |
+| Context and memory | `opencode-agent-identity`, `opencode-agent-memory`, `opencode-dynamic-context-pruning`, `opencode-handoff`, `opencode-mem`, `opencode-sessions`, `agentic` | Narrow the problem first, then pilot one focused capability |
+| Environment and workspace utilities | `opencode-devcontainers`, `opencode-worktree`, `opentmux`, `agent-of-empires`, `ocx` | Best source for low-risk pilot candidates |
+| Authentication adapters | `opencode-antigravity-auth`, `opencode-gemini-auth` | High lock-in and credential risk; likely skip |
+
+## Initial Inventory And Provisional Classification
+
+This is the first-pass normalization table. Numeric scoring comes next after bucket-level comparison.
+
+| Candidate | Source | Primary group | Overlap cluster | Preliminary decision | Notes |
+| --- | --- | --- | --- | --- | --- |
+| `opencode-workspace` | `kdcokenny/opencode-workspace` | BMAD workflow and command surface | Multi-agent orchestration | Skip | Bundled orchestration harness is too workflow-defining to adopt directly; use as reference only |
+| `plannotator` | `backnotprop/plannotator` | BMAD workflow and command surface | Planning and review surfaces | Wrap | Visual plan and diff review could support approvals, but should not become the source of truth |
+| `opencode-notifier` | `mohak34/opencode-notifier` | Tracking and session lifecycle | Notifications | Adopt as-is | Commodity desktop notifications are low-risk if we want a local notifier |
+| `oh-my-openagent` | `code-yeongyu/oh-my-openagent` | BMAD workflow and command surface | Multi-agent orchestration | Skip | Harness-level replacement rather than a narrow Compass plugin |
+| `opencode-md-table-formatter` | `franlol/opencode-md-table-formatter` | Repo, file, and code utilities | None | Adopt as-is | Narrow Markdown utility with low workflow impact |
+| `opencode-devcontainers` | `athal7/opencode-devcontainers` | Repo, file, and code utilities | Environment and workspace utilities | Wrap | Useful environment setup primitive, but needs Compass guardrails around repo targeting and lifecycle |
+| `opencode-antigravity-auth` | `NoeFabris/opencode-antigravity-auth` | External integration and interoperability | Authentication adapters | Skip | High credential and vendor-coupling risk for limited Compass value |
+| `opencode-gemini-auth` | `jenslys/opencode-gemini-auth` | External integration and interoperability | Authentication adapters | Skip | Similar lock-in profile to Antigravity auth without clear Compass workflow leverage |
+| `type-inject` | `nick-vi/type-inject` | Repo, file, and code utilities | None | Wrap | Strong utility candidate, but read/write interception should be introduced behind Compass controls |
+| `subtask2` | `spoons-and-mirrors/subtask2` | BMAD workflow and command surface | Multi-agent orchestration | Skip | Stronger command handling is interesting, but command-routing authority should stay in Compass |
+| `octto` | `vtemian/octto` | BMAD workflow and command surface | Planning and review surfaces | Wrap | Interactive brainstorming UI may fit analysis lanes, but only as a wrapper around BMAD artifacts |
+| `ocx` | `kdcokenny/ocx` | Repo, file, and code utilities | Environment and workspace utilities | Skip | Portable extension/profile management is useful locally, but not a core Compass dependency |
+| `opencode-background-agents` | `kdcokenny/opencode-background-agents` | BMAD workflow and command surface | Multi-agent orchestration | Rebuild | Async delegation with persistence is strategically relevant, but too core to adopt raw |
+| `agentic` | `Cluster444/agentic` | Context, memory, and oversight | Context and memory | Skip | Context engineering is relevant, but the problem should be narrowed before adding another substrate |
+| `OpenAgentsControl` | `darrenhinde/OpenAgentsControl` | BMAD workflow and command surface | Multi-agent orchestration | Rebuild | Plan-first, approval-based execution aligns conceptually, but workflow control belongs in Compass |
+| `opencode-worktree` | `kdcokenny/opencode-worktree` | Repo, file, and code utilities | Environment and workspace utilities | Adopt as-is | Strong commodity candidate with clear utility and limited BMAD coupling |
+| `claude-code-teams-mcp` | `cs50victor/claude-code-teams-mcp` | External integration and interoperability | Multi-agent orchestration | Skip | Good reference for interoperability, but direct dependency would overfit to Claude team semantics |
+| `Building Agent Teams in OpenCode` | `dev.to/uenyioha/...` | External integration and interoperability | Multi-agent orchestration | Skip | Supporting architecture reference, not a plugin candidate |
+| `opencode-agent-identity` | `gotgenes/opencode-agent-identity` | Context, memory, and oversight | Context and memory | Wrap | Identity continuity can help multi-agent work, but should be bounded and explicit |
+| `opencode-agent-memory` | `joshuadavidthomas/opencode-agent-memory` | Context, memory, and oversight | Context and memory | Rebuild | Memory is strategically relevant but too behavior-shaping to depend on directly |
+| `opencode-agent-skills` | `joshuadavidthomas/opencode-agent-skills` | BMAD workflow and command surface | Multi-agent orchestration | Wrap | Skills are compatible with Compass surfaces, but should be integrated through provider contracts |
+| `opencode-beads` | `joshuadavidthomas/opencode-beads` | Tracking and session lifecycle | None | Wrap | High-fit candidate because beads is already the project system of record |
+| `opencode-dynamic-context-pruning` | `Opencode-DCP/opencode-dynamic-context-pruning` | Context, memory, and oversight | Context and memory | Wrap | Useful token-management idea, but context control needs explicit Compass policy |
+| `opencode-handoff` | `joshuadavidthomas/opencode-handoff` | Context, memory, and oversight | Context and memory | Wrap | Session handoff is valuable if constrained to Compass artifact and issue context |
+| `open-plan-annotator` | `ndom91/open-plan-annotator` | BMAD workflow and command surface | Planning and review surfaces | Skip | Overlaps heavily with plannotator and should not outrank `bd` plus BMAD artifacts |
+| `opentmux` | `AnganSamadder/opentmux` | Repo, file, and code utilities | Environment and workspace utilities | Wrap | tmux coordination may help power users, but should stay optional and bounded |
+| `opencode-canvas` | `mailshieldai/opencode-canvas` | External integration and interoperability | Planning and review surfaces | Skip | Interactive canvases are interesting but outside the current plugin-core priorities |
+| `opencode-mem` | `tickernelz/opencode-mem` | Context, memory, and oversight | Context and memory | Skip | Persistent vector-memory overlaps broader memory candidates and should not be an early pilot |
+| `opencode-notify` | `kdcokenny/opencode-notify` | Tracking and session lifecycle | Notifications | Adopt as-is | Another strong notifier option; choose one notification path rather than several |
+| `opencode-ntfy.sh` | `lannuttia/opencode-ntfy.sh` | External integration and interoperability | Notifications | Skip | Only needed if self-hosted `ntfy.sh` is a hard requirement; otherwise duplicates notifier coverage |
+| `opencode-planning-toolkit` | `IgorWarzocha/opencode-planning-toolkit` | BMAD workflow and command surface | Planning and review surfaces | Skip | Repo-wide todo sharing conflicts with the repo rule that `bd` is the task system of record |
+| `opencode-sessions` | `malhashemi/opencode-sessions` | Context, memory, and oversight | Context and memory | Skip | Session management overlaps orchestration and memory candidates without a narrowed problem statement |
+| `opencode-snippets` | `JosXa/opencode-snippets` | Repo, file, and code utilities | None | Adopt as-is | Narrow productivity utility with low risk and little coupling to workflow authority |
+| `opencode-pilot` | `athal7/opencode-pilot` | BMAD workflow and command surface | Multi-agent orchestration | Skip | Broad automation layer spans orchestration, UI, and notifications; too much surface area for a direct dependency |
+| `pocket-universe` | `spoons-and-mirrors/pocket-universe` | BMAD workflow and command surface | Multi-agent orchestration | Rebuild | Async closed-loop coordination is strategically interesting, but core orchestration should stay owned |
+| `swarm-tools` | `joelhooks/swarm-tools` | BMAD workflow and command surface | Multi-agent orchestration | Skip | Multi-agent coordination plus issue tracking overlaps too much with planned Compass providers and `bd` |
+| `agent-of-empires` | `njbrake/agent-of-empires` | Repo, file, and code utilities | Environment and workspace utilities | Wrap | tmux and worktree session management is useful, but should stay modular and optional |
+| `cupcake` | `eqtylab/cupcake` | External integration and interoperability | None | Wrap | Policy enforcement is promising, but guardrail policy is too important to adopt without a Compass boundary |
+| `hcom` | `aannoo/hcom` | External integration and interoperability | Multi-agent orchestration | Rebuild | Cross-terminal agent messaging is core coordination infrastructure, not a commodity add-on |
+| `vibe-kanban` | `BloopAI/vibe-kanban` | BMAD workflow and command surface | Planning and review surfaces | Skip | Kanban overlay overlaps with `bd` and risks splitting task authority |
+
+## Early Pilot Bias
+
+The strongest first-wave candidates from this initial pass are:
+
+| Candidate | Why it stands out | Current posture |
+| --- | --- | --- |
+| `opencode-beads` | Direct fit with the existing issue-tracking contract | Wrap |
+| `opencode-worktree` | Commodity utility with clear engineering leverage and low workflow coupling | Adopt as-is |
+| `type-inject` | Valuable code-intelligence utility if introduced behind Compass controls | Wrap |
+| `opencode-devcontainers` | Useful workspace utility, but more operationally invasive than `opencode-worktree` | Wrap |
+| `opencode-notify` or `opencode-notifier` | Low-risk notification pilot if local eventing becomes important | Adopt as-is |
 
 ## Pilot Selection Rules
 
@@ -96,7 +162,8 @@ Fill one row per candidate plugin.
 
 ## Beads Issue Structure
 
-- Parent portfolio issue: `bmad-engine-ygy`
+- Setup issue: `bmad-engine-ygy` (closed after framework creation)
+- Inventory issue: `bmad-engine-ess`
 - Category review issues:
   - `bmad-engine-4u2` workflow and command surface
   - `bmad-engine-hx3` tracking and session lifecycle
@@ -109,7 +176,8 @@ Fill one row per candidate plugin.
 Dependency model:
 
 - `bmad-engine-8zr` is blocked by all five category issues.
-- `bmad-engine-ygy` is blocked by `bmad-engine-8zr`.
+- `bmad-engine-ygy` captured framework setup only and is now closed.
+- `bmad-engine-ess` captures the initial inventory and provisional bucket assignments.
 - Pilot implementation issues should be created only after the shortlist is approved.
 
 ## Recommended Next Step
