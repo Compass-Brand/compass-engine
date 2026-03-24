@@ -140,6 +140,8 @@ Framework scaffolds do **not** count as substantive brownfield project documenta
 
 **Input Documents Discovered:**
 
+_Replace each {{variable}} with the actual count from discovery and evaluate each {if}...{else}...{/if} block so the output shows real numbers and the correct branch text._
+
 - Product briefs: {{briefCount}} files {if briefCount > 0}✓ loaded{else}(none found){/if}
 - Research: {{researchCount}} files {if researchCount > 0}✓ loaded{else}(none found){/if}
 - Brainstorming: {{brainstormingCount}} files {if brainstormingCount > 0}✓ loaded{else}(none found){/if}
