@@ -137,19 +137,7 @@ Confirm completion of the UX Design Specification to the user.
 
 ## NEXT STEPS GUIDANCE:
 
-**Immediate Options:**
-
-1. **Wireframe Generation** - Create low-fidelity layouts based on UX spec
-2. **Interactive Prototype** - Build clickable prototypes for testing
-3. **Solution Architecture** - Technical design with UX context
-4. **Figma Visual Design** - High-fidelity UI implementation
-5. **Epic Creation** - Break down UX requirements for development
-
-**Recommended Sequence:**
-For design-focused teams: Wireframes → Prototypes → Figma Design → Development
-For technical teams: Architecture → Epic Creation → Development
-
-Consider team capacity, timeline, and whether user validation is needed before implementation.
+UX Design Specification complete. Read fully and follow: `{project-root}/_bmad/core/tasks/help.md`
 
 ## WORKFLOW FINALIZATION:
 

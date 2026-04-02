@@ -93,26 +93,7 @@ Perform final validation of the product brief:
 
 ### 3. Suggest Next Steps
 
-**Recommended Next Workflow:**
-Provide guidance on logical next workflows:
-
-1. `create-prd` - Create detailed Product Requirements Document
-   - Brief provides foundation for detailed requirements
-   - User personas inform journey mapping
-   - Success metrics become specific acceptance criteria
-   - MVP scope becomes detailed feature specifications
-
-**Other Potential Next Steps:**
-
-1. `create-ux-design` - UX research and design (can run parallel with PRD)
-2. `domain-research` - Deep market or domain research (if needed)
-
-**Strategic Considerations:**
-
-- The PRD workflow builds directly on this brief for detailed planning
-- Consider team capacity and immediate priorities
-- Use brief to validate concept before committing to detailed work
-- Brief can guide early technical feasibility discussions
+Product Brief complete. Read fully and follow: `{project-root}/_bmad/modules/custom/core/tasks/help.md`
 
 ### 4. Confirm Completion
 
@@ -125,10 +106,6 @@ Recap that the brief captures everything needed to guide subsequent product deve
 - Measurable success criteria
 - Focused MVP scope with realistic boundaries
 - Inspiring long-term vision
-
-### 5. Suggest next steps
-
-Product Brief complete. Read fully and follow: `{project-root}/_bmad/modules/custom/core/tasks/help.md`
 
 ---
 
