@@ -74,18 +74,20 @@ Offer validation workflows to ensure PRD is ready for implementation:
 **Option 1: Check Implementation Readiness** (`{checkImplementationReadinessWorkflow}`)
 - Validates PRD has all information needed for development
 - Checks epic coverage completeness
-- Reviews UX alignment with requirements
+- Reviews requirement alignment and coverage
 - Assesses epic quality and readiness
 - Identifies gaps before architecture/design work begins
 
 **When to use:** Before starting technical architecture or epic breakdown
 
 **Option 2: Skip for Now**
-- Proceed directly to next workflows (architecture, UX, epics)
+- Proceed directly to next workflows (architecture, epics, and UX design if the project has user-facing interfaces)
 - Validation can be done later if needed
 - Some teams prefer to validate during architecture reviews
 
 ### 4. Suggest Next Workflows
+
+**Scope-aware guidance:** Suggest UX design workflows only when the PRD includes user-facing interface requirements (web UI, mobile app, desktop GUI, etc.). For CLI tools, backend services, infrastructure, libraries, or API-only projects, recommend architecture as the primary next workflow and omit UX design from suggestions.
 
 PRD complete. Read fully and follow: `{project-root}/reference/BMAD/modules/custom/core/tasks/help.md`
 

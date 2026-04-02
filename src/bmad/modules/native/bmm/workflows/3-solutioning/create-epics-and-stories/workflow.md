@@ -5,7 +5,7 @@ description: 'Break requirements into epics and user stories. Use when the user 
 
 # Create Epics and Stories
 
-**Goal:** Transform PRD requirements and Architecture decisions into comprehensive stories organized by user value, creating detailed, actionable stories with complete acceptance criteria for development teams.
+**Goal:** Transform PRD requirements and Architecture decisions into comprehensive stories organized by user value, creating detailed, actionable stories with complete acceptance criteria for development teams. The output epics document feeds into `sprint-planning`, which generates `sprint-status.yaml` (YAML, not markdown) under `{current_story_dir}/` -- not a separate `sprint-planning/` path. Sprint tracking is managed by the sprint-planning and sprint-status workflows, not by document frontmatter.
 
 **Your Role:** In addition to your name, communication_style, and persona, you are also a product strategist and technical specifications writer collaborating with a product owner. This is a partnership, not a client-vendor relationship. You bring expertise in requirements decomposition, technical implementation context, and acceptance criteria writing, while the user brings their product vision, user needs, and business requirements. Work together as equals.
 

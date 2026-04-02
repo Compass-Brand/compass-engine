@@ -60,6 +60,18 @@ Exclude:
 - the source-bundle path used by `compass-engine` maintainers when updating the shipped planning bundle
 - any shipped Compass framework source directories
 
+**Orchestration file handling by scope:**
+
+When repo operating scope is `delivery`:
+
+- If orchestration files (`repositories.yaml`, `initiative-index.yaml`) or an `initiatives/` directory are discovered, do **not** treat them as primary planning candidates. They are optional context that may have been inherited or seeded from a parent workspace.
+- Do not flag their absence. Do not include them in the migration candidate list.
+- If they exist, leave them in place silently -- do not move, migrate, or report them as gaps.
+
+When repo operating scope is `workspace` or `orchestration`:
+
+- Include orchestration files in the discovery and migration candidate list as normal.
+
 Produce a candidate list before moving files.
 
 ## Step 3: Snapshot Legacy Planning
@@ -135,6 +147,8 @@ For workspace and orchestration repos also seed:
 - `orchestration/repositories.yaml` -> `{planning_repositories_file}`
 - `orchestration/initiative-index.yaml` -> `{planning_initiative_index_file}`
 
+For delivery repos: do **not** seed orchestration files. If `{planning_repositories_file}` or `{planning_initiative_index_file}` already exist from a prior run or parent-workspace inheritance, leave them in place but do not flag their presence or absence in the report.
+
 Rules:
 
 1. If a live authority file is missing, create it from the matching template.
@@ -156,6 +170,8 @@ Confirm:
 - active-phase artifacts live under `{planning_current}`
 - snapshot and lesson destinations exist for later closeout
 
+When repo scope is `delivery`: skip validation of `{planning_repositories_file}` and `{planning_initiative_index_file}` entirely. Do not report their absence as a gap or validation failure.
+
 If any legacy planning had to be moved, record which old planning lanes should now map to:
 
 - roadmap-level artifacts
@@ -174,7 +190,7 @@ Write `{default_output_file}` including:
 - migrated inputs count
 - created directories count
 - created authority files
-- created orchestration files
+- created orchestration files (only when repo scope is `workspace` or `orchestration`)
 - preserved authority files
 - Beads availability status and recommended next `bd` command (`bd prime` when available)
 - unresolved normalization gaps

@@ -60,6 +60,7 @@ Fully read and Analyze the loaded project documents to understand architectural 
 The PRD has already captured functional and non-functional requirements. Do NOT re-extract or re-analyze them. Instead, focus on architectural implications:
 
 - Reference the PRD's requirement summaries for architectural context
+- **PRESERVE UPSTREAM GROUPING:** When summarizing functional requirements from the PRD, preserve the upstream requirement grouping structure (section headings and category boundaries) exactly as defined in the PRD. Do not collapse, merge, or rename FR categories unless the user explicitly requests regrouping. The architecture must trace back to the PRD's requirement structure so that downstream artifacts maintain clear provenance.
 - Identify which requirements drive key architecture decisions (e.g., real-time needs imply WebSocket infrastructure, multi-tenancy implies data isolation patterns)
 - Note constraints or quality attributes that affect system design (performance targets, compliance mandates, scalability expectations)
 - Identify trade-offs that need resolution during architecture (e.g., consistency vs availability, build vs buy)
@@ -113,7 +114,7 @@ Present your analysis back to user for validation:
 
 **Key architectural aspects I notice:**
 
-- [Summarize core functionality from FRs]
+- [Summarize core functionality from FRs, preserving the PRD's original category groupings]
 - [Note critical NFRs that will shape architecture]
 - {if_ux_loaded}[Note UX complexity and technical requirements]{/if_ux_loaded}
 - [Identify unique technical challenges or constraints]
@@ -141,7 +142,7 @@ Prepare the content to append to the document:
 ### Requirements Overview
 
 **Functional Requirements:**
-{{analysis of FRs and what they mean architecturally}}
+{{Preserve the PRD's original FR category groupings as sub-headings. For each category, provide the architectural analysis. Do NOT merge, collapse, or rename categories from the PRD.}}
 
 **Non-Functional Requirements:**
 {{NFRs that will drive architectural decisions}}
@@ -218,6 +219,7 @@ When user selects 'C', append the content directly to the document using the str
 ## FAILURE MODES:
 
 ❌ Skimming documents without deep architectural analysis
+❌ Collapsing, merging, or renaming PRD functional requirement categories without explicit user request
 ❌ Missing or misinterpreting critical NFRs
 ❌ Not validating project understanding with user
 ❌ Underestimating complexity indicators

@@ -144,6 +144,24 @@ If all validations pass:
 
 When C is selected, the workflow is complete and the epics.md is ready for development.
 
+**Downstream Sprint-Planning Output Contract:**
+
+> Story descriptions must reference the actual shipped sprint-planning output contract.
+> Verify paths and formats against the sprint-planning and sprint-status workflow definitions.
+
+The next workflow in the implementation pipeline is `sprint-planning`, which:
+
+- Reads epics from `{current_epics_dir}` (the output of this workflow)
+- Generates `sprint-status.yaml` (a YAML file, not markdown) under `{current_story_dir}` -- the stories directory, not a separate `sprint-planning/` path
+- Tracks epic/story status via the `sprint-status.yaml` artifact, not via document frontmatter
+- Status transitions are governed by the `sprint-planning` and `sprint-status` workflows, not embedded in story documents
+
+**Recommended next steps for the user:**
+
+1. Run `/bmad:bmm:workflows:sprint-planning` to generate `sprint-status.yaml` from the epics
+2. Run `/bmad:bmm:workflows:create-story` to create individual story files (reads from `sprint-status.yaml`)
+3. Run `/bmad:bmm:workflows:dev-story` to implement stories
+
 Epics and Stories complete. Read fully and follow: `{project-root}/_bmad/core/tasks/help.md`
 
 Upon Completion of task output: offer to answer any questions about the Epics and Stories.
