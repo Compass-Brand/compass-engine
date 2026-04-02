@@ -16,6 +16,19 @@ const ROOT = path.resolve(__dirname, '..');
 
 const SOURCE_ROOT = path.join(ROOT, 'src', 'github');
 const TARGET_ROOT = path.join(ROOT, '.github');
+const DRIFT_EXCLUDE_FILE = path.join(SOURCE_ROOT, '.drift-exclude.yml');
+
+async function loadExclusions() {
+  try {
+    const content = await fs.readFile(DRIFT_EXCLUDE_FILE, 'utf8');
+    return content
+      .split('\n')
+      .map((line) => line.replace(/^-\s*/, '').trim())
+      .filter((line) => line && !line.startsWith('#'));
+  } catch {
+    return [];
+  }
+}
 
 async function exists(filePath) {
   try {
@@ -64,8 +77,11 @@ async function run() {
     collectFiles(TARGET_ROOT),
   ]);
 
-  const sourceFiles = sourceFilesRaw.sort();
-  const targetFiles = targetFilesRaw.sort();
+  const exclusions = await loadExclusions();
+  const isExcluded = (f) =>
+    f === '.drift-exclude.yml' || exclusions.some((ex) => f === ex || f.startsWith(ex + '/'));
+  const sourceFiles = sourceFilesRaw.filter((f) => !isExcluded(f)).sort();
+  const targetFiles = targetFilesRaw.filter((f) => !isExcluded(f)).sort();
 
   const sourceSet = new Set(sourceFiles);
   const targetSet = new Set(targetFiles);
