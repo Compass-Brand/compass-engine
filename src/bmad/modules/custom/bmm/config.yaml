@@ -67,6 +67,12 @@ current_testing_gates_draft_dir: "{current_testing_gates_dir}/draft"
 current_secure_gates_dir: "{current_testing_gates_dir}/security"
 current_secure_readiness_gate_dir: "{current_secure_gates_dir}/readiness"
 current_secure_release_gate_dir: "{current_secure_gates_dir}/release"
+
+# Oversight substrate
+oversight_mode: true
+current_oversight_dir: "{planning_current}/oversight"
+current_oversight_risks_file: "{current_oversight_dir}/risks.yaml"
+current_oversight_assumptions_file: "{current_oversight_dir}/assumptions.yaml"
 current_secure_gates_draft_dir: "{current_testing_gates_draft_dir}/security"
 
 roadmap_brainstorming_dir: "{planning_roadmap}/brainstorming"
