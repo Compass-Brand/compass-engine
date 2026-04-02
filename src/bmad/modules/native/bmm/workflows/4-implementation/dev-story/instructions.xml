@@ -370,6 +370,38 @@
     <action if="definition-of-done validation fails">HALT - Address DoD failures before completing</action>
   </step>
 
+  <!-- OVERSIGHT CAPTURE
+    When {oversight_mode} is true:
+
+    - If you identified any risk during this workflow (a dependency that might not hold, a scale concern,
+      an integration uncertainty), append it to {current_oversight_risks_file}:
+
+      - id: risk-NNN  # increment from last entry, or risk-001 if file is empty
+        summary: "<one-line description>"
+        source_workflow: dev-story
+        source_step: <current step>
+        raised_at: "{{date}}"
+        status: draft
+        severity: <low|medium|high|critical>
+        mitigation: ""
+        resolved_at: ""
+
+    - If you made or relied on any assumption that has not been verified (a technology capability,
+      an environment constraint, a user behavior expectation), append it to {current_oversight_assumptions_file}:
+
+      - id: assumption-NNN  # increment from last entry, or assumption-001 if file is empty
+        summary: "<one-line description>"
+        source_workflow: dev-story
+        source_step: <current step>
+        raised_at: "{{date}}"
+        status: draft
+        validated_by: ""
+        resolved_at: ""
+
+    - Do not pause work to discuss these entries. Log and continue.
+    - If the files do not exist yet, create them with the entry as the first item.
+  -->
+
   <step n="10" goal="Completion communication and user support">
     <action>Execute the enhanced definition-of-done checklist using the validation framework</action>
     <action>Prepare a concise summary in Dev Agent Record → Completion Notes</action>

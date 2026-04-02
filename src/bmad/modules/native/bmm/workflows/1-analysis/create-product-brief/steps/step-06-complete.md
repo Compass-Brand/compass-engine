@@ -109,6 +109,38 @@ Recap that the brief captures everything needed to guide subsequent product deve
 
 ---
 
+## OVERSIGHT CAPTURE
+
+When `{oversight_mode}` is `true`:
+
+- If you identified any risk during this workflow (a dependency that might not hold, a scale concern, an integration uncertainty), append it to `{current_oversight_risks_file}`:
+  ```yaml
+  - id: risk-NNN  # increment from last entry, or risk-001 if file is empty
+    summary: "<one-line description>"
+    source_workflow: create-product-brief
+    source_step: step-06-complete
+    raised_at: "{{date}}"
+    status: draft
+    severity: <low|medium|high|critical>
+    mitigation: ""
+    resolved_at: ""
+  ```
+
+- If you made or relied on any assumption that has not been verified (a technology capability, an environment constraint, a user behavior expectation), append it to `{current_oversight_assumptions_file}`:
+  ```yaml
+  - id: assumption-NNN  # increment from last entry, or assumption-001 if file is empty
+    summary: "<one-line description>"
+    source_workflow: create-product-brief
+    source_step: step-06-complete
+    raised_at: "{{date}}"
+    status: draft
+    validated_by: ""
+    resolved_at: ""
+  ```
+
+- Do not pause work to discuss these entries. Log and continue.
+- If the files do not exist yet, create them with the entry as the first item.
+
 ## 🚨 SYSTEM SUCCESS/FAILURE METRICS
 
 ### ✅ SUCCESS:
