@@ -72,7 +72,7 @@ cp "{template_path}" "{roadmap_brainstorming_dir}/brainstorming-session-{{date}}
 
 #### C. Session Context Gathering
 
-"Welcome {{user_name}}! I'm excited to facilitate your brainstorming session. I'll guide you through proven creativity techniques to generate innovative ideas and breakthrough solutions.
+"Welcome {{user_name}}. Beginning your brainstorming session. This workflow uses proven creativity techniques to generate ideas and actionable solutions.
 
 **Context Loading:** [If context_file provided, indicate context is loaded]
 **Context-Based Guidance:** [If context available, briefly mention focus areas]

@@ -104,9 +104,8 @@ Try to discover the following:
 
 **Loading Rules:**
 
-- Load ALL discovered files completely that the user confirmed or provided (no offset/limit)
+- Load confirmed files using targeted reads. For each file, read frontmatter and executive summary first. Load full content only for documents that directly inform the product brief (scope documents, existing briefs, user research). For sharded folders, load the index or summary file first and only load individual shards when their content is needed for a specific brief section.
 - If there is a project context, whatever is relevant should try to be biased in the remainder of this whole workflow process
-- For sharded folders, load ALL files to get complete picture, using the index first to potentially know the potential of each document
 - index.md is a guide to what's relevant whenever available
 - Track all successfully loaded files in frontmatter `inputDocuments` array
 
@@ -135,7 +134,7 @@ Try to discover the following:
 
 **Files loaded:** {list of specific file names or "No additional documents found"}
 
-Do you have any other documents you'd like me to include, or should I continue to the next step?"
+Here is what was discovered. Proceeding to the next step unless you want to add additional input."
 
 ### 4. Present MENU OPTIONS
 

@@ -2,6 +2,8 @@
 
 This directory is the retained planning reference index for the roadmap-driven Compass BMAD model.
 
+> **Note:** This is reference documentation for the shipped `src/planning/` bundle. The deployed structure in project repositories does not include a `framework/` subdirectory; all framework paths shown here map to the root `planning/` level in deployed repos.
+
 ## Purpose
 
 - provide the reference layout for project-level and phase-level planning
@@ -16,9 +18,9 @@ This directory is the retained planning reference index for the roadmap-driven C
 
 Workspace and parent repos may also use orchestration-specific control surfaces:
 
-- `framework/repositories.yaml`
-- `framework/current/initiative-index.yaml`
-- `framework/current/initiatives/`
+- `repositories.yaml`
+- `current/initiative-index.yaml`
+- `current/initiatives/`
 
 ## Primary Entry Commands
 
@@ -34,28 +36,28 @@ Workspace and parent repos may also use orchestration-specific control surfaces:
 2. `docs/how-to-use.md`
 3. `docs/workflow-map.md`
 4. `templates/README.md`
-5. `framework/roadmap/roadmap.md`
-6. `framework/current/phase.md`
+5. `roadmap/roadmap.md`
+6. `current/phase.md`
 
 When machine state matters, also load:
 
-1. `framework/repositories.yaml` when repo routing or ownership matters
-1. `framework/roadmap/roadmap.yaml`
-2. `framework/current/phase-state.yaml`
-3. `framework/current/initiative-index.yaml` when multiple concurrent initiatives are active
+1. `repositories.yaml` when repo routing or ownership matters
+1. `roadmap/roadmap.yaml`
+2. `current/phase-state.yaml`
+3. `current/initiative-index.yaml` when multiple concurrent initiatives are active
 
 ## Structure
 
 ```text
 reference/planning/
 ├── README.md
+├── repositories.yaml
+├── current/
+├── previous/
+├── lessons/
+├── roadmap/
 ├── docs/
 ├── templates/
 └── framework/
-    ├── README.md
-    ├── repositories.yaml
-    ├── current/
-    ├── previous/
-    ├── lessons/
-    └── roadmap/
+    └── README.md
 ```

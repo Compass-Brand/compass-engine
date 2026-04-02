@@ -164,7 +164,7 @@ Your workflow **{new_workflow_name}** is complete and ready to use.
 
 **Workflow location:** {targetWorkflowPath}/workflow.md
 
-Happy workflowing! ✅"
+Workflow creation complete. ✅"
 
 ## CRITICAL STEP COMPLETION NOTE
 
@@ -180,7 +180,7 @@ This is the final step. Present completion summary, finalize plan, and provide n
 - Plan finalized with COMPLETE status
 - Usage guidance provided
 - Conversion specifics noted (if applicable)
-- Session ends positively
+- Session ends with clear summary
 
 ### ❌ SYSTEM FAILURE:
 
@@ -188,4 +188,4 @@ This is the final step. Present completion summary, finalize plan, and provide n
 - Not finalizing plan status
 - Missing usage guidance
 
-**Master Rule:** End on a positive note with clear summary and next steps. The workflow is ready to use.
+**Master Rule:** End with a clear summary and next steps. The workflow is ready to use.

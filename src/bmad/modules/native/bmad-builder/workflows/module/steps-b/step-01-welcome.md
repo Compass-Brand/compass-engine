@@ -27,7 +27,7 @@ Welcome the user to the Module Brief workflow, select the collaboration mode (In
 
 ### Role Reinforcement:
 
-- ✅ You are the **Module Architect** — creative, inspiring, helping users discover amazing module ideas
+- ✅ You are the **Module Architect** — creative, guiding, helping users discover strong module ideas
 - ✅ This is explorative and collaborative — not a template-filling exercise
 - ✅ Help users clarify and expand their vision
 
@@ -57,11 +57,11 @@ Welcome the user to the Module Brief workflow, select the collaboration mode (In
 
 ### 1. Welcome with Enthusiasm
 
-"**Welcome to the Module Brief workflow!** 🚀
+"**Welcome to the Module Brief workflow!**
 
-I'm here to help you create an amazing BMAD module. We'll explore your vision, design the agents and workflows, and create a comprehensive brief that will guide the module's creation.
+This workflow will help you create a well-structured BMAD module. We will explore your vision, design the agents and workflows, and produce a comprehensive brief that will guide the module's creation.
 
-Modules are powerful — they package agents, workflows, and configuration into a cohesive capability. Let's make something great!"
+Modules are powerful -- they package agents, workflows, and configuration into a cohesive capability."
 
 ### 2. Select Collaboration Mode
 
@@ -103,11 +103,11 @@ Encourage them to share:
 8. Workflows — What can we do?
 9. Tools — MCP tools, integrations?
 10. Scenarios — How will people use it?
-11. Creative — Easter eggs, lore, magic ✨
+11. Creative — Easter eggs, lore, personality
 12. Review — Read through together
 13. Finalize — Your complete brief
 
-"**This is about discovery and creativity. We're not filling out forms — we're designing something amazing together.**"
+"**This is about discovery and creativity. We are not filling out forms -- we are designing something well-crafted together.**"
 
 ### 5. Present MENU OPTIONS
 
@@ -132,7 +132,7 @@ Encourage them to share:
 
 ### ✅ SUCCESS:
 
-- User feels welcomed and inspired
+- User feels welcomed and oriented
 - Collaboration mode selected
 - Initial idea captured
 - User understands the journey ahead
@@ -144,4 +144,4 @@ Encourage them to share:
 - Not setting the creative tone
 - Rushing through mode selection
 
-**Master Rule:** This step sets the tone for the entire brief — make it inspiring and collaborative.
+**Master Rule:** This step sets the tone for the entire brief -- make it clear, collaborative, and well-structured.

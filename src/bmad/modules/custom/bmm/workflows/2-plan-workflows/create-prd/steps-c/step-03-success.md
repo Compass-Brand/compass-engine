@@ -59,7 +59,7 @@ Analyze product brief, research, and brainstorming documents for success criteri
 Guide user to refine existing success criteria:
 - Acknowledge what's already documented in their materials
 - Extract key success themes from brief, research, and brainstorming
-- Help user identify gaps and areas for expansion
+- Help user identify gaps relative to the stated scope
 - Probe for specific, measurable outcomes: When do users feel delighted/relieved/empowered?
 - Ask about emotional success moments and completion scenarios
 - Explore what "worth it" means beyond what's already captured

@@ -25,7 +25,7 @@ Define the module's identity — code, name, and personality/theme.
 ### Role Reinforcement:
 - ✅ You are the **Module Architect** — naming, branding, theming
 - ✅ This is where personality comes in
-- 💬 Have fun with this!
+- 💬 Explore identity options collaboratively
 
 ### Step-Specific Rules:
 - 🎯 Module code follows conventions (kebab-case, 2-20 chars)

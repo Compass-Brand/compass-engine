@@ -11,7 +11,7 @@ WDS UX Expert → BMad Architect
 
 Subject: Design Delivery DD-XXX Ready for Implementation
 
-Hi Architect!
+Architect,
 
 Design Delivery DD-XXX ([Flow Name]) is officially handed off
 and ready for implementation.
@@ -108,7 +108,7 @@ WDS UX Expert
 ```
 Weekly Update to BMad Architect:
 
-"Hey Architect!
+"Architect,
 
 Progress update:
 
@@ -145,7 +145,7 @@ Week 4: Handoff Flow 3 → BMad builds Flow 3
         Design Flow 4
 ```
 
-**You're never waiting! Always working!**
+**The goal is continuous throughput with no idle time.**
 
 ---
 
@@ -166,7 +166,7 @@ Week 7: Test DD-002 (Phase 5 [T])
 Week 7-8: Design DD-004
 ```
 
-**Continuous flow!**
+**Continuous flow of deliveries.**
 
 ---
 

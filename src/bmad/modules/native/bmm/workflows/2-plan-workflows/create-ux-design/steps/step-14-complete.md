@@ -44,7 +44,7 @@ Complete the UX design workflow, update status files, and suggest next steps for
 ### 1. Announce Workflow Completion
 
 Inform user that the UX design is complete:
-"🎉 **UX Design Complete, {{user_name}}!**
+"**UX Design Complete, {{user_name}}.**
 
 I've successfully collaborated with you to create a comprehensive UX design specification for {{project_name}}.
 
@@ -86,7 +86,7 @@ UX Design complete. Read fully and follow: `{project-root}/_bmad/core/tasks/help
 
 ### 5. Final Completion Confirmation
 
-Congratulate the user on the completion you both completed together of the UX.
+Confirm completion of the UX Design Specification to the user.
 
 
 
@@ -137,19 +137,7 @@ Congratulate the user on the completion you both completed together of the UX.
 
 ## NEXT STEPS GUIDANCE:
 
-**Immediate Options:**
-
-1. **Wireframe Generation** - Create low-fidelity layouts based on UX spec
-2. **Interactive Prototype** - Build clickable prototypes for testing
-3. **Solution Architecture** - Technical design with UX context
-4. **Figma Visual Design** - High-fidelity UI implementation
-5. **Epic Creation** - Break down UX requirements for development
-
-**Recommended Sequence:**
-For design-focused teams: Wireframes → Prototypes → Figma Design → Development
-For technical teams: Architecture → Epic Creation → Development
-
-Consider team capacity, timeline, and whether user validation is needed before implementation.
+UX Design Specification complete. Read fully and follow: `{project-root}/_bmad/core/tasks/help.md`
 
 ## WORKFLOW FINALIZATION:
 
@@ -162,7 +150,7 @@ Consider team capacity, timeline, and whether user validation is needed before i
 
 This UX design workflow is now complete. The specification serves as the foundation for all visual and development work. All design decisions, patterns, and requirements are documented to ensure consistent, accessible, and user-centered implementation.
 
-**Congratulations on completing the UX Design Specification for {{project_name}}!** 🎉
+**The UX Design Specification for {{project_name}} is complete.**
 
 **Core Deliverables:**
 

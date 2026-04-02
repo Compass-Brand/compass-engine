@@ -176,8 +176,8 @@ happy_path:
 **Example:**
 
 ```
-WDS UX Expert: "Hey Architect! I've completed the design for
-                Login & Onboarding. Let me walk you through
+WDS UX Expert: "Architect, the design for Login & Onboarding
+                is complete. Here is the walkthrough for
                 Design Delivery DD-001..."
 
 [20-minute structured conversation]
@@ -487,4 +487,4 @@ Week 4: Handoff Flow 3 → BMad builds Flow 3
 
 ---
 
-**Handover is where design becomes development! Package, handoff, and keep moving!** 📦✨
+**Handover is where design becomes development. Package, hand off, and keep moving.**

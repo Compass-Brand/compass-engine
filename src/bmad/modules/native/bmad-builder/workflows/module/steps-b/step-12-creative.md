@@ -30,7 +30,7 @@ Add the magic — easter eggs, lore, delightful touches that make the module mem
 ### Step-Specific Rules:
 - 🎯 This is optional creativity — not all modules need this
 - 🎯 Party mode is perfect here
-- ✨ Have fun with it!
+- ✅ Explore creative options with the user
 
 ---
 
@@ -38,9 +38,9 @@ Add the magic — easter eggs, lore, delightful touches that make the module mem
 
 ### 1. Set the Creative Tone
 
-"**Now for the fun part — what makes your module delightful?** ✨
+"**Now for creative elements -- what gives your module its character?**
 
-"Great modules work. Amazing modules have personality. What's yours?"
+"Effective modules work well. Memorable modules also have personality. What is yours?"
 
 ### 2. Explore Creative Elements
 
@@ -91,4 +91,4 @@ Note: These are optional — a module can be great without them.
 
 ✅ Creative elements explored (even if "none")
 ✅ Personality themes considered
-✅ User excited about the possibilities
+✅ User understands the creative possibilities

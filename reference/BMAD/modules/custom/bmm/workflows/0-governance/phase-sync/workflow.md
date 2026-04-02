@@ -30,7 +30,25 @@ Load config from `{project-root}/reference/BMAD/modules/custom/bmm/config.yaml` 
    - dependencies carried forward from prior phases
    - what is explicitly out of scope
    - any existing Beads parent or phase issue ids already associated with the slice
-3. If `{phase_snapshot_file}` does not exist, create it with this structure:
+3. Derive lane decisions from the roadmap scope before creating or updating state files.
+
+   **WDS mode** — evaluate whether the active slice involves user-facing interface work:
+   - If the roadmap slice explicitly targets UI, UX, frontend, or user-interaction surfaces → `conditional` (WDS will activate when PRD confirms UX needs).
+   - If the slice is backend-only, infrastructure, tooling, CLI, or library work with no user-facing surfaces → `skipped`.
+   - If the roadmap does not clearly indicate either → set `conditional` and mark as **assumed** in the phase brief.
+
+   **Security mode** — evaluate using the criteria in the sibling `security-activation.md` governance workflow:
+   - If the scope involves authentication, authorization, sensitive data handling, public endpoints, trust boundary changes, secrets handling, or regulatory requirements → `auto` with `security_active: true`.
+   - If none of those conditions apply → `auto` with `security_active: false` (security lane remains available but inactive).
+   - If the roadmap scope is ambiguous on security relevance → set `auto` with `security_active: false` and mark as **assumed** in the phase brief.
+
+   **Storytelling mode** — evaluate whether the roadmap or product brief references narrative, brand storytelling, or separate storytelling artifacts:
+   - If the roadmap explicitly calls for storytelling or narrative deliverables → `separate`.
+   - Otherwise → `off`.
+
+   Record the derivation source for each decision (e.g., "roadmap slice scope: backend tooling" or "roadmap mentions public API endpoints") so the rationale is traceable. When a decision cannot be derived from the roadmap, mark it as an assumption and surface it in the phase brief under **Risks And Assumptions** so the user can confirm or override.
+
+4. If `{phase_snapshot_file}` does not exist, create it with this structure:
 
 ```md
 # Current Phase
@@ -77,15 +95,21 @@ Load config from `{project-root}/reference/BMAD/modules/custom/bmm/config.yaml` 
 ## Exit Criteria
 -
 
+## Lane Decisions
+- WDS Mode: {{derived_wds_mode}} — {{wds_derivation_source}}
+- Security Mode: {{derived_security_mode}} (active: {{derived_security_active}}) — {{security_derivation_source}}
+- Storytelling Mode: {{derived_storytelling_mode}} — {{storytelling_derivation_source}}
+
 ## Risks And Assumptions
 - Risks:
 - Assumptions:
+  - {{list any lane decisions marked as assumed, with the default value and why it could not be derived}}
 
 ## Notes And Decisions
 -
 ```
 
-4. If `{phase_state_file}` does not exist, create it with this baseline structure:
+5. If `{phase_state_file}` does not exist, create it with this baseline structure. Replace the `lane_decisions` placeholder values with the decisions derived in step 3:
 
 ```yaml
 version: 1
@@ -115,10 +139,10 @@ blocked_workstreams: []
 integration_gates: []
 routing_decisions: []
 lane_decisions:
-  storytelling_mode: off
-  wds_mode: conditional
-  security_mode: auto
-  security_active: false
+  storytelling_mode: "{{derived_storytelling_mode}}" # derived from roadmap scope — see step 3
+  wds_mode: "{{derived_wds_mode}}" # derived from roadmap scope — see step 3
+  security_mode: "{{derived_security_mode}}" # derived from roadmap scope — see step 3
+  security_active: "{{derived_security_active}}" # derived from roadmap scope — see step 3
 lane_outcomes:
   storytelling: not_applicable
   wds: not_applicable
@@ -253,7 +277,7 @@ open_risks: []
 next_checkpoint: detailed_analysis
 ```
 
-5. Update `{phase_snapshot_file}` in place with user-provided or roadmap-derived changes:
+6. Update `{phase_snapshot_file}` in place with user-provided or roadmap-derived changes:
    - phase identity
    - why this phase is active now
    - objective
@@ -262,26 +286,27 @@ next_checkpoint: detailed_analysis
    - required source artifacts
    - planned deliverables
    - exit criteria
-   - risks, assumptions, and important notes
-6. Update `{phase_state_file}` in place with matching machine-readable values:
+   - lane decisions with derivation sources (from step 3)
+   - risks, assumptions, and important notes (including any assumed lane decisions)
+7. Update `{phase_state_file}` in place with matching machine-readable values:
    - `phase_id`, `slug`, `title`, `status`, `owner`, `last_updated`
    - `execution_scope`, `primary_repo_id`, and any `repo_targets`
    - `in_scope`, `out_of_scope`, `dependencies`
    - `beads.parent_issue_id` and `beads.phase_issue_id` when they are already known or are created during phase activation
    - `workflow_status.phase_sync = complete`
    - `next_checkpoint = initiative_routing` when execution scope is `workspace` or `orchestration`; otherwise `detailed_analysis`
-   - any lane decisions already known at phase entry
-7. Reconcile Beads tracking before detailed analysis starts:
+   - `lane_decisions` values derived in step 3 — never leave these as template defaults
+8. Reconcile Beads tracking before detailed analysis starts:
    - if a parent initiative issue already exists for orchestration scope, record it in `beads.parent_issue_id`
    - confirm or create the Beads issue that represents this active phase and store it in `beads.phase_issue_id`
    - when the phase is being activated for work now, mark that Beads issue `in_progress`
    - update `beads.last_synced_at` when issue reconciliation or `bd sync` succeeds
-8. Always set:
+9. Always set:
    - `Status: active` in `{phase_snapshot_file}`
    - `status: active` in `{phase_state_file}`
    - `Last Updated: {{date}}` in `{phase_snapshot_file}`
    - `last_updated: {{date}}` in `{phase_state_file}`
-9. Confirm saved paths:
+10. Confirm saved paths:
    - `{phase_snapshot_file}`
    - `{phase_state_file}`
 
@@ -290,5 +315,7 @@ next_checkpoint: detailed_analysis
 - Keep date format as `YYYY-MM-DD`.
 - `phase.md` is the human brief; `phase-state.yaml` is the machine control surface.
 - `phase-state.yaml` should also carry the Beads issue references for the active phase.
+- Lane decisions in `phase-state.yaml` must always reflect the derivation from step 3. Never silently default to template values without evaluating the roadmap scope.
+- When a lane decision is assumed rather than derived, the phase brief must list it under **Risks And Assumptions** so the user can confirm or override before downstream workflows consume it.
 - Do not write active phase metadata outside `{phase_snapshot_file}` and `{phase_state_file}`.
 - Do not archive in this workflow; use `phase-closeout`.

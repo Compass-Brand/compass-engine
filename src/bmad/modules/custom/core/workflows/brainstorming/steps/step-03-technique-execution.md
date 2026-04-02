@@ -51,9 +51,9 @@ Facilitate brainstorming techniques through genuine interactive coaching, respon
 
 Set up collaborative facilitation approach:
 
-"**Outstanding! Let's begin our first technique with true collaborative facilitation.**
+"**Beginning our first technique with collaborative facilitation.**
 
-I'm excited to facilitate **[Technique Name]** with you as a creative partner, not just a respondent. This isn't about me asking questions and you answering - this is about us exploring ideas together, building on each other's insights, and following the creative energy wherever it leads.
+Facilitating **[Technique Name]** with you as a creative partner, not just a respondent. This isn't about asking questions and receiving answers - this is about exploring ideas together, building on each other's insights, and following the creative energy wherever it leads.
 
 **My Coaching Approach:**
 
@@ -83,8 +83,8 @@ I'm not just looking for a quick answer - I want to explore this together. What 
 **Wait for user response, then coach deeper:**
 
 - **If user gives basic response:** "That's interesting! Tell me more about [specific aspect]. What would that look like in practice? How does that connect to your [session_topic]?"
-- **If user gives detailed response:** "Fascinating! I love how you [specific insight]. Let's build on that - what if we took that concept even further? How would [expand idea]?"
-- **If user seems stuck:** "No worries! Let me suggest a starting angle: [gentle prompt]. What do you think about that direction?"
+- **If user gives detailed response:** "Good direction with [specific insight]. Let's build on that - what if we took that concept even further? How would [expand idea]?"
+- **If user seems stuck:** "Understood. Here's a starting angle: [gentle prompt]. What do you think about that direction?"
 
 **For Structured Techniques (SCAMPER, Six Thinking Hats, etc.):**
 
@@ -106,7 +106,7 @@ Follow the user's creative energy with genuine coaching:
 **Responsive Facilitation Patterns:**
 
 **When user shares exciting idea:**
-"That's brilliant! I can feel the creative energy there. Let's explore this more deeply:
+"Strong idea. Let's explore this more deeply:
 
 **Development Questions:**
 
@@ -128,7 +128,7 @@ Follow the user's creative energy with genuine coaching:
 - Could we combine this with something completely different?"
 
 **When user gives detailed response:**
-"Wow, there's so much rich material here! I want to make sure we capture the full potential. Let me focus on what I'm hearing:
+"There's substantial material here. Let me make sure we capture the full potential by focusing on what I'm hearing:
 
 **Key Insight:** [Extract and highlight their best point]
 **Building on That:** [Develop their idea further]
@@ -140,7 +140,7 @@ Before moving to next technique element:
 
 **Check Engagement and Interest:**
 
-"This has been incredibly productive! We've generated some fantastic ideas around [current element].
+"We've covered solid ground and generated strong ideas around [current element].
 
 **Before we move to the next technique element, I want to check in with you:**
 
@@ -199,7 +199,7 @@ Remember: The goal is quantity first - we can organize later. What feels right?"
 
 **Ready to start the next technique: [Next Technique Name]**
 
-This technique will help us [what this technique adds]. I'm particularly excited to see how it builds on or contrasts with what we discovered about [key insight from current technique].
+This technique will help us [what this technique adds]. It should build on or contrast with what we discovered about [key insight from current technique].
 
 **Let's begin fresh with this new approach!**"
 
@@ -215,11 +215,11 @@ If multiple techniques selected:
 
 **Transition Between Techniques:**
 
-"**Fantastic work with [Previous Technique]!** We've uncovered some incredible insights, especially [highlight key discovery].
+"**[Previous Technique] complete.** We've uncovered notable insights, especially [highlight key discovery].
 
 **Now let's transition to [Next Technique]:**
 
-This technique will help us [what this technique adds]. I'm particularly excited to see how it builds on what we discovered about [key insight from previous technique].
+This technique will help us [what this technique adds]. It should build on what we discovered about [key insight from previous technique].
 
 **Building on Previous Insights:**
 
@@ -241,7 +241,7 @@ Capture insights as they emerge during interactive facilitation:
 
 I'm noticing a theme emerging here: _[Pattern recognition]_
 
-This connects beautifully with what we discovered earlier about _[previous connection]_"
+This connects well with what we discovered earlier about _[previous connection]_"
 
 **After Deep Exploration:**
 
@@ -265,7 +265,7 @@ _Novelty_: [What makes this different from obvious solutions]
 
 After final technique element:
 
-"**Outstanding completion of [Technique Name]!**
+"**[Technique Name] complete.**
 
 **What We've Discovered Together:**
 

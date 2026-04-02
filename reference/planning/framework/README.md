@@ -52,7 +52,7 @@ If files disagree:
 
 ## Handoff Rule
 
-- planning artifacts remain in `reference/planning/` until stable
+- planning artifacts remain in `planning/` until stable
 - stable human-facing content may graduate into the repo `docs/` tree only with owner, lifecycle state, destination path, and replacement or archive note
 - automation runtime files, gate packages, and phase-specific evidence remain in the planning framework and do not promote into `docs/`
 

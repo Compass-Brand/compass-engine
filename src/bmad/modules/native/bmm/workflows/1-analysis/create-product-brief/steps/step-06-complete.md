@@ -56,7 +56,7 @@ Complete the product brief workflow, update status files, and provide guidance o
 ### 1. Announce Workflow Completion
 
 **Completion Announcement:**
-"🎉 **Product Brief Complete, {{user_name}}!**
+"**Product Brief Complete, {{user_name}}.**
 
 I've successfully collaborated with you to create a comprehensive Product Brief for {{project_name}}.
 
@@ -93,30 +93,11 @@ Perform final validation of the product brief:
 
 ### 3. Suggest Next Steps
 
-**Recommended Next Workflow:**
-Provide guidance on logical next workflows:
+Product Brief complete. Read fully and follow: `{project-root}/_bmad/core/tasks/help.md`
 
-1. `create-prd` - Create detailed Product Requirements Document
-   - Brief provides foundation for detailed requirements
-   - User personas inform journey mapping
-   - Success metrics become specific acceptance criteria
-   - MVP scope becomes detailed feature specifications
+### 4. Confirm Completion
 
-**Other Potential Next Steps:**
-
-1. `create-ux-design` - UX research and design (can run parallel with PRD)
-2. `domain-research` - Deep market or domain research (if needed)
-
-**Strategic Considerations:**
-
-- The PRD workflow builds directly on this brief for detailed planning
-- Consider team capacity and immediate priorities
-- Use brief to validate concept before committing to detailed work
-- Brief can guide early technical feasibility discussions
-
-### 4. Congrats to the user
-
-"**Your Product Brief for {{project_name}} is now complete and ready for the next phase!**"
+"**Your Product Brief for {{project_name}} is now complete and ready for the next phase.**"
 
 Recap that the brief captures everything needed to guide subsequent product development:
 
@@ -125,10 +106,6 @@ Recap that the brief captures everything needed to guide subsequent product deve
 - Measurable success criteria
 - Focused MVP scope with realistic boundaries
 - Inspiring long-term vision
-
-### 5. Suggest next steps
-
-Product Brief complete. Read fully and follow: `{project-root}/_bmad/core/tasks/help.md`
 
 ---
 
@@ -159,4 +136,4 @@ Product Brief complete. Read fully and follow: `{project-root}/_bmad/core/tasks/
 
 This product brief is now complete and serves as the strategic foundation for the entire product lifecycle. All subsequent design, architecture, and development work should trace back to the vision, user needs, and success criteria documented in this brief.
 
-**Congratulations on completing the Product Brief for {{project_name}}!** 🎉
+Product Brief for {{project_name}} is complete.

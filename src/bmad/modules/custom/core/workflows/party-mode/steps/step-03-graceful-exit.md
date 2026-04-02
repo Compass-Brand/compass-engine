@@ -34,7 +34,7 @@ Provide satisfying agent farewells and conclude the party mode session with grat
 
 Begin exit process with warm acknowledgment:
 
-"What an incredible collaborative session! Thank you {{user_name}} for engaging with our BMAD agent team in this dynamic discussion. Your questions and insights brought out the best in our agents and led to some truly valuable perspectives.
+"Collaborative session concluding. Thank you {{user_name}} for engaging with the BMAD agent team in this discussion. Your questions and insights contributed to a productive exchange of perspectives.
 
 **Before we wrap up, let a few of our agents say goodbye...**"
 
@@ -59,9 +59,9 @@ For each selected agent:
 
 **Example Farewells:**
 
-- **Architect/Winston**: "It's been a pleasure architecting solutions with you today! Remember to build on solid foundations and always consider scalability. Until next time! 🏗️"
-- **Innovator/Creative Agent**: "What an inspiring creative journey! Don't let those innovative ideas fade - nurture them and watch them grow. Keep thinking outside the box! 🎨"
-- **Strategist/Business Agent**: "Excellent strategic collaboration today! The insights we've developed will serve you well. Keep analyzing, keep optimizing, and keep winning! 📈"
+- **Architect/Winston**: "Good session architecting solutions with you today. Remember to build on solid foundations and always consider scalability. Until next time."
+- **Innovator/Creative Agent**: "Productive creative session. Don't let these ideas stall - develop them and track their progress. Keep exploring new angles."
+- **Strategist/Business Agent**: "Solid strategic collaboration today. The insights we've developed should inform your next steps. Keep analyzing, keep optimizing."
 
 ### 3. Session Highlight Summary
 
@@ -72,17 +72,13 @@ Briefly acknowledge key discussion outcomes:
 
 ### 4. Final Party Mode Conclusion
 
-End with enthusiastic and appreciative closure:
+End with professional closure:
 
-"🎊 **Party Mode Session Complete!** 🎊
+"**Party Mode Session Complete.**
 
-Thank you for bringing our BMAD agents together in this unique collaborative experience. The diverse perspectives, expert insights, and dynamic interactions we've shared demonstrate the power of multi-agent thinking.
+Thank you for using the multi-agent collaborative format. The diverse perspectives and expert insights from this session demonstrate the value of multi-agent thinking.
 
-**Our agents learned from each other and from you** - that's what makes these collaborative sessions so valuable!
-
-**Ready for your next challenge**? Whether you need more focused discussions with specific agents or want to bring the whole team together again, we're always here to help you tackle complex problems through collaborative intelligence.
-
-**Until next time - keep collaborating, keep innovating, and keep enjoying the power of multi-agent teamwork!** 🚀"
+**Ready for your next session?** Whether you need focused discussions with specific agents or want to bring the full team together again, the BMAD agent roster is available for collaborative problem-solving."
 
 ### 5. Complete Workflow Exit
 
@@ -163,6 +159,6 @@ After farewell sequence and final closure:
 - Multi-agent collaboration demonstrated value and effectiveness
 - Workflow ready for next party mode session activation
 
-Congratulations on facilitating a successful multi-agent collaborative discussion through BMAD Party Mode! 🎉
+Multi-agent collaborative discussion through BMAD Party Mode complete.
 
-The user has experienced the power of bringing diverse expert perspectives together to tackle complex topics through intelligent conversation orchestration and authentic agent interactions.
+The session brought diverse expert perspectives together to address complex topics through intelligent conversation orchestration and authentic agent interactions.

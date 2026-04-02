@@ -2,6 +2,8 @@
 
 This directory retains Compass BMAD workflow context, provenance, and research that should not ship as runtime source.
 
+> **Note:** The `research/` directory is intentionally retained here in `reference/` and not shipped in `src/bmad/`. It provides provenance, historical context, and design exploration that informed the shipped runtime. The authoritative shipped runtime lives in `src/bmad/`. This reference copy is maintained for audit, provenance, and research purposes.
+
 ## Current Status
 
 Current rule:

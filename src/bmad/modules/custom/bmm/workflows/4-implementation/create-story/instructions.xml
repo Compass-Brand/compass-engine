@@ -171,15 +171,15 @@
       <action>Load complete {architecture_content}</action>
     </check>
     <check if="architecture is sharded to folder">
-      <action>Load architecture index and scan all architecture files</action>
-    </check> **CRITICAL ARCHITECTURE EXTRACTION:** <action>For
-    each architecture section, determine if relevant to this story:</action> - **Technical Stack:** Languages, frameworks, libraries with
+      <action>Load architecture index. Identify which architecture sections are relevant to this specific story's scope and load only those sections. For example, a UI story does not need Database Schemas or Deployment Patterns; a data migration story does not need API Patterns or Security Requirements unless the story explicitly involves them.</action>
+    </check> **SCOPE-FILTERED ARCHITECTURE EXTRACTION:** <action>From the architecture content, extract ONLY the sections relevant to this story's scope. Available categories to consider (load only those that apply):</action> - **Technical Stack:** Languages, frameworks, libraries with
     versions - **Code Structure:** Folder organization, naming conventions, file patterns - **API Patterns:** Service structure, endpoint
     patterns, data contracts - **Database Schemas:** Tables, relationships, constraints relevant to story - **Security Requirements:**
     Authentication patterns, authorization rules - **Performance Requirements:** Caching strategies, optimization patterns - **Testing
     Standards:** Testing frameworks, coverage expectations, test patterns - **Deployment Patterns:** Environment configurations, build
-    processes - **Integration Patterns:** External service integrations, data flows <action>Extract any story-specific requirements that the
-    developer MUST follow</action>
+    processes - **Integration Patterns:** External service integrations, data flows
+    <action>Skip categories that are not relevant to this story's scope. A story's acceptance criteria and technical requirements determine which categories apply.</action>
+    <action>Extract any story-specific requirements that the developer MUST follow from the relevant sections</action>
     <action>Identify any architectural decisions that override previous patterns</action>
   </step>
 

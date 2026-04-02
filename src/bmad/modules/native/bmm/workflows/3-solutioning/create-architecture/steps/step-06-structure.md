@@ -48,6 +48,22 @@ This step will generate content and present choices:
 
 Define the complete project structure and architectural boundaries based on all decisions made, creating a concrete implementation guide for AI agents.
 
+## STRUCTURE DISCOVERY (DO THIS FIRST):
+
+Before generating any structure output, inspect the actual project to ground your output in reality:
+
+1. **Read the project config** at `{project-root}/_bmad/modules/custom/bmm/config.yaml` to resolve actual paths: `planning_root`, `planning_current`, `current_architecture_dir`, and any other output-location variables.
+
+2. **List the actual workflow tree** under `{project-root}/_bmad/modules/custom/bmm/workflows/` to understand the real lane names and structure. Do not invent lane names — use the actual directory names found (e.g., `0-governance`, `1-analysis`, `2-plan-workflows`, `3-solutioning`, `4-implementation`).
+
+3. **List the actual planning structure** under the resolved `{planning_current}` path to understand how planning artifacts are organized (e.g., `planning/`, `implementation/`, `research/`, `testing/`).
+
+4. **List the actual project source structure** at the project root to understand existing directories, build output, and configuration files.
+
+5. **Reference the PRD and prior architecture steps** for the target project's technology stack and intended structure — but always reconcile against what actually exists on disk.
+
+Use the discovered structure as the foundation for all output in this step. Never generate structure mappings based on assumptions or generic examples when the actual structure is available.
+
 ## PROJECT STRUCTURE SEQUENCE:
 
 ### 1. Analyze Requirements Mapping

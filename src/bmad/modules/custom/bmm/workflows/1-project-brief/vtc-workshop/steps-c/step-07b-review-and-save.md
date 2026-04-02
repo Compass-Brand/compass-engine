@@ -90,7 +90,7 @@ metadata:
 - Document urgency: "now/soon/later"
 
 **If VTC perfect as-is:**
-- Great! Trigger Map is robust
+- Trigger Map is robust
 
 ### 3. Validation
 
@@ -137,7 +137,7 @@ notes: |
 
 ### 6. Communicate to User
 
-> "Excellent! We've extracted a focused VTC from your Trigger Map.
+> "We've extracted a focused VTC from your Trigger Map.
 >
 > **Advantage:** This VTC is backed by your strategic research and remains consistent with your map's priorities.
 >

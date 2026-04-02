@@ -132,7 +132,7 @@ Agent: "I'll help you create a Value Trigger Chain for [context].
 
 User: "No, not yet."
 
-Agent: "Perfect! I'll guide you through creating a VTC from scratch.
+Agent: "I'll guide you through creating a VTC from scratch.
         This will take about 30 minutes. Let's start with your
         business goal..."
 

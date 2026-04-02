@@ -1,11 +1,11 @@
-# Compass BMAD Workflow (Roadmap-Driven Reference Canonical Order)
+# Compass BMAD Workflow (Roadmap-Driven Canonical Order)
 
-This document defines the reference-stage Compass BMAD order aligned to:
+This document defines the shipped Compass BMAD order aligned to:
 
-- `_planning/current/planning/2026-03-10-bmad-extension-implementation-plan.md`
-- `reference/planning/framework/`
-- `reference/planning/templates/`
-- `reference/documentation/`
+- the shipped BMAD runtime in `_bmad/`
+- `planning/`
+- `planning/templates/`
+- `docs/`
 
 Compass should operate as a roadmap-driven BMAD system, not as a one-time MVP pipeline.
 
@@ -22,24 +22,21 @@ Authoritative ownership always stays at the actual repo root being worked on. Pa
 
 When shortened paths are used in this file:
 
-- `roadmap/...` means `reference/planning/framework/roadmap/...`
-- `current/...` means `reference/planning/framework/current/...`
+- `roadmap/...` means `planning/roadmap/...`
+- `current/...` means `planning/current/...`
 
 Some approved steps still do not have a dedicated slash command. Remaining template-driven steps should use the planning framework and templates until a dedicated workflow is implemented.
 
 ## Inputs Used For This Ordering
 
-- `reference/BMAD/modules/custom/bmm/module-help.csv`
-- `reference/BMAD/modules/custom/core/module-help.csv`
-- `reference/BMAD/modules/custom/bmm/workflows/**`
-- `reference/BMAD/modules/custom/core/workflows/**`
-- `bmad-module-creative-intelligence-suite/src/module-help.csv`
-- `bmad-method-wds-expansion/src/module-help.csv`
-- `BMAD-CYBERSEC/src/**`
-- `reference/planning/framework/**`
-- `reference/planning/templates/**`
-- `reference/documentation/**`
-- `_planning/current/planning/2026-03-10-bmad-extension-implementation-plan.md`
+- `_bmad/modules/custom/bmm/module-help.csv`
+- `_bmad/modules/custom/core/module-help.csv`
+- `_bmad/modules/custom/bmm/workflows/**`
+- `_bmad/modules/custom/core/workflows/**`
+- `planning/**`
+- `planning/templates/**`
+- `docs/**`
+- shipped extension workflows already normalized into `_bmad/modules/custom/bmm/workflows/`
 
 ## Legend
 
@@ -58,7 +55,7 @@ Run this layer once at project start or when the project is being re-baselined.
 | --- | --- | --- | --- | --- |
 | 1 | Sync Repositories | `/bmad-bmm-sync-repositories` | Conditional | Approved `planning/repositories.yaml` updates when repo topology changed or was incomplete |
 | 2 | Workspace Bootstrap | `/bmad-bmm-workspace-bootstrap` | Conditional | Aggregate bootstrap report plus targeted repo initialization status from a workspace or orchestration root |
-| 3 | Initialize Docs | `/bmad-bmm-init-docs` | Required | Deployed docs tree in `docs/` plus migration and governance evidence derived from `reference/documentation/` |
+| 3 | Initialize Docs | `/bmad-bmm-init-docs` | Required | Deployed docs tree in `docs/` plus migration and governance evidence derived from `docs/` |
 | 4 | Initialize Planning | `/bmad-bmm-init-planning` | Required | Planning scaffold plus `roadmap.md`, `roadmap.yaml`, `phase.md`, and `phase-state.yaml` baselines |
 | 5 | Generate / Seed Project Context | `/bmad-bmm-generate-project-context` | Conditional | Brownfield context now, or greenfield seed context after high-level framing in `current/research/project-context/` |
 
@@ -69,7 +66,7 @@ Notes:
 - Initialization establishes structure and context. It should not try to complete detailed planning.
 - `Sync Repositories` is the topology-maintenance workflow for `planning/repositories.yaml`. Use it whenever repos are added, moved, or missed.
 - `Workspace Bootstrap` is the top-level safety-net workflow. It is only for `workspace` or `orchestration` roots and should reuse `Initialize Planning` plus `Initialize Docs` semantics for targeted repos.
-- `Initialize Docs` must read standards from `reference/documentation/` in `compass-engine`, but its deployed outputs belong in root `docs/`.
+- `Initialize Docs` must read standards from `docs/` in `compass-engine`, but its deployed outputs belong in root `docs/`.
 - Initialization should also verify `bd` is available, recover issue-tracking context with `bd prime` when needed, and ensure repo work will be tracked in Beads rather than ad hoc TODO lists.
 
 ### 2. High-Level Analysis
@@ -244,7 +241,7 @@ Notes:
 
 Story loop notes:
 
-- Before `DS`, perform a reuse check using `reference/planning/templates/implementation/reuse-check.md` or equivalent automation evidence.
+- Before `DS`, perform a reuse check using `planning/templates/implementation/reuse-check.md` or equivalent automation evidence.
 - `TA` is the preferred default post-dev automation lane.
 - `QA` is a secondary expansion lane for explicit API/E2E generation or when the project already has strong framework conventions and you want additional coverage beyond the main TEA lane.
 - `Code Review` stays before `Test Review`.
@@ -327,7 +324,7 @@ Notes:
 5. `repositories.yaml` is authoritative for repo routing and ownership.
 6. `initiative-index.yaml` is authoritative for concurrent initiative routing in orchestration scope.
 7. Project-level work writes to `roadmap/`; active-slice work writes to `current/`.
-8. Any remaining template-driven roadmap or phase steps should use `reference/planning/templates/` until dedicated slash commands exist.
+8. Any remaining template-driven roadmap or phase steps should use `planning/templates/` until dedicated slash commands exist.
 
 ## Beads Control Rules (Exact)
 
@@ -341,7 +338,7 @@ Notes:
 
 ## Documentation Control Rules (Exact)
 
-1. `reference/documentation/` is the canonical documentation framework source inside `compass-engine`.
+1. `docs/` is the canonical documentation framework source inside `compass-engine`.
 2. Deployed project documentation belongs in root `docs/`, not in `reference/`.
 3. Projects using Compass BMAD docs workflows must install the docs control-plane lanes required by the documentation framework:
    - `docs/human/policies/`
@@ -436,7 +433,7 @@ These are part of the operating model but not part of the main linear gate chain
 ### Automation Wrappers (Reference-Stage Orchestration Layer)
 
 These wrappers orchestrate the workflow above. They do not replace the canonical human-readable gate chain.
-They are intentionally documented in `reference/BMAD/tools/automation/` rather than exposed through `module-help.csv` until they become real runtime commands.
+They are intentionally documented in `_bmad/tools/automation/` rather than exposed through `module-help.csv` until they become real runtime commands.
 
 | Workflow | Proposed Command | Notes |
 | --- | --- | --- |
@@ -466,16 +463,12 @@ They remain `anytime` and do not insert into the Compass delivery spine.
 
 ## Source Files And Inputs Audited
 
-- `reference/BMAD/modules/custom/bmm/module-help.csv`
-- `reference/BMAD/modules/custom/core/module-help.csv`
-- `reference/BMAD/modules/custom/bmm/workflows/**`
-- `reference/BMAD/modules/custom/core/workflows/**`
-- `reference/BMAD/BMAD-workflow.md`
-- `reference/BMAD/research/**`
-- `reference/planning/framework/**`
-- `reference/planning/templates/**`
-- `reference/documentation/**`
-- `bmad-module-creative-intelligence-suite/src/**`
-- `bmad-method-wds-expansion/src/**`
-- `BMAD-CYBERSEC/src/**`
-- `_planning/current/planning/2026-03-10-bmad-extension-implementation-plan.md`
+- `_bmad/modules/custom/bmm/module-help.csv`
+- `_bmad/modules/custom/core/module-help.csv`
+- `_bmad/modules/custom/bmm/workflows/**`
+- `_bmad/modules/custom/core/workflows/**`
+- `_bmad/BMAD-workflow.md`
+- `planning/**`
+- `planning/templates/**`
+- `docs/**`
+- shipped extension workflows already normalized into `_bmad/modules/custom/bmm/workflows/`

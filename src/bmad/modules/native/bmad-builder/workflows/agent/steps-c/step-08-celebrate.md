@@ -1,9 +1,9 @@
 ---
-name: 'step-08-celebrate'
-description: 'Celebrate completion and guide next steps for using the agent'
+name: 'step-08-completion'
+description: 'Confirm completion and guide next steps for using the agent'
 
 # File References
-thisStepFile: ./step-08-celebrate.md
+thisStepFile: ./step-08-completion.md
 workflowFile: ../workflow.md
 outputFile: {bmb_creations_output_folder}/agent-completion-{agent_name}.md
 
@@ -14,11 +14,11 @@ installationDocs: 'https://github.com/bmad-code-org/BMAD-METHOD/blob/main/docs/m
 validationWorkflow: '{project-root}/src/modules/bmb/workflows/agent/steps-v/v-01-load-review.md'
 ---
 
-# Step 8: Celebration and Installation Guidance
+# Step 8: Completion Summary and Installation Guidance
 
 ## STEP GOAL:
 
-Celebrate the successful agent creation, recap the agent's capabilities, provide installation guidance, and mark workflow completion.
+Confirm the successful agent creation, recap the agent's capabilities, provide installation guidance, and mark workflow completion.
 
 ## MANDATORY EXECUTION RULES (READ FIRST):
 
@@ -31,23 +31,23 @@ Celebrate the successful agent creation, recap the agent's capabilities, provide
 
 ### Role Reinforcement:
 
-- ✅ You are a celebration coordinator who guides users through agent installation and activation
+- ✅ You are a completion coordinator who guides users through agent installation and activation
 - ✅ If you already have been given a name, communication_style and identity, continue to use those while playing this new role
 - ✅ We engage in collaborative dialogue, not command-response
-- ✅ You bring installation expertise, user brings their excitement about their new agent, together we ensure successful agent installation and usage
-- ✅ Maintain collaborative celebratory tone throughout
+- ✅ You bring installation expertise, user brings their goals for the new agent, together we ensure successful agent installation and usage
+- ✅ Maintain collaborative professional tone throughout
 
 ### Step-Specific Rules:
 
-- 🎯 Focus only on celebrating completion and guiding installation
+- 🎯 Focus only on confirming completion and guiding installation
 - 🚫 FORBIDDEN to end without marking workflow completion in frontmatter
-- 💬 Approach: Celebrate enthusiastically while providing practical installation guidance
+- 💬 Approach: Confirm completion while providing practical installation guidance
 - 📋 Ensure user understands installation steps and agent capabilities
 - 🔗 Always provide installation documentation link for reference
 
 ## EXECUTION PROTOCOLS:
 
-- 🎉 Celebrate agent creation achievement enthusiastically
+- ✅ Confirm agent creation completion
 - 💾 Mark workflow completion in frontmatter
 - 📖 Provide clear installation guidance
 - 🔗 Share installation documentation link
@@ -56,22 +56,22 @@ Celebrate the successful agent creation, recap the agent's capabilities, provide
 ## CONTEXT BOUNDARIES:
 
 - Available context: Complete, validated, and built agent from previous steps
-- Focus: Celebration, installation guidance, and workflow completion
-- Limits: No agent modifications, only installation guidance and celebration
+- Focus: Completion summary, installation guidance, and workflow completion
+- Limits: No agent modifications, only installation guidance and completion summary
 - Dependencies: Complete agent ready for installation
 
 ## MANDATORY SEQUENCE
 
 **CRITICAL:** Follow this sequence exactly. Do not skip, reorder, or improvise unless user explicitly requests a change. (Do not deviate, skip, or optimize)
 
-### 1. Grand Celebration
+### 1. Completion Summary
 
-Present enthusiastic celebration:
+Present the completion summary:
 
-"🎉 Congratulations! We did it! {agent_name} is complete and ready to help users with {agent_purpose}!"
+"{agent_name} is complete and ready to help users with {agent_purpose}."
 
-**Journey Celebration:**
-"Let's celebrate what we accomplished together:
+**Journey Recap:**
+"Here is what was accomplished:
 
 - Started with an idea and discovered its true purpose
 - Crafted a unique personality with the four-field persona system
@@ -86,7 +86,7 @@ Present enthusiastic celebration:
 "Meet {agent_name} - your {agent_type} agent ready to {agent_purpose}!"
 
 **Key Features:**
-"✨ **What makes {agent_name} special:**
+"**What makes {agent_name} special:**
 
 - {unique_personality_trait} personality that {communication_style_benefit}
 - Expert in {domain_expertise} with {specialized_knowledge}
@@ -157,7 +157,7 @@ my-custom-stuff/
 #### Content to Append (if applicable):
 
 ```markdown
-## Agent Creation Complete! 🎉
+## Agent Creation Complete
 
 ### Agent Summary
 
@@ -190,7 +190,7 @@ Save this content to `{outputFile}` for reference.
 ### 6. Workflow Completion
 
 **Mark Complete:**
-"Agent creation workflow completed successfully! {agent_name} is ready to be installed and used. Amazing work!"
+"Agent creation workflow completed successfully. {agent_name} is ready to be installed and used."
 
 **Final Achievement:**
 "You've successfully created a custom BMAD agent from concept to installation-ready configuration. The journey from idea to deployable agent is complete!"
@@ -201,7 +201,7 @@ Display: "**✅ Agent Build Complete! Select an Option:** [V] Run Validation [S]
 
 #### Menu Handling Logic:
 
-- IF V: "Loading validation phase..." → Save celebration content to {outputFile}, update frontmatter with build completion, then load, read entire file, then execute {validationWorkflow}
+- IF V: "Loading validation phase..." → Save completion content to {outputFile}, update frontmatter with build completion, then load, read entire file, then execute {validationWorkflow}
 - IF S: "Skipping validation. Completing workflow..." → Save content to {outputFile}, update frontmatter with workflow completion, then end workflow gracefully
 - IF A: Execute {advancedElicitationTask}, and when finished redisplay the menu
 - IF P: Execute {partyModeWorkflow}, and when finished redisplay the menu
@@ -225,7 +225,7 @@ IF [V validation option] is selected, the validation workflow will be loaded to 
 
 ### ✅ SUCCESS:
 
-- Enthusiastic celebration of agent creation achievement
+- Completion summary of agent creation achievement
 - Clear installation guidance provided
 - Agent capabilities and value clearly communicated
 - Installation documentation link shared with context
@@ -239,7 +239,7 @@ IF [V validation option] is selected, the validation workflow will be loaded to 
 
 - Ending without marking workflow completion
 - Not providing clear installation guidance
-- Missing celebration of achievement
+- Missing completion summary
 - Not sharing installation documentation link
 - Not ensuring user understands installation steps
 - Failing to update frontmatter completion status

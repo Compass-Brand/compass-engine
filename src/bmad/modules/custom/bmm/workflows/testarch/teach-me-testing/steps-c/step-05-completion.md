@@ -1,6 +1,6 @@
 ---
 name: 'step-05-completion'
-description: 'Generate completion certificate, final progress update, congratulate learner'
+description: 'Generate completion certificate, final progress update, confirm learner completion'
 
 progressFile: '{test_artifacts}/teaching-progress/{user_name}-tea-progress.yaml'
 certificateTemplate: '../templates/certificate-template.md'
@@ -11,7 +11,7 @@ certificateFile: '{test_artifacts}/tea-academy/{user_name}/tea-completion-certif
 
 ## STEP GOAL:
 
-To generate the TEA Academy completion certificate, update final progress, and congratulate the learner on completing all 7 sessions.
+To generate the TEA Academy completion certificate, update final progress, and confirm the learner has completed all 7 sessions.
 
 ## MANDATORY EXECUTION RULES (READ FIRST):
 
@@ -24,25 +24,25 @@ To generate the TEA Academy completion certificate, update final progress, and c
 ### Role Reinforcement:
 
 - ✅ Master Test Architect and Teaching Guide
-- ✅ Celebrating completion
+- ✅ Confirming completion
 
 ### Step-Specific Rules:
 
-- 🎯 Focus on completion and celebration
+- 🎯 Focus on completion verification and certificate generation
 - 🚫 FORBIDDEN to proceed without verifying all 7 sessions complete
-- 💬 Approach: Congratulate, generate certificate, inspire next steps
+- 💬 Approach: Confirm completion, generate certificate, present next steps
 
 ## EXECUTION PROTOCOLS:
 
 - 🎯 Verify all sessions complete
 - 💾 Generate completion certificate
 - 📖 Final progress update
-- 🎉 This is the final step - no next step
+- ✅ This is the final step - no next step
 
 ## CONTEXT BOUNDARIES:
 
 - Available context: Progress file with all 7 sessions completed
-- Focus: Certificate generation and celebration
+- Focus: Certificate generation and completion confirmation
 - Dependencies: All 7 sessions must be complete
 
 ## MANDATORY SEQUENCE
@@ -90,13 +90,11 @@ From progress file, calculate:
 
 - Extract score for each session (session-01 through session-07)
 
-### 3. Congratulations Message
+### 3. Completion Message
 
 Display:
 
-"🏆 **CONGRATULATIONS, {user_name}!**
-
-You've completed all 7 sessions of TEA Academy!
+"**{user_name}, all 7 sessions of TEA Academy are complete.**
 
 **Your Achievement:**
 
@@ -133,7 +131,7 @@ total_duration: { total_duration }
 average_score: { average_score }
 ---
 
-# 🏆 TEA Academy Completion Certificate
+# TEA Academy Completion Certificate
 
 ---
 
@@ -263,13 +261,11 @@ Save final progress file.
 
 Display the complete certificate content to the user.
 
-### 7. Final Celebration
+### 7. Final Summary
 
 Display:
 
-"🎉 **CONGRATULATIONS, {user_name}!** 🎉
-
-You've successfully completed the entire TEA Academy curriculum!
+"**{user_name}, the TEA Academy curriculum is now complete.**
 
 **Your Achievement:**
 
@@ -300,11 +296,11 @@ You've successfully completed the entire TEA Academy curriculum!
 3. Help onboard new team members
 4. Continue learning through knowledge fragments
 
-**Thank you for investing in testing excellence!** 🧪
+**Thank you for completing the testing curriculum.**
 
 ---
 
-**TEA Academy - Mission Accomplished** ✅"
+**TEA Academy -- Complete** ✅"
 
 ### 8. Workflow Complete
 
@@ -323,7 +319,7 @@ Workflow ends here. User can run the workflow again to re-take sessions or explo
 - Certificate generated with all session data
 - Certificate saved to file
 - Progress file updated with completion status
-- Final celebration message displayed
+- Final completion summary displayed
 - All artifacts paths provided to user
 - Workflow completes successfully
 
@@ -336,4 +332,4 @@ Workflow ends here. User can run the workflow again to re-take sessions or explo
 - Not providing artifact paths to user
 - Proceeding to next step (this is final - no next step)
 
-**Master Rule:** Verify completion, generate certificate, celebrate achievement, end workflow. This is the finale.
+**Master Rule:** Verify completion, generate certificate, confirm achievement, end workflow. This is the final step.

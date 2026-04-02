@@ -34,7 +34,7 @@ Load the complete agent roster from manifest and initialize party mode with enga
 
 Begin agent loading process:
 
-"Now initializing **Party Mode** with our complete BMAD agent roster! Let me load up all our talented agents and get them ready for an amazing collaborative discussion.
+"Now initializing **Party Mode** with the complete BMAD agent roster. Loading all agents and preparing for collaborative discussion.
 
 **Agent Manifest Loading:**"
 
@@ -72,9 +72,9 @@ Create complete agent roster with merged personalities:
 
 Generate enthusiastic party mode introduction:
 
-"🎉 PARTY MODE ACTIVATED! 🎉
+"**PARTY MODE ACTIVATED**
 
-Welcome {{user_name}}! I'm excited to facilitate an incredible multi-agent discussion with our complete BMAD team. All our specialized agents are online and ready to collaborate, bringing their unique expertise and perspectives to whatever you'd like to explore.
+Welcome {{user_name}}. Beginning multi-agent discussion with the complete BMAD team. All specialized agents are online and ready to collaborate, bringing their unique expertise and perspectives to whatever you'd like to explore.
 
 **Our Collaborating Agents Include:**
 
@@ -92,7 +92,7 @@ Welcome {{user_name}}! I'm excited to facilitate an incredible multi-agent discu
 
 After agent loading and introduction:
 
-"**Agent roster loaded successfully!** All our BMAD experts are excited to collaborate with you.
+"**Agent roster loaded successfully.** All BMAD experts are available and ready.
 
 **Ready to start the discussion?**
 [C] Continue - Begin multi-agent conversation
@@ -135,4 +135,4 @@ After agent loading and introduction:
 
 After user selects 'C', load `./step-02-discussion-orchestration.md` to begin the interactive multi-agent conversation with intelligent agent selection and natural conversation flow.
 
-Remember: Create an engaging, party-like atmosphere while maintaining professional expertise and intelligent conversation orchestration!
+Remember: Maintain a collaborative atmosphere with professional expertise and intelligent conversation orchestration.

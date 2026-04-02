@@ -89,22 +89,25 @@ Use structured decision-making for scope:
 
 ### 4. Progressive Feature Roadmap
 
+**Scope-Awareness Guard:** If the user's scope is narrow (single feature, smoke test, validation, or explicitly MVP-only), skip Phase 2 and Phase 3 planning. Only suggest future phases when the scope naturally spans multiple delivery milestones or the user has explicitly requested phased planning.
+
 Create phased development approach:
 - Guide mapping of features across development phases
-- Structure as Phase 1 (MVP), Phase 2 (Growth), Phase 3 (Vision)
+- For narrow scopes, focus entirely on MVP deliverables without introducing multi-phase planning
+- For broader scopes, structure as Phase 1 (MVP), Phase 2 (Growth), Phase 3 (Vision)
 - Ensure clear progression and dependencies
 
 - Core user value delivery
 - Essential user journeys
 - Basic functionality that works reliably
 
-**Phase 2: Growth**
+**Phase 2: Growth** _(only when multi-phase planning is appropriate)_
 
 - Additional user types
 - Enhanced features
 - Scale improvements
 
-**Phase 3: Expansion**
+**Phase 3: Expansion** _(only when multi-phase planning is appropriate)_
 
 - Advanced capabilities
 - Platform features
@@ -157,7 +160,9 @@ Prepare comprehensive scoping section:
 **Must-Have Capabilities:**
 {{list_of_essential_mvp_features}}
 
-### Post-MVP Features
+<!-- Include Post-MVP Features only when multi-phase planning was performed in this step. If the scope is narrow or explicitly single-phase, omit this section entirely. -->
+
+### Post-MVP Features _(omit if scope is narrow or single-phase)_
 
 **Phase 2 (Post-MVP):**
 {{planned_growth_features}}

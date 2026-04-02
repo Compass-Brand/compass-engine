@@ -8,8 +8,8 @@ Detailed conversation scripts for each phase of the handoff dialog.
 
 **You say:**
 ```
-"Hey Architect! I've completed the design for [Flow Name].
- I'd like to walk you through Design Delivery DD-XXX.
+"Architect, the design for [Flow Name] is complete.
+ Here is the walkthrough for Design Delivery DD-XXX.
 
  This delivery includes:
  - [Number] scenarios

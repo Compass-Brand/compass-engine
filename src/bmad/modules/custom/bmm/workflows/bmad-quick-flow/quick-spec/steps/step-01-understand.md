@@ -38,7 +38,7 @@ b) **IF WIP FILE EXISTS:**
 3. Present to user:
 
 ```
-Hey {user_name}! Found a tech-spec in progress:
+{user_name}, a tech-spec in progress was found:
 
 **{title}** - Step {lastStep} of 4 complete
 
@@ -64,7 +64,7 @@ a) **Menu Handling:**
 
 a) **Greet the user briefly:**
 
-"Hey {user_name}! What are we building today?"
+"{user_name}, what are we building today?"
 
 b) **Get their initial description.** Don't ask detailed questions yet - just understand enough to know where to look.
 
