@@ -111,9 +111,8 @@ Framework scaffolds do **not** count as substantive brownfield project documenta
 
 **Loading Rules:**
 
-- Load ALL discovered files completely that the user confirmed or provided (no offset/limit)
+- Load confirmed files using targeted reads. Read frontmatter and summary sections first. Load full content only for the product brief and any documents that directly inform PRD requirements. For sharded folders, load the index first and reference individual shards on demand.
 - If there is a project context, whatever is relevant should try to be biased in the remainder of this whole workflow process
-- For sharded folders, load ALL files to get complete picture, using the index first to potentially know the potential of each document
 - index.md is a guide to what's relevant whenever available
 - Track all successfully loaded files in frontmatter `inputDocuments` array
 - Track document counts in frontmatter `documentCounts`

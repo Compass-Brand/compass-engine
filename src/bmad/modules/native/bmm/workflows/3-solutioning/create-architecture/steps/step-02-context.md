@@ -55,9 +55,19 @@ Fully read and Analyze the loaded project documents to understand architectural 
 
 ### 1. Review Project Requirements
 
-**From PRD Analysis:**
+**When PRD is available (primary path):**
 
-- Extract and analyze Functional Requirements (FRs)
+The PRD has already captured functional and non-functional requirements. Do NOT re-extract or re-analyze them. Instead, focus on architectural implications:
+
+- Reference the PRD's requirement summaries for architectural context
+- Identify which requirements drive key architecture decisions (e.g., real-time needs imply WebSocket infrastructure, multi-tenancy implies data isolation patterns)
+- Note constraints or quality attributes that affect system design (performance targets, compliance mandates, scalability expectations)
+- Identify trade-offs that need resolution during architecture (e.g., consistency vs availability, build vs buy)
+- Flag any gaps where the PRD is silent but architecture needs a decision
+
+**When NO PRD is available (fallback):**
+
+- Extract and analyze Functional Requirements (FRs) from available documents
 - Identify Non-Functional Requirements (NFRs) like performance, security, compliance
 - Note any technical constraints or dependencies mentioned
 - Count and categorize requirements to understand project scale
@@ -67,17 +77,14 @@ Fully read and Analyze the loaded project documents to understand architectural 
 - Map epic structure and user stories to architectural components
 - Extract acceptance criteria for technical implications
 - Identify cross-cutting concerns that span multiple epics
-- Estimate story complexity for architectural planning
 
 **From UX Design (if available):**
 
 - Extract architectural implications from UX requirements:
   - Component complexity (simple forms vs rich interactions)
-  - Animation/transition requirements
   - Real-time update needs (live data, collaborative features)
   - Platform-specific UI requirements
   - Accessibility standards (WCAG compliance level)
-  - Responsive design breakpoints
   - Offline capability requirements
   - Performance expectations (load times, interaction responsiveness)
 

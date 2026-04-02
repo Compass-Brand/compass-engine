@@ -72,9 +72,9 @@ Try to discover the following:
 
 **Loading Rules:**
 
-- Load ALL discovered files completely that the user confirmed or provided (no offset/limit)
+- Load confirmed files using targeted reads. Read frontmatter and summary sections first. Load full PRD and product brief content (primary inputs for UX work). For research documents, load summaries unless specific UX decisions require deeper reading.
 - If there is a project context, whatever is relevant should try to be biased in the remainder of this whole workflow process
-- For sharded folders, load ALL files to get complete picture, using the index first to potentially know the potential of each document
+- For sharded folders, load the index first and reference individual shards on demand
 - index.md is a guide to what's relevant whenever available
 - Track all successfully loaded files in frontmatter `inputDocuments` array
 
