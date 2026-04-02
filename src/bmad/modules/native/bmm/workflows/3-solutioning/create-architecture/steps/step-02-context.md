@@ -43,9 +43,13 @@ This step will generate content and present choices:
 - Focus on architectural implications of requirements
 - No technology decisions yet - pure analysis phase
 
+## SCOPE-AWARE PRD GUARD:
+
+When a PRD is already available and the scope is narrow, use the PRD as the primary source for requirements and context. Skip comprehensive re-discovery and focus on any gaps specifically needed for architecture decisions. Do not re-examine requirements, NFRs, or constraints that are already settled in the PRD unless the user asks to revisit them.
+
 ## YOUR TASK:
 
-Fully read and Analyze the loaded project documents to understand architectural scope, requirements, and constraints before beginning decision making.
+Fully read and Analyze the loaded project documents to understand architectural scope, requirements, and constraints before beginning decision making. When a PRD has already been loaded, treat it as the source of truth and focus analysis on architectural implications rather than re-discovering requirements.
 
 ## CONTEXT ANALYSIS SEQUENCE:
 

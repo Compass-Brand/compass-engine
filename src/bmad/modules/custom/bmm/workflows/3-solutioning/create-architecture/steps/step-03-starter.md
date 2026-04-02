@@ -44,9 +44,13 @@ This step will generate content and present choices:
 - Focus on technical preferences discovery and starter evaluation
 - Consider project requirements and existing preferences when evaluating options
 
+## TECH STACK GUARD:
+
+If the user or the PRD has already specified the tech stack or starter template, skip the evaluation of alternatives. Proceed with the specified stack and focus on confirming it meets the requirements. Only present alternatives when no stack preference has been stated.
+
 ## YOUR TASK:
 
-Discover technical preferences and evaluate starter template options, leveraging existing technical preferences and establishing solid architectural foundations.
+Discover technical preferences and evaluate starter template options, leveraging existing technical preferences and establishing solid architectural foundations. When the tech stack is already decided, confirm compatibility with project requirements rather than researching alternatives.
 
 ## STARTER EVALUATION SEQUENCE:
 

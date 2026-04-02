@@ -39,20 +39,24 @@ Inspect the roadmap-level source artifacts:
 
 If brownfield planning snapshots exist, use them as background context, not as the new source of truth.
 
+## Scope-Awareness Guard
+
+Before generating any multi-phase structure, assess the scope of the user's inputs. If the user's scope is narrow (single feature, smoke test, validation, or a single-phase deliverable), produce a single-slice roadmap without expanding into future phases or deferred opportunities. Only generate multi-phase planning when the scope naturally requires phased delivery or the user explicitly requests a broader roadmap.
+
 ## Step 2: Identify Candidate Phases and Sequencing
 
 From the gathered inputs, derive:
 
-- candidate roadmap slices or phases
+- candidate roadmap slices or phases (a single slice when scope is narrow)
 - a recommended ordering
-- dependencies between phases
+- dependencies between phases (when multiple phases exist)
 - the recommended active phase
-- deferred or future opportunities
+- deferred or future opportunities (only when the scope warrants multi-phase planning)
 - execution scope for each phase (`repo`, `orchestration`, or `workspace`)
 - repo targets when execution scope is not `repo`
 - major risks or assumptions that affect ordering
 
-Keep the roadmap phase list concise and execution-oriented. Do not turn the roadmap into a backlog dump.
+Keep the roadmap phase list concise and execution-oriented. Do not turn the roadmap into a backlog dump. For narrow-scope projects, a single-phase roadmap is the expected output.
 
 ## Step 3: Draft the Roadmap Proposal
 
@@ -134,7 +138,7 @@ Ensure it includes:
 - active phase and objective
 - roadmap sequence table
 - phase index
-- deferred or future opportunities
+- deferred or future opportunities (only when the scope warrants multi-phase planning)
 - source artifact list
 - change log entry for this update
 

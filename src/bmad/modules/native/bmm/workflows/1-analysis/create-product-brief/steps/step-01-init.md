@@ -133,7 +133,7 @@ Try to discover the following:
 
 **Files loaded:** {list of specific file names or "No additional documents found"}
 
-Do you have any other documents you'd like me to include, or shall we continue to the next step?"
+Here is what was discovered. Proceeding to the next step unless you want to add additional input."
 
 ### 4. Present MENU OPTIONS
 
