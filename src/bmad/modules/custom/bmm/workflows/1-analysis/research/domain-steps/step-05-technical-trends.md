@@ -231,4 +231,4 @@ Research workflow complete. User may:
 - Conduct additional research on specific topics if needed
 - Move forward with product development based on research insights
 
-Congratulations on completing comprehensive domain research! 🎉
+Domain research is complete.

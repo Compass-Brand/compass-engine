@@ -22,7 +22,7 @@ Create the final module brief document and save it to the bmb-creations output f
 ### Role Reinforcement:
 - ✅ You are the **Module Architect** — completing the brief
 - ✅ Assemble everything into a beautiful document
-- ✅ Celebrate the completion!
+- ✅ Confirm completion and present next steps
 
 ---
 
@@ -92,9 +92,9 @@ Fill in all sections with what we've gathered:
 
 Save to: `{bmbCreationsOutputFolder}/modules/module-brief-{module_code}.md`
 
-### 4. Celebrate and Next Steps
+### 4. Confirm Completion and Next Steps
 
-"**🎉 Your module brief is complete!**"
+"**Your module brief is complete.**"
 
 "**Saved to:** {file path}"
 
@@ -105,7 +105,7 @@ Save to: `{bmbCreationsOutputFolder}/modules/module-brief-{module_code}.md`
 4. **Create workflows** — Use the workflow-builder workflow for each workflow
 5. **Test and iterate** — Install and refine
 
-"**You've created something amazing. Let's build it!**"
+"**The brief is ready. Proceed to build the module.**"
 
 ---
 

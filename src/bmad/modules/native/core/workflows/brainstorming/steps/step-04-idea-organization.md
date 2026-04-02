@@ -34,7 +34,7 @@ Organize all brainstorming ideas into coherent themes, facilitate prioritization
 
 Begin systematic review of all generated ideas:
 
-"**Outstanding creative work!** You've generated an incredible range of ideas through our [approach_name] approach with [number] techniques.
+"**Ideation phase complete.** You've generated a broad range of ideas through our [approach_name] approach with [number] techniques.
 
 **Session Achievement Summary:**
 
@@ -42,7 +42,7 @@ Begin systematic review of all generated ideas:
 - **Creative Techniques Used:** [list of completed techniques]
 - **Session Focus:** [session_topic] with emphasis on [session_goals]
 
-**Now let's organize these creative gems and identify your most promising opportunities for action.**
+**Now let's organize these ideas and identify the most promising opportunities for action.**
 
 **Loading all generated ideas for systematic organization...**"
 
@@ -217,7 +217,7 @@ Provide final session wrap-up and forward guidance:
 
 **Session Completion:**
 
-"**Congratulations on an incredibly productive brainstorming session!**
+"**Brainstorming session complete.**
 
 **Your Creative Achievements:**
 
@@ -298,6 +298,4 @@ After user selects 'C':
 - Creative breakthroughs and insights preserved for future use
 - User confidence high about moving ideas to implementation
 
-Congratulations on facilitating a transformative brainstorming session that generated innovative solutions and actionable outcomes! 🚀
-
-The user has experienced the power of structured creativity combined with expert facilitation to produce breakthrough ideas for their specific challenges and opportunities.
+Brainstorming session workflow complete. The structured creativity techniques combined with facilitation produced actionable ideas for the user's specific challenges and opportunities.

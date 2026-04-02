@@ -25,9 +25,9 @@ Complete the architecture workflow, provide a comprehensive completion summary, 
 
 ## COMPLETION SEQUENCE:
 
-### 1. Congratulate the User on Completion
+### 1. Confirm Completion
 
-Both you and the User completed something amazing here - give a summary of what you achieved together and really congratulate the user on a job well done.
+Summarize what was accomplished and confirm completion to the user.
 
 ### 2. Update the created document's frontmatter
 
@@ -61,7 +61,7 @@ Upon Completion of task output: offer to answer any questions about the Architec
 ❌ Not providing clear implementation guidance
 ❌ Missing final validation of document completeness
 ❌ Not updating workflow status appropriately
-❌ Failing to celebrate the successful completion
+❌ Failing to confirm successful completion
 ❌ Not providing specific next steps for the user
 ❌ Rushing completion without proper summary
 

@@ -56,7 +56,7 @@ Complete the product brief workflow, update status files, and provide guidance o
 ### 1. Announce Workflow Completion
 
 **Completion Announcement:**
-"🎉 **Product Brief Complete, {{user_name}}!**
+"**Product Brief Complete, {{user_name}}.**
 
 I've successfully collaborated with you to create a comprehensive Product Brief for {{project_name}}.
 
@@ -114,7 +114,7 @@ Provide guidance on logical next workflows:
 - Use brief to validate concept before committing to detailed work
 - Brief can guide early technical feasibility discussions
 
-### 4. Congrats to the user
+### 4. Confirm Completion
 
 "**Your Product Brief for {{project_name}} is now complete and ready for the next phase!**"
 
@@ -159,4 +159,4 @@ Product Brief complete. Read fully and follow: `{project-root}/_bmad/core/tasks/
 
 This product brief is now complete and serves as the strategic foundation for the entire product lifecycle. All subsequent design, architecture, and development work should trace back to the vision, user needs, and success criteria documented in this brief.
 
-**Congratulations on completing the Product Brief for {{project_name}}!** 🎉
+Product Brief for {{project_name}} is complete.

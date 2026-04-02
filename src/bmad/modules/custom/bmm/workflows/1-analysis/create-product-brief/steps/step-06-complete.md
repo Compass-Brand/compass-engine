@@ -56,7 +56,7 @@ Complete the product brief workflow, update status files, and provide guidance o
 ### 1. Announce Workflow Completion
 
 **Completion Announcement:**
-"🎉 **Product Brief Complete, {{user_name}}!**
+"**Product Brief Complete, {{user_name}}.**
 
 I've successfully collaborated with you to create a Product Brief for the current target repo.
 
@@ -114,7 +114,7 @@ Provide guidance on logical next workflows:
 - Use brief to validate concept before committing to detailed work
 - Brief can guide early technical feasibility discussions
 
-### 4. Congrats to the user
+### 4. Confirm Completion
 
 "**The Product Brief is now complete and ready for the next phase.**"
 

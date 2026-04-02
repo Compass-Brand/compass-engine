@@ -150,9 +150,9 @@ Bob (Scrum Master): "Good point, Charlie. {user_name}, we'll document what we ca
 
 <check if="epic is complete">
   <output>
-Alice (Product Owner): "Excellent! All {{done_stories}} stories are marked done."
+Alice (Product Owner): "Confirmed. All {{done_stories}} stories are marked done."
 
-Bob (Scrum Master): "Perfect. Epic {{epic_number}} is complete and ready for retrospective, {user_name}."
+Bob (Scrum Master): "Epic {{epic_number}} is complete and ready for retrospective, {user_name}."
 </output>
 </check>
 
@@ -896,7 +896,7 @@ Bob (Scrum Master): "These agreements are how we're committing to work different
 Elena (Junior Dev): "I like agreement 2 - that would've saved me on Story {{difficult_story_num}}."
 
 ═══════════════════════════════════════════════════════════
-🚀 EPIC {{next_epic_num}} PREPARATION TASKS:
+EPIC {{next_epic_num}} PREPARATION TASKS:
 ═══════════════════════════════════════════════════════════
 
 **Technical Setup:**
@@ -1280,7 +1280,7 @@ Charlie (Senior Dev): "Hear, hear."
 
 Alice (Product Owner): "I'm proud of what we shipped."
 
-Dana (QA Engineer): "And I'm excited about Epic {{next_epic_num}} - especially now that we're prepared for it."
+Dana (QA Engineer): "And we're well-positioned for Epic {{next_epic_num}} - especially now that we're prepared for it."
 
 Bob (Scrum Master): "{user_name}, any final thoughts before we close?"
 </output>
@@ -1290,7 +1290,7 @@ Bob (Scrum Master): "{user_name}, any final thoughts before we close?"
 <output>
 Bob (Scrum Master): [Acknowledges what {user_name} shared] "Thank you for that, {user_name}."
 
-Bob (Scrum Master): "Alright team - great work today. We learned a lot from Epic {{epic_number}}. Let's use these insights to make Epic {{next_epic_num}} even better."
+Bob (Scrum Master): "Alright team - good session. We learned a lot from Epic {{epic_number}}. Let's apply these insights to Epic {{next_epic_num}}."
 
 Bob (Scrum Master): "See you all when prep work is done. Meeting adjourned!"
 
@@ -1411,7 +1411,7 @@ Epic {{epic_number}} delivered {{completed_stories}} stories with {{velocity_sum
 
 ---
 
-Bob (Scrum Master): "Great session today, {user_name}. The team did excellent work."
+Bob (Scrum Master): "Good session today, {user_name}. Solid work from the team."
 
 Alice (Product Owner): "See you at epic planning!"
 

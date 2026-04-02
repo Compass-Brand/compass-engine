@@ -176,7 +176,7 @@ notes: |
 
 **Explain to user:**
 
-> "Excellent! We've created a Value Trigger Chain that shows:
+> "We've created a Value Trigger Chain that shows:
 >
 > **Business Goal:** [goal]
 > **User:** [name] who wants to [positive force] and avoid [negative force]

@@ -171,9 +171,9 @@ All components have been analyzed.
 
 Display:
 
-"**All Components Analyzed! 🎉**
+"**All Components Analyzed**
 
-Excellent work! All {components.length} components have been thoroughly analyzed using the STRIDE methodology.
+All {components.length} components have been thoroughly analyzed using the STRIDE methodology.
 
 **Analyzed Components:**
 {list-all-components-with-checkmarks}
