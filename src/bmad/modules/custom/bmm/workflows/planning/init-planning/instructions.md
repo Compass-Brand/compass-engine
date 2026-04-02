@@ -133,6 +133,8 @@ Ensure these directories exist:
 - `{planning_roadmap}/archive/storytelling/`
 - `{planning_roadmap}/archive/product-brief/`
 
+If `{oversight_mode}` is `true`, ensure `{current_oversight_dir}` exists. If it does not exist, create it and copy the template files from `{planning_templates_root}/oversight/risks.yaml` and `{planning_templates_root}/oversight/assumptions.yaml` into it.
+
 ## Step 5: Seed or Preserve the Authority Files
 
 Use `{planning_templates_root}` as the starter source for the four authority files:
