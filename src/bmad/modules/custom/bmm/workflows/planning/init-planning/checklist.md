@@ -16,7 +16,7 @@
 
 - [ ] `current/`, `roadmap/`, `previous/`, and `lessons/` exist
 - [ ] Active-phase working lanes exist under `{planning_current}`
-- [ ] `initiatives/` exists when repo scope is `workspace` or `orchestration`
+- [ ] `initiatives/` exists when repo scope is `workspace` or `orchestration` (skip for `delivery`)
 - [ ] Roadmap lanes exist under `{planning_roadmap}`
 - [ ] Archive lanes exist under `{planning_roadmap}/archive/`
 
@@ -26,10 +26,11 @@
 - [ ] `{roadmap_state_file}` exists
 - [ ] `{phase_snapshot_file}` exists
 - [ ] `{phase_state_file}` exists
-- [ ] `{planning_repositories_file}` exists when repo scope is `workspace` or `orchestration`
-- [ ] `{planning_initiative_index_file}` exists when repo scope is `workspace` or `orchestration`
+- [ ] `{planning_repositories_file}` exists when repo scope is `workspace` or `orchestration` (skip for `delivery` -- do not flag absence)
+- [ ] `{planning_initiative_index_file}` exists when repo scope is `workspace` or `orchestration` (skip for `delivery` -- do not flag absence)
 - [ ] Live framework files were preserved when already present
 - [ ] Missing or incomplete live files were reported instead of silently overwritten
+- [ ] For `delivery` scope: orchestration files were not seeded, migrated, or reported as gaps
 
 ## Outputs
 

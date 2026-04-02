@@ -107,14 +107,39 @@ Try to discover the following:
 
 Framework scaffolds do **not** count as substantive brownfield project documentation by themselves. Treat baseline docs templates, policies, initialization reports, and control-plane READMEs as scaffold-only unless they contain repo-specific product or operational context. If only scaffold files exist, treat the repo as greenfield with scaffold context, not brownfield.
 
+**Source Classification:**
+
+Separate discovered files into two tiers before presenting them to the user:
+
+1. **Primary Inputs** (authoritative source documents that define requirements):
+   - `roadmap.md`, `roadmap.yaml` - roadmap definitions
+   - `phase.md`, `phase-state.yaml` - phase definitions
+   - Product brief files (any `*brief*.md`)
+   - Research outputs (`*research*.md`)
+   - Brainstorming documents (`*brainstorm*.md`)
+   - Strategy documents (`*strategy*.md`)
+   - Project context (`project-context.md`)
+   - Substantive project documentation in `{project_knowledge}` or `docs`
+
+2. **Audit Context** (workflow artifacts available if needed, but not primary inputs):
+   - Files matching `auto-plan-*.md`
+   - Files matching `*-proposal.md`
+   - Files matching `*-report.md` (except research reports)
+   - Files matching `*-gate.md`
+   - Files matching `*-update-proposal*`
+   - Any file whose content is primarily a log, diff, or status report from a previous workflow run
+
+Present primary inputs in the main discovery list. List audit-context files separately under an "Audit context (available if needed)" heading so they do not clutter the primary input list. Do not auto-load audit-context files; only load them if the user explicitly requests it.
+
 <critical>Confirm what you have found with the user, along with asking if the user wants to provide anything else. Only after this confirmation will you proceed to follow the loading rules</critical>
 
 **Loading Rules:**
 
-- Load confirmed files using targeted reads. Read frontmatter and summary sections first. Load full content only for the product brief and any documents that directly inform PRD requirements. For sharded folders, load the index first and reference individual shards on demand.
+- Load confirmed **primary input** files using targeted reads. Read frontmatter and summary sections first. Load full content only for the product brief and any documents that directly inform PRD requirements. For sharded folders, load the index first and reference individual shards on demand.
+- Do NOT auto-load audit-context files. Only load them if the user explicitly asks for them.
 - If there is a project context, whatever is relevant should try to be biased in the remainder of this whole workflow process
 - index.md is a guide to what's relevant whenever available
-- Track all successfully loaded files in frontmatter `inputDocuments` array
+- Track all successfully loaded files in frontmatter `inputDocuments` array (primary inputs only; audit-context files go in a separate `auditContextFiles` array)
 - Track document counts in frontmatter `documentCounts`
 - Track `projectContextHint` in frontmatter as `greenfield` or `brownfield`
 - If only scaffold docs are available, prefer loading the minimal repo-specific context such as `docs/README.md`, `docs/BMAD-integration.md`, and any completed product brief instead of bulk-loading framework scaffolds
@@ -146,7 +171,11 @@ _Replace each {{variable}} with the actual count from discovery and evaluate eac
 - Brainstorming: {{brainstormingCount}} files {if brainstormingCount > 0}✓ loaded{else}(none found){/if}
 - Project docs: {{projectDocsCount}} substantive files {if projectDocsCount > 0}✓ loaded{else}(none found or scaffold-only){/if}
 
-**Files loaded:** {list of specific file names or "No additional documents found"}
+**Primary files loaded:** {list of specific primary input file names or "No additional documents found"}
+
+{if auditContextCount > 0}
+**Audit context (available if needed):** {{auditContextCount}} files found ({list of audit-context file names}). These are workflow artifacts from previous runs and are not loaded by default. Let me know if you want any of them included.
+{/if}
 
 **Project context:** {{projectContextHint}}
 
@@ -187,8 +216,8 @@ ONLY WHEN [C continue option] is selected and [frontmatter properly updated with
 
 - Existing workflow detected and properly handed off to step-01b
 - Fresh workflow initialized with template and proper frontmatter
-- Input documents discovered and loaded using sharded-first logic
-- All discovered files tracked in frontmatter `inputDocuments`
+- Input documents discovered, classified (primary vs audit-context), and loaded using sharded-first logic
+- Primary input files tracked in frontmatter `inputDocuments`; audit-context files tracked separately in `auditContextFiles`
 - User clearly informed of brownfield vs greenfield status
 - Menu presented and user input handled correctly
 - Frontmatter updated with this step name added to stepsCompleted before proceeding
@@ -201,6 +230,7 @@ ONLY WHEN [C continue option] is selected and [frontmatter properly updated with
 - Creating document without proper template structure
 - Not checking sharded folders first before whole files
 - Not reporting discovered documents to user clearly
+- Loading audit-trail artifacts as primary inputs (mixing noise with authoritative sources)
 - Proceeding without user selecting 'C' (Continue)
 
 **Master Rule:** Skipping steps, optimizing sequences, or not following exact instructions is FORBIDDEN and constitutes SYSTEM FAILURE.
