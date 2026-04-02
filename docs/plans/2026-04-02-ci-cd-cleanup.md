@@ -10,7 +10,7 @@
 
 ---
 
-### Task 1: Create drift-exclude config and update drift checker
+## Task 1: Create drift-exclude config and update drift checker
 
 **Files:**
 - Create: `src/github/.drift-exclude.yml`
@@ -76,7 +76,7 @@ git commit -m "feat: add drift-exclude config for distribution-only workflows"
 
 ---
 
-### Task 2: Remove irrelevant workflows from .github/
+## Task 2: Remove irrelevant workflows from .github/
 
 **Files:**
 - Delete: `.github/workflows/codeql.yml`
@@ -108,7 +108,7 @@ distribution to downstream repos that need them."
 
 ---
 
-### Task 3: Remove codeql from baseline feature group in push.js
+## Task 3: Remove codeql from baseline feature group in push.js
 
 **Files:**
 - Modify: `tools/push.js`
@@ -166,7 +166,7 @@ git commit -m "feat: split linting feature group and remove codeql from baseline
 
 ---
 
-### Task 4: Create lint-core.yml
+## Task 4: Create lint-core.yml
 
 **Files:**
 - Create: `src/github/workflows/lint-core.yml`
@@ -193,7 +193,7 @@ git commit -m "feat: create lint-core.yml with universal linting jobs"
 
 ---
 
-### Task 5: Create lint-languages.yml with detect job
+## Task 5: Create lint-languages.yml with detect job
 
 **Files:**
 - Create: `src/github/workflows/lint-languages.yml`
@@ -257,7 +257,7 @@ git commit -m "feat: create lint-languages.yml with zero-cost detect gate"
 
 ---
 
-### Task 6: Delete old linting.yml and deploy lint-core.yml
+## Task 6: Delete old linting.yml and deploy lint-core.yml
 
 **Files:**
 - Delete: `src/github/workflows/linting.yml`
@@ -302,7 +302,7 @@ Old linting.yml removed from both src/ and .github/."
 
 ---
 
-### Task 7: Verify end-to-end
+## Task 7: Verify end-to-end
 
 **Step 1: Run full validation**
 
