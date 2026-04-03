@@ -32,6 +32,13 @@
 - [ ] Missing or incomplete live files were reported instead of silently overwritten
 - [ ] For `delivery` scope: orchestration files were not seeded, migrated, or reported as gaps
 
+## Oversight Substrate
+
+- [ ] When `{oversight_mode}` is `true`: `{current_oversight_dir}` exists
+- [ ] When `{oversight_mode}` is `true`: `{current_oversight_dir}/risks.yaml` exists (copied from template)
+- [ ] When `{oversight_mode}` is `true`: `{current_oversight_dir}/assumptions.yaml` exists (copied from template)
+- [ ] When `{oversight_mode}` is `false`: oversight directory was not created
+
 ## Outputs
 
 - [ ] Initialization report written to `{default_output_file}`
