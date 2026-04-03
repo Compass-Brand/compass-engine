@@ -104,6 +104,7 @@ Try to discover the following:
 - Research Documents (`/*research*.md`)
 - Project Documentation (generally multiple documents might be found for this in the `{project_knowledge}` or `docs` folder.)
 - Project Context (`**/project-context.md`)
+- Whitepapers Digest (`{planning_roadmap}/whitepapers/whitepapers-digest.md` or `*whitepaper*digest*.md`)
 
 Framework scaffolds do **not** count as substantive brownfield project documentation by themselves. Treat baseline docs templates, policies, initialization reports, and control-plane READMEs as scaffold-only unless they contain repo-specific product or operational context. If only scaffold files exist, treat the repo as greenfield with scaffold context, not brownfield.
 
@@ -119,6 +120,7 @@ Separate discovered files into two tiers before presenting them to the user:
    - Brainstorming documents (`*brainstorm*.md`)
    - Strategy documents (`*strategy*.md`)
    - Project context (`project-context.md`)
+   - Whitepapers digest (`*whitepaper*digest*.md`)
    - Substantive project documentation in `{project_knowledge}` or `docs`
 
 2. **Audit Context** (workflow artifacts available if needed, but not primary inputs):
