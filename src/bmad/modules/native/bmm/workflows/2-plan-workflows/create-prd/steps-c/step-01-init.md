@@ -99,6 +99,7 @@ Try to discover the following:
 - Research Documents (`/*research*.md`)
 - Project Documentation (generally multiple documents might be found for this in the `{product_knowledge}` or `docs` folder.)
 - Project Context (`**/project-context.md`)
+- Whitepapers Digest (`{planning_roadmap}/whitepapers/whitepapers-digest.md` or `*whitepaper*digest*.md`)
 
 **Source Classification:**
 
@@ -112,6 +113,7 @@ Separate discovered files into two tiers before presenting them to the user:
    - Brainstorming documents (`*brainstorm*.md`)
    - Strategy documents (`*strategy*.md`)
    - Project context (`project-context.md`)
+   - Whitepapers digest (`*whitepaper*digest*.md`)
    - Substantive project documentation in `{product_knowledge}` or `docs`
 
 2. **Audit Context** (workflow artifacts available if needed, but not primary inputs):
