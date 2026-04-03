@@ -118,6 +118,7 @@ Ensure these directories exist:
 - `{planning_current}/testing/gates/draft/security/`
 - `{planning_current}/testing/gates/security/readiness/`
 - `{planning_current}/testing/gates/security/release/`
+- `{planning_current}/oversight/`
 - `{planning_roadmap}/brainstorming/`
 - `{planning_roadmap}/research/market/`
 - `{planning_roadmap}/research/domain/`
@@ -133,7 +134,17 @@ Ensure these directories exist:
 - `{planning_roadmap}/archive/storytelling/`
 - `{planning_roadmap}/archive/product-brief/`
 
-If `{oversight_mode}` is `true`, ensure `{current_oversight_dir}` exists. If it does not exist, create it and copy the template files from `{planning_templates_root}/oversight/risks.yaml` and `{planning_templates_root}/oversight/assumptions.yaml` into it.
+### Step 4a: Scaffold Oversight Directory
+
+<critical>This step is mandatory when `{oversight_mode}` is `true` (the default).</critical>
+
+When `{oversight_mode}` is `true`:
+
+1. Create `{current_oversight_dir}` if it does not exist.
+2. Copy `{planning_templates_root}/oversight/risks.yaml` into `{current_oversight_dir}/risks.yaml` if it does not already exist.
+3. Copy `{planning_templates_root}/oversight/assumptions.yaml` into `{current_oversight_dir}/assumptions.yaml` if it does not already exist.
+
+When `{oversight_mode}` is `false`, skip this step.
 
 ## Step 5: Seed or Preserve the Authority Files
 
