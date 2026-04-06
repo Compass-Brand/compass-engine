@@ -3,7 +3,7 @@
 
 agent:
   metadata:
-    id: "_bmad/modules/custom/bmm/agents/saga-analyst.md"
+    id: "_bmad/modules/custom/bmm/agents/wds-analyst.md"
     name: Saga
     title: Compass WDS Analyst
     icon: 📚

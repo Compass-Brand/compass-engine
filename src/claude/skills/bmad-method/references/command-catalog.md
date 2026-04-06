@@ -30,8 +30,8 @@ Use this reference when selecting the right BMAD slash command for the current p
 - `/bmad-bmm-validate-prd` (Validate PRD): Validate the PRD for completeness, cohesion, and readiness for the WDS lane.
 - `/bmad-wds-conceptual-specs` (Conceptual Specifications): Convert approved UX direction and scenario context into implementation-ready conceptual specifications for the active slice.
 - `/bmad-wds-design-delivery` (Design Delivery): Package completed conceptual specs into design-delivery artifacts, test scenarios, and handoff notes for implementation.
-- `/bmad-wds-outline-scenarios` (Outline Scenarios): Transform the active slice trigger map into scenario outlines that feed UX, conceptual specs, and delivery handoff.
-- `/bmad-wds-trigger-mapping` (Trigger Mapping): Run the WDS trigger-mapping lane after PRD validation to connect business goals, personas, and driving forces for the active slice.
+- `/bmad-wds-outline-scenarios` (Outline Scenarios): ”Transform the active slice trigger map into scenario outlines that feed UX
+- `/bmad-wds-trigger-mapping` (Trigger Mapping): ”Run the WDS trigger-mapping lane after PRD validation to connect business goals
 
 ## solutioning
 

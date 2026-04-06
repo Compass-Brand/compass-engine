@@ -3,7 +3,7 @@
 
 agent:
   metadata:
-    id: "_bmad/modules/custom/bmm/agents/freya-ux.md"
+    id: "_bmad/modules/custom/bmm/agents/wds-designer.md"
     name: Freya
     title: Compass WDS Designer
     icon: 🎨
