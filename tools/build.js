@@ -101,7 +101,6 @@ const TARGETS = [
 const CLAUDE_LOCAL_ONLY = ['settings.local.json', 'scratchpad', 'commands/local'];
 
 const DIST_BMAD_REFERENCE_CSVS = [
-  { relPath: '_config/workflow-manifest.csv', pathColumn: 3 },
   { relPath: '_config/bmad-help.csv', pathColumn: 5 },
   { relPath: 'modules/custom/bmm/module-help.csv', pathColumn: 5 },
 ];
@@ -408,9 +407,17 @@ async function validateBuild() {
   console.log('\nValidating build output...');
 
   const requiredChecks = [
-    { label: '_bmad', path: path.join(DIST_ROOT, '_bmad') },
     { label: '_bmad/BMAD-workflow.md', path: path.join(DIST_ROOT, '_bmad', 'BMAD-workflow.md') },
-    { label: '_bmad/modules/custom/bmm/module-help.csv', path: path.join(DIST_ROOT, '_bmad', 'modules', 'custom', 'bmm', 'module-help.csv') },
+    { label: '_bmad/bmm', path: path.join(DIST_ROOT, '_bmad', 'bmm') },
+    { label: '_bmad/bmm/module.yaml', path: path.join(DIST_ROOT, '_bmad', 'bmm', 'module.yaml') },
+    { label: '_bmad/bmm/module-help.csv', path: path.join(DIST_ROOT, '_bmad', 'bmm', 'module-help.csv') },
+    { label: '_bmad/core', path: path.join(DIST_ROOT, '_bmad', 'core') },
+    { label: '_bmad/core/module.yaml', path: path.join(DIST_ROOT, '_bmad', 'core', 'module.yaml') },
+    { label: '_bmad/core/module-help.csv', path: path.join(DIST_ROOT, '_bmad', 'core', 'module-help.csv') },
+    { label: '_bmad/bmm/1-analysis/bmad-agent-analyst/SKILL.md', path: path.join(DIST_ROOT, '_bmad', 'bmm', '1-analysis', 'bmad-agent-analyst', 'SKILL.md') },
+    { label: '_bmad/bmm/4-implementation/bmad-agent-dev/SKILL.md', path: path.join(DIST_ROOT, '_bmad', 'bmm', '4-implementation', 'bmad-agent-dev', 'SKILL.md') },
+    { label: '_bmad/core/bmad-brainstorming/SKILL.md', path: path.join(DIST_ROOT, '_bmad', 'core', 'bmad-brainstorming', 'SKILL.md') },
+    { label: '_bmad/modules/custom/bmm', path: path.join(DIST_ROOT, '_bmad', 'modules', 'custom', 'bmm') },
     { label: 'planning', path: path.join(DIST_ROOT, 'planning') },
     { label: 'planning/current/phase.md', path: path.join(DIST_ROOT, 'planning', 'current', 'phase.md') },
     { label: 'planning/roadmap/roadmap.md', path: path.join(DIST_ROOT, 'planning', 'roadmap', 'roadmap.md') },
