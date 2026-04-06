@@ -20,13 +20,39 @@ const CLAUDE_DIST = path.join(DIST_ROOT, '.claude');
 const CLAUDE_SRC = path.join(SRC, 'claude');
 const CLAUDE_DIRS = ['agents', 'commands', 'skills', 'rules', 'contexts', 'config', 'scripts'];
 
-const TARGETS = [
+const NATIVE_ROOT = path.join(SRC, 'bmad', 'modules', 'native');
+const CUSTOM_ROOT = path.join(SRC, 'bmad', 'modules', 'custom');
+const BMAD_DIST = path.join(DIST_ROOT, '_bmad');
+
+const SKILL_MODULES = [
   {
-    name: 'bmad',
-    src: path.join(SRC, 'bmad'),
-    dist: path.join(DIST_ROOT, '_bmad'),
-    required: ['BMAD-workflow.md', 'modules/custom/bmm/module-help.csv'],
+    name: 'bmm',
+    native: path.join(NATIVE_ROOT, 'bmm-skills'),
+    custom: path.join(CUSTOM_ROOT, 'bmm-skills'),
+    dist: path.join(BMAD_DIST, 'bmm'),
   },
+  {
+    name: 'core',
+    native: path.join(NATIVE_ROOT, 'core-skills'),
+    custom: path.join(CUSTOM_ROOT, 'core-skills'),
+    dist: path.join(BMAD_DIST, 'core'),
+  },
+];
+
+const CUSTOM_ONLY_MODULES = [
+  {
+    name: 'compass',
+    src: path.join(CUSTOM_ROOT, 'compass-skills'),
+    dist: path.join(BMAD_DIST, 'compass'),
+  },
+  {
+    name: 'bmad-builder',
+    src: path.join(CUSTOM_ROOT, 'bmad-builder-skills'),
+    dist: path.join(BMAD_DIST, 'bmad-builder'),
+  },
+];
+
+const TARGETS = [
   {
     name: 'planning',
     src: path.join(SRC, 'planning'),
@@ -75,7 +101,6 @@ const TARGETS = [
 const CLAUDE_LOCAL_ONLY = ['settings.local.json', 'scratchpad', 'commands/local'];
 
 const DIST_BMAD_REFERENCE_CSVS = [
-  { relPath: '_config/workflow-manifest.csv', pathColumn: 3 },
   { relPath: '_config/bmad-help.csv', pathColumn: 5 },
   { relPath: 'modules/custom/bmm/module-help.csv', pathColumn: 5 },
 ];
@@ -166,6 +191,77 @@ async function listFilesRecursive(rootPath, currentPath = rootPath, files = []) 
     }
   }
   return files;
+}
+
+async function mergeModules(nativePath, customPath, outputPath) {
+  await fs.mkdir(outputPath, { recursive: true });
+  if (await exists(nativePath)) {
+    await copyDir(nativePath, outputPath);
+  }
+  if (customPath && (await exists(customPath))) {
+    await copyDir(customPath, outputPath);
+  }
+}
+
+async function buildBmadCompat() {
+  const OLD_CUSTOM_BMM = path.join(CUSTOM_ROOT, 'bmm');
+  const OLD_CUSTOM_CORE = path.join(CUSTOM_ROOT, 'core');
+
+  if (!(await exists(OLD_CUSTOM_BMM)) && !(await exists(OLD_CUSTOM_CORE))) {
+    return;
+  }
+
+  console.log('  Applying old-format compatibility shim...');
+
+  if (await exists(OLD_CUSTOM_BMM)) {
+    const compatDest = path.join(BMAD_DIST, 'modules', 'custom', 'bmm');
+    await copyDir(OLD_CUSTOM_BMM, compatDest);
+    console.log('    Copied old custom/bmm/ → modules/custom/bmm/');
+  }
+
+  if (await exists(OLD_CUSTOM_CORE)) {
+    const compatDest = path.join(BMAD_DIST, 'modules', 'custom', 'core');
+    await copyDir(OLD_CUSTOM_CORE, compatDest);
+    console.log('    Copied old custom/core/ → modules/custom/core/');
+  }
+
+  const oldConfig = path.join(SRC, 'bmad', '_config');
+  if (await exists(oldConfig)) {
+    const configDest = path.join(BMAD_DIST, '_config');
+    await copyDir(oldConfig, configDest);
+    console.log('    Copied old _config/ manifests');
+  }
+}
+
+async function buildBmadSkills() {
+  console.log('\nBuilding _bmad (skill-based)...');
+  await fs.mkdir(BMAD_DIST, { recursive: true });
+
+  const bmadWorkflow = path.join(SRC, 'bmad', 'BMAD-workflow.md');
+  if (await exists(bmadWorkflow)) {
+    await fs.copyFile(bmadWorkflow, path.join(BMAD_DIST, 'BMAD-workflow.md'));
+    console.log('  Copied BMAD-workflow.md');
+  }
+
+  for (const mod of SKILL_MODULES) {
+    if (await exists(mod.native)) {
+      console.log(`  Merging ${mod.name} (native + custom)...`);
+      await mergeModules(mod.native, mod.custom, mod.dist);
+    } else {
+      console.log(`  Skipping ${mod.name}: native not found`);
+    }
+  }
+
+  for (const mod of CUSTOM_ONLY_MODULES) {
+    if (await exists(mod.src)) {
+      console.log(`  Copying ${mod.name} (custom-only)...`);
+      await copyDir(mod.src, mod.dist);
+    } else {
+      console.log(`  Skipping ${mod.name}: not found`);
+    }
+  }
+
+  await buildBmadCompat();
 }
 
 function mapInstalledBmadPathToDist(installedPath) {
@@ -311,9 +407,17 @@ async function validateBuild() {
   console.log('\nValidating build output...');
 
   const requiredChecks = [
-    { label: '_bmad', path: path.join(DIST_ROOT, '_bmad') },
     { label: '_bmad/BMAD-workflow.md', path: path.join(DIST_ROOT, '_bmad', 'BMAD-workflow.md') },
-    { label: '_bmad/modules/custom/bmm/module-help.csv', path: path.join(DIST_ROOT, '_bmad', 'modules', 'custom', 'bmm', 'module-help.csv') },
+    { label: '_bmad/bmm', path: path.join(DIST_ROOT, '_bmad', 'bmm') },
+    { label: '_bmad/bmm/module.yaml', path: path.join(DIST_ROOT, '_bmad', 'bmm', 'module.yaml') },
+    { label: '_bmad/bmm/module-help.csv', path: path.join(DIST_ROOT, '_bmad', 'bmm', 'module-help.csv') },
+    { label: '_bmad/core', path: path.join(DIST_ROOT, '_bmad', 'core') },
+    { label: '_bmad/core/module.yaml', path: path.join(DIST_ROOT, '_bmad', 'core', 'module.yaml') },
+    { label: '_bmad/core/module-help.csv', path: path.join(DIST_ROOT, '_bmad', 'core', 'module-help.csv') },
+    { label: '_bmad/bmm/1-analysis/bmad-agent-analyst/SKILL.md', path: path.join(DIST_ROOT, '_bmad', 'bmm', '1-analysis', 'bmad-agent-analyst', 'SKILL.md') },
+    { label: '_bmad/bmm/4-implementation/bmad-agent-dev/SKILL.md', path: path.join(DIST_ROOT, '_bmad', 'bmm', '4-implementation', 'bmad-agent-dev', 'SKILL.md') },
+    { label: '_bmad/core/bmad-brainstorming/SKILL.md', path: path.join(DIST_ROOT, '_bmad', 'core', 'bmad-brainstorming', 'SKILL.md') },
+    { label: '_bmad/modules/custom/bmm', path: path.join(DIST_ROOT, '_bmad', 'modules', 'custom', 'bmm') },
     { label: 'planning', path: path.join(DIST_ROOT, 'planning') },
     { label: 'planning/current/phase.md', path: path.join(DIST_ROOT, 'planning', 'current', 'phase.md') },
     { label: 'planning/roadmap/roadmap.md', path: path.join(DIST_ROOT, 'planning', 'roadmap', 'roadmap.md') },
@@ -363,6 +467,7 @@ async function build() {
 
   await cleanDist();
   await buildClaude();
+  await buildBmadSkills();
   for (const target of TARGETS) {
     await buildTarget(target);
   }
