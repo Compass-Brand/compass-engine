@@ -6,6 +6,7 @@ import { lint as markdownlint } from 'markdownlint/promise';
 
 const EXCLUDED_PREFIXES = [
   'reference/BMAD/',
+  'reference/migration-staging/',
   'src/bmad/modules/',
   '.claude-trace/',
 ];
