@@ -168,6 +168,16 @@ async function listFilesRecursive(rootPath, currentPath = rootPath, files = []) 
   return files;
 }
 
+async function mergeModules(nativePath, customPath, outputPath) {
+  await fs.mkdir(outputPath, { recursive: true });
+  if (await exists(nativePath)) {
+    await copyDir(nativePath, outputPath);
+  }
+  if (customPath && (await exists(customPath))) {
+    await copyDir(customPath, outputPath);
+  }
+}
+
 function mapInstalledBmadPathToDist(installedPath) {
   if (!installedPath.startsWith('_bmad/')) {
     return null;
