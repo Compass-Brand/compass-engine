@@ -1,16 +1,16 @@
 ---
-name: bmad-bmm-oversight-checkpoint
-description: "Generate a verification report from oversight risk and assumption registers."
+name: bmad-bmm-create-excalidraw-dataflow
+description: "Create data flow diagrams (DFD) in Excalidraw format - can be called standalone or during any workflow to add visual documentation."
 ---
 
-# /bmad-bmm-oversight-checkpoint
+# /bmad-bmm-create-excalidraw-dataflow
 
-Use this OpenCode command to invoke the Compass BMAD workflow entry point for `bmad-bmm-oversight-checkpoint`.
+Use this Claude command to invoke the Compass BMAD workflow entry point for `bmad-bmm-create-excalidraw-dataflow`.
 
 ## Scope
 
-- Covered phases: governance
-- Primary agents: John (Product Manager)
+- Covered phases: anytime
+- Primary agents: Sally (UX Designer)
 
 ## Execution Rules
 
@@ -23,13 +23,12 @@ Use this OpenCode command to invoke the Compass BMAD workflow entry point for `b
 
 ## Catalog Entries
 
-### Oversight Checkpoint
-- Phase: `0-governance`
+### Create Dataflow
+- Phase: `anytime`
 - Module: `bmm`
-- Workflow: `_bmad/modules/custom/bmm/workflows/0-governance/oversight-checkpoint/workflow.md`
-- Preferred agent: John (Product Manager)
+- Workflow: `_bmad/modules/native/bmm/workflows/excalidraw-diagrams/create-dataflow/workflow.yaml`
+- Preferred agent: Sally (UX Designer)
 - Mode / options: Create Mode
-- Output lane: `oversight_report_file`
-- Expected outputs: verification report|risk register|assumption register
-- Required checkpoint: yes
-- Summary: Generate a verification report from oversight risk and assumption registers.
+- Output lane: `planning_artifacts`
+- Expected outputs: dataflow diagram
+- Summary: Create data flow diagrams (DFD) in Excalidraw format - can be called standalone or during any workflow to add visual documentation.

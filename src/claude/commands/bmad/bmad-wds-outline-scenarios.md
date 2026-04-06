@@ -1,6 +1,6 @@
 ---
 name: bmad-wds-outline-scenarios
-description: "Transform the active slice trigger map into scenario outlines that feed UX, conceptual specs, and delivery handoff."
+description: "”Transform the active slice trigger map into scenario outlines that feed UX"
 ---
 
 # /bmad-wds-outline-scenarios
@@ -10,7 +10,7 @@ Use this Claude command to invoke the Compass BMAD workflow entry point for `bma
 ## Scope
 
 - Covered phases: planning
-- Primary agents: Saga (Compass WDS Analyst)
+- Primary agents: ”Saga” (”Compass WDS Analyst”)
 
 ## Execution Rules
 
@@ -27,8 +27,8 @@ Use this Claude command to invoke the Compass BMAD workflow entry point for `bma
 - Phase: `2-planning`
 - Module: `bmm`
 - Workflow: `_bmad/modules/custom/bmm/workflows/2-plan-workflows/outline-scenarios/workflow.md`
-- Preferred agent: Saga (Compass WDS Analyst)
-- Mode / options: Create Mode
-- Output lane: `current_outline_scenarios_dir`
-- Expected outputs: scenario index|scenario outlines
-- Summary: Transform the active slice trigger map into scenario outlines that feed UX, conceptual specs, and delivery handoff.
+- Preferred agent: ”Saga” (”Compass WDS Analyst”)
+- Mode / options: ”Create Mode”
+- Output lane: `conceptual specs`
+- Expected outputs: and delivery handoff.”
+- Summary: ”Transform the active slice trigger map into scenario outlines that feed UX

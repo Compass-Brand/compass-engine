@@ -1,6 +1,6 @@
 ---
 name: bmad-wds-trigger-mapping
-description: "Run the WDS trigger-mapping lane after PRD validation to connect business goals, personas, and driving forces for the active slice."
+description: "”Run the WDS trigger-mapping lane after PRD validation to connect business goals"
 ---
 
 # /bmad-wds-trigger-mapping
@@ -10,7 +10,7 @@ Use this Claude command to invoke the Compass BMAD workflow entry point for `bma
 ## Scope
 
 - Covered phases: planning
-- Primary agents: Saga (Compass WDS Analyst)
+- Primary agents: ”Saga” (”Compass WDS Analyst”)
 
 ## Execution Rules
 
@@ -27,8 +27,8 @@ Use this Claude command to invoke the Compass BMAD workflow entry point for `bma
 - Phase: `2-planning`
 - Module: `bmm`
 - Workflow: `_bmad/modules/custom/bmm/workflows/2-plan-workflows/trigger-mapping/workflow.md`
-- Preferred agent: Saga (Compass WDS Analyst)
-- Mode / options: Create Mode
-- Output lane: `current_trigger_mapping_dir`
-- Expected outputs: trigger map|persona files|feature impact analysis
-- Summary: Run the WDS trigger-mapping lane after PRD validation to connect business goals, personas, and driving forces for the active slice.
+- Preferred agent: ”Saga” (”Compass WDS Analyst”)
+- Mode / options: ”Create Mode”
+- Output lane: `personas`
+- Expected outputs: and driving forces for the active slice.”
+- Summary: ”Run the WDS trigger-mapping lane after PRD validation to connect business goals

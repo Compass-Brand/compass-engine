@@ -1,16 +1,16 @@
 ---
-name: bmad-wds-trigger-mapping
-description: "”Run the WDS trigger-mapping lane after PRD validation to connect business goals"
+name: bmad-bmm-create-excalidraw-wireframe
+description: "Create website or app wireframes in Excalidraw format."
 ---
 
-# /bmad-wds-trigger-mapping
+# /bmad-bmm-create-excalidraw-wireframe
 
-Use this OpenCode command to invoke the Compass BMAD workflow entry point for `bmad-wds-trigger-mapping`.
+Use this Claude command to invoke the Compass BMAD workflow entry point for `bmad-bmm-create-excalidraw-wireframe`.
 
 ## Scope
 
-- Covered phases: planning
-- Primary agents: ”Saga” (”Compass WDS Analyst”)
+- Covered phases: anytime
+- Primary agents: Sally (UX Designer)
 
 ## Execution Rules
 
@@ -23,12 +23,12 @@ Use this OpenCode command to invoke the Compass BMAD workflow entry point for `b
 
 ## Catalog Entries
 
-### Trigger Mapping
-- Phase: `2-planning`
+### Create Wireframe
+- Phase: `anytime`
 - Module: `bmm`
-- Workflow: `_bmad/modules/custom/bmm/workflows/2-plan-workflows/trigger-mapping/workflow.md`
-- Preferred agent: ”Saga” (”Compass WDS Analyst”)
-- Mode / options: ”Create Mode”
-- Output lane: `personas`
-- Expected outputs: and driving forces for the active slice.”
-- Summary: ”Run the WDS trigger-mapping lane after PRD validation to connect business goals
+- Workflow: `_bmad/modules/native/bmm/workflows/excalidraw-diagrams/create-wireframe/workflow.yaml`
+- Preferred agent: Sally (UX Designer)
+- Mode / options: Create Mode
+- Output lane: `planning_artifacts`
+- Expected outputs: wireframe
+- Summary: Create website or app wireframes in Excalidraw format.

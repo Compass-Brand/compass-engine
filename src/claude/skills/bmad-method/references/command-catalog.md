@@ -30,8 +30,8 @@ Use this reference when selecting the right BMAD slash command for the current p
 - `/bmad-bmm-validate-prd` (Validate PRD): Validate the PRD for completeness, cohesion, and readiness for the WDS lane.
 - `/bmad-wds-conceptual-specs` (Conceptual Specifications): Convert approved UX direction and scenario context into implementation-ready conceptual specifications for the active slice.
 - `/bmad-wds-design-delivery` (Design Delivery): Package completed conceptual specs into design-delivery artifacts, test scenarios, and handoff notes for implementation.
-- `/bmad-wds-outline-scenarios` (Outline Scenarios): Transform the active slice trigger map into scenario outlines that feed UX, conceptual specs, and delivery handoff.
-- `/bmad-wds-trigger-mapping` (Trigger Mapping): Run the WDS trigger-mapping lane after PRD validation to connect business goals, personas, and driving forces for the active slice.
+- `/bmad-wds-outline-scenarios` (Outline Scenarios): ”Transform the active slice trigger map into scenario outlines that feed UX
+- `/bmad-wds-trigger-mapping` (Trigger Mapping): ”Run the WDS trigger-mapping lane after PRD validation to connect business goals
 
 ## solutioning
 
@@ -73,6 +73,10 @@ Use this reference when selecting the right BMAD slash command for the current p
 
 - `/bmad-autonomous-refinement-loop` (Autonomous Refinement Loop): Run autonomous party-mode and auto-elicitation loops with agent teams until zero unresolved issues remain; manual Party Mode and Advanced Elicitation remain available separately. Escalates only on blocked fixes.
 - `/bmad-bmm-correct-course` (Correct Course): Anytime: navigate significant changes. May recommend restart, PRD updates, architecture changes, sprint replanning, or story corrections.
+- `/bmad-bmm-create-excalidraw-dataflow` (Create Dataflow): Create data flow diagrams (DFD) in Excalidraw format - can be called standalone or during any workflow to add visual documentation.
+- `/bmad-bmm-create-excalidraw-diagram` (Create Diagram): Create system architecture diagrams, ERDs, UML diagrams, or general technical diagrams in Excalidraw format.
+- `/bmad-bmm-create-excalidraw-flowchart` (Create Flowchart): Create flowchart visualizations in Excalidraw format for processes, pipelines, or logic flows.
+- `/bmad-bmm-create-excalidraw-wireframe` (Create Wireframe): Create website or app wireframes in Excalidraw format.
 - `/bmad-bmm-generate-project-context` (Generate Project Context): Generate or refresh the lean project-context artifact for the active roadmap slice or brownfield repo state.
 - `/bmad-bmm-init-docs` (Initialize Docs): Migrate existing documentation into Compass opinionated docs structure while preserving legacy docs in dated migration snapshots.
 - `/bmad-bmm-init-planning` (Initialize Planning): Normalize existing planning into the Compass roadmap-driven planning structure while preserving legacy planning in dated migration snapshots.

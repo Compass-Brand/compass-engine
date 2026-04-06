@@ -22,8 +22,8 @@ const DEFAULT_PROJECT_CANDIDATES = [
   'compass-brand-infrastructure',
   'compass-brand-setup',
   'mcps',
-  'legacy-system-analyzer',
-  'competitor-analysis-toolkit',
+  'compass-services/legacy-system-analyzer',
+  'compass-services/competitor-analysis-toolkit',
 ];
 
 const TARGETS = {

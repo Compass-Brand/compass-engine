@@ -1,16 +1,16 @@
 ---
-name: bmad-bmm-ingest-whitepapers
-description: "Ingest external whitepapers into a condensed digest for downstream BMAD workflows."
+name: bmad-bmm-create-excalidraw-wireframe
+description: "Create website or app wireframes in Excalidraw format."
 ---
 
-# /bmad-bmm-ingest-whitepapers
+# /bmad-bmm-create-excalidraw-wireframe
 
-Use this OpenCode command to invoke the Compass BMAD workflow entry point for `bmad-bmm-ingest-whitepapers`.
+Use this OpenCode command to invoke the Compass BMAD workflow entry point for `bmad-bmm-create-excalidraw-wireframe`.
 
 ## Scope
 
-- Covered phases: analysis
-- Primary agents: Analyst
+- Covered phases: anytime
+- Primary agents: Sally (UX Designer)
 
 ## Execution Rules
 
@@ -23,13 +23,12 @@ Use this OpenCode command to invoke the Compass BMAD workflow entry point for `b
 
 ## Catalog Entries
 
-### Ingest Whitepapers
-- Phase: `1-analysis`
+### Create Wireframe
+- Phase: `anytime`
 - Module: `bmm`
-- Workflow: `_bmad/modules/custom/bmm/workflows/1-analysis/ingest-whitepapers/workflow.md`
-- Preferred agent: Analyst
+- Workflow: `_bmad/modules/native/bmm/workflows/excalidraw-diagrams/create-wireframe/workflow.yaml`
+- Preferred agent: Sally (UX Designer)
 - Mode / options: Create Mode
-- Output lane: `planning_roadmap`
-- Expected outputs: whitepapers-digest.md
-- Required checkpoint: yes
-- Summary: Ingest external whitepapers into a condensed digest for downstream BMAD workflows.
+- Output lane: `planning_artifacts`
+- Expected outputs: wireframe
+- Summary: Create website or app wireframes in Excalidraw format.
