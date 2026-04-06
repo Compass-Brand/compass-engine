@@ -294,6 +294,7 @@ async function validateSkillFormat() {
   const moduleRoots = [
     path.join(ROOT, 'src', 'bmad', 'modules', 'native', 'bmm-skills'),
     path.join(ROOT, 'src', 'bmad', 'modules', 'native', 'core-skills'),
+    path.join(ROOT, 'src', 'bmad', 'modules', 'custom', 'bmm-skills'),
   ];
 
   for (const moduleRoot of moduleRoots) {
