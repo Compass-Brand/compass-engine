@@ -8,6 +8,7 @@ export const shippedTargets = [
   '.opencode',
   '.github',
   'root',
+  'beads',
 ];
 
 export const maintainerTools = [

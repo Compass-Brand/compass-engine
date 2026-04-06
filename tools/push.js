@@ -88,6 +88,11 @@ const TARGETS = {
     syncStrategy: 'managed',
     manifestName: 'compass-engine-root-sync.json',
   },
+  beads: {
+    destName: 'beads',
+    distName: 'beads',
+    localOnly: [],
+  },
 };
 
 const DEFAULT_TARGETS = [
@@ -99,6 +104,7 @@ const DEFAULT_TARGETS = [
   'opencode',
   'github',
   'root',
+  'beads',
 ];
 
 const GITHUB_FEATURE_GROUPS = {
@@ -192,7 +198,7 @@ Usage:
 Options:
   --project <path>       Push to specific project (default: current directory)
   --all                  Push to all discovered Compass Brand projects
-  --targets <list>       Comma-separated targets (bmad,planning,documentation,claude,codex,opencode,github,root)
+  --targets <list>       Comma-separated targets (bmad,planning,documentation,claude,codex,opencode,github,root,beads)
   --github-features <l>  Optional GitHub bundle subset (all or: ${listFeatureNames(GITHUB_FEATURE_GROUPS)})
   --root-features <l>    Optional root bundle subset (all or: ${listFeatureNames(ROOT_FEATURE_GROUPS)})
   --projects-config <p>  Optional file with one project path per line

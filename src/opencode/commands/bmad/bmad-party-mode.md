@@ -10,7 +10,7 @@ Use this OpenCode command to invoke the Compass BMAD workflow entry point for `b
 ## Scope
 
 - Covered phases: anytime
-- Primary agents: party-mode facilitator
+- Primary agents: workflow-defined
 
 ## Execution Rules
 
@@ -27,5 +27,4 @@ Use this OpenCode command to invoke the Compass BMAD workflow entry point for `b
 - Phase: `anytime`
 - Module: `core`
 - Workflow: `_bmad/modules/custom/core/workflows/party-mode/workflow.md`
-- Preferred agent: party-mode facilitator
 - Summary: Orchestrate multi-agent discussions. Use when you need multiple agent perspectives or want agents to collaborate.
