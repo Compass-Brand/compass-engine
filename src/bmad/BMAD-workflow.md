@@ -29,14 +29,14 @@ Some approved steps still do not have a dedicated slash command. Remaining templ
 
 ## Inputs Used For This Ordering
 
-- `_bmad/modules/custom/bmm/module-help.csv`
-- `_bmad/modules/custom/core/module-help.csv`
-- `_bmad/modules/custom/bmm/workflows/**`
-- `_bmad/modules/custom/core/workflows/**`
+- `_bmad/bmm/module-help.csv`
+- `_bmad/core/module-help.csv`
+- `_bmad/bmm/workflows/**`
+- `_bmad/core/workflows/**`
 - `planning/**`
 - `planning/templates/**`
 - `docs/**`
-- shipped extension workflows already normalized into `_bmad/modules/custom/bmm/workflows/`
+- shipped extension workflows already normalized into `_bmad/bmm/workflows/`
 
 ## Legend
 
@@ -463,12 +463,12 @@ They remain `anytime` and do not insert into the Compass delivery spine.
 
 ## Source Files And Inputs Audited
 
-- `_bmad/modules/custom/bmm/module-help.csv`
-- `_bmad/modules/custom/core/module-help.csv`
-- `_bmad/modules/custom/bmm/workflows/**`
-- `_bmad/modules/custom/core/workflows/**`
+- `_bmad/bmm/module-help.csv`
+- `_bmad/core/module-help.csv`
+- `_bmad/bmm/workflows/**`
+- `_bmad/core/workflows/**`
 - `_bmad/BMAD-workflow.md`
 - `planning/**`
 - `planning/templates/**`
 - `docs/**`
-- shipped extension workflows already normalized into `_bmad/modules/custom/bmm/workflows/`
+- shipped extension workflows already normalized into `_bmad/bmm/workflows/`
