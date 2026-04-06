@@ -272,34 +272,25 @@ Unchanged — operates on `dist/` which is just a different shape.
 
 ---
 
-### Phase 2: Convert Custom BMM Overrides
+### Phase 2: Convert Custom BMM Overrides ✅
 
-**Scope:** Convert the 9 Compass agent persona overrides from old `.agent.yaml` format to upstream skill format.
+**Status:** Complete (PR #76, merged 2026-04-06)
 
-**Current state:** 17 `.agent.yaml` files in `custom/bmm/agents/`. Of these, 9 override upstream agents (analyst, architect, dev, pm, qa, sm, ux-designer, quick-flow-solo-dev, tech-writer) and 8 are Compass-only (handled in Phase 3).
+**Scope:** Create Compass-specific agent overrides in upstream skill format for agents that differ from upstream v6.2.2.
 
-**Work:**
-- Create `custom/bmm-skills/` directory structure mirroring upstream phases
-- For each of the 9 override agents, create a skill directory with:
-  - `SKILL.md` — entry point with Compass-customized activation instructions
-  - `bmad-skill-manifest.yaml` — Compass persona data (displayName, identity, communicationStyle, principles)
-- Place overrides in the correct phase directories matching upstream layout:
-  - `1-analysis/bmad-agent-analyst/` (Mary)
-  - `1-analysis/bmad-agent-tech-writer/` (Paige) + sidecar files
-  - `2-plan-workflows/bmad-agent-pm/` (John)
-  - `2-plan-workflows/bmad-agent-ux-designer/` (Sally)
-  - `3-solutioning/bmad-agent-architect/` (Winston)
-  - `4-implementation/bmad-agent-dev/` (Amelia)
-  - `4-implementation/bmad-agent-qa/` (Quinn)
-  - `4-implementation/bmad-agent-sm/` (Bob)
-  - `4-implementation/bmad-agent-quick-flow-solo-dev/` (Barry)
-- Verify build merges correctly: `dist/_bmad/bmm/` should contain Compass personas, not upstream defaults
-- Remove old override agents from `custom/bmm/agents/` (keep Compass-only agents for Phase 3)
-- Remove agent `.md` documentation files created earlier (superseded by SKILL.md content)
+**Key finding:** Only 3 of the original 9 agents have meaningful Compass-specific differences. The other 6 (PM, UX Designer, Architect, Dev, QA, SM) have identical persona data, capabilities, and activation flow to upstream — upstream v6.2.2 already incorporated them. Creating overrides for identical agents would duplicate content and create maintenance burden.
+
+**What was done:**
+- Extended `validateSkillFormat()` to also scan `custom/bmm-skills/`
+- Created 3 Compass agent overrides in `custom/bmm-skills/`:
+  - `1-analysis/bmad-agent-analyst/` (Mary) — DP capability changed from `bmad-document-project` to `bmad-compass-init-docs`
+  - `1-analysis/bmad-agent-tech-writer/` (Paige) — 3 additional capabilities (DU, DV, US), Compass-specific principles about `docs/human/policies/`, sidecar files (update-standards.md, documentation-standards.md)
+  - `4-implementation/bmad-agent-quick-flow-solo-dev/` (Barry) — restored QS (quick-spec) capability that upstream merged into unified QD
+- Verified build merge produces correct output (Compass overrides replace upstream defaults)
+
+**Old agent files NOT removed:** The old `.agent.yaml` and `.md` files in `custom/bmm/agents/` are still referenced by `agent-manifest.csv`, the old orchestrator, `buildBmadCompat()`, and `validateCustomBmadAgentExecPaths()`. They will be removed in Phase 3 when all old-format content goes away together.
 
 **Does NOT include:** Converting Compass-only agents (wds-designer, wds-analyst, security-architect, threat-analyst, tea, creative-problem-solver, design-thinking-coach, innovation-strategist) — those go to `compass-skills/` in Phase 3.
-
-**Exit criteria:** `custom/bmm-skills/` exists with 9 agent overrides in skill format. Build produces merged `dist/_bmad/bmm/` with Compass personas replacing upstream defaults. Old override `.agent.yaml` files removed.
 
 ---
 
