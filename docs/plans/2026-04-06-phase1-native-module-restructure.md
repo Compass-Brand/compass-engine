@@ -147,7 +147,7 @@ Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
 
 ---
 
-## Task 3: Add Skill-Aware Module Walker to build.js
+## Task 3: Add Module Merge Function to build.js
 
 **Files:**
 - Modify: `tools/build.js`
@@ -156,46 +156,11 @@ Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
 
 The current build copies `src/bmad/` to `dist/_bmad/` as a flat directory tree. The new build needs to:
 
-1. Walk skill directories (find `SKILL.md` files)
-2. Merge native + custom (custom directory wins)
+1. Copy entire native module tree to output
+2. Overlay entire custom module tree (custom files win)
 3. Output flat module layout (`dist/_bmad/bmm/`, `dist/_bmad/core/`)
 
-### Step 1: Add the `discoverSkillDirs` function
-
-Add this function to `build.js` after the existing utility functions. It walks a module directory and returns a map of skill-name → absolute-path for every directory containing a `SKILL.md`.
-
-```javascript
-/**
- * Discover all skill directories within a module root.
- * A skill directory is any directory containing a SKILL.md file.
- * Returns Map<relativePathFromRoot, absolutePath> keyed by the relative
- * path from moduleRoot (e.g., '1-analysis/bmad-agent-analyst') to avoid
- * collisions when skills in different phases share a directory name.
- */
-async function discoverSkillDirs(moduleRoot) {
-  const skills = new Map();
-
-  async function walk(dir) {
-    const entries = await fs.readdir(dir, { withFileTypes: true });
-    for (const entry of entries) {
-      if (!entry.isDirectory()) continue;
-      const fullPath = path.join(dir, entry.name);
-      const skillFile = path.join(fullPath, 'SKILL.md');
-      if (await exists(skillFile)) {
-        const relPath = normalizePath(path.relative(moduleRoot, fullPath));
-        skills.set(relPath, fullPath);
-      } else {
-        await walk(fullPath);
-      }
-    }
-  }
-
-  await walk(moduleRoot);
-  return skills;
-}
-```
-
-### Step 2: Add the `mergeModules` function
+### Step 1: Add the `mergeModules` function
 
 This function takes a native module path and optional custom module path, discovers skills in both, and copies them to the output directory. Custom skills with the same name replace native ones entirely.
 
@@ -240,11 +205,10 @@ Expected: no syntax errors.
 
 ```bash
 git add tools/build.js
-git commit -m "feat(build): add skill directory walker and module merge functions
+git commit -m "feat(build): add module merge function for skill-based layout
 
-discoverSkillDirs() finds all directories containing SKILL.md.
 mergeModules() combines native + custom modules with custom-wins
-semantics, preserving phase directory structure.
+semantics by copying the entire native tree then overlaying custom.
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
 ```
@@ -302,6 +266,14 @@ const CUSTOM_ONLY_MODULES = [
 async function buildBmadSkills() {
   console.log('\nBuilding _bmad (skill-based)...');
   await fs.mkdir(BMAD_DIST, { recursive: true });
+
+  // Copy root-level BMAD files (e.g., BMAD-workflow.md) that aren't part of any module
+  // but are referenced by orchestrator agents at runtime (_bmad/BMAD-workflow.md)
+  const bmadWorkflow = path.join(SRC, 'bmad', 'BMAD-workflow.md');
+  if (await exists(bmadWorkflow)) {
+    await fs.copyFile(bmadWorkflow, path.join(BMAD_DIST, 'BMAD-workflow.md'));
+    console.log('  Copied BMAD-workflow.md');
+  }
 
   // Merged modules (native + custom)
   for (const mod of SKILL_MODULES) {
@@ -433,6 +405,8 @@ Replace the existing `requiredChecks` array with checks that reflect the new lay
 
 ```javascript
 const requiredChecks = [
+  // Root BMAD files (referenced by orchestrator agents)
+  { label: '_bmad/BMAD-workflow.md', path: path.join(DIST_ROOT, '_bmad', 'BMAD-workflow.md') },
   // New skill-based layout
   { label: '_bmad/bmm', path: path.join(DIST_ROOT, '_bmad', 'bmm') },
   { label: '_bmad/bmm/module.yaml', path: path.join(DIST_ROOT, '_bmad', 'bmm', 'module.yaml') },
@@ -506,7 +480,7 @@ Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
 
 Add new skill-based paths. Keep old custom paths that are still in use.
 
-Remove this old path (file may be updated/removed but is no longer the primary BMAD entry):
+**Keep** this path (orchestrator agents reference `_bmad/BMAD-workflow.md` at runtime):
 ```
 'src/bmad/BMAD-workflow.md'
 ```
@@ -625,13 +599,38 @@ Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
 
 ---
 
-## Task 7: Remove Old Native Module Directories
+## Task 7: Fix Excalidraw CSV Paths and Remove Old Native Directories
+
+The 4 excalidraw entries added to CSVs earlier reference `_bmad/modules/native/bmm/workflows/excalidraw-diagrams/...` paths. These paths will be deleted. The upstream v6.2.2 excalidraw content exists in the new `native/bmm-skills/` and will be merged to `dist/_bmad/bmm/`, but the old CSV paths won't match.
+
+**Fix:** Remove the 4 excalidraw entries from `bmad-help.csv` and `module-help.csv`. The excalidraw functionality will be restored in Phase 5 when client skills are generated from the upstream `module-help.csv`. Also remove them from `workflow-manifest.csv` (which gets deleted in Task 8 anyway, but we need validate to pass first).
 
 **Files:**
+- Modify: `src/bmad/_config/bmad-help.csv` (remove 4 excalidraw rows)
+- Modify: `src/bmad/_config/workflow-manifest.csv` (remove 4 excalidraw rows)
+- Modify: `src/bmad/modules/custom/bmm/module-help.csv` (remove 4 excalidraw rows)
 - Delete: `src/bmad/modules/native/bmm/` (entire directory)
 - Delete: `src/bmad/modules/native/core/` (entire directory)
 - Delete: `src/bmad/modules/native/bmad-builder/` (entire directory, moving to custom in Phase 3)
 - Delete: `src/bmad/modules/native/test-architecture/` (entire directory, moving to custom in Phase 3)
+
+### Step 0: Remove excalidraw entries from old-format CSVs
+
+Remove the 4 lines referencing `_bmad/modules/native/bmm/workflows/excalidraw-diagrams/` from:
+- `src/bmad/_config/bmad-help.csv`
+- `src/bmad/_config/workflow-manifest.csv`
+- `src/bmad/modules/custom/bmm/module-help.csv`
+
+Also remove the corresponding generated command files:
+```bash
+rm -f src/claude/commands/bmad/bmad-bmm-create-excalidraw-*.md
+rm -f src/opencode/commands/bmad/bmad-bmm-create-excalidraw-*.md
+```
+
+Then re-sync to clean up:
+```bash
+node tools/sync-client-bundles.js
+```
 
 ### Step 1: Verify new native modules are committed
 
