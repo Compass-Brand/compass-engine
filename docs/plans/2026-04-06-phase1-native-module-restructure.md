@@ -196,10 +196,10 @@ async function mergeModules(nativePath, customPath, outputPath) {
 ### Step 3: Run validation to make sure build.js still parses
 
 ```bash
-node -e "import('./tools/build.js')"
+node --input-type=module -e "await import('./tools/build.js')"
 ```
 
-Expected: no syntax errors.
+Expected: no syntax errors (exits cleanly).
 
 ### Step 4: Commit
 
@@ -374,7 +374,7 @@ And remove the `bmad` entry from the `TARGETS` array (the one with `src: path.jo
 node tools/build.js
 ```
 
-Expected: Build completes. `dist/_bmad/bmm/` contains skill directories from upstream. `dist/_bmad/_compat/bmm/` contains old custom content. Some validation checks may fail — that's expected and will be fixed in Task 5.
+Expected: Build completes. `dist/_bmad/bmm/` contains skill directories from upstream. `dist/_bmad/modules/custom/bmm/` contains old custom content at CSV-referenced paths. Some validation checks may fail — that's expected and will be fixed in Task 5.
 
 ### Step 5: Commit
 
@@ -383,8 +383,8 @@ git add tools/build.js
 git commit -m "feat(build): add skill-based BMAD build with compatibility shim
 
 buildBmadSkills() merges native/custom skill modules into flat
-dist/_bmad/ layout. Old-format custom content copies to _compat/
-subdirectory until Phases 2-3 convert it to skill format.
+dist/_bmad/ layout. Old-format custom content copies to
+dist/_bmad/modules/custom/ matching CSV-referenced paths.
 
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
 ```
@@ -399,9 +399,10 @@ Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
 ### Step 1: Update required checks in `validateBuild`
 
 Replace the existing `requiredChecks` array with checks that reflect the new layout. The key changes:
-- `_bmad/BMAD-workflow.md` → no longer required (was old-format)
-- `_bmad/modules/custom/bmm/module-help.csv` → replaced by `_bmad/bmm/module-help.csv`
-- Add checks for new skill-based paths
+- Add `_bmad/BMAD-workflow.md` check (still needed by orchestrator agents)
+- Add `_bmad/bmm/` and `_bmad/core/` skill-based layout checks
+- Keep `_bmad/modules/custom/bmm` check (compat shim, still needed for CSV compatibility)
+- Remove old paths that no longer exist
 
 ```javascript
 const requiredChecks = [
@@ -566,7 +567,18 @@ async function validateSkillFormat() {
 
 ### Step 3: Add `validateSkillFormat` to the `validate()` function
 
-In the `validate()` function, add `validateSkillFormat()` to the `Promise.all` checks array.
+In the `validate()` function, locate the `Promise.all` call (around line 294) and add `validateSkillFormat()`:
+
+```javascript
+const checks = await Promise.all([
+  validateRequiredPaths(),
+  validateCodexConfig(),
+  validateSourceSecretScan(),
+  validateBmadReferenceCsvs(),
+  validateCustomBmadAgentExecPaths(),
+  validateSkillFormat(),  // ← Add this
+]);
+```
 
 ### Step 4: Verify old BMAD CSV validation still passes
 
@@ -616,7 +628,15 @@ The 4 excalidraw entries added to CSVs earlier reference `_bmad/modules/native/b
 
 ### Step 0: Remove excalidraw entries from old-format CSVs
 
-Remove the 4 lines referencing `_bmad/modules/native/bmm/workflows/excalidraw-diagrams/` from:
+First verify exactly 4 entries exist in each CSV:
+```bash
+echo "bmad-help.csv:" && grep -c "excalidraw-diagrams" src/bmad/_config/bmad-help.csv
+echo "workflow-manifest.csv:" && grep -c "excalidraw-diagrams" src/bmad/_config/workflow-manifest.csv
+echo "module-help.csv:" && grep -c "excalidraw-diagrams" src/bmad/modules/custom/bmm/module-help.csv
+```
+Expected: 4 in each.
+
+Then remove the 4 lines referencing `_bmad/modules/native/bmm/workflows/excalidraw-diagrams/` from:
 - `src/bmad/_config/bmad-help.csv`
 - `src/bmad/_config/workflow-manifest.csv`
 - `src/bmad/modules/custom/bmm/module-help.csv`
@@ -627,7 +647,7 @@ rm -f src/claude/commands/bmad/bmad-bmm-create-excalidraw-*.md
 rm -f src/opencode/commands/bmad/bmad-bmm-create-excalidraw-*.md
 ```
 
-Then re-sync to clean up:
+Then re-sync to clean up command catalogs and skill references:
 ```bash
 node tools/sync-client-bundles.js
 ```
@@ -667,7 +687,7 @@ node tools/validate.js
 node tools/build.js
 ```
 
-Both must pass. The build should produce `dist/_bmad/bmm/` from the new skill modules and `dist/_bmad/_compat/` from old custom content.
+Both must pass. The build should produce `dist/_bmad/bmm/` from the new skill modules and `dist/_bmad/modules/custom/` from old custom content.
 
 ### Step 5: Commit
 
