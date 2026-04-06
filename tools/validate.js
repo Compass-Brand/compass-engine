@@ -27,6 +27,10 @@ const REQUIRED_PATHS = [
   'src/codex/prompts/bmad-help.md',
   'src/bmad/BMAD-workflow.md',
   'src/bmad/modules/custom/bmm/module-help.csv',
+  'src/bmad/modules/native/bmm-skills/module.yaml',
+  'src/bmad/modules/native/bmm-skills/module-help.csv',
+  'src/bmad/modules/native/core-skills/module.yaml',
+  'src/bmad/modules/native/core-skills/module-help.csv',
   'src/documentation/README.md',
   'src/documentation/human/policies/documentation-governance.md',
   'src/documentation/ai/README.md',
@@ -53,7 +57,6 @@ const REQUIRED_PATHS = [
 ];
 
 const BMAD_REFERENCE_CSVS = [
-  { relPath: 'src/bmad/_config/workflow-manifest.csv', pathColumn: 3 },
   { relPath: 'src/bmad/_config/bmad-help.csv', pathColumn: 5 },
   { relPath: 'src/bmad/modules/custom/bmm/module-help.csv', pathColumn: 5 },
 ];
@@ -286,6 +289,51 @@ async function validateSourceSecretScan() {
   return ok;
 }
 
+async function validateSkillFormat() {
+  let ok = true;
+  const moduleRoots = [
+    path.join(ROOT, 'src', 'bmad', 'modules', 'native', 'bmm-skills'),
+    path.join(ROOT, 'src', 'bmad', 'modules', 'native', 'core-skills'),
+  ];
+
+  for (const moduleRoot of moduleRoots) {
+    if (!(await exists(path.relative(ROOT, moduleRoot)))) continue;
+    const skillFiles = await listFilesRecursive(moduleRoot);
+
+    for (const filePath of skillFiles) {
+      const normalized = filePath.replace(/\\/g, '/');
+      if (!normalized.endsWith('/SKILL.md')) continue;
+      const content = await fs.readFile(filePath, 'utf-8');
+      const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
+
+      if (!frontmatterMatch) {
+        console.error(`ERROR ${path.relative(ROOT, filePath)}: missing YAML frontmatter`);
+        ok = false;
+        continue;
+      }
+
+      const nameMatch = frontmatterMatch[1].match(/^name:\s*(.+)$/m);
+      if (!nameMatch) {
+        console.error(`ERROR ${path.relative(ROOT, filePath)}: missing 'name' in frontmatter`);
+        ok = false;
+        continue;
+      }
+
+      const skillName = nameMatch[1].trim().replace(/['"]/g, '');
+      const dirName = path.basename(path.dirname(filePath));
+      if (skillName !== dirName) {
+        console.error(
+          `ERROR ${path.relative(ROOT, filePath)}: name '${skillName}' does not match directory '${dirName}'`,
+        );
+        ok = false;
+      }
+    }
+  }
+
+  if (ok) console.log('OK skill format validation');
+  return ok;
+}
+
 async function validate() {
   console.log('\n=================================');
   console.log('  Compass Engine Validate');
@@ -297,6 +345,7 @@ async function validate() {
     validateSourceSecretScan(),
     validateBmadReferenceCsvs(),
     validateCustomBmadAgentExecPaths(),
+    validateSkillFormat(),
   ]);
 
   if (checks.every(Boolean)) {
