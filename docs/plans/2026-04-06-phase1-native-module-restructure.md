@@ -31,13 +31,18 @@ Every skill is a directory containing at minimum a `SKILL.md` file:
 bmad-create-product-brief/
 ├── SKILL.md                    # Entry point with name/description frontmatter
 ├── workflow.md                 # Orchestration logic (optional)
-├── bmad-skill-manifest.yaml    # Agent metadata (agents only)
+├── bmad-skill-manifest.yaml    # Agent metadata (agents only, most use this name)
+├── bmad-manifest.json          # Alternative manifest format (bmad-product-brief uses this)
 └── steps/                      # Micro-step files (optional)
     ├── step-01-init.md
     └── step-02-discovery.md
 ```
 
 Modules are organized by phase: `1-analysis/`, `2-plan-workflows/`, `3-solutioning/`, `4-implementation/`.
+
+**Important:** Phase directories may contain non-skill content alongside skill directories. For example, `2-plan-workflows/create-prd/` has no SKILL.md but contains 164KB of legacy validation steps referenced by other skills. The build must copy ALL content from phase directories, not just skill directories.
+
+**Note:** Two core skills (`bmad-distillator`, `bmad-init`) include Python scripts in `scripts/` subdirectories with tests.
 
 ### Key files to read before starting
 
@@ -163,7 +168,9 @@ Add this function to `build.js` after the existing utility functions. It walks a
 /**
  * Discover all skill directories within a module root.
  * A skill directory is any directory containing a SKILL.md file.
- * Returns Map<skillName, absolutePath> where skillName is the directory name.
+ * Returns Map<relativePathFromRoot, absolutePath> keyed by the relative
+ * path from moduleRoot (e.g., '1-analysis/bmad-agent-analyst') to avoid
+ * collisions when skills in different phases share a directory name.
  */
 async function discoverSkillDirs(moduleRoot) {
   const skills = new Map();
@@ -175,7 +182,8 @@ async function discoverSkillDirs(moduleRoot) {
       const fullPath = path.join(dir, entry.name);
       const skillFile = path.join(fullPath, 'SKILL.md');
       if (await exists(skillFile)) {
-        skills.set(entry.name, fullPath);
+        const relPath = normalizePath(path.relative(moduleRoot, fullPath));
+        skills.set(relPath, fullPath);
       } else {
         await walk(fullPath);
       }
@@ -194,63 +202,31 @@ This function takes a native module path and optional custom module path, discov
 ```javascript
 /**
  * Merge native and custom skill modules into a flat output directory.
- * Custom skills override native skills of the same name (full replacement).
+ *
+ * Strategy: Copy the ENTIRE native module tree first (preserving all content
+ * including non-skill directories like create-prd/ which has legacy validation
+ * steps). Then overlay the entire custom tree on top — custom files overwrite
+ * native files of the same path. This ensures nothing is lost.
+ *
  * Non-skill files at the module root (module.yaml, module-help.csv) are
  * copied from native first, then overwritten by custom if present.
  */
 async function mergeModules(nativePath, customPath, outputPath) {
   await fs.mkdir(outputPath, { recursive: true });
 
-  // Copy module root files from native (module.yaml, module-help.csv, etc.)
+  // Step 1: Copy the ENTIRE native module tree (all content, not just skills)
   if (await exists(nativePath)) {
-    const rootEntries = await fs.readdir(nativePath, { withFileTypes: true });
-    for (const entry of rootEntries) {
-      if (entry.isFile()) {
-        await fs.copyFile(path.join(nativePath, entry.name), path.join(outputPath, entry.name));
-      }
-    }
+    await copyDir(nativePath, outputPath);
   }
 
-  // Overlay module root files from custom (if present)
+  // Step 2: Overlay the ENTIRE custom tree on top (custom files win)
   if (customPath && (await exists(customPath))) {
-    const rootEntries = await fs.readdir(customPath, { withFileTypes: true });
-    for (const entry of rootEntries) {
-      if (entry.isFile()) {
-        await fs.copyFile(path.join(customPath, entry.name), path.join(outputPath, entry.name));
-      }
-    }
-  }
-
-  // Discover skills from both trees
-  const nativeSkills = (await exists(nativePath)) ? await discoverSkillDirs(nativePath) : new Map();
-  const customSkills =
-    customPath && (await exists(customPath)) ? await discoverSkillDirs(customPath) : new Map();
-
-  // Merge: native first, custom overwrites
-  const mergedSkills = new Map([...nativeSkills, ...customSkills]);
-
-  // Determine output paths preserving phase directory structure
-  for (const [skillName, skillSrcPath] of mergedSkills) {
-    // Compute the relative path from the module root to preserve phase dirs
-    const moduleRoot = customSkills.has(skillName) ? customPath : nativePath;
-    const relativePath = path.relative(moduleRoot, skillSrcPath);
-    const skillDestPath = path.join(outputPath, relativePath);
-    await copyDir(skillSrcPath, skillDestPath);
-  }
-
-  // Copy non-skill phase directories (directories that contain skills but aren't skills themselves)
-  // The phase dirs (1-analysis/, 2-plan-workflows/, etc.) may contain non-skill files
-  for (const sourceRoot of [nativePath, customPath].filter(Boolean)) {
-    if (!(await exists(sourceRoot))) continue;
-    const entries = await fs.readdir(sourceRoot, { withFileTypes: true });
-    for (const entry of entries) {
-      if (!entry.isDirectory()) continue;
-      const destDir = path.join(outputPath, entry.name);
-      await fs.mkdir(destDir, { recursive: true });
-    }
+    await copyDir(customPath, outputPath);
   }
 }
 ```
+
+**Why this is simpler than skill-aware merging:** The old approach tried to discover individual skill directories and copy them selectively, which would silently lose non-skill content (e.g., `2-plan-workflows/create-prd/` has no SKILL.md but contains 164KB of validation steps used by other skills). Copying the entire tree then overlaying custom ensures nothing is lost. The custom-wins semantics still work because `copyDir` overwrites files at matching paths.
 
 ### Step 3: Run validation to make sure build.js still parses
 
@@ -354,14 +330,18 @@ async function buildBmadSkills() {
 
 ### Step 2: Add `buildBmadCompat` compatibility shim
 
-This function copies old-format custom content (`custom/bmm/`, `custom/core/`) into the dist tree so everything keeps working until Phases 2-3 convert them. It merges into the already-built skill output without overwriting skill directories.
+This function copies old-format custom content to the EXACT paths that `bmad-help.csv` references, so `sync-client-bundles.js` and other tools continue working. The CSV references paths like `_bmad/modules/custom/bmm/workflows/...`, so old content must exist at those paths in dist.
 
 ```javascript
 /**
  * Temporary compatibility shim for old-format custom modules.
- * Copies content from custom/bmm/ and custom/core/ into the merged dist,
- * preserving the old directory layout alongside new skill directories.
- * This function is removed in Phase 3 after all custom content is converted.
+ *
+ * CRITICAL: bmad-help.csv references paths like _bmad/modules/custom/bmm/workflows/...
+ * and sync-client-bundles.js reads these paths. We MUST copy old custom content to
+ * dist/_bmad/modules/custom/ (the exact paths the CSVs reference) so tools don't break.
+ *
+ * This function is removed in Phase 3 after all custom content is converted and
+ * bmad-help.csv is replaced by per-module module-help.csv.
  */
 async function buildBmadCompat() {
   const OLD_CUSTOM_BMM = path.join(CUSTOM_ROOT, 'bmm');
@@ -374,18 +354,18 @@ async function buildBmadCompat() {
 
   console.log('  Applying old-format compatibility shim...');
 
-  // Copy old custom bmm content into dist/_bmad/ with _compat prefix
-  // to avoid colliding with the new skill-based bmm/ directory
+  // Copy old custom content to the EXACT paths that bmad-help.csv references
+  // (dist/_bmad/modules/custom/bmm/ and dist/_bmad/modules/custom/core/)
   if (await exists(OLD_CUSTOM_BMM)) {
-    const compatDest = path.join(BMAD_DIST, '_compat', 'bmm');
-    await copyDir(OLD_CUSTOM_BMM, compatDest, { baseDir: OLD_CUSTOM_BMM });
-    console.log('    Copied old custom/bmm/ → _compat/bmm/');
+    const compatDest = path.join(BMAD_DIST, 'modules', 'custom', 'bmm');
+    await copyDir(OLD_CUSTOM_BMM, compatDest);
+    console.log('    Copied old custom/bmm/ → modules/custom/bmm/');
   }
 
   if (await exists(OLD_CUSTOM_CORE)) {
-    const compatDest = path.join(BMAD_DIST, '_compat', 'core');
-    await copyDir(OLD_CUSTOM_CORE, compatDest, { baseDir: OLD_CUSTOM_CORE });
-    console.log('    Copied old custom/core/ → _compat/core/');
+    const compatDest = path.join(BMAD_DIST, 'modules', 'custom', 'core');
+    await copyDir(OLD_CUSTOM_CORE, compatDest);
+    console.log('    Copied old custom/core/ → modules/custom/core/');
   }
 
   // Copy old _config manifests for backward compatibility
@@ -397,6 +377,8 @@ async function buildBmadCompat() {
   }
 }
 ```
+
+**Why `modules/custom/` not `_compat/`:** The `bmad-help.csv` CSV has hardcoded paths like `_bmad/modules/custom/bmm/workflows/...`. Tools like `sync-client-bundles.js` and `validateDistBmadReferences` resolve these against `dist/_bmad/`. If we put the content at a different path, every CSV and every tool that reads those CSVs would break. Keeping the exact path means zero changes to CSVs or downstream tools during Phase 1.
 
 ### Step 3: Update the `build()` function to use `buildBmadSkills`
 
@@ -462,8 +444,8 @@ const requiredChecks = [
   { label: '_bmad/bmm/1-analysis/bmad-agent-analyst/SKILL.md', path: path.join(DIST_ROOT, '_bmad', 'bmm', '1-analysis', 'bmad-agent-analyst', 'SKILL.md') },
   { label: '_bmad/bmm/4-implementation/bmad-agent-dev/SKILL.md', path: path.join(DIST_ROOT, '_bmad', 'bmm', '4-implementation', 'bmad-agent-dev', 'SKILL.md') },
   { label: '_bmad/core/bmad-brainstorming/SKILL.md', path: path.join(DIST_ROOT, '_bmad', 'core', 'bmad-brainstorming', 'SKILL.md') },
-  // Compatibility layer (removed after Phase 3)
-  { label: '_bmad/_compat/bmm', path: path.join(DIST_ROOT, '_bmad', '_compat', 'bmm') },
+  // Compatibility layer — old custom content at CSV-referenced paths (removed after Phase 3)
+  { label: '_bmad/modules/custom/bmm', path: path.join(DIST_ROOT, '_bmad', 'modules', 'custom', 'bmm') },
   // Existing non-bmad targets
   { label: 'planning', path: path.join(DIST_ROOT, 'planning') },
   { label: 'planning/current/phase.md', path: path.join(DIST_ROOT, 'planning', 'current', 'phase.md') },
@@ -479,16 +461,19 @@ const requiredChecks = [
 ];
 ```
 
-### Step 2: Temporarily disable `validateDistBmadReferences`
+### Step 2: Update `DIST_BMAD_REFERENCE_CSVS` and keep validation running
 
-The old BMAD reference validation checks CSV paths against `dist/_bmad/modules/custom/...` which no longer exists. Comment it out or wrap it in a try-catch with a warning. It will be replaced in Phase 4 with skill-manifest validation.
+Since the compat shim copies old custom content to `dist/_bmad/modules/custom/` (the exact paths CSVs reference), the dist BMAD reference validation can keep running. But `workflow-manifest.csv` will be deleted in Task 8, so remove it from the array now to avoid a future crash.
 
 ```javascript
-// Temporarily disabled — old manifest validation incompatible with new skill layout.
-// Will be replaced by skill-manifest validation in Phase 4.
-// if (!(await validateDistBmadReferences())) { isValid = false; }
-console.log('  SKIP dist BMAD manifest validation (pending Phase 4 migration)');
+const DIST_BMAD_REFERENCE_CSVS = [
+  // workflow-manifest.csv removed — obsoleted by per-module module-help.csv (deleted in Task 8)
+  { relPath: '_config/bmad-help.csv', pathColumn: 5 },
+  { relPath: 'modules/custom/bmm/module-help.csv', pathColumn: 5 },
+];
 ```
+
+Keep the `validateDistBmadReferences()` call in `validateBuild()` — it will still work because the compat shim places files at the expected paths.
 
 ### Step 3: Run the build and verify
 
@@ -519,11 +504,15 @@ Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
 
 ### Step 1: Update `REQUIRED_PATHS`
 
-Replace old BMAD source paths with new skill-based paths. Keep all non-BMAD paths unchanged.
+Add new skill-based paths. Keep old custom paths that are still in use.
 
-Remove these old paths:
+Remove this old path (file may be updated/removed but is no longer the primary BMAD entry):
 ```
 'src/bmad/BMAD-workflow.md'
+```
+
+**Keep** this path (old custom is still active until Phase 3):
+```
 'src/bmad/modules/custom/bmm/module-help.csv'
 ```
 
@@ -536,6 +525,18 @@ Add these new paths:
 ```
 
 Keep all existing `src/claude/*`, `src/codex/*`, `src/opencode/*`, `src/github/*`, `src/root/*`, `src/documentation/*`, `src/planning/*` paths unchanged.
+
+### Step 1b: Update `BMAD_REFERENCE_CSVS`
+
+Remove `workflow-manifest.csv` from the array since it will be deleted in Task 8. Keep the other two entries (they still reference valid paths):
+
+```javascript
+const BMAD_REFERENCE_CSVS = [
+  // workflow-manifest.csv removed — deleted in Task 8
+  { relPath: 'src/bmad/_config/bmad-help.csv', pathColumn: 5 },
+  { relPath: 'src/bmad/modules/custom/bmm/module-help.csv', pathColumn: 5 },
+];
+```
 
 ### Step 2: Add skill format validation function
 
@@ -593,11 +594,14 @@ async function validateSkillFormat() {
 
 In the `validate()` function, add `validateSkillFormat()` to the `Promise.all` checks array.
 
-### Step 4: Temporarily skip old BMAD CSV validation
+### Step 4: Verify old BMAD CSV validation still passes
 
-The existing `validateBmadReferenceCsvs()` and `validateCustomBmadAgentExecPaths()` check paths against the old `src/bmad/modules/custom/...` layout. These still exist (old custom hasn't been migrated yet), so they should still run. But update `BMAD_REFERENCE_CSVS` if needed to avoid errors against deleted native paths.
+The existing `validateBmadReferenceCsvs()` and `validateCustomBmadAgentExecPaths()` should still pass because:
+- `BMAD_REFERENCE_CSVS` was updated in Step 1b to remove `workflow-manifest.csv`
+- The remaining CSVs reference `_bmad/modules/custom/...` paths (custom content, still in old format)
+- `validateCustomBmadAgentExecPaths()` checks agent exec paths in `src/bmad/modules/custom/bmm/agents/` which still exist
 
-Check if any CSV in `_config/` references `modules/native/` paths. If so, those CSVs will break since native now has `bmm-skills/` not `bmm/`. The old `_config/` CSVs reference `_bmad/modules/custom/...` (custom paths), not native, so they should still work.
+No changes needed here — just verify both functions still pass.
 
 ### Step 5: Run validation
 
@@ -696,7 +700,13 @@ Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
 
 Update the file to reference the new skill-based layout. Change references from `_bmad/modules/custom/bmm/workflows/...` to `_bmad/bmm/...` for any shipped paths. Keep the overall workflow description intact — just update directory references.
 
-### Step 2: Delete obsoleted manifests
+### Step 2: Verify validate.js no longer references deleted CSVs
+
+In Task 6 Step 1b, `workflow-manifest.csv` was already removed from `BMAD_REFERENCE_CSVS` in validate.js. Verify `task-manifest.csv` is also NOT in `BMAD_REFERENCE_CSVS` (it never was — only workflow-manifest, bmad-help, and module-help were listed). If it IS referenced anywhere, remove the reference now.
+
+Also update `DIST_BMAD_REFERENCE_CSVS` in build.js if `workflow-manifest.csv` was not already removed in Task 5 Step 2.
+
+### Step 3: Delete obsoleted manifests
 
 ```bash
 git rm src/bmad/_config/workflow-manifest.csv
@@ -705,16 +715,16 @@ git rm src/bmad/_config/task-manifest.csv
 
 These are replaced by per-module `module-help.csv` files.
 
-### Step 3: Run build and validate
+### Step 4: Run build and validate
 
 ```bash
 node tools/validate.js
 node tools/build.js
 ```
 
-If validate.js references the deleted CSVs in `BMAD_REFERENCE_CSVS`, update it to remove those entries.
+Both must pass. If either crashes reading a deleted file, check that Steps 2's reference cleanup was complete.
 
-### Step 4: Commit
+### Step 5: Commit
 
 ```bash
 git add -A
@@ -769,8 +779,8 @@ find dist/_bmad/bmm -name "SKILL.md" | head -10
 echo "=== Merged core skills ==="
 find dist/_bmad/core -name "SKILL.md" | head -10
 
-echo "=== Compat layer ==="
-ls dist/_bmad/_compat/bmm/ | head -5
+echo "=== Compat layer (old custom at CSV-referenced paths) ==="
+ls dist/_bmad/modules/custom/bmm/ | head -5
 
 echo "=== Old manifests still present ==="
 ls dist/_bmad/_config/bmad-help.csv
@@ -818,8 +828,10 @@ Follow the session close protocol.
 - **Phase 5**: Replace `sync-client-bundles.js` with skill-file generation
 
 After Phase 1, the state is:
-- New native modules in skill format (bmm-skills/, core-skills/)
-- Old custom modules still in old format (under `_compat/` in dist)
-- Build produces flat `dist/_bmad/bmm/` and `dist/_bmad/core/` from upstream
-- `sync-client-bundles.js` still generates client commands from old `bmad-help.csv`
-- Old custom CSVs and manifests still present and functional
+- New native modules in skill format (`native/bmm-skills/`, `native/core-skills/`)
+- Old custom modules still in old format, copied to `dist/_bmad/modules/custom/` by compat shim (exact paths that CSVs reference)
+- Build produces flat `dist/_bmad/bmm/` and `dist/_bmad/core/` from upstream skill modules
+- `sync-client-bundles.js` still generates client commands from old `bmad-help.csv` (works because compat shim preserves CSV-referenced paths)
+- Old custom CSVs (`bmad-help.csv`, `agent-manifest.csv`, `module-help.csv`) still present and functional
+- `workflow-manifest.csv` and `task-manifest.csv` deleted (obsoleted by per-module `module-help.csv`)
+- `bmad-builder` and `test-architecture` staged in `reference/migration-staging/` for Phase 3 conversion
