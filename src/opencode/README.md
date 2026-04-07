@@ -10,5 +10,5 @@ Included:
 
 Notes:
 
-- `commands/bmad/` is auto-generated at build time from per-module `module-help.csv` files (output: `dist/_bmad/_config/bmad-help.csv`).
+- Client skills under `dist/.opencode/skills/` are auto-generated at build time from `skill-manifest.csv`.
 - `agents/` contains OpenCode-facing wrappers for Compass BMAD orchestration behavior.
