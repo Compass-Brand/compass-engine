@@ -265,6 +265,52 @@ async function generateBmadHelp() {
   console.log(`  Generated bmad-help.csv (${allRows.length} skills from ${moduleNames.length} modules)`);
 }
 
+async function generateSkillManifest() {
+  const configDir = path.join(BMAD_DIST, '_config');
+  await fs.mkdir(configDir, { recursive: true });
+
+  const allFiles = await listFilesRecursive(BMAD_DIST);
+  const skillFiles = allFiles.filter((f) => f.endsWith('/SKILL.md'));
+
+  const skills = [];
+  for (const relPath of skillFiles) {
+    const fullPath = path.join(BMAD_DIST, relPath);
+    const content = await fs.readFile(fullPath, 'utf-8');
+    const frontmatter = content.match(/^---\n([\s\S]*?)\n---/);
+    if (!frontmatter) continue;
+
+    const nameMatch = frontmatter[1].match(/^name:\s*(.+)$/m);
+    const descMatch = frontmatter[1].match(/^description:\s*['"]?(.*?)['"]?\s*$/m);
+    if (!nameMatch) continue;
+
+    const name = nameMatch[1].trim().replace(/['"]/g, '');
+    const description = descMatch ? descMatch[1].trim() : '';
+    const skillDir = path.dirname(relPath);
+    const module = relPath.split('/')[0];
+    const isAgent = name.startsWith('bmad-agent-') || name === 'bmad-master';
+
+    skills.push({
+      name,
+      type: isAgent ? 'agent' : 'workflow',
+      description,
+      module,
+      path: `_bmad/${skillDir}`,
+    });
+  }
+
+  skills.sort((a, b) => a.module.localeCompare(b.module) || a.name.localeCompare(b.name));
+
+  const header = 'name,type,description,module,path';
+  const rows = skills.map((s) => {
+    const escape = (v) => `"${(v || '').replace(/"/g, '""')}"`;
+    return [s.name, s.type, s.description, s.module, s.path].map(escape).join(',');
+  });
+
+  const csv = [header, ...rows].join('\n') + '\n';
+  await fs.writeFile(path.join(configDir, 'skill-manifest.csv'), csv);
+  console.log(`  Generated skill-manifest.csv (${skills.length} skills)`);
+}
+
 async function buildBmadSkills() {
   console.log('\nBuilding _bmad (skill-based)...');
   await fs.mkdir(BMAD_DIST, { recursive: true });
@@ -296,6 +342,7 @@ async function buildBmadSkills() {
   // Generate agent-manifest.csv and bmad-help.csv from skill directory tree
   await generateAgentManifest();
   await generateBmadHelp();
+  await generateSkillManifest();
 }
 
 async function cleanDist() {
