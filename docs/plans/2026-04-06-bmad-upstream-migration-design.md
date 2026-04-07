@@ -220,11 +220,10 @@ The `after`/`before` columns replace sequence numbers with explicit dependency r
 3. **`buildBmadCompat()`** — Temporary: copies old-format `custom/bmm/` and `custom/core/` to `dist/_bmad/modules/custom/` at CSV-referenced paths. Removed in Phase 3.
 
 **Remaining (Phase 4):**
-4. **Manifest generation** — Walk merged `dist/_bmad/`, collect `bmad-skill-manifest.yaml` files, generate `agent-manifest.csv` and `skill-manifest.csv` automatically.
+4. **Manifest generation** — Walk merged `dist/_bmad/`, collect `bmad-skill-manifest.yaml` files, generate `agent-manifest.csv`, `skill-manifest.csv`, and merged `bmad-help.csv` automatically.
 
 **Remaining (Phase 5):**
 5. **Client skill generation** — Replace `sync-client-bundles.js`. Generate skill directories for each client platform from merged module tree.
-6. **Module-help merge** — Concatenate per-module `module-help.csv` files into unified help index.
 
 ### validate.js (Phase 1 ✅ + Phase 4 remaining)
 
