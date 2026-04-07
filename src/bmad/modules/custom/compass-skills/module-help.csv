@@ -1,0 +1,3 @@
+module,skill,display-name,menu-code,description,action,args,phase,after,before,required,output-location,outputs
+compass,bmad-compass-advanced-elicitation,Advanced Elicitation,AE,"Push the LLM to reconsider, refine, and improve recent output through iterative elicitation methods",,--content,anytime,,,,,
+compass,bmad-compass-autonomous-refinement-loop,Autonomous Refinement Loop,ORL,"Run an autonomous agent-team refinement loop combining party-mode and advanced elicitation",,--content,anytime,,,,,
