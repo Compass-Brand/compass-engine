@@ -19,7 +19,7 @@ Use this skill when the user asks for:
 1. Treat `_bmad/tools/automation/` as the source of truth for automation behavior.
 2. Keep `bd` as the task system of record.
 3. Do not present automation as a replacement for the BMAD workflow; it orchestrates the same underlying workflow surfaces.
-4. If the user only needs one workflow entry point, prefer the manual BMAD command instead of automation.
+4. If the user only needs one workflow entry point, prefer the manual BMAD skill instead of automation.
 
 ## References
 
