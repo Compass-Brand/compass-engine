@@ -189,6 +189,49 @@ async function mergeModules(nativePath, customPath, outputPath) {
   }
 }
 
+async function generateAgentManifest() {
+  const configDir = path.join(BMAD_DIST, '_config');
+  await fs.mkdir(configDir, { recursive: true });
+
+  const allFiles = await listFilesRecursive(BMAD_DIST);
+  const manifestFiles = allFiles.filter((f) => f.endsWith('/bmad-skill-manifest.yaml'));
+
+  const agents = [];
+  for (const relPath of manifestFiles) {
+    const fullPath = path.join(BMAD_DIST, relPath);
+    const content = await fs.readFile(fullPath, 'utf-8');
+    const data = parseSimpleYaml(content);
+    if (data.type !== 'agent') continue;
+
+    const skillDir = path.dirname(relPath);
+    agents.push({
+      id: `_bmad/${skillDir}/SKILL.md`,
+      name: data.name || '',
+      displayName: data.displayName || '',
+      title: data.title || '',
+      icon: data.icon || '',
+      role: data.role || '',
+      identity: data.identity || '',
+      communicationStyle: data.communicationStyle || '',
+      principles: data.principles || '',
+      module: data.module || '',
+      path: `_bmad/${relPath}`,
+    });
+  }
+
+  agents.sort((a, b) => a.module.localeCompare(b.module) || a.name.localeCompare(b.name));
+
+  const header = '"id","name","displayName","title","icon","role","identity","communicationStyle","principles","module","path"';
+  const rows = agents.map((a) => {
+    const escape = (v) => `"${(v || '').replace(/"/g, '""')}"`;
+    return [a.id, a.name, a.displayName, a.title, a.icon, a.role, a.identity, a.communicationStyle, a.principles, a.module, a.path].map(escape).join(',');
+  });
+
+  const csv = [header, ...rows].join('\n') + '\n';
+  await fs.writeFile(path.join(configDir, 'agent-manifest.csv'), csv);
+  console.log(`  Generated agent-manifest.csv (${agents.length} agents)`);
+}
+
 async function buildBmadSkills() {
   console.log('\nBuilding _bmad (skill-based)...');
   await fs.mkdir(BMAD_DIST, { recursive: true });
@@ -224,6 +267,9 @@ async function buildBmadSkills() {
     await copyDir(oldConfig, configDest);
     console.log('  Copied _config/ manifests (temporary — Phase 4 will auto-generate)');
   }
+
+  // Generate agent-manifest.csv (overwrites old hand-maintained version)
+  await generateAgentManifest();
 }
 
 async function cleanDist() {
