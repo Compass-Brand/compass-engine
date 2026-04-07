@@ -1,6 +1,6 @@
 ---
 name: bmad-method
-description: Use when the user needs help choosing, sequencing, or running Compass BMAD workflows across planning, docs, solutioning, implementation, or polyrepo routing.
+description: Use when the user needs help choosing, sequencing, or running Compass BMAD skills across planning, docs, solutioning, implementation, or polyrepo routing.
 ---
 
 # BMAD Method
@@ -9,7 +9,7 @@ description: Use when the user needs help choosing, sequencing, or running Compa
 
 Use this skill when the user:
 
-- asks which BMAD workflow or command to run
+- asks which BMAD skill or workflow to run
 - needs help moving from roadmap work into phase execution
 - wants to understand workspace versus repo-local BMAD behavior
 - needs docs and planning integration guidance
@@ -17,11 +17,12 @@ Use this skill when the user:
 ## Instructions
 
 1. Start with `_bmad/BMAD-workflow.md` for the high-level flow.
-2. Use `_bmad/_config/bmad-help.csv` plus `references/command-catalog.md` to choose the right shipped BMAD command surface.
-3. Distinguish workspace coordination from repo-local delivery before recommending a command.
-4. Prefer the narrowest workflow that moves the user forward without skipping required gates.
+2. Use `_bmad/_config/skill-manifest.csv` plus `references/command-catalog.md` to choose the right shipped BMAD skill surface.
+3. Distinguish workspace coordination from repo-local delivery before recommending a skill.
+4. Prefer the narrowest skill that moves the user forward without skipping required gates.
+5. Skills are auto-generated from the `_bmad/` skill tree at build time; the skill manifest is the source of truth for available skills.
 
 ## References
 
-- Read `references/command-catalog.md` for the current command surface.
+- Read `references/command-catalog.md` for the current skill surface.
 - Read `_bmad/tools/automation/README.md` only when the user asks for orchestration or automation.

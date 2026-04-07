@@ -12,7 +12,6 @@
     "compass-engine": "./src/cli.js"
   },
   "scripts": {
-    "sync:client-bundles": "node tools/sync-client-bundles.js",
     "build": "node tools/build.js",
     "push": "node tools/push.js",
     "validate": "node tools/validate.js",

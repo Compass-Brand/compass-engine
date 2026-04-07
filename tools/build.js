@@ -158,6 +158,89 @@ async function listFilesRecursive(rootPath, currentPath = rootPath, files = []) 
   return files;
 }
 
+function parseCsvRows(content) {
+  const lines = content.split(/\r?\n/).filter(Boolean);
+  if (lines.length < 2) return [];
+  const header = lines[0].split(',');
+  return lines.slice(1).map((line) => {
+    const cells = [];
+    let current = '';
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+      const char = line[i];
+      if (char === '"') {
+        if (inQuotes && line[i + 1] === '"') { current += '"'; i++; }
+        else { inQuotes = !inQuotes; }
+        continue;
+      }
+      if (char === ',' && !inQuotes) { cells.push(current); current = ''; continue; }
+      current += char;
+    }
+    cells.push(current);
+    return Object.fromEntries(header.map((col, idx) => [col, cells[idx] ?? '']));
+  });
+}
+
+function clientSkillName(internalName, module) {
+  // Compass skills already have module prefix
+  if (internalName.startsWith('bmad-compass-') || internalName.startsWith('bmad-agent-compass-')) {
+    return internalName;
+  }
+  // bmad-builder skills — use 'builder' as short module name
+  const modPrefix = module === 'bmad-builder' ? 'builder' : module;
+  // Agents: bmad-agent-{name} → bmad-agent-{module}-{name}
+  if (internalName.startsWith('bmad-agent-')) {
+    const agentName = internalName.slice('bmad-agent-'.length);
+    return `bmad-agent-${modPrefix}-${agentName}`;
+  }
+  // Special cases that already have module context
+  if (internalName === 'bmad-master') return 'bmad-core-master';
+  // Workflows: bmad-{name} → bmad-{module}-{name}
+  const workflowName = internalName.slice('bmad-'.length);
+  return `bmad-${modPrefix}-${workflowName}`;
+}
+
+async function generateClientSkills() {
+  const manifestPath = path.join(BMAD_DIST, '_config', 'skill-manifest.csv');
+  if (!(await exists(manifestPath))) {
+    console.log('  Skipping client skill generation: skill-manifest.csv not found');
+    return;
+  }
+
+  const content = await fs.readFile(manifestPath, 'utf-8');
+  const skills = parseCsvRows(content);
+
+  // Client platforms to generate for
+  const platforms = [
+    { name: 'claude', dist: path.join(DIST_ROOT, '.claude', 'skills') },
+    { name: 'opencode', dist: path.join(DIST_ROOT, '.opencode', 'skills') },
+    { name: 'codex', dist: path.join(DIST_ROOT, '.codex', 'skills') },
+  ];
+
+  for (const platform of platforms) {
+    let count = 0;
+    for (const skill of skills) {
+      const clientName = clientSkillName(skill.name, skill.module);
+      const skillDir = path.join(platform.dist, clientName);
+      await fs.mkdir(skillDir, { recursive: true });
+
+      const skillMd = [
+        '---',
+        `name: ${clientName}`,
+        `description: '${(skill.description || '').replace(/'/g, "''")}'`,
+        '---',
+        '',
+        `Load and follow the skill at \`{project-root}/${skill.path}/SKILL.md\`.`,
+        '',
+      ].join('\n');
+
+      await fs.writeFile(path.join(skillDir, 'SKILL.md'), skillMd);
+      count++;
+    }
+    console.log(`  Generated ${count} client skills for ${platform.name}`);
+  }
+}
+
 async function copyDir(src, dest, options = {}) {
   const { baseDir = null, skipPaths = [] } = options;
 
@@ -343,6 +426,7 @@ async function buildBmadSkills() {
   await generateAgentManifest();
   await generateBmadHelp();
   await generateSkillManifest();
+  await generateClientSkills();
 }
 
 async function cleanDist() {
@@ -450,6 +534,9 @@ async function validateBuild() {
     { label: '_bmad/_config/agent-manifest.csv', path: path.join(DIST_ROOT, '_bmad', '_config', 'agent-manifest.csv') },
     { label: '_bmad/_config/bmad-help.csv', path: path.join(DIST_ROOT, '_bmad', '_config', 'bmad-help.csv') },
     { label: '_bmad/_config/skill-manifest.csv', path: path.join(DIST_ROOT, '_bmad', '_config', 'skill-manifest.csv') },
+    { label: 'dist .claude/skills generated', path: path.join(DIST_ROOT, '.claude', 'skills', 'bmad-bmm-create-prd') },
+    { label: 'dist .opencode/skills generated', path: path.join(DIST_ROOT, '.opencode', 'skills', 'bmad-bmm-create-prd') },
+    { label: 'dist .codex/skills generated', path: path.join(DIST_ROOT, '.codex', 'skills', 'bmad-bmm-create-prd') },
   ];
 
   if (await exists(path.join(SRC, 'codex'))) {
@@ -468,6 +555,18 @@ async function validateBuild() {
       console.error(`  ERROR missing ${check.label}`);
       isValid = false;
     }
+  }
+
+  // Count-based check for generated client skills
+  const claudeSkillsDir = path.join(DIST_ROOT, '.claude', 'skills');
+  if (await exists(claudeSkillsDir)) {
+    const skillDirs = await fs.readdir(claudeSkillsDir);
+    const skillCount = skillDirs.length;
+    if (skillCount < 90) {
+      console.error(`  ERROR Expected ≥90 client skills in dist/.claude/skills/, found ${skillCount}`);
+      isValid = false;
+    }
+    console.log(`  ✓ dist .claude/skills count: ${skillCount}`);
   }
 
   if (!isValid) {

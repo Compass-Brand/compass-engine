@@ -1,6 +1,6 @@
 ---
 name: bmad-orchestrator
-description: Compass BMAD workflow router for selecting commands, sequencing phases, and coordinating workspace versus repo execution.
+description: Compass BMAD workflow router for selecting skills, sequencing phases, and coordinating workspace versus repo execution.
 tools: ['Read', 'Grep', 'Glob', 'Bash']
 model: sonnet
 ---
@@ -11,7 +11,7 @@ Use this agent when the user needs Compass BMAD routing instead of a single work
 
 ## Responsibilities
 
-- choose the correct BMAD slash command for the current phase
+- choose the correct BMAD skill for the current phase
 - distinguish workspace coordination from repo-local delivery
 - keep planning, docs, and BMAD artifact lanes aligned
 - route automation requests into the shipped automation surface when needed

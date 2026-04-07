@@ -1,91 +1,110 @@
-# BMAD Command Catalog
+# BMAD Skill Catalog
 
-Generated from `dist/_bmad/_config/bmad-help.csv` (auto-generated at build time from per-module `module-help.csv` files).
-
-Use this reference when selecting the right BMAD slash command for the current phase or when translating a BMAD workflow request into the shipped client command surface.
-
-## learning
-
-- `/bmad-tea-teach-me-testing` (Teach Me Testing): Teach testing fundamentals through 7 sessions (TEA Academy).
+Generated from `dist/_bmad/_config/skill-manifest.csv` (auto-generated at build time from the `_bmad/` skill tree).
 
 ## analysis
 
-- `/bmad-bmm-create-product-brief` (Create Brief): Create the high-level product brief that anchors the roadmap and later slice-level planning.
-- `/bmad-bmm-domain-research` (Domain Research): Industry domain deep dive, subject matter expertise, and terminology.
-- `/bmad-bmm-market-research` (Market Research): Market analysis, competitive landscape, customer needs, and trends.
-- `/bmad-bmm-project-roadmap` (Project Roadmap): Create or update the approved roadmap summary and roadmap state from high-level analysis artifacts before phase activation.
-- `/bmad-bmm-technical-research` (Technical Research): Technical feasibility, architecture options, and implementation approaches.
-- `/bmad-brainstorming` (Brainstorm Project): Expert guided facilitation through a single or multiple techniques.
-- `/bmad-cis-design-thinking` (Design Thinking): Run human-centered opportunity framing to sharpen product direction before the brief. Phase-scoped runs should redirect outputs to the current strategy lane.
-- `/bmad-cis-innovation-strategy` (Innovation Strategy): Identify disruption opportunities and strategic bets that strengthen roadmap-level product direction. Phase-scoped runs should redirect outputs to the current strategy lane.
+- /bmad-agent-bmm-analyst (Strategic business analyst and requirements expert)
+- /bmad-agent-bmm-tech-writer (Technical documentation specialist and knowledge curator)
+- /bmad-agent-compass-design-thinking-coach (Human-centered design expert and empathy architect)
+- /bmad-agent-compass-innovation-strategist (Business model innovator and strategic disruption expert)
+- /bmad-agent-compass-wds-analyst (Strategic business analyst and product discovery partner for the WDS planning lane)
+- /bmad-bmm-document-project (Document brownfield projects for AI context)
+- /bmad-bmm-domain-research (Conduct domain and industry research)
+- /bmad-bmm-market-research (Conduct market research on competition and customers)
+- /bmad-bmm-product-brief (Create product brief through collaborative discovery)
+- /bmad-bmm-technical-research (Conduct technical research on technologies and architecture)
+- /bmad-compass-design-thinking (Guide human-centered design processes using empathy-driven methodologies)
+- /bmad-compass-ingest-whitepapers (Ingest external whitepapers into a condensed digest for downstream BMAD workflows)
+- /bmad-compass-innovation-strategy (Identify disruption opportunities and architect business model innovation)
+- /bmad-compass-vtc-workshop (Facilitate Vision-Traction-Clarity workshop connecting business goals to user needs)
 
 ## planning
 
-- `/bmad-bmm-create-prd` (Create PRD): Expert-led facilitation to produce the phase-scoped Product Requirements Document.
-- `/bmad-bmm-create-ux-design` (Create UX): Realize the UX direction for the active slice, especially when UI behavior or interaction design matters.
-- `/bmad-bmm-edit-prd` (Edit PRD): Revise an existing PRD when validation, WDS, or architecture work exposes requirement gaps.
-- `/bmad-bmm-initiative-routing` (Initiative Routing): For workspace or parent repos, route the approved active phase into concurrent repo-targeted initiative workstreams without creating repo-local delivery artifacts.
-- `/bmad-bmm-phase-sync` (Phase Sync): Select and frame the active roadmap slice, maintain the human phase brief, and keep the machine phase state aligned.
-- `/bmad-bmm-update-docs` (Update Docs (Planning)): Checkpoint docs update after planning and experience-design artifacts are established.
-- `/bmad-bmm-validate-prd` (Validate PRD): Validate the PRD for completeness, cohesion, and readiness for the WDS lane.
-- `/bmad-wds-conceptual-specs` (Conceptual Specifications): Convert approved UX direction and scenario context into implementation-ready conceptual specifications for the active slice.
-- `/bmad-wds-design-delivery` (Design Delivery): Package completed conceptual specs into design-delivery artifacts, test scenarios, and handoff notes for implementation.
-- `/bmad-wds-outline-scenarios` (Outline Scenarios): ”Transform the active slice trigger map into scenario outlines that feed UX
-- `/bmad-wds-trigger-mapping` (Trigger Mapping): ”Run the WDS trigger-mapping lane after PRD validation to connect business goals
+- /bmad-agent-bmm-pm (Product manager for PRD creation and requirements discovery)
+- /bmad-agent-bmm-ux-designer (UX designer and UI specialist)
+- /bmad-agent-compass-wds-designer (Strategic UX designer for conceptual specifications and design delivery)
+- /bmad-bmm-create-prd (Create a PRD from scratch)
+- /bmad-bmm-create-ux-design (Plan UX patterns and design specifications)
+- /bmad-bmm-edit-prd (Edit an existing PRD)
+- /bmad-bmm-validate-prd (Validate a PRD against standards)
+- /bmad-compass-conceptual-specs (Conceptual specification reference for WDS deliverables and tools)
+- /bmad-compass-init-planning (Initialize Compass roadmap-driven planning layout from an existing repo or as a clean scaffold)
+- /bmad-compass-initiative-routing (Route an approved workspace or orchestration phase into concurrent repo-targeted initiative workstreams)
+- /bmad-compass-outline-scenarios (Transform Trigger Maps into UX scenario outlines)
+- /bmad-compass-project-roadmap (Create or update the authoritative project roadmap from high-level analysis artifacts)
+- /bmad-compass-sync-repositories (Compare planning/repositories.yaml against the current repo-root topology and update the canonical registry after approval)
+- /bmad-compass-trigger-mapping (Effect Mapping workshop connecting business goals to user psychology)
+- /bmad-compass-wds-ux-design (Create WDS UX specifications through scenario-driven design)
+- /bmad-compass-workspace-bootstrap (Bootstrap selected repos from a workspace or orchestration root into the Compass BMAD planning and docs structure)
 
 ## solutioning
 
-- `/bmad-bmm-check-implementation-readiness` (Check Implementation Readiness): Ensure the PRD, UX, architecture, epics, and stories are aligned before implementation starts.
-- `/bmad-bmm-create-architecture` (Create Architecture): Document the technical decisions for the active roadmap slice.
-- `/bmad-bmm-create-epics-and-stories` (Create Epics and Stories): Create the epics and stories list for the active slice.
-- `/bmad-bmm-update-docs` (Update Docs (Solutioning)): Checkpoint docs update after architecture, readiness, and security artifacts are refined.
-- `/bmad-cybersec-secure-gates` (Secure Readiness Gate): Apply the conditional pre-implementation security gate and record the draft gate package before readiness approval.
-- `/bmad-cybersec-security-architecture-review` (Security Architecture Review): Review the draft architecture with zero-trust and control-assessment lenses when the security lane is active.
-- `/bmad-cybersec-threat-modeling` (Threat Modeling): Run STRIDE-based threat modeling against the current architecture and produce the threat model artifact for security-active slices.
-- `/bmad-tea-testarch-ci` (CI/CD Alignment): TEA insert: align CI/CD quality automation with the current repo reality before readiness approval.
-- `/bmad-tea-testarch-framework` (Test Framework): TEA insert: initialize or adapt the test framework after epics and stories are drafted.
-- `/bmad-tea-testarch-test-design` (Test Design): TEA insert: system-level risk-based test design after architecture and before story decomposition.
+- /bmad-agent-bmm-architect (System architect and technical design leader)
+- /bmad-agent-compass-security-architect (Security architect and release-risk reviewer for the conditional CYBERSEC lane)
+- /bmad-agent-compass-threat-analyst (Threat modeling specialist for the conditional CYBERSEC lane)
+- /bmad-bmm-check-implementation-readiness (Validate PRD, UX, Architecture and Epics specs are complete)
+- /bmad-bmm-create-architecture (Create architecture solution design decisions for AI agent consistency)
+- /bmad-bmm-create-epics-and-stories (Break requirements into epics and user stories)
+- /bmad-bmm-generate-project-context (Create project-context.md with AI rules)
+- /bmad-compass-security-architecture-review (Comprehensive security analysis of system architecture using STRIDE, control assessment, and zero-trust principles)
+- /bmad-compass-threat-modeling (STRIDE-based threat modeling for identifying, assessing, and mitigating security threats)
 
 ## implementation
 
-- `/bmad-bmm-code-review` (Code Review): If review finds issues, route back to Dev Story; if approved, continue through test review and traceability or advance to the next story.
-- `/bmad-bmm-create-story` (Create Story): Story cycle start: prepare the next story in the sprint plan or a specifically requested story, then route through validation, ATDD, development, automation, and review.
-- `/bmad-bmm-create-story` (Validate Story): Validate story readiness and completeness before development work begins.
-- `/bmad-bmm-dev-story` (Dev Story): Execute story implementation tasks and tests, then hand off to automation and review.
-- `/bmad-bmm-implementation-brainstorming` (Implementation Brainstorming): Implementation-focused ideation for the active phase and sprint execution.
-- `/bmad-bmm-implementation-research` (Implementation Research): Implementation-focused research for active epics and stories plus delivery risk reduction.
-- `/bmad-bmm-phase-closeout` (Phase Closeout): Close the active phase: archive the current snapshot, capture lessons, and refresh the next-phase scaffold.
-- `/bmad-bmm-qa-automate` (QA Automation Test): Generate automated API and E2E tests for implemented code using the existing project test framework. Use after implementation to add coverage, not for code review or story validation.
-- `/bmad-bmm-retrospective` (Retrospective): Optional at epic end: review completed work, lessons learned, and readiness for the next epic.
-- `/bmad-bmm-sprint-planning` (Sprint Planning): Kick off implementation by producing the sprint plan the delivery agents will follow in sequence for the active stories.
-- `/bmad-bmm-sprint-status` (Sprint Status): Anytime: summarize sprint status and route to the next workflow.
-- `/bmad-bmm-update-docs` (Update Docs (Implementation)): Checkpoint docs update at epic boundaries or major implementation milestones.
-- `/bmad-bmm-validate-docs` (Validate Docs): Validate docs structure, policy compliance, and navigation integrity before closeout.
-- `/bmad-cybersec-secure-gates` (Secure Release Gate): Apply the conditional release security gate using available test, scan, and security evidence before final validation and closeout.
-- `/bmad-tea-testarch-atdd` (ATDD): TEA insert: generate failing tests before implementation begins.
-- `/bmad-tea-testarch-automate` (Test Automation): TEA insert: expand automated coverage after implementation. Pick the primary lane versus QA automation to avoid duplicates.
-- `/bmad-tea-testarch-nfr` (NFR Assessment): TEA release gate: assess non-functional requirements before final release.
-- `/bmad-tea-testarch-test-design` (Test Design (Epic Scope)): TEA insert: epic-level risk-based test design before the story loop for each epic.
-- `/bmad-tea-testarch-test-review` (Test Review): TEA insert: quality audit for implemented tests at story level and, when needed, release level.
-- `/bmad-tea-testarch-trace` (Traceability): TEA insert: coverage traceability and gate decision for story or release scope.
+- /bmad-agent-bmm-dev (Senior software engineer for story execution and code implementation)
+- /bmad-agent-bmm-qa (QA engineer for test automation and coverage)
+- /bmad-agent-bmm-quick-flow-solo-dev (Elite full-stack developer for rapid spec and implementation)
+- /bmad-agent-bmm-sm (Scrum master for sprint planning and story preparation)
+- /bmad-agent-compass-tea (Master test architect and quality advisor specializing in risk-based testing and CI/CD governance)
+- /bmad-bmm-code-review (Review code changes adversarially using parallel review layers (Blind Hunter, Edge Case Hunter, Acceptance Auditor) with structured triage into actionable categories)
+- /bmad-bmm-correct-course (Manage significant changes during sprint execution)
+- /bmad-bmm-create-story (Creates a dedicated story file with all the context the agent will need to implement it later)
+- /bmad-bmm-dev-story (Execute story implementation following a context filled story spec file)
+- /bmad-bmm-qa-generate-e2e-tests (Generate end to end automated tests for existing features)
+- /bmad-bmm-quick-dev (Implement a Quick Tech Spec for small changes or features)
+- /bmad-bmm-retrospective (Post-epic review to extract lessons and assess success)
+- /bmad-bmm-sprint-planning (Generate sprint status tracking from epics)
+- /bmad-bmm-sprint-status (Summarize sprint status and surface risks)
+- /bmad-compass-implementation-brainstorming (Focused brainstorming for active implementation work)
+- /bmad-compass-implementation-research (Targeted research for active implementation decisions)
+- /bmad-compass-quick-spec (Create implementation-ready quick tech specs for small changes or features)
+- /bmad-compass-secure-gates (Evaluate conditional security readiness and release gates for Compass slices)
+- /bmad-compass-testarch-atdd (ATDD test specification)
+- /bmad-compass-testarch-automate (Test automation scaffolding)
+- /bmad-compass-testarch-ci (CI pipeline integration)
+- /bmad-compass-testarch-framework (Test framework setup)
+- /bmad-compass-testarch-nfr-assess (NFR assessment)
+- /bmad-compass-testarch-teach-me-testing (Interactive testing education)
+- /bmad-compass-testarch-test-design (Test design strategy)
+- /bmad-compass-testarch-test-review (Test review and quality)
+- /bmad-compass-testarch-trace (Requirements traceability)
 
 ## anytime
 
-- `/bmad-autonomous-refinement-loop` (Autonomous Refinement Loop): Run autonomous party-mode and auto-elicitation loops with agent teams until zero unresolved issues remain; manual Party Mode and Advanced Elicitation remain available separately. Escalates only on blocked fixes.
-- `/bmad-bmm-correct-course` (Correct Course): Anytime: navigate significant changes. May recommend restart, PRD updates, architecture changes, sprint replanning, or story corrections.
-- `/bmad-bmm-generate-project-context` (Generate Project Context): Generate or refresh the lean project-context artifact for the active roadmap slice or brownfield repo state.
-- `/bmad-bmm-init-docs` (Initialize Docs): Migrate existing documentation into Compass opinionated docs structure while preserving legacy docs in dated migration snapshots.
-- `/bmad-bmm-init-planning` (Initialize Planning): Normalize existing planning into the Compass roadmap-driven planning structure while preserving legacy planning in dated migration snapshots.
-- `/bmad-bmm-quick-dev` (Quick Dev): Quick one-off tasks, small changes, simple apps, and utilities without extensive planning. Do not suggest for complex work unless requested or the user explicitly wants to skip the full BMAD method.
-- `/bmad-bmm-quick-spec` (Quick Spec): Quick one-off specs for small changes, utilities, and brownfield additions to well-established patterns without extensive planning.
-- `/bmad-bmm-sync-repositories` (Sync Repositories): Compare planning/repositories.yaml against the current repo topology and update the approved registry after explicit approval.
-- `/bmad-bmm-workspace-bootstrap` (Workspace Bootstrap): Bootstrap selected repos from a workspace or orchestration root into the Compass BMAD planning and docs structure using safe migration rules.
-- `/bmad-brainstorming` (Brainstorming): Generate diverse ideas through interactive techniques. Broad strategic brainstorming writes to roadmap lane by default.
-- `/bmad-cis-problem-solving` (Problem Solving): Apply structured problem-solving methods to delivery blockers, design traps, or implementation challenges without forking the main BMAD pipeline.
-- `/bmad-editorial-review-prose` (Editorial Review - Prose): Review prose for clarity, tone, and communication issues. Use after drafting to polish written content.
-- `/bmad-editorial-review-structure` (Editorial Review - Structure): Propose cuts, reorganization, and simplification while preserving comprehension. Use when doc produced from multiple subprocesses or needs structural improvement.
-- `/bmad-help` (bmad-help): Get unstuck by showing what workflow steps come next or answering BMad Method questions.
-- `/bmad-index-docs` (Index Docs): Create lightweight index for quick LLM scanning. Use when LLM needs to understand available docs without loading everything.
-- `/bmad-party-mode` (Party Mode): Orchestrate multi-agent discussions. Use when you need multiple agent perspectives or want agents to collaborate.
-- `/bmad-review-adversarial-general` (Adversarial Review (General)): Review content critically to find issues and weaknesses. Use for quality assurance or before finalizing deliverables. Code Review in other modules run this automatically, but its useful also for document reviews
-- `/bmad-shard-doc` (Shard Document): Split large documents into smaller files by sections. Use when doc becomes too large (>500 lines) to manage effectively.
+- /bmad-agent-builder-builder (Agent architecture specialist for creating, editing, and validating BMAD agents)
+- /bmad-agent-compass-creative-problem-solver (Systematic problem-solving expert and solutions architect)
+- /bmad-builder-module-builder (Module architecture specialist for creating, editing, and validating BMAD modules)
+- /bmad-builder-workflow-builder (Workflow architecture specialist for creating, editing, validating, and reworking BMAD workflows)
+- /bmad-compass-advanced-elicitation (Push the LLM to reconsider, refine, and improve recent output through iterative elicitation methods)
+- /bmad-compass-autonomous-refinement-loop (Run an autonomous, agent-team refinement loop that combines party-mode collaboration and advanced elicitation until zero unresolved issues remain)
+- /bmad-compass-init-docs (Initialize Compass opinionated docs layout from existing project documentation)
+- /bmad-compass-oversight-checkpoint (Generate a verification report from the oversight risk and assumption registers)
+- /bmad-compass-phase-closeout (Close the active phase and archive artifacts into previous/ with lessons capture and roadmap updates)
+- /bmad-compass-phase-sync (Select and sync the active roadmap slice in planning/current/phase.md and phase-state.yaml)
+- /bmad-compass-problem-solving (Apply systematic problem-solving methodologies to complex challenges)
+- /bmad-compass-update-docs (Update documentation to reflect current planning and implementation state)
+- /bmad-compass-validate-docs (Validate documentation structure and policy compliance for Compass docs layout)
+- /bmad-core-advanced-elicitation (Push the LLM to reconsider, refine, and improve its recent output)
+- /bmad-core-brainstorming (Facilitate interactive brainstorming sessions using diverse creative techniques and ideation methods)
+- /bmad-core-distillator (Lossless LLM-optimized compression of source documents)
+- /bmad-core-editorial-review-prose (Clinical copy-editor that reviews text for communication issues)
+- /bmad-core-editorial-review-structure (Structural editor that proposes cuts, reorganization, and simplification while preserving comprehension)
+- /bmad-core-help (Analyzes current state and user query to answer BMad questions or recommend the next skill(s) to use)
+- /bmad-core-index-docs (Generates or updates an index.md to reference all docs in the folder)
+- /bmad-core-init (Initialize BMad project configuration and load config variables)
+- /bmad-core-master (BMad Master orchestrator — runtime resource management, workflow orchestration, task execution, and knowledge custodian)
+- /bmad-core-party-mode (Orchestrates group discussions between all installed BMAD agents, enabling natural multi-agent conversations)
+- /bmad-core-review-adversarial-general (Perform a Cynical Review and produce a findings report)
+- /bmad-core-review-edge-case-hunter (Walk every branching path and boundary condition in content, report only unhandled edge cases)
+- /bmad-core-shard-doc (Splits large markdown documents into smaller, organized files based on level 2 (default) sections)
