@@ -232,6 +232,39 @@ async function generateAgentManifest() {
   console.log(`  Generated agent-manifest.csv (${agents.length} agents)`);
 }
 
+async function generateBmadHelp() {
+  const configDir = path.join(BMAD_DIST, '_config');
+  await fs.mkdir(configDir, { recursive: true });
+
+  const header = 'module,skill,display-name,menu-code,description,action,args,phase,after,before,required,output-location,outputs';
+  const allRows = [];
+
+  // Dynamically discover modules (all top-level dirs in dist/_bmad/ except _config)
+  const bmadEntries = await fs.readdir(BMAD_DIST, { withFileTypes: true });
+  const moduleNames = bmadEntries
+    .filter((e) => e.isDirectory() && !e.name.startsWith('_'))
+    .map((e) => e.name);
+
+  for (const modName of moduleNames) {
+    const csvPath = path.join(BMAD_DIST, modName, 'module-help.csv');
+    if (!(await exists(csvPath))) continue;
+
+    const content = await fs.readFile(csvPath, 'utf-8');
+    const lines = content.split(/\r?\n/).filter(Boolean);
+
+    // Skip header row (first line), add data rows
+    for (let i = 1; i < lines.length; i++) {
+      if (lines[i].trim()) {
+        allRows.push(lines[i]);
+      }
+    }
+  }
+
+  const csv = [header, ...allRows].join('\n') + '\n';
+  await fs.writeFile(path.join(configDir, 'bmad-help.csv'), csv);
+  console.log(`  Generated bmad-help.csv (${allRows.length} skills from ${moduleNames.length} modules)`);
+}
+
 async function buildBmadSkills() {
   console.log('\nBuilding _bmad (skill-based)...');
   await fs.mkdir(BMAD_DIST, { recursive: true });
@@ -270,6 +303,7 @@ async function buildBmadSkills() {
 
   // Generate agent-manifest.csv (overwrites old hand-maintained version)
   await generateAgentManifest();
+  await generateBmadHelp();
 }
 
 async function cleanDist() {
