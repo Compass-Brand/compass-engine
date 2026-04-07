@@ -534,6 +534,9 @@ async function validateBuild() {
     { label: '_bmad/_config/agent-manifest.csv', path: path.join(DIST_ROOT, '_bmad', '_config', 'agent-manifest.csv') },
     { label: '_bmad/_config/bmad-help.csv', path: path.join(DIST_ROOT, '_bmad', '_config', 'bmad-help.csv') },
     { label: '_bmad/_config/skill-manifest.csv', path: path.join(DIST_ROOT, '_bmad', '_config', 'skill-manifest.csv') },
+    { label: 'dist .claude/skills generated', path: path.join(DIST_ROOT, '.claude', 'skills', 'bmad-bmm-create-prd') },
+    { label: 'dist .opencode/skills generated', path: path.join(DIST_ROOT, '.opencode', 'skills', 'bmad-bmm-create-prd') },
+    { label: 'dist .codex/skills generated', path: path.join(DIST_ROOT, '.codex', 'skills', 'bmad-bmm-create-prd') },
   ];
 
   if (await exists(path.join(SRC, 'codex'))) {
@@ -552,6 +555,18 @@ async function validateBuild() {
       console.error(`  ERROR missing ${check.label}`);
       isValid = false;
     }
+  }
+
+  // Count-based check for generated client skills
+  const claudeSkillsDir = path.join(DIST_ROOT, '.claude', 'skills');
+  if (await exists(claudeSkillsDir)) {
+    const skillDirs = await fs.readdir(claudeSkillsDir);
+    const skillCount = skillDirs.length;
+    if (skillCount < 90) {
+      console.error(`  ERROR Expected ≥90 client skills in dist/.claude/skills/, found ${skillCount}`);
+      isValid = false;
+    }
+    console.log(`  ✓ dist .claude/skills count: ${skillCount}`);
   }
 
   if (!isValid) {
