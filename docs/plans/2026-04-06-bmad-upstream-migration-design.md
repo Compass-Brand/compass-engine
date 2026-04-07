@@ -223,24 +223,28 @@ The `after`/`before` columns replace sequence numbers with explicit dependency r
 **Remaining (Phase 4):**
 4. **Manifest generation** — Walk merged `dist/_bmad/`, collect `bmad-skill-manifest.yaml` files, generate `agent-manifest.csv`, `skill-manifest.csv`, and merged `bmad-help.csv` automatically.
 
-**Remaining (Phase 5):**
-5. **Client skill generation** — Replace `sync-client-bundles.js`. Generate skill directories for each client platform from merged module tree.
+**Done (Phase 5) ✅:**
+5. **Client skill generation** — `generateClientSkills()` reads `skill-manifest.csv`, generates thin SKILL.md redirects for claude/opencode/codex (92 skills × 3 platforms = 276 files). `parseCsvRows()` and `clientSkillName()` helpers handle CSV parsing and module-prefix naming. `sync-client-bundles.js` removed.
 
-### validate.js (Phase 1 ✅ + Phase 4 remaining)
+### validate.js (Phase 1 ✅ + Phase 4 ✅ + Phase 5 ✅)
 
 **Done (Phase 1):**
 - SKILL.md frontmatter validation (name matches directory)
 - Updated REQUIRED_PATHS for new skill layout
 - Removed workflow-manifest.csv from BMAD_REFERENCE_CSVS
 
-**Remaining (Phase 4):**
+**Done (Phase 4):**
 - Agent skills have `bmad-skill-manifest.yaml` (or `bmad-manifest.json`)
-- Internal path references use relative paths
 - Module-help.csv `after`/`before` references resolve to real skills
 
-### sync-client-bundles.js → removed in Phase 5
+**Done (Phase 5):**
+- Removed stale `src/claude/commands` and `src/opencode/commands` from REQUIRED_PATHS
+- Added 3-platform sample checks for generated client skills
+- Added count check: dist/.claude/skills/ must have ≥90 directories
 
-Currently still active — generates commands from `bmad-help.csv`. Replaced by skill-file generation in Phase 5.
+### sync-client-bundles.js → removed in Phase 5 ✅
+
+Deleted. Client skills are now auto-generated at build time by `generateClientSkills()` in `build.js`.
 
 ### push.js
 
@@ -332,25 +336,21 @@ Unchanged — operates on `dist/` which is just a different shape.
 - Updated build `validateBuild()` with requiredChecks for all 3 generated manifests
 - Updated 7 files with stale `src/bmad/_config/` references
 
-**Known limitation:** `sync-client-bundles.js` is broken (reads old 16-column format, new is 13-column). Existing pre-generated command files remain functional. Phase 5 replaces the script.
-
----
-
-### Phase 5: Client Bundle Generation
+### Phase 5: Client Bundle Generation ✅
 
 **Scope:** Replace command-based client bundles with skill-based bundles.
 
-**Current state after Phase 4:**
-- `sync-client-bundles.js` still generates old-format command `.md` files in `src/claude/commands/bmad/` and `src/opencode/commands/bmad/`
-- Excalidraw workflows exist in upstream `bmm-skills/` but have no client commands (removed in Phase 1)
+**Completed:**
+- Added `parseCsvRows()`, `clientSkillName()`, `generateClientSkills()` to `build.js`
+- Auto-generates 92 thin SKILL.md redirect files per platform (claude, opencode, codex) from `skill-manifest.csv`
+- Each generated skill is a directory containing a single SKILL.md that points to the `_bmad/` skill entry point
+- Client skill naming adds module prefix: `bmad-agent-{module}-{name}` for agents, `bmad-{module}-{name}` for workflows
+- Updated `bmad-method` and `bmad-automation` manual skills for skill-based terminology
+- Regenerated `command-catalog.md` from skill manifest (grouped by phase, using client skill names)
+- Removed 126 old hand-written command files (63 Claude + 63 OpenCode)
+- Removed `sync-client-bundles.js` (304 lines) and its npm script
+- Updated orchestrator agents and codex prompts: "commands" → "skills"
+- Updated validation: removed stale REQUIRED_PATHS, added 3-platform sample checks + count check (94 skills)
+- Deleted empty `src/claude/commands/` and `src/opencode/commands/` directories
 
-**Work:**
-- Add client skill generation to `build.js`: walk merged `dist/_bmad/`, generate `dist/.claude/skills/`, `dist/.opencode/skills/`, `dist/.codex/skills/` with skill directories per platform
-- Follow upstream naming: `bmad-agent-bmm-analyst/SKILL.md`, `bmad-bmm-create-product-brief/SKILL.md`, `bmad-compass-threat-modeling/SKILL.md`
-- Restore excalidraw commands (now generated from upstream module-help.csv automatically)
-- Update orchestrator agent files for each client
-- Remove old `src/claude/commands/bmad/`, `src/opencode/commands/bmad/` directories
-- Remove `tools/sync-client-bundles.js`
-- Update `src/codex/` prompts to reference skills instead of commands
-
-**Exit criteria:** Client bundles use skill format. Old command directories removed. `sync-client-bundles.js` deleted. All clients functional.
+**Exit criteria met:** Client bundles use skill format. Old command directories removed. `sync-client-bundles.js` deleted. All clients functional. Build generates 276 skill files (92 × 3 platforms).
