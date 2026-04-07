@@ -194,6 +194,7 @@ git commit -m "feat(bmad): convert 8 Compass-only agents to skill format in comp
 | `workflows/0-governance/phase-sync/` | `0-governance/bmad-compass-phase-sync/` | Cross-phase synchronization checkpoint |
 | `workflows/0-governance/phase-closeout/` | `0-governance/bmad-compass-phase-closeout/` | Phase completion and handoff |
 | `workflows/0-governance/oversight-checkpoint/` | `0-governance/bmad-compass-oversight-checkpoint/` | Oversight substrate evaluation |
+| `workflows/0-governance/security-activation.md` | `0-governance/bmad-compass-oversight-checkpoint/security-activation.md` | Sidecar: security activation criteria (place inside oversight-checkpoint skill) |
 | `workflows/documentation/init-docs/` | `documentation/bmad-compass-init-docs/` | Initialize Compass docs layout |
 | `workflows/documentation/update-docs/` | `documentation/bmad-compass-update-docs/` | Incremental documentation updates |
 | `workflows/documentation/validate-docs/` | `documentation/bmad-compass-validate-docs/` | Docs structure/policy compliance |
@@ -306,6 +307,7 @@ git commit -m "feat(bmad): convert plan-workflows, secure-gates, quick-spec Comp
 | `workflows/testarch/test-design/` | `4-implementation/bmad-compass-testarch-test-design/` | Test design strategy |
 | `workflows/testarch/test-review/` | `4-implementation/bmad-compass-testarch-test-review/` | Test review and quality check |
 | `workflows/testarch/trace/` | `4-implementation/bmad-compass-testarch-trace/` | Requirements traceability |
+| `workflows/testarch/README.md` | `4-implementation/_tea-knowledge/README.md` | Sidecar: testarch module overview (place in TEA knowledge) |
 
 **Additional TEA knowledge files:** The directory `src/bmad/modules/custom/bmm/testarch/` contains `knowledge/` and `tea-index.csv`. These are reference data for the TEA agent, not standalone workflows. Copy them to `compass-skills/4-implementation/_tea-knowledge/`.
 
@@ -359,6 +361,7 @@ For each override, diff the custom content against the native skill:
 | `bmad-quick-flow/quick-dev/` | `bmad-quick-dev` | Compare |
 | `document-project/` | `bmad-document-project` | Compare |
 | `generate-project-context/` | `bmad-generate-project-context` | Compare |
+| `qa-generate-e2e-tests/` | `bmad-qa-generate-e2e-tests` | Compare |
 
 **Step 1: Run audit**
 
@@ -434,9 +437,9 @@ git commit -m "feat(bmad): convert upstream workflow overrides with Compass diff
 
 **Step 2: Convert BMad Master**
 
-Read `src/bmad/modules/custom/core/agents/bmad-master.agent.yaml` and convert to skill format. Place in `src/bmad/modules/custom/core-skills/bmad-master/` (or as a core-skills override if native has a bmad-master equivalent).
+Read `src/bmad/modules/custom/core/agents/bmad-master.agent.yaml` and convert to skill format. Place in `src/bmad/modules/custom/core-skills/bmad-master/`.
 
-Note: The build system currently doesn't have a `core-skills` custom module in `SKILL_MODULES`. If needed, the bmad-master can go in `custom/compass-skills/` instead.
+The build system already supports `custom/core-skills/` — it's defined in `SKILL_MODULES` at `tools/build.js` lines 33-39 as the custom overlay for the `core` module. Files placed here will be merged into `dist/_bmad/core/` alongside native `core-skills` content. BMad Master has no native equivalent, so it will be added (not overlaid).
 
 **Step 3: Convert core workflows**
 
@@ -611,17 +614,41 @@ git commit -m "feat(bmad): move data and team configs to compass-skills _resourc
 
 **Step 1: Remove buildBmadCompat() from build.js**
 
-Delete the entire `buildBmadCompat()` function (lines ~206-234) and its call in `buildBmadSkills()` (line ~264).
+Delete the entire `buildBmadCompat()` function and its call in `buildBmadSkills()`. However, KEEP the `_config/` copy logic — extract it into `buildBmadSkills()` directly:
 
-**Step 2: Remove DIST_BMAD_REFERENCE_CSVS**
+```javascript
+// In buildBmadSkills(), replace the buildBmadCompat() call with:
+const oldConfig = path.join(SRC, 'bmad', '_config');
+if (await exists(oldConfig)) {
+  const configDest = path.join(BMAD_DIST, '_config');
+  await copyDir(oldConfig, configDest);
+  console.log('  Copied _config/ manifests (temporary — Phase 4 will auto-generate)');
+}
+```
 
-Remove the constant and the `validateDistBmadReferences()` function call from build.js, since the old CSV paths won't resolve in the new layout.
+This keeps `_config/` (agent-manifest.csv, bmad-help.csv) in dist because native skills (bmad-party-mode, bmad-help, bmad-retrospective, bmad-advanced-elicitation) reference these files at runtime. Phase 4 will replace this with auto-generated manifests.
 
-**Step 3: Verify build**
+**Step 2: Remove DIST_BMAD_REFERENCE_CSVS and validateDistBmadReferences()**
+
+Remove ALL of these from build.js:
+1. The `DIST_BMAD_REFERENCE_CSVS` constant (both entries: `_config/bmad-help.csv` and `modules/custom/bmm/module-help.csv`)
+2. The entire `validateDistBmadReferences()` function definition
+3. The `validateDistBmadReferences()` call inside `validateBuild()`
+
+**Step 3: Remove `_bmad/modules/custom/bmm` from validateBuild() requiredChecks**
+
+In the `requiredChecks` array inside `validateBuild()`, remove the entry:
+```javascript
+{ label: '_bmad/modules/custom/bmm', path: path.join(DIST_ROOT, '_bmad', 'modules', 'custom', 'bmm') }
+```
+
+This check validates the compat shim output which no longer exists.
+
+**Step 4: Verify build**
 
 Run: `node tools/build.js`
 
-Expected: Build passes. `dist/_bmad/modules/` directory no longer exists. Only `dist/_bmad/bmm/`, `dist/_bmad/core/`, `dist/_bmad/compass/`, `dist/_bmad/bmad-builder/` exist.
+Expected: Build passes. `dist/_bmad/modules/` directory no longer exists. `dist/_bmad/_config/` still exists (temporary). Only `dist/_bmad/bmm/`, `dist/_bmad/core/`, `dist/_bmad/compass/`, `dist/_bmad/bmad-builder/`, `dist/_bmad/_config/` exist.
 
 **Step 4: Commit**
 
@@ -689,7 +716,7 @@ git commit -m "refactor(validate): remove old-format checks, add compass-skills 
 - Delete: `src/bmad/modules/custom/bmm/` (entire directory)
 - Delete: `src/bmad/modules/custom/core/` (entire directory)
 - Delete: `reference/migration-staging/` (entire directory)
-- Delete: `src/bmad/_config/` (old manifests — Phase 4 will regenerate)
+- KEEP: `src/bmad/_config/` — still needed by `sync-client-bundles.js` (Phase 5) and native runtime references (Phase 4)
 
 **Step 1: Verify no remaining references**
 
@@ -709,7 +736,9 @@ If any references remain, update them before proceeding.
 rm -rf src/bmad/modules/custom/bmm/
 rm -rf src/bmad/modules/custom/core/
 rm -rf reference/migration-staging/
-rm -rf src/bmad/_config/
+# NOTE: Do NOT delete src/bmad/_config/ — it's still needed by:
+# - sync-client-bundles.js (reads bmad-help.csv to generate commands) until Phase 5
+# - build.js _config/ copy to dist (native skills reference these at runtime) until Phase 4
 ```
 
 **Step 3: Verify build**
@@ -724,7 +753,7 @@ Expected: Build passes cleanly. No old-format content in dist.
 ls dist/_bmad/
 ```
 
-Expected: `bmm/`, `core/`, `compass/`, `bmad-builder/`, `BMAD-workflow.md` — no `modules/` or `_config/` directories.
+Expected: `bmm/`, `core/`, `compass/`, `bmad-builder/`, `_config/`, `BMAD-workflow.md` — no `modules/` directory. `_config/` is still present (temporary, removed in Phase 4).
 
 **Step 5: Commit**
 
@@ -736,7 +765,9 @@ Removed:
 - src/bmad/modules/custom/bmm/ (old agent YAMLs + workflows)
 - src/bmad/modules/custom/core/ (old core module)
 - reference/migration-staging/ (temporary staging from Phase 1)
-- src/bmad/_config/ (old hand-maintained manifests)"
+
+Kept (deferred):
+- src/bmad/_config/ (needed by sync-client-bundles.js and native runtime refs until Phase 4/5)"
 ```
 
 ---
@@ -779,9 +810,15 @@ This allows incremental merging and reduces blast radius.
 
 ### Risk Mitigation
 
-- Old `.agent.yaml` files reference `{project-root}/_bmad/modules/custom/bmm/...` paths. These only resolve via the compat shim. Removing the compat shim (Task 12) breaks these references. This is intentional — the new SKILL.md format uses skill names instead of paths.
-- The old CSVs (`bmad-help.csv`, `module-help.csv`) reference old paths. They're removed in Task 14. Phase 4 generates new manifests.
-- `sync-client-bundles.js` reads `bmad-help.csv` to generate commands. After removing the CSV (Task 14), this script won't work. Phase 5 replaces it with skill-based generation. Until then, the old commands in `src/claude/commands/bmad/` remain functional.
+- **Compat shim removal (Task 12):** Old `.agent.yaml` files reference `{project-root}/_bmad/modules/custom/bmm/...` paths. These only resolve via the compat shim. Removing the compat shim breaks these references. This is intentional — the new SKILL.md format uses skill names instead of paths. The old `.agent.yaml` files are deleted in Task 14.
+- **`_config/` preserved:** `src/bmad/_config/` (bmad-help.csv, agent-manifest.csv) is NOT deleted in Phase 3. Native skills (bmad-party-mode, bmad-help, bmad-retrospective, bmad-advanced-elicitation) reference `_config/agent-manifest.csv` and `_config/bmad-help.csv` at runtime. The build copies `_config/` to dist. Phase 4 replaces this with auto-generated manifests, and Phase 5 removes `sync-client-bundles.js` which also reads bmad-help.csv.
+- **Client commands unchanged:** `src/claude/commands/bmad/` and `src/opencode/commands/bmad/` contain pre-generated `.md` files that don't reference old paths at runtime. They remain functional until Phase 5 replaces them with skill-based bundles.
+- **`documentation-framework` in custom/core (Task 8):** Must be verified as a duplicate of `src/documentation/` before deletion. Diff before dropping.
+
+### Known Temporary Limitations After Phase 3
+
+- `dist/_bmad/modules/custom/` no longer exists — old orchestrator agent cannot load agents from old YAML paths (use new skill-based activation instead)
+- `module-help.csv` files in `custom/bmm/` and `custom/core/` are deleted — their entries are not yet in the new `compass-skills/module-help.csv` (Phase 4 auto-generates)
 
 ### Build Must Pass After Each Task
 

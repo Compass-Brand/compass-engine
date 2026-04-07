@@ -85,7 +85,7 @@ src/bmad/
 │       │   │   ├── bmad-compass-secure-gates/
 │       │   │   ├── bmad-compass-implementation-brainstorming/
 │       │   │   ├── bmad-compass-implementation-research/
-│       │   │   └── bmad-compass-testarch-*/  (9 TEA workflows)
+│       │   │   └── bmad-compass-testarch-*/  (10 TEA workflows)
 │       │   ├── anytime/
 │       │   │   └── bmad-compass-problem-solving/
 │       │   ├── documentation/
