@@ -293,15 +293,7 @@ async function buildBmadSkills() {
     }
   }
 
-  // Temporary: copy _config/ manifests (Phase 4 will auto-generate)
-  const oldConfig = path.join(SRC, 'bmad', '_config');
-  if (await exists(oldConfig)) {
-    const configDest = path.join(BMAD_DIST, '_config');
-    await copyDir(oldConfig, configDest);
-    console.log('  Copied _config/ manifests (temporary — Phase 4 will auto-generate)');
-  }
-
-  // Generate agent-manifest.csv (overwrites old hand-maintained version)
+  // Generate agent-manifest.csv and bmad-help.csv from skill directory tree
   await generateAgentManifest();
   await generateBmadHelp();
 }
