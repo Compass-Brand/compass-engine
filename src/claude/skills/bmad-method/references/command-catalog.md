@@ -1,6 +1,6 @@
 # BMAD Command Catalog
 
-Generated from `src/bmad/_config/bmad-help.csv`.
+Generated from `dist/_bmad/_config/bmad-help.csv` (auto-generated at build time from per-module `module-help.csv` files).
 
 Use this reference when selecting the right BMAD slash command for the current phase or when translating a BMAD workflow request into the shipped client command surface.
 

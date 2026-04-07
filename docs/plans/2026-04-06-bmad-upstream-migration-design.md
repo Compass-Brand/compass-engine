@@ -128,7 +128,8 @@ dist/_bmad/
 ├── bmad-builder/        # custom/bmad-builder-skills/ as-is
 └── _config/
     ├── agent-manifest.csv   # Generated: all agents from all modules
-    └── skill-manifest.csv   # Generated: all skills from all modules
+    ├── skill-manifest.csv   # Generated: all skills from all modules
+    └── bmad-help.csv        # Generated: merged from per-module module-help.csv
 ```
 
 ### Client Output
@@ -220,11 +221,10 @@ The `after`/`before` columns replace sequence numbers with explicit dependency r
 3. **`buildBmadCompat()`** — Temporary: copies old-format `custom/bmm/` and `custom/core/` to `dist/_bmad/modules/custom/` at CSV-referenced paths. Removed in Phase 3.
 
 **Remaining (Phase 4):**
-4. **Manifest generation** — Walk merged `dist/_bmad/`, collect `bmad-skill-manifest.yaml` files, generate `agent-manifest.csv` and `skill-manifest.csv` automatically.
+4. **Manifest generation** — Walk merged `dist/_bmad/`, collect `bmad-skill-manifest.yaml` files, generate `agent-manifest.csv`, `skill-manifest.csv`, and merged `bmad-help.csv` automatically.
 
 **Remaining (Phase 5):**
 5. **Client skill generation** — Replace `sync-client-bundles.js`. Generate skill directories for each client platform from merged module tree.
-6. **Module-help merge** — Concatenate per-module `module-help.csv` files into unified help index.
 
 ### validate.js (Phase 1 ✅ + Phase 4 remaining)
 
@@ -315,24 +315,24 @@ Unchanged — operates on `dist/` which is just a different shape.
 
 ---
 
-### Phase 4: Manifest Migration
+### Phase 4: Manifest Migration ✅
+
+**Status:** Complete (PR #78, 2026-04-07)
 
 **Scope:** Switch from hand-maintained CSVs to build-generated manifests.
 
-**Current state after Phase 3:**
-- `workflow-manifest.csv` and `task-manifest.csv` already deleted (Phase 1)
-- `bmad-help.csv` still hand-maintained, used by `sync-client-bundles.js`
-- `agent-manifest.csv` still hand-maintained
-- Each module has its own `module-help.csv` (upstream uses 13-column format, compass-skills uses 13-column format from Phase 3)
+**What was done:**
+- Added `parseSimpleYaml()` and `listFilesRecursive()` helpers to build.js
+- Added `generateAgentManifest()` — walks dist for `bmad-skill-manifest.yaml` where `type: agent`, generates `_config/agent-manifest.csv` (21 agents)
+- Added `generateBmadHelp()` — dynamically discovers modules, concatenates `module-help.csv` files into unified `_config/bmad-help.csv` (44 skills from 4 modules)
+- Added `generateSkillManifest()` — walks all SKILL.md files, generates `_config/skill-manifest.csv` (92 skills)
+- Deleted `src/bmad/_config/` (hand-maintained bmad-help.csv + agent-manifest.csv)
+- Added `validateGeneratedManifests()` to validate.js — checks agent skills have `bmad-skill-manifest.yaml`
+- Added `validateModuleHelpDeps()` to validate.js — validates `after`/`before` dependency refs resolve to real skills (handles column misalignment + skill:action notation)
+- Updated build `validateBuild()` with requiredChecks for all 3 generated manifests
+- Updated 7 files with stale `src/bmad/_config/` references
 
-**Work:**
-- Add manifest generation to `build.js`: walk `dist/_bmad/`, collect `bmad-skill-manifest.yaml` (and `bmad-manifest.json`) files, generate `agent-manifest.csv` and `skill-manifest.csv`
-- Add module-help merge: concatenate per-module `module-help.csv` into unified `_config/bmad-help.csv`
-- Remove hand-maintained `src/bmad/_config/bmad-help.csv` and `src/bmad/_config/agent-manifest.csv`
-- Update `validate.js`: validate `after`/`before` dependency references resolve to real skills
-- Update orchestrator agent and help skill to read generated manifests
-
-**Exit criteria:** No hand-maintained manifests in `src/bmad/_config/`. All manifests generated at build time. Dependency graph validates.
+**Known limitation:** `sync-client-bundles.js` is broken (reads old 16-column format, new is 13-column). Existing pre-generated command files remain functional. Phase 5 replaces the script.
 
 ---
 

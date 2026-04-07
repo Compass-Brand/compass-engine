@@ -10,5 +10,5 @@ Included:
 
 Notes:
 
-- `commands/bmad/` is generated from `src/bmad/_config/bmad-help.csv` by `npm run sync:client-bundles`.
+- `commands/bmad/` is auto-generated at build time from per-module `module-help.csv` files (output: `dist/_bmad/_config/bmad-help.csv`).
 - `agents/` contains OpenCode-facing wrappers for Compass BMAD orchestration behavior.

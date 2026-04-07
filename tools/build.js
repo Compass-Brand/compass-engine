@@ -123,6 +123,41 @@ async function exists(filePath) {
   }
 }
 
+function parseSimpleYaml(content) {
+  const result = {};
+  for (const line of content.split('\n')) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+    const colonIdx = trimmed.indexOf(':');
+    if (colonIdx < 1) continue;
+    const key = trimmed.slice(0, colonIdx).trim();
+    let value = trimmed.slice(colonIdx + 1).trim();
+    // Strip surrounding quotes
+    if (value.startsWith('"') && value.endsWith('"')) {
+      value = value.slice(1, -1);
+    }
+    // Decode YAML unicode escapes (\U0001FXXX → actual emoji)
+    value = value.replace(/\\U([0-9A-Fa-f]{8})/g, (_, hex) =>
+      String.fromCodePoint(parseInt(hex, 16)),
+    );
+    result[key] = value;
+  }
+  return result;
+}
+
+async function listFilesRecursive(rootPath, currentPath = rootPath, files = []) {
+  const entries = await fs.readdir(currentPath, { withFileTypes: true });
+  for (const entry of entries) {
+    const entryPath = path.join(currentPath, entry.name);
+    if (entry.isDirectory()) {
+      await listFilesRecursive(rootPath, entryPath, files);
+    } else {
+      files.push(path.relative(rootPath, entryPath).replace(/\\/g, '/'));
+    }
+  }
+  return files;
+}
+
 async function copyDir(src, dest, options = {}) {
   const { baseDir = null, skipPaths = [] } = options;
 
@@ -154,6 +189,128 @@ async function mergeModules(nativePath, customPath, outputPath) {
   }
 }
 
+async function generateAgentManifest() {
+  const configDir = path.join(BMAD_DIST, '_config');
+  await fs.mkdir(configDir, { recursive: true });
+
+  const allFiles = await listFilesRecursive(BMAD_DIST);
+  const manifestFiles = allFiles.filter((f) => f.endsWith('/bmad-skill-manifest.yaml'));
+
+  const agents = [];
+  for (const relPath of manifestFiles) {
+    const fullPath = path.join(BMAD_DIST, relPath);
+    const content = await fs.readFile(fullPath, 'utf-8');
+    const data = parseSimpleYaml(content);
+    if (data.type !== 'agent') continue;
+
+    const skillDir = path.dirname(relPath);
+    agents.push({
+      id: `_bmad/${skillDir}/SKILL.md`,
+      name: data.name || '',
+      displayName: data.displayName || '',
+      title: data.title || '',
+      icon: data.icon || '',
+      role: data.role || '',
+      identity: data.identity || '',
+      communicationStyle: data.communicationStyle || '',
+      principles: data.principles || '',
+      module: data.module || '',
+      path: `_bmad/${relPath}`,
+    });
+  }
+
+  agents.sort((a, b) => a.module.localeCompare(b.module) || a.name.localeCompare(b.name));
+
+  const header = '"id","name","displayName","title","icon","role","identity","communicationStyle","principles","module","path"';
+  const rows = agents.map((a) => {
+    const escape = (v) => `"${(v || '').replace(/"/g, '""')}"`;
+    return [a.id, a.name, a.displayName, a.title, a.icon, a.role, a.identity, a.communicationStyle, a.principles, a.module, a.path].map(escape).join(',');
+  });
+
+  const csv = [header, ...rows].join('\n') + '\n';
+  await fs.writeFile(path.join(configDir, 'agent-manifest.csv'), csv);
+  console.log(`  Generated agent-manifest.csv (${agents.length} agents)`);
+}
+
+async function generateBmadHelp() {
+  const configDir = path.join(BMAD_DIST, '_config');
+  await fs.mkdir(configDir, { recursive: true });
+
+  const header = 'module,skill,display-name,menu-code,description,action,args,phase,after,before,required,output-location,outputs';
+  const allRows = [];
+
+  // Dynamically discover modules (all top-level dirs in dist/_bmad/ except _config)
+  const bmadEntries = await fs.readdir(BMAD_DIST, { withFileTypes: true });
+  const moduleNames = bmadEntries
+    .filter((e) => e.isDirectory() && !e.name.startsWith('_'))
+    .map((e) => e.name);
+
+  for (const modName of moduleNames) {
+    const csvPath = path.join(BMAD_DIST, modName, 'module-help.csv');
+    if (!(await exists(csvPath))) continue;
+
+    const content = await fs.readFile(csvPath, 'utf-8');
+    const lines = content.split(/\r?\n/).filter(Boolean);
+
+    // Skip header row (first line), add data rows
+    for (let i = 1; i < lines.length; i++) {
+      if (lines[i].trim()) {
+        allRows.push(lines[i]);
+      }
+    }
+  }
+
+  const csv = [header, ...allRows].join('\n') + '\n';
+  await fs.writeFile(path.join(configDir, 'bmad-help.csv'), csv);
+  console.log(`  Generated bmad-help.csv (${allRows.length} skills from ${moduleNames.length} modules)`);
+}
+
+async function generateSkillManifest() {
+  const configDir = path.join(BMAD_DIST, '_config');
+  await fs.mkdir(configDir, { recursive: true });
+
+  const allFiles = await listFilesRecursive(BMAD_DIST);
+  const skillFiles = allFiles.filter((f) => f.endsWith('/SKILL.md'));
+
+  const skills = [];
+  for (const relPath of skillFiles) {
+    const fullPath = path.join(BMAD_DIST, relPath);
+    const content = await fs.readFile(fullPath, 'utf-8');
+    const frontmatter = content.match(/^---\n([\s\S]*?)\n---/);
+    if (!frontmatter) continue;
+
+    const nameMatch = frontmatter[1].match(/^name:\s*(.+)$/m);
+    const descMatch = frontmatter[1].match(/^description:\s*['"]?(.*?)['"]?\s*$/m);
+    if (!nameMatch) continue;
+
+    const name = nameMatch[1].trim().replace(/['"]/g, '');
+    const description = descMatch ? descMatch[1].trim() : '';
+    const skillDir = path.dirname(relPath);
+    const module = relPath.split('/')[0];
+    const isAgent = name.startsWith('bmad-agent-') || name === 'bmad-master';
+
+    skills.push({
+      name,
+      type: isAgent ? 'agent' : 'workflow',
+      description,
+      module,
+      path: `_bmad/${skillDir}`,
+    });
+  }
+
+  skills.sort((a, b) => a.module.localeCompare(b.module) || a.name.localeCompare(b.name));
+
+  const header = 'name,type,description,module,path';
+  const rows = skills.map((s) => {
+    const escape = (v) => `"${(v || '').replace(/"/g, '""')}"`;
+    return [s.name, s.type, s.description, s.module, s.path].map(escape).join(',');
+  });
+
+  const csv = [header, ...rows].join('\n') + '\n';
+  await fs.writeFile(path.join(configDir, 'skill-manifest.csv'), csv);
+  console.log(`  Generated skill-manifest.csv (${skills.length} skills)`);
+}
+
 async function buildBmadSkills() {
   console.log('\nBuilding _bmad (skill-based)...');
   await fs.mkdir(BMAD_DIST, { recursive: true });
@@ -182,13 +339,10 @@ async function buildBmadSkills() {
     }
   }
 
-  // Temporary: copy _config/ manifests (Phase 4 will auto-generate)
-  const oldConfig = path.join(SRC, 'bmad', '_config');
-  if (await exists(oldConfig)) {
-    const configDest = path.join(BMAD_DIST, '_config');
-    await copyDir(oldConfig, configDest);
-    console.log('  Copied _config/ manifests (temporary — Phase 4 will auto-generate)');
-  }
+  // Generate agent-manifest.csv and bmad-help.csv from skill directory tree
+  await generateAgentManifest();
+  await generateBmadHelp();
+  await generateSkillManifest();
 }
 
 async function cleanDist() {
@@ -293,6 +447,9 @@ async function validateBuild() {
     { label: 'root/.coderabbit.yaml', path: path.join(DIST_ROOT, 'root', '.coderabbit.yaml') },
     { label: 'root/.editorconfig', path: path.join(DIST_ROOT, 'root', '.editorconfig') },
     { label: 'root/.gitattributes', path: path.join(DIST_ROOT, 'root', '.gitattributes') },
+    { label: '_bmad/_config/agent-manifest.csv', path: path.join(DIST_ROOT, '_bmad', '_config', 'agent-manifest.csv') },
+    { label: '_bmad/_config/bmad-help.csv', path: path.join(DIST_ROOT, '_bmad', '_config', 'bmad-help.csv') },
+    { label: '_bmad/_config/skill-manifest.csv', path: path.join(DIST_ROOT, '_bmad', '_config', 'skill-manifest.csv') },
   ];
 
   if (await exists(path.join(SRC, 'codex'))) {

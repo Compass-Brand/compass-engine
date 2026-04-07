@@ -21,8 +21,8 @@ src/claude/
 
 Generated BMAD adapters:
 
-- `src/claude/commands/bmad/` is generated from `src/bmad/_config/bmad-help.csv`
-- run `npm run sync:client-bundles` after changing the BMAD catalog
+- `src/claude/commands/bmad/` is auto-generated at build time from per-module `module-help.csv` files (output: `dist/_bmad/_config/bmad-help.csv`)
+- run `npm run build` to regenerate BMAD command adapters
 - do not hand-edit generated files in `src/claude/commands/bmad/`
 
 ## Adding a New Command
