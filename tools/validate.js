@@ -26,7 +26,7 @@ const REQUIRED_PATHS = [
   'src/codex/skills/bmad-method/SKILL.md',
   'src/codex/prompts/bmad-help.md',
   'src/bmad/BMAD-workflow.md',
-  'src/bmad/modules/custom/bmm/module-help.csv',
+  'src/bmad/modules/custom/compass-skills/module.yaml',
   'src/bmad/modules/native/bmm-skills/module.yaml',
   'src/bmad/modules/native/bmm-skills/module-help.csv',
   'src/bmad/modules/native/core-skills/module.yaml',
@@ -56,11 +56,6 @@ const REQUIRED_PATHS = [
   'src/root/.gitattributes',
 ];
 
-const BMAD_REFERENCE_CSVS = [
-  { relPath: 'src/bmad/_config/bmad-help.csv', pathColumn: 5 },
-  { relPath: 'src/bmad/modules/custom/bmm/module-help.csv', pathColumn: 5 },
-];
-
 async function exists(relPath) {
   try {
     await fs.access(path.join(ROOT, relPath));
@@ -80,104 +75,6 @@ async function validateRequiredPaths() {
       ok = false;
     }
   }
-  return ok;
-}
-
-function parseCsvLine(line) {
-  const cells = [];
-  let current = '';
-  let inQuotes = false;
-
-  for (let index = 0; index < line.length; index++) {
-    const char = line[index];
-
-    if (char === '"') {
-      if (inQuotes && line[index + 1] === '"') {
-        current += '"';
-        index += 1;
-      } else {
-        inQuotes = !inQuotes;
-      }
-      continue;
-    }
-
-    if (char === ',' && !inQuotes) {
-      cells.push(current);
-      current = '';
-      continue;
-    }
-
-    current += char;
-  }
-
-  cells.push(current);
-  return cells;
-}
-
-function mapInstalledBmadPathToSource(installedPath) {
-  if (!installedPath.startsWith('_bmad/')) {
-    return null;
-  }
-  return path.join(ROOT, 'src', 'bmad', installedPath.slice('_bmad/'.length));
-}
-
-async function validateBmadReferenceCsvs() {
-  let ok = true;
-
-  for (const { relPath, pathColumn } of BMAD_REFERENCE_CSVS) {
-    const absolutePath = path.join(ROOT, relPath);
-    const content = await fs.readFile(absolutePath, 'utf-8');
-    const lines = content.split(/\r?\n/).filter(Boolean);
-
-    for (const [lineIndex, line] of lines.entries()) {
-      const cells = parseCsvLine(line);
-      if (cells.length <= pathColumn) continue;
-      const installedPath = cells[pathColumn]?.trim();
-      const mappedPath = mapInstalledBmadPathToSource(installedPath);
-      if (!mappedPath) continue;
-
-      try {
-        await fs.access(mappedPath);
-      } catch {
-        console.error(
-          `ERROR broken BMAD manifest reference in ${relPath}:${lineIndex + 1} -> ${installedPath}`,
-        );
-        ok = false;
-      }
-    }
-  }
-
-  if (ok) console.log('OK BMAD manifest workflow references');
-  return ok;
-}
-
-async function validateCustomBmadAgentExecPaths() {
-  const agentsRoot = path.join(ROOT, 'src', 'bmad', 'modules', 'custom', 'bmm', 'agents');
-  const files = await listFilesRecursive(agentsRoot);
-  let ok = true;
-
-  for (const filePath of files) {
-    if (!filePath.endsWith('.agent.yaml')) continue;
-    const content = await fs.readFile(filePath, 'utf-8');
-    const matches = content.matchAll(/exec:\s*"(\{project-root\}\/_bmad\/[^"]+)"/g);
-
-    for (const match of matches) {
-      const installedPath = match[1].replace('{project-root}/', '');
-      const mappedPath = mapInstalledBmadPathToSource(installedPath);
-      if (!mappedPath) continue;
-
-      try {
-        await fs.access(mappedPath);
-      } catch {
-        console.error(
-          `ERROR broken BMAD agent exec reference in ${path.relative(ROOT, filePath)} -> ${installedPath}`,
-        );
-        ok = false;
-      }
-    }
-  }
-
-  if (ok) console.log('OK BMAD custom agent exec references');
   return ok;
 }
 
@@ -295,6 +192,7 @@ async function validateSkillFormat() {
     path.join(ROOT, 'src', 'bmad', 'modules', 'native', 'bmm-skills'),
     path.join(ROOT, 'src', 'bmad', 'modules', 'native', 'core-skills'),
     path.join(ROOT, 'src', 'bmad', 'modules', 'custom', 'bmm-skills'),
+    path.join(ROOT, 'src', 'bmad', 'modules', 'custom', 'core-skills'),
     path.join(ROOT, 'src', 'bmad', 'modules', 'custom', 'compass-skills'),
     path.join(ROOT, 'src', 'bmad', 'modules', 'custom', 'bmad-builder-skills'),
   ];
@@ -346,8 +244,6 @@ async function validate() {
     validateRequiredPaths(),
     validateCodexConfig(),
     validateSourceSecretScan(),
-    validateBmadReferenceCsvs(),
-    validateCustomBmadAgentExecPaths(),
     validateSkillFormat(),
   ]);
 
