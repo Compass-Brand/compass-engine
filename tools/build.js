@@ -123,6 +123,41 @@ async function exists(filePath) {
   }
 }
 
+function parseSimpleYaml(content) {
+  const result = {};
+  for (const line of content.split('\n')) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+    const colonIdx = trimmed.indexOf(':');
+    if (colonIdx < 1) continue;
+    const key = trimmed.slice(0, colonIdx).trim();
+    let value = trimmed.slice(colonIdx + 1).trim();
+    // Strip surrounding quotes
+    if (value.startsWith('"') && value.endsWith('"')) {
+      value = value.slice(1, -1);
+    }
+    // Decode YAML unicode escapes (\U0001FXXX → actual emoji)
+    value = value.replace(/\\U([0-9A-Fa-f]{8})/g, (_, hex) =>
+      String.fromCodePoint(parseInt(hex, 16)),
+    );
+    result[key] = value;
+  }
+  return result;
+}
+
+async function listFilesRecursive(rootPath, currentPath = rootPath, files = []) {
+  const entries = await fs.readdir(currentPath, { withFileTypes: true });
+  for (const entry of entries) {
+    const entryPath = path.join(currentPath, entry.name);
+    if (entry.isDirectory()) {
+      await listFilesRecursive(rootPath, entryPath, files);
+    } else {
+      files.push(path.relative(rootPath, entryPath).replace(/\\/g, '/'));
+    }
+  }
+  return files;
+}
+
 async function copyDir(src, dest, options = {}) {
   const { baseDir = null, skipPaths = [] } = options;
 
