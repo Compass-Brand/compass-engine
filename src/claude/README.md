@@ -15,6 +15,6 @@ Included:
 
 Notes:
 
-- `commands/bmad/` is generated from `src/bmad/_config/bmad-help.csv` by `npm run sync:client-bundles`.
+- `commands/bmad/` is auto-generated at build time from per-module `module-help.csv` files (output: `dist/_bmad/_config/bmad-help.csv`).
 - `skills/bmad-method/` and `skills/bmad-automation/` are shipped Compass BMAD helper skills.
 - Keep project-local only content out of `src/claude/`; local-only preservation is handled in the push layer.
