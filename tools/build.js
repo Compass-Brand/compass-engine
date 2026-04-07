@@ -325,7 +325,7 @@ async function generateBmadHelp() {
   // Dynamically discover modules (all top-level dirs in dist/_bmad/ except _config)
   const bmadEntries = await fs.readdir(BMAD_DIST, { withFileTypes: true });
   const moduleNames = bmadEntries
-    .filter((e) => e.isDirectory() && !e.name.startsWith('_'))
+    .filter((e) => e.isDirectory() && !e.name.startsWith('_') && e.name !== 'tools')
     .map((e) => e.name);
 
   for (const modName of moduleNames) {
@@ -398,12 +398,23 @@ async function buildBmadSkills() {
   console.log('\nBuilding _bmad (skill-based)...');
   await fs.mkdir(BMAD_DIST, { recursive: true });
 
-  const bmadWorkflow = path.join(SRC, 'bmad', 'BMAD-workflow.md');
-  if (await exists(bmadWorkflow)) {
-    await fs.copyFile(bmadWorkflow, path.join(BMAD_DIST, 'BMAD-workflow.md'));
-    console.log('  Copied BMAD-workflow.md');
+  // Copy root-level BMAD assets (everything except modules/, which is handled by merge)
+  const bmadRoot = path.join(SRC, 'bmad');
+  const bmadEntries = await fs.readdir(bmadRoot, { withFileTypes: true });
+  for (const entry of bmadEntries) {
+    if (entry.name === 'modules') continue;
+    const srcPath = path.join(bmadRoot, entry.name);
+    const destPath = path.join(BMAD_DIST, entry.name);
+    if (entry.isDirectory()) {
+      await copyDir(srcPath, destPath);
+      console.log(`  Copied ${entry.name}/`);
+    } else {
+      await fs.copyFile(srcPath, destPath);
+      console.log(`  Copied ${entry.name}`);
+    }
   }
 
+  // Merge native + custom skill modules
   for (const mod of SKILL_MODULES) {
     if (await exists(mod.native)) {
       console.log(`  Merging ${mod.name} (native + custom)...`);
