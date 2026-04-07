@@ -294,23 +294,24 @@ Unchanged — operates on `dist/` which is just a different shape.
 
 ---
 
-### Phase 3: Create compass-skills Module
+### Phase 3: Create compass-skills Module ✅
+
+**Status:** Complete (PR #77, 2026-04-07)
 
 **Scope:** Convert all Compass-only content to skill format and remove old custom directories.
 
-**Work:**
-- Create `custom/compass-skills/` with `module.yaml` and `module-help.csv` (13-column format)
-- Convert 8 Compass-only agents to skill format in phase directories
-- Convert ~50 Compass-only workflows to skill format (governance, security, WDS, CIS, TEA, documentation, planning, implementation-extras)
-- Convert `custom/bmm-skills/` overrides of workflows (if any remain after Phase 2)
-- Move `reference/migration-staging/bmad-builder` to `custom/bmad-builder-skills/` in skill format
-- Move `reference/migration-staging/test-architecture` content into `custom/compass-skills/` TEA section
-- Remove old `src/bmad/modules/custom/bmm/` and `src/bmad/modules/custom/core/`
-- Remove `buildBmadCompat()` compatibility shim from `build.js`
-- Remove `dist/_bmad/modules/custom/` from build output
-- Clean up `reference/migration-staging/`
+**What was done:**
+- Created `custom/compass-skills/` module with 35 Compass-only workflow skills + 8 Compass-only agents across phase directories (0-governance, 1-analysis, 2-plan-workflows, 3-solutioning, 4-implementation, anytime, documentation, planning)
+- Created `custom/core-skills/` with BMad Master agent + brainstorming and party-mode overrides + 2 Compass-only workflows (advanced-elicitation, autonomous-refinement-loop)
+- Audited all 18 upstream workflow overrides — all had meaningful differences, created 22 override skills in `custom/bmm-skills/`
+- Moved `bmad-builder` from staging to `custom/bmad-builder-skills/` (3 agents + workflow templates)
+- Merged `test-architecture` knowledge into `compass-skills/4-implementation/_tea-knowledge/`
+- Moved data (project-context-template) and teams configs to `compass-skills/_resources/`
+- Removed `buildBmadCompat()` from build.js (kept `_config/` copy temporarily)
+- Removed old validation functions (validateCustomBmadAgentExecPaths, validateBmadReferenceCsvs) + dead code
+- Deleted `custom/bmm/`, `custom/core/`, `reference/migration-staging/`
 
-**Exit criteria:** All custom content in skill format. No old-format files remain. Compat shim removed. Build produces clean `dist/_bmad/` with `bmm/`, `core/`, `compass/`, `bmad-builder/` only.
+**Deferred to Phase 4:** `src/bmad/_config/` (bmad-help.csv, agent-manifest.csv) still exists and is copied to dist — native skills reference these at runtime. Phase 4 will auto-generate replacements.
 
 ---
 
