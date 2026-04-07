@@ -272,9 +272,9 @@ Unchanged — operates on `dist/` which is just a different shape.
 
 ---
 
-### Phase 2: Convert Custom BMM Overrides
+### Phase 2: Convert Custom BMM Overrides ✅
 
-**Status:** In review (PR #76)
+**Status:** Complete (PR #76, merged 2026-04-07)
 
 **Scope:** Create Compass-specific agent overrides in upstream skill format for agents that differ from upstream v6.2.2.
 
