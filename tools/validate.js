@@ -235,6 +235,24 @@ async function validateSkillFormat() {
   return ok;
 }
 
+function parseCsvLine(line) {
+  const cells = [];
+  let current = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+    if (char === '"') {
+      if (inQuotes && line[i + 1] === '"') { current += '"'; i++; }
+      else { inQuotes = !inQuotes; }
+      continue;
+    }
+    if (char === ',' && !inQuotes) { cells.push(current); current = ''; continue; }
+    current += char;
+  }
+  cells.push(current);
+  return cells;
+}
+
 async function validateGeneratedManifests() {
   let ok = true;
 
@@ -275,6 +293,69 @@ async function validateGeneratedManifests() {
   return ok;
 }
 
+async function validateModuleHelpDeps() {
+  let ok = true;
+
+  // Collect all known skill names from SKILL.md directories
+  const knownSkills = new Set();
+  const moduleRoots = [
+    path.join(ROOT, 'src', 'bmad', 'modules', 'native', 'bmm-skills'),
+    path.join(ROOT, 'src', 'bmad', 'modules', 'native', 'core-skills'),
+    path.join(ROOT, 'src', 'bmad', 'modules', 'custom', 'bmm-skills'),
+    path.join(ROOT, 'src', 'bmad', 'modules', 'custom', 'core-skills'),
+    path.join(ROOT, 'src', 'bmad', 'modules', 'custom', 'compass-skills'),
+    path.join(ROOT, 'src', 'bmad', 'modules', 'custom', 'bmad-builder-skills'),
+  ];
+
+  for (const moduleRoot of moduleRoots) {
+    if (!(await exists(path.relative(ROOT, moduleRoot)))) continue;
+    const files = await listFilesRecursive(moduleRoot);
+    for (const filePath of files) {
+      if (!filePath.replace(/\\/g, '/').endsWith('/SKILL.md')) continue;
+      knownSkills.add(path.basename(path.dirname(filePath)));
+    }
+  }
+
+  // Check after/before refs in each module-help.csv
+  const moduleHelpFiles = [
+    'src/bmad/modules/native/bmm-skills/module-help.csv',
+    'src/bmad/modules/native/core-skills/module-help.csv',
+    'src/bmad/modules/custom/compass-skills/module-help.csv',
+    'src/bmad/modules/custom/bmad-builder-skills/module-help.csv',
+  ];
+
+  for (const relPath of moduleHelpFiles) {
+    if (!(await exists(relPath))) continue;
+    const content = await fs.readFile(path.join(ROOT, relPath), 'utf-8');
+    const lines = content.split(/\r?\n/).filter(Boolean);
+    const header = parseCsvLine(lines[0]);
+    const afterIdx = header.indexOf('after');
+    const beforeIdx = header.indexOf('before');
+    if (afterIdx < 0 && beforeIdx < 0) continue;
+
+    for (let i = 1; i < lines.length; i++) {
+      const cells = parseCsvLine(lines[i]);
+      // Guard: skip rows with misaligned column count (known issue in some native CSVs)
+      if (cells.length !== header.length) continue;
+      for (const [colName, colIdx] of [['after', afterIdx], ['before', beforeIdx]]) {
+        if (colIdx < 0 || !cells[colIdx]?.trim()) continue;
+        const refs = cells[colIdx].split(/[,;]/).map((r) => r.trim()).filter(Boolean);
+        for (const ref of refs) {
+          // Strip :action suffix (e.g., "bmad-create-story:create" -> "bmad-create-story")
+          const skillName = ref.includes(':') ? ref.split(':')[0] : ref;
+          if (!knownSkills.has(skillName)) {
+            console.error(`ERROR ${relPath}:${i + 1} ${colName} ref '${skillName}' is not a known skill`);
+            ok = false;
+          }
+        }
+      }
+    }
+  }
+
+  if (ok) console.log('OK module-help dependency validation');
+  return ok;
+}
+
 async function validate() {
   console.log('\n=================================');
   console.log('  Compass Engine Validate');
@@ -286,6 +367,7 @@ async function validate() {
     validateSourceSecretScan(),
     validateSkillFormat(),
     validateGeneratedManifests(),
+    validateModuleHelpDeps(),
   ]);
 
   if (checks.every(Boolean)) {
