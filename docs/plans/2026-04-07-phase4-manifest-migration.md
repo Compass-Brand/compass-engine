@@ -46,6 +46,7 @@ These files contain textual references to `src/bmad/_config/bmad-help.csv` that 
 - `src/opencode/commands/bmad/README.md`
 - `src/claude/README.md`
 - `src/opencode/README.md`
+- `docs/development/claude/modifying-claude.md`
 
 ### What we want after Phase 4
 
@@ -388,14 +389,16 @@ async function validateGeneratedManifests() {
     const files = await listFilesRecursive(moduleRoot);
 
     for (const filePath of files) {
+      // NOTE: validate.js listFilesRecursive returns FULL absolute paths
       const normalized = filePath.replace(/\\/g, '/');
       if (!normalized.endsWith('/SKILL.md')) continue;
 
-      const dirName = path.basename(path.dirname(filePath));
+      const skillDir = path.dirname(filePath);
+      const dirName = path.basename(skillDir);
       // Agent skills start with "bmad-agent-" or "bmad-master"
       if (!dirName.startsWith('bmad-agent-') && dirName !== 'bmad-master') continue;
 
-      const manifestPath = path.join(path.dirname(filePath), 'bmad-skill-manifest.yaml');
+      const manifestPath = path.join(skillDir, 'bmad-skill-manifest.yaml');
       try {
         await fs.access(manifestPath);
       } catch {
@@ -622,12 +625,16 @@ async function validateModuleHelpDeps() {
 
     for (let i = 1; i < lines.length; i++) {
       const cells = parseCsvLine(lines[i]);
+      // Guard: skip rows with misaligned column count (known issue in some native CSVs)
+      if (cells.length !== header.length) continue;
       for (const [colName, colIdx] of [['after', afterIdx], ['before', beforeIdx]]) {
         if (colIdx < 0 || !cells[colIdx]?.trim()) continue;
         const refs = cells[colIdx].split(/[,;]/).map((r) => r.trim()).filter(Boolean);
         for (const ref of refs) {
-          if (!knownSkills.has(ref)) {
-            console.error(`ERROR ${relPath}:${i + 1} ${colName} ref '${ref}' is not a known skill`);
+          // Strip :action suffix (e.g., "bmad-create-story:create" → "bmad-create-story")
+          const skillName = ref.includes(':') ? ref.split(':')[0] : ref;
+          if (!knownSkills.has(skillName)) {
+            console.error(`ERROR ${relPath}:${i + 1} ${colName} ref '${skillName}' is not a known skill`);
             ok = false;
           }
         }

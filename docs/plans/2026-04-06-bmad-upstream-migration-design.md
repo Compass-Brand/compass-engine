@@ -128,7 +128,8 @@ dist/_bmad/
 ├── bmad-builder/        # custom/bmad-builder-skills/ as-is
 └── _config/
     ├── agent-manifest.csv   # Generated: all agents from all modules
-    └── skill-manifest.csv   # Generated: all skills from all modules
+    ├── skill-manifest.csv   # Generated: all skills from all modules
+    └── bmad-help.csv        # Generated: merged from per-module module-help.csv
 ```
 
 ### Client Output
@@ -329,7 +330,7 @@ Unchanged — operates on `dist/` which is just a different shape.
 - Add module-help merge: concatenate per-module `module-help.csv` into unified `_config/bmad-help.csv`
 - Remove hand-maintained `src/bmad/_config/bmad-help.csv` and `src/bmad/_config/agent-manifest.csv`
 - Update `validate.js`: validate `after`/`before` dependency references resolve to real skills
-- Update orchestrator agent and help skill to read generated manifests
+- Orchestrator agent and help skill: no code changes needed — these are LLM-driven consumers that read the CSV by column headers. The generated files land at the same `_config/` dist path with the same column names for the data they use.
 
 **Exit criteria:** No hand-maintained manifests in `src/bmad/_config/`. All manifests generated at build time. Dependency graph validates.
 
