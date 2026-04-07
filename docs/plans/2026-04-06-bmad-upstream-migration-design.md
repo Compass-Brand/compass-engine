@@ -75,7 +75,7 @@ src/bmad/
 │       │   │   ├── bmad-compass-trigger-mapping/
 │       │   │   ├── bmad-compass-outline-scenarios/
 │       │   │   ├── bmad-compass-conceptual-specs/
-│       │   │   ├── bmad-compass-design-delivery/
+│       │   │   ├── bmad-compass-wds-ux-design/
 │       │   │   └── bmad-agent-wds-designer/
 │       │   ├── 3-solutioning/
 │       │   │   ├── bmad-compass-threat-modeling/

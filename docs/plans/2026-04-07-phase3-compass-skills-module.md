@@ -65,9 +65,10 @@ module: compass
 
 When moving workflow files from old to new directory:
 1. Create the new skill directory
-2. Copy all existing files (workflow.md, workflow.yaml, steps/, checklist.md, instructions.md/xml, templates/, data/) into it
+2. Copy ALL existing files and subdirectories into it — this includes workflow.md, workflow.yaml, workflow.xml, steps/, checklist.md, instructions.md/xml, templates/, workflows/, data/, *.csv, and any other files present. Do not selectively copy — take everything.
 3. Create SKILL.md entry point
 4. Do NOT rename .yaml to .md — keep existing file names
+5. When BOTH `workflow.yaml` and `workflow.md` exist: SKILL.md should reference `./workflow.yaml` (the orchestrator), which internally references `workflow.md` (the instructions). When only `workflow.md` exists, reference that directly.
 
 ---
 
@@ -288,10 +289,11 @@ git commit -m "feat(bmad): convert plan-workflows, secure-gates, quick-spec Comp
 
 ---
 
-## Task 6: Convert Testarch Workflows (10)
+## Task 6: Convert Testarch Workflows (9) + TEA Knowledge
 
 **Files:**
-- Create: 10 workflow skill directories in `compass-skills/4-implementation/`
+- Create: 9 workflow skill directories in `compass-skills/4-implementation/`
+- Move: 2 TEA documentation files + knowledge directory to `_tea-knowledge/`
 
 ### Workflow Mapping
 
@@ -307,6 +309,7 @@ git commit -m "feat(bmad): convert plan-workflows, secure-gates, quick-spec Comp
 | `workflows/testarch/test-design/` | `4-implementation/bmad-compass-testarch-test-design/` | Test design strategy |
 | `workflows/testarch/test-review/` | `4-implementation/bmad-compass-testarch-test-review/` | Test review and quality check |
 | `workflows/testarch/trace/` | `4-implementation/bmad-compass-testarch-trace/` | Requirements traceability |
+| `workflows/testarch/docs/tea-README.md` | `4-implementation/_tea-knowledge/tea-README.md` | Not a workflow — TEA documentation (place in TEA knowledge) |
 | `workflows/testarch/README.md` | `4-implementation/_tea-knowledge/README.md` | Sidecar: testarch module overview (place in TEA knowledge) |
 
 **Additional TEA knowledge files:** The directory `src/bmad/modules/custom/bmm/testarch/` contains `knowledge/` and `tea-index.csv`. These are reference data for the TEA agent, not standalone workflows. Copy them to `compass-skills/4-implementation/_tea-knowledge/`.
@@ -635,7 +638,14 @@ Remove ALL of these from build.js:
 2. The entire `validateDistBmadReferences()` function definition
 3. The `validateDistBmadReferences()` call inside `validateBuild()`
 
-**Step 3: Remove `_bmad/modules/custom/bmm` from validateBuild() requiredChecks**
+**Step 3: Remove orphaned helper functions**
+
+After removing `validateDistBmadReferences()`, these functions in build.js become dead code and should be removed:
+- `parseCsvLine()` — was only used by `validateDistBmadReferences()`
+- `mapInstalledBmadPathToDist()` — was only used by `validateDistBmadReferences()`
+- `listFilesRecursive()` — was only used by `validateDistBmadReferences()` in build.js
+
+**Step 4: Remove `_bmad/modules/custom/bmm` from validateBuild() requiredChecks**
 
 In the `requiredChecks` array inside `validateBuild()`, remove the entry:
 ```javascript
@@ -644,13 +654,13 @@ In the `requiredChecks` array inside `validateBuild()`, remove the entry:
 
 This check validates the compat shim output which no longer exists.
 
-**Step 4: Verify build**
+**Step 5: Verify build**
 
 Run: `node tools/build.js`
 
 Expected: Build passes. `dist/_bmad/modules/` directory no longer exists. `dist/_bmad/_config/` still exists (temporary). Only `dist/_bmad/bmm/`, `dist/_bmad/core/`, `dist/_bmad/compass/`, `dist/_bmad/bmad-builder/`, `dist/_bmad/_config/` exist.
 
-**Step 4: Commit**
+**Step 6: Commit**
 
 ```bash
 git add tools/build.js
@@ -672,7 +682,15 @@ Delete the entire function (lines ~154-182) and its call in `validate()`. This f
 
 Remove the constant (lines ~59-62) and the `validateBmadReferenceCsvs()` function. Old CSV path validation is no longer needed.
 
-**Step 3: Update REQUIRED_PATHS**
+**Step 3: Remove orphaned helper functions**
+
+After removing `validateBmadReferenceCsvs()` and `validateCustomBmadAgentExecPaths()`, these functions in validate.js become dead code and should be removed:
+- `parseCsvLine()` — was only used by `validateBmadReferenceCsvs()`
+- `mapInstalledBmadPathToSource()` — was only used by the two removed functions
+
+Note: `listFilesRecursive()` in validate.js is NOT orphaned — still used by `validateSourceSecretScan()` and `validateSkillFormat()`.
+
+**Step 4: Update REQUIRED_PATHS**
 
 Remove entries that reference old paths:
 - `src/bmad/modules/custom/bmm/module-help.csv`
@@ -681,7 +699,7 @@ Add entries for new modules:
 - `src/bmad/modules/custom/compass-skills/module.yaml`
 - `src/bmad/modules/custom/bmm-skills/` (if not already present)
 
-**Step 4: Add compass-skills and bmad-builder-skills to validateSkillFormat()**
+**Step 5: Add all custom modules to validateSkillFormat()**
 
 If not already done in earlier tasks, ensure all custom modules are validated:
 
@@ -690,18 +708,19 @@ const moduleRoots = [
   path.join(ROOT, 'src', 'bmad', 'modules', 'native', 'bmm-skills'),
   path.join(ROOT, 'src', 'bmad', 'modules', 'native', 'core-skills'),
   path.join(ROOT, 'src', 'bmad', 'modules', 'custom', 'bmm-skills'),
+  path.join(ROOT, 'src', 'bmad', 'modules', 'custom', 'core-skills'),
   path.join(ROOT, 'src', 'bmad', 'modules', 'custom', 'compass-skills'),
   path.join(ROOT, 'src', 'bmad', 'modules', 'custom', 'bmad-builder-skills'),
 ];
 ```
 
-**Step 5: Verify**
+**Step 6: Verify**
 
 Run: `node tools/validate.js`
 
 Expected: PASS with no old-format validation errors.
 
-**Step 6: Commit**
+**Step 7: Commit**
 
 ```bash
 git add tools/validate.js
