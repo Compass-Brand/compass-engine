@@ -235,6 +235,46 @@ async function validateSkillFormat() {
   return ok;
 }
 
+async function validateGeneratedManifests() {
+  let ok = true;
+
+  const moduleRoots = [
+    path.join(ROOT, 'src', 'bmad', 'modules', 'native', 'bmm-skills'),
+    path.join(ROOT, 'src', 'bmad', 'modules', 'native', 'core-skills'),
+    path.join(ROOT, 'src', 'bmad', 'modules', 'custom', 'bmm-skills'),
+    path.join(ROOT, 'src', 'bmad', 'modules', 'custom', 'core-skills'),
+    path.join(ROOT, 'src', 'bmad', 'modules', 'custom', 'compass-skills'),
+    path.join(ROOT, 'src', 'bmad', 'modules', 'custom', 'bmad-builder-skills'),
+  ];
+
+  for (const moduleRoot of moduleRoots) {
+    if (!(await exists(path.relative(ROOT, moduleRoot)))) continue;
+    const files = await listFilesRecursive(moduleRoot);
+
+    for (const filePath of files) {
+      // NOTE: validate.js listFilesRecursive returns FULL absolute paths
+      const normalized = filePath.replace(/\\/g, '/');
+      if (!normalized.endsWith('/SKILL.md')) continue;
+
+      const skillDir = path.dirname(filePath);
+      const dirName = path.basename(skillDir);
+      // Agent skills start with "bmad-agent-" or "bmad-master"
+      if (!dirName.startsWith('bmad-agent-') && dirName !== 'bmad-master') continue;
+
+      const manifestPath = path.join(skillDir, 'bmad-skill-manifest.yaml');
+      try {
+        await fs.access(manifestPath);
+      } catch {
+        console.error(`ERROR agent skill ${dirName} missing bmad-skill-manifest.yaml`);
+        ok = false;
+      }
+    }
+  }
+
+  if (ok) console.log('OK agent manifest validation');
+  return ok;
+}
+
 async function validate() {
   console.log('\n=================================');
   console.log('  Compass Engine Validate');
@@ -245,6 +285,7 @@ async function validate() {
     validateCodexConfig(),
     validateSourceSecretScan(),
     validateSkillFormat(),
+    validateGeneratedManifests(),
   ]);
 
   if (checks.every(Boolean)) {
