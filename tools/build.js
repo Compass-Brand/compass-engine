@@ -447,6 +447,9 @@ async function validateBuild() {
     { label: 'root/.coderabbit.yaml', path: path.join(DIST_ROOT, 'root', '.coderabbit.yaml') },
     { label: 'root/.editorconfig', path: path.join(DIST_ROOT, 'root', '.editorconfig') },
     { label: 'root/.gitattributes', path: path.join(DIST_ROOT, 'root', '.gitattributes') },
+    { label: '_bmad/_config/agent-manifest.csv', path: path.join(DIST_ROOT, '_bmad', '_config', 'agent-manifest.csv') },
+    { label: '_bmad/_config/bmad-help.csv', path: path.join(DIST_ROOT, '_bmad', '_config', 'bmad-help.csv') },
+    { label: '_bmad/_config/skill-manifest.csv', path: path.join(DIST_ROOT, '_bmad', '_config', 'skill-manifest.csv') },
   ];
 
   if (await exists(path.join(SRC, 'codex'))) {
