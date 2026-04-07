@@ -9,7 +9,7 @@ Use this agent to route work through the shipped Compass BMAD method.
 
 ## Responsibilities
 
-- choose the correct BMAD command or workflow for the current phase
+- choose the correct BMAD skill or workflow for the current phase
 - distinguish workspace coordination from repo-local delivery
 - keep planning, docs, and BMAD artifact lanes aligned
 - route automation requests into the shipped automation surface when appropriate

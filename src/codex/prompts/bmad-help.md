@@ -2,7 +2,7 @@
 
 Use the shipped Compass BMAD method to answer:
 
-- what command should I run next
+- what skill should I run next
 - where does this artifact go
 - how do docs, planning, and BMAD line up
 - what is the correct phase entry point
