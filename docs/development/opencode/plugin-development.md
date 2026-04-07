@@ -9,7 +9,7 @@ How OpenCode plugin work should be done from `compass-engine`.
 - `.opencode` command/agent bundles are maintained under `src/opencode/`.
 - Plugin implementation source lives in `src/opencode/plugins/`.
 - Strategy and target architecture: `docs/architecture/opencode-plugin-strategy.md`.
-- Generated BMAD command adapters live under `src/opencode/commands/bmad/` and are regenerated with `npm run sync:client-bundles`.
+- BMAD client skills are auto-generated at build time from `skill-manifest.csv` into `dist/.opencode/skills/`.
 
 ## Development Workflow
 
