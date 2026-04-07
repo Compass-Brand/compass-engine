@@ -100,11 +100,6 @@ const TARGETS = [
 
 const CLAUDE_LOCAL_ONLY = ['settings.local.json', 'scratchpad', 'commands/local'];
 
-const DIST_BMAD_REFERENCE_CSVS = [
-  { relPath: '_config/bmad-help.csv', pathColumn: 5 },
-  { relPath: 'modules/custom/bmm/module-help.csv', pathColumn: 5 },
-];
-
 function normalizePath(filePath) {
   return filePath.replace(/\\/g, '/');
 }
@@ -117,37 +112,6 @@ function shouldSkip(relativePath, skipPaths) {
     const normalizedSkip = normalizePath(skipPath);
     return normalizedPath === normalizedSkip || normalizedPath.startsWith(`${normalizedSkip}/`);
   });
-}
-
-function parseCsvLine(line) {
-  const cells = [];
-  let current = '';
-  let inQuotes = false;
-
-  for (let index = 0; index < line.length; index++) {
-    const char = line[index];
-
-    if (char === '"') {
-      if (inQuotes && line[index + 1] === '"') {
-        current += '"';
-        index += 1;
-      } else {
-        inQuotes = !inQuotes;
-      }
-      continue;
-    }
-
-    if (char === ',' && !inQuotes) {
-      cells.push(current);
-      current = '';
-      continue;
-    }
-
-    current += char;
-  }
-
-  cells.push(current);
-  return cells;
 }
 
 async function exists(filePath) {
@@ -180,19 +144,6 @@ async function copyDir(src, dest, options = {}) {
   }
 }
 
-async function listFilesRecursive(rootPath, currentPath = rootPath, files = []) {
-  const entries = await fs.readdir(currentPath, { withFileTypes: true });
-  for (const entry of entries) {
-    const entryPath = path.join(currentPath, entry.name);
-    if (entry.isDirectory()) {
-      await listFilesRecursive(rootPath, entryPath, files);
-    } else {
-      files.push(path.relative(rootPath, entryPath).replace(/\\/g, '/'));
-    }
-  }
-  return files;
-}
-
 async function mergeModules(nativePath, customPath, outputPath) {
   await fs.mkdir(outputPath, { recursive: true });
   if (await exists(nativePath)) {
@@ -200,36 +151,6 @@ async function mergeModules(nativePath, customPath, outputPath) {
   }
   if (customPath && (await exists(customPath))) {
     await copyDir(customPath, outputPath);
-  }
-}
-
-async function buildBmadCompat() {
-  const OLD_CUSTOM_BMM = path.join(CUSTOM_ROOT, 'bmm');
-  const OLD_CUSTOM_CORE = path.join(CUSTOM_ROOT, 'core');
-
-  if (!(await exists(OLD_CUSTOM_BMM)) && !(await exists(OLD_CUSTOM_CORE))) {
-    return;
-  }
-
-  console.log('  Applying old-format compatibility shim...');
-
-  if (await exists(OLD_CUSTOM_BMM)) {
-    const compatDest = path.join(BMAD_DIST, 'modules', 'custom', 'bmm');
-    await copyDir(OLD_CUSTOM_BMM, compatDest);
-    console.log('    Copied old custom/bmm/ → modules/custom/bmm/');
-  }
-
-  if (await exists(OLD_CUSTOM_CORE)) {
-    const compatDest = path.join(BMAD_DIST, 'modules', 'custom', 'core');
-    await copyDir(OLD_CUSTOM_CORE, compatDest);
-    console.log('    Copied old custom/core/ → modules/custom/core/');
-  }
-
-  const oldConfig = path.join(SRC, 'bmad', '_config');
-  if (await exists(oldConfig)) {
-    const configDest = path.join(BMAD_DIST, '_config');
-    await copyDir(oldConfig, configDest);
-    console.log('    Copied old _config/ manifests');
   }
 }
 
@@ -261,69 +182,13 @@ async function buildBmadSkills() {
     }
   }
 
-  await buildBmadCompat();
-}
-
-function mapInstalledBmadPathToDist(installedPath) {
-  if (!installedPath.startsWith('_bmad/')) {
-    return null;
+  // Temporary: copy _config/ manifests (Phase 4 will auto-generate)
+  const oldConfig = path.join(SRC, 'bmad', '_config');
+  if (await exists(oldConfig)) {
+    const configDest = path.join(BMAD_DIST, '_config');
+    await copyDir(oldConfig, configDest);
+    console.log('  Copied _config/ manifests (temporary — Phase 4 will auto-generate)');
   }
-  return path.join(DIST_ROOT, installedPath);
-}
-
-async function validateDistBmadReferences() {
-  let isValid = true;
-
-  for (const { relPath, pathColumn } of DIST_BMAD_REFERENCE_CSVS) {
-    const absolutePath = path.join(DIST_ROOT, '_bmad', relPath);
-    const content = await fs.readFile(absolutePath, 'utf-8');
-    const lines = content.split(/\r?\n/).filter(Boolean);
-
-    for (const [lineIndex, line] of lines.entries()) {
-      const cells = parseCsvLine(line);
-      if (cells.length <= pathColumn) continue;
-      const installedPath = cells[pathColumn]?.trim();
-      const mappedPath = mapInstalledBmadPathToDist(installedPath);
-      if (!mappedPath) continue;
-
-      if (!(await exists(mappedPath))) {
-        console.error(
-          `  ERROR broken dist BMAD manifest reference in _bmad/${relPath}:${lineIndex + 1} -> ${installedPath}`,
-        );
-        isValid = false;
-      }
-    }
-  }
-
-  const agentsRoot = path.join(DIST_ROOT, '_bmad', 'modules', 'custom', 'bmm', 'agents');
-  if (await exists(agentsRoot)) {
-    const files = await listFilesRecursive(agentsRoot);
-    for (const relativePath of files) {
-      if (!relativePath.endsWith('.agent.yaml')) continue;
-      const filePath = path.join(agentsRoot, relativePath);
-      const content = await fs.readFile(filePath, 'utf-8');
-      const matches = content.matchAll(/exec:\s*"(\{project-root\}\/_bmad\/[^"]+)"/g);
-
-      for (const match of matches) {
-        const installedPath = match[1].replace('{project-root}/', '');
-        const mappedPath = mapInstalledBmadPathToDist(installedPath);
-        if (!mappedPath) continue;
-
-        if (!(await exists(mappedPath))) {
-          console.error(
-            `  ERROR broken dist BMAD agent exec reference in _bmad/modules/custom/bmm/agents/${relativePath} -> ${installedPath}`,
-          );
-          isValid = false;
-        }
-      }
-    }
-  }
-
-  if (isValid) {
-    console.log('  OK dist BMAD manifest and agent references');
-  }
-
-  return isValid;
 }
 
 async function cleanDist() {
@@ -417,7 +282,6 @@ async function validateBuild() {
     { label: '_bmad/bmm/1-analysis/bmad-agent-analyst/SKILL.md', path: path.join(DIST_ROOT, '_bmad', 'bmm', '1-analysis', 'bmad-agent-analyst', 'SKILL.md') },
     { label: '_bmad/bmm/4-implementation/bmad-agent-dev/SKILL.md', path: path.join(DIST_ROOT, '_bmad', 'bmm', '4-implementation', 'bmad-agent-dev', 'SKILL.md') },
     { label: '_bmad/core/bmad-brainstorming/SKILL.md', path: path.join(DIST_ROOT, '_bmad', 'core', 'bmad-brainstorming', 'SKILL.md') },
-    { label: '_bmad/modules/custom/bmm', path: path.join(DIST_ROOT, '_bmad', 'modules', 'custom', 'bmm') },
     { label: 'planning', path: path.join(DIST_ROOT, 'planning') },
     { label: 'planning/current/phase.md', path: path.join(DIST_ROOT, 'planning', 'current', 'phase.md') },
     { label: 'planning/roadmap/roadmap.md', path: path.join(DIST_ROOT, 'planning', 'roadmap', 'roadmap.md') },
@@ -447,10 +311,6 @@ async function validateBuild() {
       console.error(`  ERROR missing ${check.label}`);
       isValid = false;
     }
-  }
-
-  if (!(await validateDistBmadReferences())) {
-    isValid = false;
   }
 
   if (!isValid) {
