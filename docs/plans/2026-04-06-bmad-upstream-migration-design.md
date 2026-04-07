@@ -315,24 +315,24 @@ Unchanged — operates on `dist/` which is just a different shape.
 
 ---
 
-### Phase 4: Manifest Migration
+### Phase 4: Manifest Migration ✅
+
+**Status:** Complete (PR #78, 2026-04-07)
 
 **Scope:** Switch from hand-maintained CSVs to build-generated manifests.
 
-**Current state after Phase 3:**
-- `workflow-manifest.csv` and `task-manifest.csv` already deleted (Phase 1)
-- `bmad-help.csv` still hand-maintained, used by `sync-client-bundles.js`
-- `agent-manifest.csv` still hand-maintained
-- Each module has its own `module-help.csv` (upstream uses 13-column format, compass-skills uses 13-column format from Phase 3)
+**What was done:**
+- Added `parseSimpleYaml()` and `listFilesRecursive()` helpers to build.js
+- Added `generateAgentManifest()` — walks dist for `bmad-skill-manifest.yaml` where `type: agent`, generates `_config/agent-manifest.csv` (21 agents)
+- Added `generateBmadHelp()` — dynamically discovers modules, concatenates `module-help.csv` files into unified `_config/bmad-help.csv` (44 skills from 4 modules)
+- Added `generateSkillManifest()` — walks all SKILL.md files, generates `_config/skill-manifest.csv` (92 skills)
+- Deleted `src/bmad/_config/` (hand-maintained bmad-help.csv + agent-manifest.csv)
+- Added `validateGeneratedManifests()` to validate.js — checks agent skills have `bmad-skill-manifest.yaml`
+- Added `validateModuleHelpDeps()` to validate.js — validates `after`/`before` dependency refs resolve to real skills (handles column misalignment + skill:action notation)
+- Updated build `validateBuild()` with requiredChecks for all 3 generated manifests
+- Updated 7 files with stale `src/bmad/_config/` references
 
-**Work:**
-- Add manifest generation to `build.js`: walk `dist/_bmad/`, collect `bmad-skill-manifest.yaml` (and `bmad-manifest.json`) files, generate `agent-manifest.csv` and `skill-manifest.csv`
-- Add module-help merge: concatenate per-module `module-help.csv` into unified `_config/bmad-help.csv`
-- Remove hand-maintained `src/bmad/_config/bmad-help.csv` and `src/bmad/_config/agent-manifest.csv`
-- Update `validate.js`: validate `after`/`before` dependency references resolve to real skills
-- Orchestrator agent and help skill: no code changes needed — these are LLM-driven consumers that read the CSV by column headers. The generated files land at the same `_config/` dist path with the same column names for the data they use.
-
-**Exit criteria:** No hand-maintained manifests in `src/bmad/_config/`. All manifests generated at build time. Dependency graph validates.
+**Known limitation:** `sync-client-bundles.js` is broken (reads old 16-column format, new is 13-column). Existing pre-generated command files remain functional. Phase 5 replaces the script.
 
 ---
 
