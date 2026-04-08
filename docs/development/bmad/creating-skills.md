@@ -38,7 +38,7 @@ Skills are organized by phase inside a module:
 src/bmad/modules/custom/{module-name}/{phase}/{skill-name}/
 ```
 
-Phases: `0-governance`, `1-analysis`, `2-plan-workflows`, `3-solutioning`, `4-implementation`, `anytime`
+Phases: `0-governance`, `1-analysis`, `2-plan-workflows`, `3-solutioning`, `4-implementation`, `anytime`, `documentation`, `planning`
 
 ### 2. Create SKILL.md
 

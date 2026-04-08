@@ -138,7 +138,7 @@ My Module,bmad-mymod-design,Design Solution,DS,Create solution design for X,,,3-
 | description | Yes | Brief description |
 | action | No | Sub-action type (create, validate, update, etc.) |
 | args | No | CLI arguments the skill accepts |
-| phase | Yes | `anytime`, `1-analysis`, `2-plan-workflows`, `3-solutioning`, `4-implementation` |
+| phase | Yes | `0-governance`, `anytime`, `1-analysis`, `2-plan-workflows`, `3-solutioning`, `4-implementation` |
 | after | No | Skill that must complete first (dependency) |
 | before | No | Skill that should follow (ordering hint) |
 | required | No | `true` if part of the required progression chain |
