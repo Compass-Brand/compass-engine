@@ -673,4 +673,21 @@ if (isDirectRun) {
   });
 }
 
-export { push };
+export {
+  push,
+  resolveFeatureSelection,
+  resolveWithinProject,
+  expandSelectedPaths,
+  readManagedManifest,
+  writeManagedManifest,
+  resolveGitDir,
+  getManagedManifestPath,
+  syncManagedTarget,
+  copyDir,
+  copySelectedFiles,
+  listFilesRecursive,
+  readContentOrDir,
+  restoreContent,
+  loadProjectConfig,
+  discoverWorkspaceGitRepos,
+};
