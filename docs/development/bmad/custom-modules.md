@@ -1,8 +1,8 @@
 # Custom BMAD Modules
 
-Last reviewed: 2026-03-13
+Last reviewed: 2026-04-08
 
-How to create and maintain Compass-specific BMAD modules.
+Principles for maintaining Compass-specific BMAD modules. For step-by-step creation instructions, see [Creating Modules](./creating-modules.md).
 
 ## Principles
 
@@ -13,8 +13,12 @@ How to create and maintain Compass-specific BMAD modules.
 
 ## Current Active Modules
 
-- `src/bmad/modules/custom/bmm/`
-- `src/bmad/modules/custom/core/`
+| Module | Location | Type |
+| --- | --- | --- |
+| BMM (custom layer) | `src/bmad/modules/custom/bmm-skills/` | Overlays native |
+| Core (custom layer) | `src/bmad/modules/custom/core-skills/` | Overlays native |
+| Compass Skills | `src/bmad/modules/custom/compass-skills/` | Custom-only |
+| BMad Builder | `src/bmad/modules/custom/bmad-builder-skills/` | Custom-only |
 
 ## Current Working Model
 
@@ -32,7 +36,7 @@ How to create and maintain Compass-specific BMAD modules.
 
 When upstream BMAD changes:
 
-1. Update `BMAD-METHOD/`.
+1. Update `BMAD-METHOD/` submodule.
 2. Review diffs against custom modules.
 3. Reconcile custom module behavior explicitly.
-4. Run validate/build gates.
+4. Run `npm run validate && npm run build`.
