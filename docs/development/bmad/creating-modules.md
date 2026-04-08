@@ -23,12 +23,18 @@ Native modules come from upstream BMAD-METHOD. Custom modules are Compass-specif
 npm run create:bmad-module -- --name my-module --code mymod
 ```
 
-This creates `src/bmad/modules/custom/my-module-skills/` with a scaffolded `module.yaml` and `custom-module.json` metadata.
+This copies the default upstream module (`bmm`) into `src/bmad/modules/my-module/` and generates a `module.yaml` and `custom-module.json` metadata file. The `--from` flag defaults to `bmm`, so the scaffold is always a fork of an existing upstream module — not a blank directory.
 
-To scaffold from an existing upstream module as a starting point:
+To scaffold from a different upstream module:
 
 ```bash
-npm run create:bmad-module -- --name my-module --from bmm --code mymod
+npm run create:bmad-module -- --name my-module --from core --code mymod
+```
+
+After scaffolding, move the module into the custom directory and add a `-skills` suffix to follow the naming convention:
+
+```bash
+mv src/bmad/modules/my-module src/bmad/modules/custom/my-module-skills
 ```
 
 ## Module Anatomy
@@ -54,6 +60,8 @@ Not all phase directories are required. Include only the phases your module cove
 
 The module manifest defines identity and optional configuration:
 
+**Native modules** (bmm, core) use the upstream schema:
+
 ```yaml
 code: mymod
 name: "My Module"
@@ -61,9 +69,21 @@ description: "Domain-specific workflows for X"
 default_selected: false
 ```
 
-### Optional Configuration Variables
+**Custom-only modules** (compass-skills, bmad-builder-skills) use a simpler schema:
 
-Modules can define interactive configuration prompts for installation:
+```yaml
+name: my-module
+displayName: "My Module"
+description: "Domain-specific workflows for X"
+version: "1.0.0"
+type: custom
+```
+
+Use the native schema if your module will be registered in the upstream BMAD installer. Use the custom-only schema for Compass-internal modules.
+
+### Optional Configuration Variables (Native Modules)
+
+Native modules can define interactive configuration prompts for installation:
 
 ```yaml
 my_setting:
@@ -173,12 +193,11 @@ The build applies module-specific naming transformations:
 | Module Code | Input Skill Name | Generated Client Name |
 | --- | --- | --- |
 | bmm | `bmad-create-prd` | `bmad-bmm-create-prd` |
-| core | `bmad-brainstorming` | `bmad-brainstorming` |
+| core | `bmad-brainstorming` | `bmad-core-brainstorming` |
 | compass | `bmad-compass-my-skill` | `bmad-compass-my-skill` |
 | bmad-builder | `bmad-module-builder` | `bmad-builder-module-builder` |
-| mymod (new) | `bmad-mymod-analyze` | `bmad-mymod-analyze` |
 
-The exact transformation logic is in `clientSkillName()` in `tools/build.js`. New modules may need a naming rule added there.
+The transformation logic is in `clientSkillName()` in `tools/build.js`. It strips the `bmad-` prefix and prepends `bmad-{module}-`. Be aware that if a skill name already contains the module code (e.g., `bmad-mymod-analyze` in module `mymod`), this produces a double prefix (`bmad-mymod-mymod-analyze`). To avoid this, either name skills without the module code prefix (e.g., `bmad-analyze`) or add a naming exception in `clientSkillName()`. New custom-only modules will need a naming rule added there.
 
 ## Validation
 

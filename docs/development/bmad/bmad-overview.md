@@ -26,7 +26,7 @@ Modules group related skills. Compass Engine uses four modules:
 
 | Module | Code | Purpose |
 | --- | --- | --- |
-| BMad Method (BMM) | `bmm` | Core development methodology (34+ workflows) |
+| BMad Method (BMM) | `bmm` | Core development methodology (~30 workflows and agents) |
 | Core Skills | `core` | Utility skills (help, brainstorming, editorial review) |
 | Compass Skills | `compass` | Compass Brand customizations and extensions |
 | BMad Builder | `bmad-builder` | Meta-skills for creating agents, modules, and workflows |
@@ -132,8 +132,8 @@ Commands follow the pattern `/bmad-{module}-{skill-name}`. Examples:
 | `/bmad-bmm-dev-story` | Execute a development story (TDD) |
 | `/bmad-bmm-sprint-planning` | Plan a sprint |
 | `/bmad-bmm-code-review` | Run code review |
-| `/bmad-brainstorming` | Creative brainstorming session |
-| `/bmad-help` | Get help with BMAD commands |
+| `/bmad-core-brainstorming` | Creative brainstorming session |
+| `/bmad-core-help` | Get help with BMAD commands |
 
 ## Platform Support
 

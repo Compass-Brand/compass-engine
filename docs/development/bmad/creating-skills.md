@@ -236,7 +236,7 @@ The build system transforms skill names for client platforms:
 | Module | Source Name | Client Name |
 | --- | --- | --- |
 | bmm | `bmad-create-prd` | `bmad-bmm-create-prd` |
-| core | `bmad-brainstorming` | `bmad-brainstorming` |
+| core | `bmad-brainstorming` | `bmad-core-brainstorming` |
 | compass | `bmad-compass-my-skill` | `bmad-compass-my-skill` |
 | bmad-builder | `bmad-module-builder` | `bmad-builder-module-builder` |
 
@@ -248,6 +248,18 @@ The build system transforms skill names for client platforms:
 4. Invoke the skill in the test project to verify behavior
 
 ## Common Patterns
+
+### Step Directory Naming
+
+Many workflows use suffixed step directories to distinguish action modes within the same skill:
+
+- `steps/` — default sequential steps
+- `steps-c/` — create mode steps
+- `steps-e/` — edit mode steps
+- `steps-v/` — validate mode steps
+- `steps-h/`, `steps-k/`, `steps-m/`, `steps-p/`, `steps-s/`, `steps-w/`, `steps-b/` — other action modes
+
+Some simpler workflows place step files directly in the skill root without a `steps/` directory.
 
 ### Workflow with Templates
 
