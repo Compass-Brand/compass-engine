@@ -320,9 +320,11 @@ Available anytime. Not part of the main progression.
 | Code | Skill | Purpose |
 |------|-------|---------|
 | DP | `/bmad-document-project` | Analyze existing project to produce documentation |
-| GPC | `/bmad-generate-project-context` | Scan codebase for LLM-optimized project context |
+| GPC | `/bmad-bmm-generate-project-context` | Scan codebase for LLM-optimized project context |
 | QQ | `/bmad-bmm-quick-dev` | Unified intent-in code-out workflow |
+| QS | `/bmad-bmm-quick-spec` | Quick specification generation |
 | CC | `/bmad-bmm-correct-course` | Navigate significant changes to plan |
+| PS | `/bmad-cis-problem-solving` | Structured problem-solving facilitation |
 
 ### Tech Writer Actions
 
@@ -333,6 +335,12 @@ Available anytime. Not part of the main progression.
 | MG | Load `/tech-writer`, then `MG` | Create Mermaid diagrams |
 | VD | Load `/tech-writer`, then `VD` | Validate document against standards |
 | EC | Load `/tech-writer`, then `EC` | Explain complex concepts clearly |
+
+### TEA (Test Engineering)
+
+| Code | Skill | Purpose |
+|------|-------|---------|
+| TMT | `/bmad-tea-teach-me-testing` | Interactive testing education and guidance |
 
 ### Compass Extensions
 
