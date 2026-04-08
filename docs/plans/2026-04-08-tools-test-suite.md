@@ -10,7 +10,7 @@
 
 ---
 
-### Task 1: Test Infrastructure and Export Modifications
+## Task 1: Test Infrastructure and Export Modifications
 
 **Files:**
 - Modify: `package.json` (add test script)
@@ -183,7 +183,7 @@ git commit -m "chore: add test infrastructure and export internal functions for 
 
 ---
 
-### Task 2: build.js Pure Function Tests
+## Task 2: build.js Pure Function Tests
 
 **Files:**
 - Create: `test/test-build-pure.js`
@@ -382,7 +382,7 @@ git commit -m "test(build): add pure function tests for parseSimpleYaml, parseCs
 
 ---
 
-### Task 3: push.js Pure Function Tests
+## Task 3: push.js Pure Function Tests
 
 **Files:**
 - Create: `test/test-push-pure.js`
@@ -497,7 +497,7 @@ git commit -m "test(push): add pure function tests for resolveFeatureSelection, 
 
 ---
 
-### Task 4: validate.js Pure Function Tests
+## Task 4: validate.js Pure Function Tests
 
 **Files:**
 - Create: `test/test-validate-pure.js`
@@ -689,7 +689,7 @@ git commit -m "test(validate): add pure function tests for shouldScanSourceFile,
 
 ---
 
-### Task 5: build.js Filesystem Tests
+## Task 5: build.js Filesystem Tests
 
 **Files:**
 - Create: `test/test-build-fs.js`
@@ -860,7 +860,7 @@ git commit -m "test(build): add filesystem tests for copyDir, mergeModules, list
 
 ---
 
-### Task 6: push.js Filesystem Tests
+## Task 6: push.js Filesystem Tests
 
 **Files:**
 - Create: `test/test-push-fs.js`
@@ -1273,7 +1273,7 @@ git commit -m "test(push): add filesystem tests for copyDir, syncManagedTarget, 
 
 ---
 
-### Task 7: Integration Test — Full Build Cycle
+## Task 7: Integration Test — Full Build Cycle
 
 **Files:**
 - Create: `test/test-build-integration.js`
@@ -1345,7 +1345,7 @@ git commit -m "test(build): add integration test running full build cycle agains
 
 ---
 
-### Task 8: Add Tests to CI Pipeline
+## Task 8: Add Tests to CI Pipeline
 
 **Files:**
 - Modify: `src/github/workflows/quality-checks.yml`
@@ -1386,7 +1386,7 @@ git commit -m "ci: add unit and integration test job to quality-checks workflow"
 
 ---
 
-### Task 9: Final Verification
+## Task 9: Final Verification
 
 **Step 1: Run the full test suite**
 

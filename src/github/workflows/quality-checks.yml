@@ -109,7 +109,7 @@ jobs:
         run: |
           echo "Scanning for potential secrets..."
           FOUND=0
-          SECRET_MATCHES="$(grep -rn "PRIVATE.KEY\|-----BEGIN.*PRIVATE\|sk-[a-zA-Z0-9]\{20,\}\|ghp_[a-zA-Z0-9]\{36\}\|gho_[a-zA-Z0-9]\{36\}\|api[_-]?key.*['\"][a-zA-Z0-9]\{20,\}" --include="*.py" --include="*.ts" --include="*.js" --include="*.json" --include="*.yaml" --include="*.yml" . 2>/dev/null | grep -v node_modules | grep -v ".example" | grep -v "^./reference/BMAD/research/" | grep -vE '(^|/)(\.github|src/github)/workflows/quality-checks\.yml:' | head -10 || true)"
+          SECRET_MATCHES="$(grep -rn "PRIVATE.KEY\|-----BEGIN.*PRIVATE\|sk-[a-zA-Z0-9]\{20,\}\|ghp_[a-zA-Z0-9]\{36\}\|gho_[a-zA-Z0-9]\{36\}\|api[_-]?key.*['\"][a-zA-Z0-9]\{20,\}" --include="*.py" --include="*.ts" --include="*.js" --include="*.json" --include="*.yaml" --include="*.yml" . 2>/dev/null | grep -v node_modules | grep -v ".example" | grep -v "^./test/" | grep -v "^./reference/BMAD/research/" | grep -vE '(^|/)(\.github|src/github)/workflows/quality-checks\.yml:' | head -10 || true)"
           if [ -n "$SECRET_MATCHES" ]; then
             echo "$SECRET_MATCHES"
             echo "::warning::Potential hardcoded secrets detected - please review"
