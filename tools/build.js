@@ -614,4 +614,14 @@ if (isDirectRun) {
   });
 }
 
-export { build };
+export {
+  build,
+  normalizePath,
+  shouldSkip,
+  parseSimpleYaml,
+  parseCsvRows,
+  clientSkillName,
+  copyDir,
+  mergeModules,
+  listFilesRecursive,
+};

@@ -385,4 +385,10 @@ if (isDirectRun) {
   });
 }
 
-export { validate };
+export {
+  validate,
+  shouldScanSourceFile,
+  isLikelyPlaceholder,
+  findSecretIndicators,
+  parseCsvLine,
+};

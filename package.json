@@ -20,7 +20,9 @@
     "check": "npm run validate && npm run check:github-drift && npm run check:root-drift && npm run build && npm run push -- --dry-run --targets bmad,planning,documentation,claude,codex,opencode,github,root",
     "create:bmad-module": "node tools/create-bmad-module.js",
     "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
-  "prepublishOnly": "npm run build"
+  "test:unit": "node --test test/test-*.js",
+    "test": "npm run test:unit && npm run validate",
+    "prepublishOnly": "npm run build"
   },
   "files": [
     "src/**/*",
