@@ -1,6 +1,6 @@
 # Sync Architecture
 
-Last reviewed: 2026-02-23
+Last reviewed: 2026-04-13
 
 How compass-engine distributes tooling to Compass Brand repositories.
 
@@ -20,18 +20,22 @@ For each target:
 3. Remove stale shipped files when the target uses managed sync
 4. Restore preserved local paths when applicable
 
-For `root`, sync is merge-based and additionally removes files previously managed by `root` that no longer exist in `dist/root`, tracked in git-local metadata (`.git/compass-engine-root-sync.json`, with `.compass-engine/root-sync-manifest.json` fallback outside git repos).
+Managed targets track shipped files in git-local metadata (`.git/<manifest-name>`, with `.compass-engine/<manifest-name>` fallback outside git repos).
 
 ## Targets
 
+- `bmad` -> `_bmad`
+- `planning` -> `planning` (managed)
+- `documentation` -> `docs` (managed, preserves `README.md`)
 - `claude` -> `.claude`
-- `codex` -> `.codex`
-- `opencode` -> `.opencode`
-- `github` -> `.github`
+- `codex` -> `.codex` (managed)
+- `opencode` -> `.opencode` (managed)
+- `github` -> `.github` (managed)
 - `root` -> project root (managed baseline files)
+- `beads` -> `beads`
 
-Default push includes all five targets.
-For `github` and `root`, you can optionally install only selected CI/CD feature groups instead of the full shipped bundle.
+Default push includes all nine targets.
+For `github` and `root`, you can optionally install only selected feature groups instead of the full shipped bundle.
 
 ## Push Commands
 
@@ -55,17 +59,21 @@ npm run push -- --all --dry-run
 ## Preserved Local Paths
 
 - `.claude`: `settings.local.json`, `scratchpad/`, `commands/local/`
-- `.codex`: managed sync, so shipped files are updated while local runtime state and unrelated local files remain intact
-- `.opencode`: managed sync, so shipped files are updated while local runtime state and unrelated local files remain intact
+- `_bmad`: none (full replacement)
+- `planning`: managed sync, so shipped files are updated while unrelated local files remain intact
+- `docs`: managed sync, preserves project-owned `README.md`
+- `.codex`: managed sync, so shipped files are updated while local runtime state (`auth.json`, `history.jsonl`, `sessions/`, etc.) remains intact
+- `.opencode`: managed sync, so shipped files are updated while local runtime state (`state/`, `cache/`) remains intact
 - `.github`: managed sync, so shipped files are updated while repo-local workflows or metadata outside the selected managed set remain intact
-- `root`: none (merge strategy; stale managed files removed via manifest)
+- `root`: managed merge; stale managed files removed via manifest
+- `beads`: none (full replacement)
 
 ## Selective CI/CD Feature Groups
 
 GitHub bundle groups:
 
-- `baseline`: `CODEOWNERS`, `dependabot.yml`, `quality-checks`, `pr-size-labeler`, `stale`, `codeql`
-- additional workflow groups: `linting`, `necessist`, `runtime-security`, `submodule-security-monitoring`, `github-drift`
+- `baseline`: `CODEOWNERS`, `dependabot.yml`, `quality-checks`, `pr-size-labeler`, `stale`
+- additional workflow groups: `linting-core`, `linting-languages`, `linting` (both), `codeql`, `necessist`, `runtime-security`, `submodule-security-monitoring`
 - profile groups: `profile-node`, `profile-python`, `profile-submodule-compass-engine`, `profile-submodule-bmad-method`, `profile-check-bmad-updates`
 
 Root bundle groups:
@@ -86,7 +94,7 @@ Push discovers projects in this order:
 
 1. optional config file (`--projects-config <path>`, `COMPASS_PROJECTS_FILE`, or `compass-engine/.compass-projects`)
 2. optional `COMPASS_PROJECTS` (path-delimited list)
-3. known workspace paths (`.`, `compass-forge`, `compass-services`, `compass-initiative`, `compass-modules`, `compass-brand-infrastructure`, `compass-brand-setup`, `mcps`, `legacy-system-analyzer`, `competitor-analysis-toolkit`)
+3. known workspace paths (`.`, `compass-forge`, `compass-services`, `compass-initiative`, `compass-modules`, `compass-brand-infrastructure`, `compass-brand-setup`, `mcps`, `compass-services/legacy-system-analyzer`, `compass-services/competitor-analysis-toolkit`)
 4. fallback sibling-repo detection under the workspace root by checking immediate child directories for `.git`
 
 For deterministic automation, prefer an explicit projects file over fallback discovery.

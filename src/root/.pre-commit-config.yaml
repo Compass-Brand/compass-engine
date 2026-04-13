@@ -5,7 +5,7 @@ default_install_hook_types:
 default_stages:
   - pre-commit
   - pre-push
-exclude: '(^reference/BMAD/research/|^\.claude-trace/|.*/fixtures/)'
+exclude: '.*/fixtures/'
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -65,7 +65,7 @@ repos:
     hooks:
       - id: codespell
         args: ['--config=.codespellrc']
-        exclude: '^(reference/BMAD/|src/bmad/modules/)'
+        exclude: '^_bmad/'
 
   - repo: https://github.com/biomejs/pre-commit
     rev: 8022786b4bd23c782070145e1052f3a4cd0560ec
@@ -73,7 +73,7 @@ repos:
       - id: biome-ci
         args: ['--config-path=biome.json']
         files: "\\.(js|mjs|cjs|jsx|ts|tsx|json|jsonc)$"
-        exclude: '^src/root/'
+        # exclude: '^path/to/skip/'
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: 61da922d8f906b1e377cf21f0db0a3b2b2c6d311
