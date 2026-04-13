@@ -11,7 +11,7 @@ description: 'Select and sync the active roadmap slice in planning/current/phase
 
 ## CONFIGURATION
 
-Load config from `{project-root}/_bmad/modules/custom/bmm/config.yaml` and resolve:
+Load config from `{project-root}/_bmad/bmm/module.yaml` and resolve:
 - `project_name`, `user_name`
 - `communication_language`, `document_output_language`
 - `planning_root`, `planning_current`, `planning_roadmap`

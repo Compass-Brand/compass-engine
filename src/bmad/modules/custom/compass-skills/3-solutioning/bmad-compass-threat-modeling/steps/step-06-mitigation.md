@@ -3,7 +3,7 @@ name: 'step-06-mitigation'
 description: 'Define security controls and mitigation strategies for each threat with prioritization and ownership'
 
 # Path Definitions
-workflow_path: '{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/threat-modeling'
+workflow_path: '{project-root}/_bmad/compass/3-solutioning/bmad-compass-threat-modeling'
 
 # File References
 thisStepFile: '{workflow_path}/steps/step-06-mitigation.md'
@@ -11,8 +11,8 @@ nextStepFile: '{workflow_path}/steps/step-07-loop-decision.md'
 outputFile: '{current_threat_modeling_dir}/threat-model-{project_name}.md'
 
 # Task References
-brainstormingTask: '{project-root}/_bmad/modules/custom/core/tasks/brainstorming.xml'
-partyModeWorkflow: '{project-root}/_bmad/modules/custom/core/workflows/party-mode/workflow.md'
+brainstormingTask: '{project-root}/_bmad/core/bmad-brainstorming/SKILL.md'
+partyModeWorkflow: '{project-root}/_bmad/core/bmad-party-mode/workflow.md'
 ---
 
 # Step 6: Mitigation Strategies

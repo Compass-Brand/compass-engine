@@ -90,7 +90,7 @@ Skip this workflow when:
 
 ## CONTEXT TO PROVIDE
 
-Load and read full config from `{project-root}/_bmad/modules/custom/bmm/config.yaml` and resolve:
+Load and read full config from `{project-root}/_bmad/bmm/module.yaml` and resolve:
 
 - `project_name`, `user_name`, `communication_language`, `document_output_language`
 - `roadmap_product_brief_dir`, `current_outline_scenarios_dir`

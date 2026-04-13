@@ -1,7 +1,7 @@
 # Update Docs Workflow
 
-<critical>The workflow engine is governed by: {project-root}/_bmad/modules/custom/core/tasks/workflow.xml</critical>
-<critical>You MUST have already loaded and resolved: {project-root}/_bmad/modules/custom/bmm/workflows/documentation/update-docs/workflow.yaml</critical>
+<critical>The workflow engine is governed by: {project-root}/_bmad/core/module.yaml</critical>
+<critical>You MUST have already loaded and resolved: {project-root}/_bmad/compass/documentation/bmad-compass-update-docs/workflow.yaml</critical>
 <critical>Communicate all responses in {communication_language}</critical>
 
 ## Goal

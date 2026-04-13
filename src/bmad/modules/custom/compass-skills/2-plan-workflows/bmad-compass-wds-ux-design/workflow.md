@@ -36,7 +36,7 @@ Phase 4 is **menu-driven**, not linear. The user picks scenarios and activities 
 
 ### 1. Configuration Loading
 
-Load and read full config from `{project-root}/_bmad/modules/custom/bmm/config.yaml` and resolve:
+Load and read full config from `{project-root}/_bmad/bmm/module.yaml` and resolve:
 - `project_name`, `user_name`
 - `communication_language`, `document_output_language`
 - `current_outline_scenarios_dir`, `current_conceptual_specifications_dir`, `current_ux_agent_dialog_dir`

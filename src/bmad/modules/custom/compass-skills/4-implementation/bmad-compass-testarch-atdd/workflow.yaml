@@ -3,7 +3,7 @@ name: testarch-atdd
 description: "Generate failing acceptance tests using TDD cycle. Use when the user says 'lets write acceptance tests' or 'I want to do ATDD'"
 
 # Critical variables from config
-config_source: "{project-root}/_bmad/modules/custom/bmm/config.yaml"
+config_source: "{project-root}/_bmad/bmm/module.yaml"
 output_folder: "{config_source}:output_folder"
 test_artifacts: "{config_source}:test_artifacts"
 user_name: "{config_source}:user_name"
@@ -12,7 +12,7 @@ document_output_language: "{config_source}:document_output_language"
 date: system-generated
 
 # Workflow components
-installed_path: "{project-root}/_bmad/modules/custom/bmm/workflows/testarch/atdd"
+installed_path: "{project-root}/_bmad/compass/4-implementation/bmad-compass-testarch-atdd"
 instructions: "{installed_path}/instructions.md"
 validation: "{installed_path}/checklist.md"
 template: "{installed_path}/atdd-checklist-template.md"

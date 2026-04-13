@@ -5,7 +5,7 @@ description: 'Guide user through systematic STRIDE threat modeling to identify s
 
 # Path Definitions
 
-workflow_path: '{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/security-architecture-review'
+workflow_path: '{project-root}/_bmad/compass/3-solutioning/bmad-compass-security-architecture-review'
 
 # File References
 
@@ -16,9 +16,9 @@ outputFile: '{current_security_review_dir}/security-review-{project_name}.md'
 
 # Task References
 
-advancedElicitationTask: '{project-root}/_bmad/modules/custom/core/workflows/advanced-elicitation/workflow.xml'
-partyModeWorkflow: '{project-root}/_bmad/modules/custom/core/workflows/party-mode/workflow.md'
-brainstormingTask: '{project-root}/_bmad/modules/custom/core/tasks/brainstorming.xml'
+advancedElicitationTask: '{project-root}/_bmad/core/bmad-advanced-elicitation/workflow.xml'
+partyModeWorkflow: '{project-root}/_bmad/core/bmad-party-mode/workflow.md'
+brainstormingTask: '{project-root}/_bmad/core/bmad-brainstorming/SKILL.md'
 
 ---
 

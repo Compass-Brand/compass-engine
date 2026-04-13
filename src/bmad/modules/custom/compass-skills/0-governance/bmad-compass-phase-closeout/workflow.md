@@ -11,7 +11,7 @@ description: 'Close the active phase and archive artifacts into previous/ with l
 
 ## CONFIGURATION
 
-Load config from `{project-root}/_bmad/modules/custom/bmm/config.yaml` and resolve:
+Load config from `{project-root}/_bmad/bmm/module.yaml` and resolve:
 - `planning_root`, `planning_current`, `planning_previous`, `planning_lessons`, `planning_roadmap`
 - `planning_initiative_index_file`
 - `phase_snapshot_file`, `phase_state_file`, `current_evidence_dir`

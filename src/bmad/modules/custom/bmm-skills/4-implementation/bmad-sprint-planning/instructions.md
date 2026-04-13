@@ -1,7 +1,7 @@
 # Sprint Planning - Sprint Status Generator
 
-<critical>The workflow execution engine is governed by: {project-root}/_bmad/modules/custom/core/tasks/workflow.xml</critical>
-<critical>You MUST have already loaded and processed: {project-root}/_bmad/modules/custom/bmm/workflows/4-implementation/sprint-planning/workflow.yaml</critical>
+<critical>The workflow execution engine is governed by: {project-root}/_bmad/core/module.yaml</critical>
+<critical>You MUST have already loaded and processed: {project-root}/_bmad/bmm/4-implementation/bmad-sprint-planning/workflow.yaml</critical>
 
 ## 📚 Document Discovery - Full Epic Loading
 

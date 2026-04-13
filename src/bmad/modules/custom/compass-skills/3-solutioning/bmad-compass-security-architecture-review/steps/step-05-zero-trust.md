@@ -5,7 +5,7 @@ description: 'Validate architecture alignment with zero-trust security principle
 
 # Path Definitions
 
-workflow_path: '{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/security-architecture-review'
+workflow_path: '{project-root}/_bmad/compass/3-solutioning/bmad-compass-security-architecture-review'
 
 # File References
 

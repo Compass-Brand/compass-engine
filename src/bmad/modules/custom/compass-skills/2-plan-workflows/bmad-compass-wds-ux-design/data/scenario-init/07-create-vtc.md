@@ -41,7 +41,7 @@ This VTC will guide every page, every interaction, every word in this scenario.
 **If user agrees:**
 
 Load and execute the VTC Workshop Router:
-`{project-root}/_bmad/modules/custom/bmm/workflows/1-project-brief/vtc-workshop/workflow.md`
+`{project-root}/_bmad/compass/1-analysis/bmad-compass-vtc-workshop/workflow.md`
 
 **Since Trigger Map exists:** Router will likely send you to **Selection Workshop** (10-15 mins).
 
@@ -109,7 +109,7 @@ Example: `outline-scenarios/1.1-parent-onboarding/vtc.yaml`
 
 **If still declines:**
 > "Okay, but I recommend creating VTC before presenting to stakeholders. You can add it anytime using:
-> `{project-root}/_bmad/modules/custom/bmm/workflows/1-project-brief/vtc-workshop/workflow.md`"
+> `{project-root}/_bmad/compass/1-analysis/bmad-compass-vtc-workshop/workflow.md`"
 
 Then proceed to sketching without VTC (not ideal).
 

@@ -82,7 +82,7 @@ Update the main workflow status file:
 
 ### 3. Suggest Next Steps
 
-UX Design complete. Read fully and follow: `{project-root}/_bmad/modules/custom/core/tasks/help.md`
+UX Design complete. Read fully and follow: `{project-root}/_bmad/core/bmad-help/SKILL.md`
 
 ### 5. Final Completion Confirmation
 
@@ -137,7 +137,7 @@ Confirm completion of the UX Design Specification to the user.
 
 ## NEXT STEPS GUIDANCE:
 
-UX Design Specification complete. Read fully and follow: `{project-root}/_bmad/modules/custom/core/tasks/help.md`
+UX Design Specification complete. Read fully and follow: `{project-root}/_bmad/core/bmad-help/SKILL.md`
 
 ## WORKFLOW FINALIZATION:
 

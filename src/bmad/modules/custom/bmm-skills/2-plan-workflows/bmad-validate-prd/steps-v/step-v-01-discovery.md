@@ -4,8 +4,8 @@ description: 'Document Discovery & Confirmation - Handle fresh context validatio
 
 # File references (ONLY variables used in this step)
 nextStepFile: './step-v-02-format-detection.md'
-advancedElicitationTask: '{project-root}/_bmad/modules/custom/core/workflows/advanced-elicitation/workflow.xml'
-partyModeWorkflow: '{project-root}/_bmad/modules/custom/core/workflows/party-mode/workflow.md'
+advancedElicitationTask: '{project-root}/_bmad/core/bmad-advanced-elicitation/workflow.xml'
+partyModeWorkflow: '{project-root}/_bmad/core/bmad-party-mode/workflow.md'
 prdPurpose: '../data/prd-purpose.md'
 ---
 

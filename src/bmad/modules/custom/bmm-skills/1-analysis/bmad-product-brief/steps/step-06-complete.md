@@ -93,7 +93,7 @@ Perform final validation of the product brief:
 
 ### 3. Suggest Next Steps
 
-Product Brief complete. Read fully and follow: `{project-root}/_bmad/modules/custom/core/tasks/help.md`
+Product Brief complete. Read fully and follow: `{project-root}/_bmad/core/bmad-help/SKILL.md`
 
 ### 4. Confirm Completion
 

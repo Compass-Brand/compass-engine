@@ -3,7 +3,7 @@ name: 'step-05-risk-assessment'
 description: 'Assess likelihood and impact for each identified threat and calculate risk scores'
 
 # Path Definitions
-workflow_path: '{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/threat-modeling'
+workflow_path: '{project-root}/_bmad/compass/3-solutioning/bmad-compass-threat-modeling'
 
 # File References
 thisStepFile: '{workflow_path}/steps/step-05-risk-assessment.md'
@@ -11,7 +11,7 @@ nextStepFile: '{workflow_path}/steps/step-06-mitigation.md'
 outputFile: '{current_threat_modeling_dir}/threat-model-{project_name}.md'
 
 # Task References
-partyModeWorkflow: '{project-root}/_bmad/modules/custom/core/workflows/party-mode/workflow.md'
+partyModeWorkflow: '{project-root}/_bmad/core/bmad-party-mode/workflow.md'
 ---
 
 # Step 5: Risk Assessment

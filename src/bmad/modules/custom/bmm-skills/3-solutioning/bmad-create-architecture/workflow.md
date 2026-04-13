@@ -1,7 +1,7 @@
 ---
 name: create-architecture
 description: 'Create architecture solution design decisions for AI agent consistency. Use when the user says "lets create architecture" or "create technical architecture" or "create a solution design"'
-main_config: '{project-root}/_bmad/modules/custom/bmm/config.yaml'
+main_config: '{project-root}/_bmad/bmm/module.yaml'
 nextStep: './steps/step-01-init.md'
 ---
 

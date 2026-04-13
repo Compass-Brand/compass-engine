@@ -112,7 +112,7 @@ stepsCompleted: [1, 2, 3]
 ---
 ```
 
-c) **Read fully and follow: `{project-root}/_bmad/modules/custom/bmm/workflows/bmad-quick-flow/quick-spec/steps/step-04-review.md` (Step 4)**
+c) **Read fully and follow: `{project-root}/_bmad/compass/4-implementation/bmad-compass-quick-spec/steps/step-04-review.md` (Step 4)**
 
 ## REQUIRED OUTPUTS:
 

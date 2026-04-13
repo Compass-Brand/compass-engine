@@ -2,7 +2,7 @@
 
 # CI/CD Pipeline Setup
 
-**Workflow ID**: `_bmad/modules/custom/bmm/testarch/ci`
+**Workflow ID**: `_bmad/compass/4-implementation/bmad-compass-testarch-ci`
 **Version**: 5.0 (Step-File Architecture)
 
 ---
@@ -35,11 +35,11 @@ From `workflow.yaml`, resolve:
 ### 2. First Step
 
 Load, read completely, and execute:
-`{project-root}/_bmad/modules/custom/bmm/workflows/testarch/ci/steps-c/step-01-preflight.md`
+`{project-root}/_bmad/compass/4-implementation/bmad-compass-testarch-ci/steps-c/step-01-preflight.md`
 
 ### 3. Resume Support
 
 If the user selects **Resume** mode, load, read completely, and execute:
-`{project-root}/_bmad/modules/custom/bmm/workflows/testarch/ci/steps-c/step-01b-resume.md`
+`{project-root}/_bmad/compass/4-implementation/bmad-compass-testarch-ci/steps-c/step-01b-resume.md`
 
 This checks the output document for progress tracking frontmatter and routes to the next incomplete step.

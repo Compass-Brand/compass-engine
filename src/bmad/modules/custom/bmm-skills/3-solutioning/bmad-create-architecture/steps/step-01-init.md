@@ -60,7 +60,7 @@ First, check if the output document already exists:
 
 If the document exists and has frontmatter with `stepsCompleted`:
 
-- **STOP here** and load `{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/create-architecture/steps/step-01b-continue.md` immediately
+- **STOP here** and load `{project-root}/_bmad/bmm/3-solutioning/bmad-create-architecture/steps/step-01b-continue.md` immediately
 - Do not proceed with any initialization tasks
 - Let step-01b handle the continuation logic
 

@@ -89,7 +89,7 @@ Offer validation workflows to ensure PRD is ready for implementation:
 
 **Scope-aware guidance:** Suggest UX design workflows only when the PRD includes user-facing interface requirements (web UI, mobile app, desktop GUI, etc.). For CLI tools, backend services, infrastructure, libraries, or API-only projects, recommend architecture as the primary next workflow and omit UX design from suggestions.
 
-PRD complete. Read fully and follow: `{project-root}/_bmad/modules/custom/core/tasks/help.md`
+PRD complete. Read fully and follow: `{project-root}/_bmad/core/bmad-help/SKILL.md`
 
 ### 5. Final Completion Confirmation
 

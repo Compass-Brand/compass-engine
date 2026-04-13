@@ -47,7 +47,7 @@ This uses **step-file architecture** for disciplined execution:
 
 ### 1. Configuration Loading
 
-Load and read full config from `{project-root}/_bmad/modules/custom/bmm/config.yaml` and resolve:
+Load and read full config from `{project-root}/_bmad/bmm/module.yaml` and resolve:
 
 - `project_name`, `user_name`, `communication_language`, `document_output_language`
 - `current_product_brief_dir`, `current_trigger_mapping_dir`, `current_ux_agent_dialog_dir`

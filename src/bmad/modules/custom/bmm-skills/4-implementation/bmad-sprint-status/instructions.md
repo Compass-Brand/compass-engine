@@ -1,7 +1,7 @@
 # Sprint Status - Multi-Mode Service
 
-<critical>The workflow execution engine is governed by: {project-root}/_bmad/modules/custom/core/tasks/workflow.xml</critical>
-<critical>You MUST have already loaded and processed: {project-root}/_bmad/modules/custom/bmm/workflows/4-implementation/sprint-status/workflow.yaml</critical>
+<critical>The workflow execution engine is governed by: {project-root}/_bmad/core/module.yaml</critical>
+<critical>You MUST have already loaded and processed: {project-root}/_bmad/bmm/4-implementation/bmad-sprint-status/workflow.yaml</critical>
 <critical>Modes: interactive (default), validate, data</critical>
 <critical>⚠️ ABSOLUTELY NO TIME ESTIMATES. Do NOT mention hours, days, weeks, or timelines.</critical>
 
@@ -97,7 +97,7 @@ Enter corrections (e.g., "1=in-progress, 2=backlog") or "skip" to continue witho
   3. Else if any story status == ready-for-dev → recommend `dev-story`
   4. Else if any story status == backlog → recommend `create-story`
   5. Else if any retrospective status == optional → recommend `retrospective`
-  6. Else → All implementation items are complete; if `{oversight_mode}` is `true`, run the oversight checkpoint workflow (`{project-root}/_bmad/modules/custom/bmm/workflows/0-governance/oversight-checkpoint/workflow.md`) with `gate_name` set to `story-completion` before confirming completion. Confirm all implementation items are complete.
+  6. Else → All implementation items are complete; if `{oversight_mode}` is `true`, run the oversight checkpoint workflow (`{project-root}/_bmad/compass/0-governance/bmad-compass-oversight-checkpoint/workflow.md`) with `gate_name` set to `story-completion` before confirming completion. Confirm all implementation items are complete.
   <action>Store selected recommendation as: next_story_id, next_workflow_id, next_agent (SM/DEV as appropriate)</action>
 </step>
 

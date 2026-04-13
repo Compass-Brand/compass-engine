@@ -11,7 +11,7 @@ description: 'Generate a verification report from the oversight risk and assumpt
 
 ## CONFIGURATION
 
-Load config from `{project-root}/_bmad/modules/custom/bmm/config.yaml` and resolve:
+Load config from `{project-root}/_bmad/bmm/module.yaml` and resolve:
 - `oversight_mode`
 - `current_oversight_dir`
 - `current_oversight_risks_file`

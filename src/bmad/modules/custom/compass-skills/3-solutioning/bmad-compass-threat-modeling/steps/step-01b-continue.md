@@ -3,7 +3,7 @@ name: 'step-01b-continue'
 description: 'Handle workflow continuation by analyzing progress and routing to appropriate next step'
 
 # Path Definitions
-workflow_path: '{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/threat-modeling'
+workflow_path: '{project-root}/_bmad/compass/3-solutioning/bmad-compass-threat-modeling'
 
 # File References
 thisStepFile: '{workflow_path}/steps/step-01b-continue.md'

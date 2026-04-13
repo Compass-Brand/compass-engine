@@ -18,7 +18,7 @@
 ## Reads
 
 - `_bmad/BMAD-workflow.md`
-- `_bmad/modules/custom/bmm/module-help.csv`
+- `_bmad/bmm/module-help.csv`
 - `planning/roadmap/roadmap.md` if present
 - `planning/roadmap/roadmap.yaml` if present
 - `planning/current/phase.md` if present
@@ -119,7 +119,7 @@ Each `draft_artifacts.*` entry must include:
 7. Draft the high-level product brief, update the current brief path, and record the current brief revision.
 8. If greenfield, generate the seed project context now that high-level framing exists.
 9. Draft `auto-plan-roadmap-proposal.md` using the roadmap-state-update template, set `review_artifacts.roadmap_gate` to that file, and update `auto-plan-state.yaml`.
-10. Set `approval_markers.roadmap.status=pending`, set `approval_markers.roadmap.requested_revision`, set `automation_state.pending_approval`. If `{oversight_mode}` is `true`, run the oversight checkpoint workflow (`{project-root}/_bmad/modules/custom/bmm/workflows/0-governance/oversight-checkpoint/workflow.md`) with `gate_name` set to `roadmap` before presenting the approval request. Include the checkpoint report in the gate artifact. Stop for roadmap approval.
+10. Set `approval_markers.roadmap.status=pending`, set `approval_markers.roadmap.requested_revision`, set `automation_state.pending_approval`. If `{oversight_mode}` is `true`, run the oversight checkpoint workflow (`{project-root}/_bmad/compass/0-governance/bmad-compass-oversight-checkpoint/workflow.md`) with `gate_name` set to `roadmap` before presenting the approval request. Include the checkpoint report in the gate artifact. Stop for roadmap approval.
 11. If roadmap approval is rejected, record the rejection in the proposal artifact and `auto-plan-state.yaml`, keep canonical roadmap files unchanged, and stop.
 12. If roadmap approval is granted, update approved `roadmap.md` and `roadmap.yaml`, update the roadmap approval marker, create or reconcile the Beads parent or phase issue for the approved slice, record the resulting ids in `beads.*`, clear `automation_state.pending_approval`, and record `roadmap_approved` as the last completed checkpoint.
 13. Run `Phase Sync` and create or update `phase.md` and `phase-state.yaml` from the approved slice plus the accepted values from `auto-plan-state.yaml`, including the Beads references.
@@ -132,20 +132,20 @@ Each `draft_artifacts.*` entry must include:
 20. If the revised PRD passes validation after PRD edits, regenerate affected WDS outputs and refresh their `derived_from` entries so they match the latest PRD revision.
 21. Keep the PRD gate closed until the most recent PRD revision has a fresh validation result bound to the same revision id.
 22. If WDS is skipped, set `lane_outcomes.wds=skipped`; otherwise set it to `complete` once WDS outputs match the current PRD revision.
-23. Write `auto-plan-prd-gate.md`, set `review_artifacts.prd_gate`, set PRD approval to pending, set `automation_state.pending_approval`. If `{oversight_mode}` is `true`, run the oversight checkpoint workflow (`{project-root}/_bmad/modules/custom/bmm/workflows/0-governance/oversight-checkpoint/workflow.md`) with `gate_name` set to `prd` before presenting the approval request. Include the checkpoint report in the gate artifact. Stop for PRD approval.
+23. Write `auto-plan-prd-gate.md`, set `review_artifacts.prd_gate`, set PRD approval to pending, set `automation_state.pending_approval`. If `{oversight_mode}` is `true`, run the oversight checkpoint workflow (`{project-root}/_bmad/compass/0-governance/bmad-compass-oversight-checkpoint/workflow.md`) with `gate_name` set to `prd` before presenting the approval request. Include the checkpoint report in the gate artifact. Stop for PRD approval.
 24. If PRD approval is rejected, mark the PRD gate rejected, downgrade architecture and readiness approvals, append stale-output records for WDS, architecture, draft epics/stories, and readiness outputs, clear `automation_state.pending_approval`, and stop.
 25. If PRD approval is granted, approve the current PRD revision and clear `automation_state.pending_approval`.
 26. Draft architecture into its draft location, set the current architecture path to draft, record the current architecture revision with `state=draft`, and populate `automation_state.derived_from`.
 27. Resolve security activation according to `lane_decisions.security_mode`. If active, run Threat Modeling and Security Architecture Review and set `lane_outcomes.security=in_progress`; otherwise set the lane outcome to `skipped` or `not_applicable`.
 28. Run system-level test design and record its revision and source revisions.
 29. Run CI/CD alignment.
-30. Write `auto-plan-architecture-gate.md`, set `review_artifacts.architecture_gate`, set architecture approval to pending, set `automation_state.pending_approval`. If `{oversight_mode}` is `true`, run the oversight checkpoint workflow (`{project-root}/_bmad/modules/custom/bmm/workflows/0-governance/oversight-checkpoint/workflow.md`) with `gate_name` set to `architecture` before presenting the approval request. Include the checkpoint report in the gate artifact. Stop for architecture approval.
+30. Write `auto-plan-architecture-gate.md`, set `review_artifacts.architecture_gate`, set architecture approval to pending, set `automation_state.pending_approval`. If `{oversight_mode}` is `true`, run the oversight checkpoint workflow (`{project-root}/_bmad/compass/0-governance/bmad-compass-oversight-checkpoint/workflow.md`) with `gate_name` set to `architecture` before presenting the approval request. Include the checkpoint report in the gate artifact. Stop for architecture approval.
 31. If architecture approval is rejected, mark the architecture gate rejected, downgrade readiness approval, append stale-output records for architecture-dependent outputs, clear `automation_state.pending_approval`, and stop.
 32. If architecture approval is granted, approve the current architecture revision, clear `automation_state.pending_approval`, and if the security lane was active set `lane_outcomes.security=complete`.
 33. Draft epics and story inputs into `current/planning/epics/draft/` and `current/implementation/stories/draft/`, set their current paths to draft, record their current revisions with `state=draft`, create or reconcile draft Beads issues for the epic and story work, record the ids in the run state, and populate `automation_state.derived_from`.
 34. If the security lane is active, run Secure Readiness Gate.
 35. Draft implementation-readiness outputs and write `current/testing/gates/draft/auto-plan-readiness-summary.md`, record the current readiness revision with `state=draft`, set `review_artifacts.readiness_gate`, and record its source revisions.
-36. Set readiness approval to pending, set `automation_state.pending_approval`. If `{oversight_mode}` is `true`, run the oversight checkpoint workflow (`{project-root}/_bmad/modules/custom/bmm/workflows/0-governance/oversight-checkpoint/workflow.md`) with `gate_name` set to `readiness` before presenting the approval request. Include the checkpoint report in the gate artifact. Stop for implementation-readiness approval.
+36. Set readiness approval to pending, set `automation_state.pending_approval`. If `{oversight_mode}` is `true`, run the oversight checkpoint workflow (`{project-root}/_bmad/compass/0-governance/bmad-compass-oversight-checkpoint/workflow.md`) with `gate_name` set to `readiness` before presenting the approval request. Include the checkpoint report in the gate artifact. Stop for implementation-readiness approval.
 37. If readiness approval is rejected, keep epics, stories, and readiness outputs in draft locations, mark the rejected readiness package stale as needed, clear `automation_state.pending_approval`, and stop.
 38. If readiness approval is granted, approve the readiness revision, promote approved epics and stories out of `draft/`, promote the readiness summary into its canonical gate location, write `auto-plan-report.md`, run `bd sync`, update `beads.last_synced_at`, and mark solutioning complete.
 

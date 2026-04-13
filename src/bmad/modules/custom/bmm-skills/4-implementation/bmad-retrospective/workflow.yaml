@@ -2,7 +2,7 @@
 name: "retrospective"
 description: 'Post-epic review to extract lessons and assess success. Use when the user says "run a retrospective" or "lets retro the epic [epic]"'
 
-config_source: "{project-root}/_bmad/modules/custom/bmm/config.yaml"
+config_source: "{project-root}/_bmad/bmm/module.yaml"
 user_name: "{config_source}:user_name"
 communication_language: "{config_source}:communication_language"
 user_skill_level: "{config_source}:user_skill_level"
@@ -18,7 +18,7 @@ current_story_dir: "{config_source}:current_story_dir"
 current_evidence_dir: "{config_source}:current_evidence_dir"
 project_context: "**/project-context.md"
 
-installed_path: "{project-root}/_bmad/modules/custom/bmm/workflows/4-implementation/retrospective"
+installed_path: "{project-root}/_bmad/bmm/4-implementation/bmad-retrospective"
 template: false
 instructions: "{installed_path}/instructions.md"
 

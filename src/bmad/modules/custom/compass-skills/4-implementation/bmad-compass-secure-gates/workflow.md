@@ -11,7 +11,7 @@ description: 'Apply the conditional secure readiness gate or secure release gate
 
 ## CONFIGURATION
 
-Load config from `{project-root}/_bmad/modules/custom/bmm/config.yaml` and resolve:
+Load config from `{project-root}/_bmad/bmm/module.yaml` and resolve:
 
 - `project_name`, `planning_current`
 - `phase_state_file`
@@ -25,8 +25,8 @@ Load config from `{project-root}/_bmad/modules/custom/bmm/config.yaml` and resol
 
 Also read:
 
-- `{project-root}/_bmad/modules/custom/bmm/workflows/0-governance/security-activation.md`
-- `{project-root}/_bmad/modules/custom/bmm/workflows/4-implementation/secure-gates/secure-gate-criteria.yaml`
+- `{project-root}/_bmad/compass/0-governance/security-activation.md`
+- `{project-root}/_bmad/compass/4-implementation/bmad-compass-secure-gates/secure-gate-criteria.yaml`
 - `{phase_state_file}` if it exists
 
 ## EXECUTION

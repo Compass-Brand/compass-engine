@@ -3,7 +3,7 @@ name: 'step-02-design-epics'
 description: 'Design and approve the epics_list that will organize all requirements into user-value-focused epics'
 
 # Path Definitions
-workflow_path: '{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/create-epics-and-stories'
+workflow_path: '{project-root}/_bmad/bmm/3-solutioning/bmad-create-epics-and-stories'
 
 # File References
 thisStepFile: './step-02-design-epics.md'
@@ -12,8 +12,8 @@ workflowFile: '{workflow_path}/workflow.md'
 outputFile: '{current_epics_dir}/epics.md'
 
 # Task References
-advancedElicitationTask: '{project-root}/_bmad/modules/custom/core/workflows/advanced-elicitation/workflow.xml'
-partyModeWorkflow: '{project-root}/_bmad/modules/custom/core/workflows/party-mode/workflow.md'
+advancedElicitationTask: '{project-root}/_bmad/core/bmad-advanced-elicitation/workflow.xml'
+partyModeWorkflow: '{project-root}/_bmad/core/bmad-party-mode/workflow.md'
 
 # Template References
 epicsTemplate: '{workflow_path}/templates/epics-template.md'

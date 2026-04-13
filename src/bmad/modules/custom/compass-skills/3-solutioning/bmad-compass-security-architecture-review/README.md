@@ -249,7 +249,7 @@ This workflow is part of the **cybersec-team** module. To install:
 /bmad:install:cybersec-team
 
 # Or manually copy workflow files to:
-# {project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/security-architecture-review/
+# {project-root}/_bmad/compass/3-solutioning/bmad-compass-security-architecture-review/
 ```
 
 ## Invocation
