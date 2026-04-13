@@ -1,0 +1,6 @@
+# Workflows available for distribution but intentionally not used in compass-engine.
+# The drift checker skips these paths when comparing src/github/ against .github/.
+- workflows/codeql.yml
+- workflows/necessist.yml
+- workflows/runtime-security.yml
+- workflows/lint-languages.yml
