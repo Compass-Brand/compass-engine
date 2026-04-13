@@ -1,6 +1,8 @@
 # Sub-Repo Removal Readiness Audit
 
-Status: audited-not-ready
+> **ARCHIVED:** Sub-repos have been consumed into the src/-based BMAD modules. This audit is historical context only.
+
+Status: archived
 Owner:
 Last Updated: 2026-03-13
 

@@ -8,6 +8,7 @@ These templates are the starter artifacts for the roadmap-driven planning framew
 - `phase/`: active-phase artifacts
 - `orchestration/`: workspace and parent-repo routing/control artifacts
 - `implementation/`: reuse, readiness, and closeout support artifacts
+- `oversight/`: risk and assumption register templates for advisory tracking
 
 ## Usage Rules
 

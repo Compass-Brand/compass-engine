@@ -1,8 +1,8 @@
 # OpenCode Handoff Wrapper Plan
 
-Status: draft
+Status: complete
 Owner:
-Last Updated: 2026-03-24
+Last Updated: 2026-04-13
 Phase ID:
 Parent Issue: `bmad-engine-3c1`
 Related Pilot Issue: `opencode-handoff` follow-on candidate

@@ -1,5 +1,7 @@
 # Whitepaper Ingestion Implementation Plan
 
+> **SUPERSEDED:** The ingest-whitepapers workflow was implemented directly in `src/bmad/modules/custom/compass-skills/1-analysis/bmad-compass-ingest-whitepapers/`. This plan is retained for reference only.
+
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
 **Goal:** Add an optional whitepaper ingestion step to the BMAD analysis phase that summarizes external markdown whitepapers into a digest consumed by downstream workflows.

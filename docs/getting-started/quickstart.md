@@ -1,6 +1,6 @@
 # Quickstart
 
-Last reviewed: 2026-02-23
+Last reviewed: 2026-04-13
 
 Use this for the fastest path to validate your local setup.
 
@@ -20,7 +20,7 @@ Expected result:
 
 - validation passes
 - build succeeds
-- push dry-run succeeds for `claude,codex,opencode,github,root`
+- push dry-run succeeds for `bmad,planning,documentation,claude,codex,opencode,github,root`
 
 ## Build and sync selectively
 

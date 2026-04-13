@@ -1,8 +1,8 @@
 # OpenCode Beads Wrapper Plan
 
-Status: draft
+Status: complete
 Owner:
-Last Updated: 2026-03-24
+Last Updated: 2026-04-13
 Phase ID:
 Parent Issue: `bmad-engine-g4u`
 Related Pilot Issue: `bmad-engine-reg`

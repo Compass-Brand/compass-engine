@@ -33,8 +33,8 @@
 - TBD
 
 ## Required Source Artifacts
-- `planning/roadmap/roadmap.md`
-- `planning/roadmap/roadmap.yaml`
+- `../roadmap/roadmap.md`
+- `../roadmap/roadmap.yaml`
 - TBD
 
 ## Planned Deliverables

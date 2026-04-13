@@ -76,7 +76,9 @@ git commit -m "feat: add drift-exclude config for distribution-only workflows"
 
 ---
 
-## Task 2: Remove irrelevant workflows from .github/
+## Task 2: Remove irrelevant workflows from .github/ [DEFERRED]
+
+> **Note:** This task was not executed. The workflows (codeql.yml, necessist.yml, runtime-security.yml) remain in .github/ and are covered by the drift-exclude config. Deletion is deferred until the next CI cleanup pass.
 
 **Files:**
 - Delete: `.github/workflows/codeql.yml`
@@ -257,7 +259,9 @@ git commit -m "feat: create lint-languages.yml with zero-cost detect gate"
 
 ---
 
-## Task 6: Delete old linting.yml and deploy lint-core.yml
+## Task 6: Delete old linting.yml and deploy lint-core.yml [DEFERRED]
+
+> **Note:** linting.yml was already removed, but lint-core.yml deployment to .github/ was not completed. The split workflow files exist in src/github/workflows/ but deployment is deferred until the next CI cleanup pass.
 
 **Files:**
 - Delete: `src/github/workflows/linting.yml`

@@ -1,6 +1,6 @@
 # Installation
 
-Last reviewed: 2026-02-23
+Last reviewed: 2026-04-13
 
 Getting started with compass-engine.
 
@@ -53,7 +53,7 @@ npm run push -- --project /path/to/repo --targets github,root --github-features 
 
 Selective CI/CD install groups:
 
-- `--github-features`: `all`, `baseline`, `codeowners`, `dependabot`, `quality-checks`, `linting`, `codeql`, `pr-size-labeler`, `stale`, `necessist`, `runtime-security`, `submodule-security-monitoring`, `github-drift`, `profile-node`, `profile-python`, `profile-submodule-compass-engine`, `profile-submodule-bmad-method`, `profile-check-bmad-updates`
+- `--github-features`: `all`, `baseline`, `codeowners`, `dependabot`, `quality-checks`, `linting`, `linting-core`, `linting-languages`, `codeql`, `pr-size-labeler`, `stale`, `necessist`, `runtime-security`, `submodule-security-monitoring`, `github-drift`, `profile-node`, `profile-python`, `profile-submodule-compass-engine`, `profile-submodule-bmad-method`, `profile-check-bmad-updates`
 - `--root-features`: `all`, `baseline`, `javascript`, `python`, `docs`, `security`, `containers`, `terraform`
 
 ## Next Steps

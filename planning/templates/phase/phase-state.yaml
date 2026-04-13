@@ -25,10 +25,10 @@ blocked_workstreams: []
 integration_gates: []
 routing_decisions: []
 lane_decisions:
-  storytelling_mode: "" # derive from roadmap scope: off | separate
-  wds_mode: "" # derive from roadmap scope: conditional | auto | manual | skipped
-  security_mode: "" # derive from roadmap scope per security-activation.md: auto | manual | skipped
-  security_active: false # derive from roadmap scope per security-activation.md: true | false
+  storytelling_mode: "off" # off | separate
+  wds_mode: conditional # conditional | auto | manual | skipped
+  security_mode: auto # auto | manual | skipped
+  security_active: false # true | false
 lane_outcomes:
   storytelling: not_applicable
   wds: not_applicable

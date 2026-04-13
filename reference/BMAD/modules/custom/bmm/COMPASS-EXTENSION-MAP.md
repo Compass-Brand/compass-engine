@@ -23,13 +23,15 @@ This file is the Phase 2 extension inventory for the active Compass BMAD referen
 
 ## Adoption Summary
 
-| Source | Status | Reason |
-| --- | --- | --- |
-| `bmad-module-creative-intelligence-suite` | Selected in part | Strong early-phase strategic additions with low overlap when narrowed to specific workflows |
-| `bmad-method-wds-expansion` | Selected in part | Strong PRD-to-UX-to-handoff lane that fixes a real gap in baseline BMAD |
-| `BMAD-CYBERSEC` | Selected in part | Strong conditional security planning and gate lane |
-| `pov-oversight-agent` | Deferred | Useful as optional oversight sidecar, but not core to the current reference rollout |
-| `ai-memory` | Deferred | Useful later for optional memory substrate, but not part of the current core rollout |
+> **Note:** The selected sub-repos have been consumed into `src/bmad/modules/custom/` and the original sub-repo directories were removed from compass-engine. The deferred repos were not consumed.
+
+| Source | Status | Consumed Into | Reason |
+| --- | --- | --- | --- |
+| `bmad-module-creative-intelligence-suite` | Consumed | `custom/compass-skills/1-analysis/` | Strong early-phase strategic additions with low overlap when narrowed to specific workflows |
+| `bmad-method-wds-expansion` | Consumed | `custom/compass-skills/2-plan-workflows/` | Strong PRD-to-UX-to-handoff lane that fixes a real gap in baseline BMAD |
+| `BMAD-CYBERSEC` | Consumed | `custom/compass-skills/3-solutioning/` | Strong conditional security planning and gate lane |
+| `pov-oversight-agent` | Deferred | n/a | Useful as optional oversight sidecar, but not core to the current reference rollout |
+| `ai-memory` | Deferred | n/a | Useful later for optional memory substrate, but not part of the current core rollout |
 
 ## Selected Workflow Imports
 

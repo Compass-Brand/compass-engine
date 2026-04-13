@@ -8,6 +8,7 @@ These templates are the starter artifacts for the roadmap-driven planning framew
 - `phase/`: active-phase artifacts
 - `orchestration/`: workspace and parent-repo routing/control artifacts
 - `implementation/`: reuse, readiness, and closeout support artifacts
+- `oversight/`: risk and assumption register templates for advisory tracking
 
 ## Usage Rules
 
@@ -16,3 +17,4 @@ These templates are the starter artifacts for the roadmap-driven planning framew
 - update templates only when the framework contract changes
 - once copied into `planning/`, the live framework files become authoritative
 - do not edit template files to reflect live phase state; update the instantiated framework artifacts instead
+- templates may include optional sections (e.g., oversight registers, storytelling lanes) that are not mandated by `documentation-governance.md`; omit sections that do not apply to the current project scope

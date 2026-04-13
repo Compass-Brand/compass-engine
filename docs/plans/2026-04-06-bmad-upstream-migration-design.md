@@ -1,5 +1,7 @@
 # BMAD Upstream Migration Design
 
+> **COMPLETED.** Migration executed via Phases 1-5. The skill-based architecture is in place.
+
 **Goal:** Migrate compass-engine from its current module-based layout to the upstream BMAD v6.2.2 skill-based architecture, enabling easy tracking of upstream releases while preserving Compass-specific customizations.
 
 **Decision date:** 2026-04-06

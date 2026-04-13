@@ -1,5 +1,7 @@
 # BMAD Source Audit Fixes Implementation Plan
 
+> **SUPERSEDED:** All tasks in this plan have been completed. Excalidraw workflows were integrated, agent filenames were renamed, and agent .md files were created. This plan is retained for reference only.
+
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
 **Goal:** Close gaps found during the BMAD src audit: integrate excalidraw workflows from upstream, rename name-based agent filenames to purpose-based, and create missing agent documentation .md files.
