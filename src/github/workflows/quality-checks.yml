@@ -45,7 +45,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name: Setup Node.js
-        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
         with:
           node-version: '20'
 
@@ -74,7 +74,7 @@ jobs:
           done
 
       - name: Setup Node.js
-        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
         with:
           node-version: '20'
 
@@ -182,7 +182,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name: Check EditorConfig
-        uses: editorconfig-checker/action-editorconfig-checker@ff2b7f22fb3dfdca5c54339c3ade98b0b3327ae6
+        uses: editorconfig-checker/action-editorconfig-checker@840e866d93b8e032123c23bac69dece044d4d84c
 
   license-review:
     name: License Compliance
@@ -196,7 +196,7 @@ jobs:
           submodules: recursive
 
       - name: Check dependency licenses
-        uses: actions/dependency-review-action@05fe4576374b728f0c523d6a13d64c25081e0803
+        uses: actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48
         with:
           allow-licenses: ${{ env.ALLOWED_LICENSES }}
 

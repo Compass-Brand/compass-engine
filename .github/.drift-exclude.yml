@@ -1,5 +1,5 @@
-# Workflows available for distribution but intentionally not used in compass-engine.
-# The drift checker skips these paths when comparing src/github/ against .github/.
+# Workflows available for distribution but not active by default.
+# To enable, remove the entry from this list.
 - workflows/codeql.yml
 - workflows/necessist.yml
 - workflows/runtime-security.yml
