@@ -5,12 +5,7 @@ This directory is the source for distributed `.claude/` content.
 Included:
 
 - `agents/`
-- `commands/`
 - `skills/`
-- `rules/`
-- `contexts/`
-- `config/`
-- `scripts/`
 - `templates/`
 
 Notes:

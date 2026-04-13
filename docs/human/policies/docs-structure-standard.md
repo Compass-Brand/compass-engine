@@ -156,6 +156,10 @@ Implementation Playbook (Mandatory):
 - Required tree exists.
 - When Compass BMAD docs workflows are installed, `docs/human/` and `docs/ai/README.md` exist and are aligned.
 
+## Compass Engine Compliance Note
+
+Compass Engine is the source repository for this standard, not a typical downstream project. Its `docs/` tree extends the standard minimum with additional directories (`plans/`, `human/`, `ai/`, `development/bmad/`, `development/opencode/`, `development/claude/`). Standard directories (`docs/guides/`, `docs/reference/`, `docs/architecture/decisions/`) may be absent when the repo has no content for them yet. The `user-overrides.md` file is scaffolded by Compass BMAD docs workflows in downstream projects and is not required in the engine source itself.
+
 ## Exceptions
 
 Exceptions MUST follow `documentation-governance.md`.

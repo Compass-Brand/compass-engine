@@ -11,9 +11,9 @@ This repo ships a shared linting/security baseline for both:
 
 - Root lint/security templates: `src/root/`
 - GitHub Actions templates: `src/github/workflows/`
-- Generated outputs:
-  - root files from `dist/root` (pushed into project root)
-  - workflow files from `dist/.github/workflows`
+- Generated outputs (built into `dist/` at build time, then pushed into target repos):
+  - root files from `dist/root/`
+  - workflow files from `dist/.github/workflows/`
 
 ## Pre-commit Baseline
 
@@ -69,7 +69,8 @@ To avoid formatter conflicts:
 
 ### Fast PR/Push Gate
 
-- `src/github/workflows/linting.yml`
+- `src/github/workflows/lint-core.yml`
+- `src/github/workflows/lint-languages.yml`
 
 Execution policy:
 

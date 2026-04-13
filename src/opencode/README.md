@@ -5,7 +5,6 @@ This directory is the source for distributed `.opencode/` content.
 Included:
 
 - `agents/`
-- `commands/`
 - `plugins/` (Compass plugin source)
 
 Notes:

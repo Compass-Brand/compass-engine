@@ -9,49 +9,20 @@ Guide to adding and modifying Claude Code configuration in compass-engine.
 ```text
 src/claude/
 ├── agents/      # Agent definitions (.md files)
-├── commands/    # Slash commands (.md files)
-│   └── bmad/    # BMAD-specific commands
 ├── skills/      # Skill definitions (directories with SKILL.md)
-├── rules/       # Governance rules (.md files)
-├── contexts/    # Context modes (.json/.md files)
-├── config/      # Configuration files
-├── scripts/     # Hook scripts
 └── templates/   # Settings templates
 ```
 
 Generated BMAD adapters:
 
-- `src/claude/commands/bmad/` is auto-generated at build time from per-module `module-help.csv` files (output: `dist/_bmad/_config/bmad-help.csv`)
-- run `npm run build` to regenerate BMAD command adapters
-- do not hand-edit generated files in `src/claude/commands/bmad/`
+- Client skills under `dist/.claude/skills/` are auto-generated at build time from `skill-manifest.csv`
+- run `npm run build` to regenerate BMAD skill adapters
 
 ## Adding a New Command
 
-1. Create a new `.md` file in `src/claude/commands/`:
+BMAD commands are auto-generated at build time from `skill-manifest.csv`. To add a new BMAD command, add an entry to the manifest and run `npm run build`.
 
-```markdown
----
-name: my-command
-description: Brief description of what this command does
----
-
-# My Command
-
-Detailed instructions for Claude Code when this command is invoked.
-
-## Steps
-
-1. First step
-2. Second step
-   ...
-```
-
-2. Build and test:
-
-```bash
-npm run build
-# Test locally by copying dist/.claude to a test project
-```
+For non-BMAD commands, create a skill directory under `src/claude/skills/` (see Adding a New Skill below).
 
 ## Adding a New Agent
 
@@ -111,29 +82,9 @@ Step-by-step instructions for the skill.
 
 ## Adding Rules
 
-1. Create or edit files in `src/claude/rules/`:
-
-```markdown
-# Rule Category Name
-
-## Rule 1: Description
-
-- Guideline 1
-- Guideline 2
-
-## Rule 2: Description
-
-...
-```
+Rules are managed in the project-level `.claude/rules/` directory, not in the `src/claude/` source bundle. Each target repo maintains its own rules. See the parent repo `.claude/rules/` for examples.
 
 ## Configuration Files
-
-### `src/claude/config/`
-
-Place configuration files here:
-
-- `auto-fix-rules.json` - Auto-fix patterns for PR reviews
-- `context-modes.json` - Context mode definitions
 
 ### `src/claude/templates/`
 
