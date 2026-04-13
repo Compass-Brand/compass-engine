@@ -50,7 +50,7 @@ For selective CI/CD installation, use `--github-features` and `--root-features` 
 ## Linting
 
 This repo now defines a shared linting baseline in `src/root/.pre-commit-config.yaml`
-and GitHub workflow linting in `src/github/workflows/linting.yml`.
+and GitHub workflow linting in `src/github/workflows/lint-core.yml` and `src/github/workflows/lint-languages.yml`.
 
 Install and run locally:
 
@@ -103,10 +103,8 @@ compass-engine/
 ├── .codex/                 # Codex CLI folder
 ├── .github/                # Github components folder
 ├── .opencode/              # Opencode folder
-├── _bmad/                  # Local BMAD runtime/test surface
 ├── _planning/              # Internal planning history and productization records
 ├── BMAD-METHOD/            # Upstream BMAD submodule
-├── dist/                   # Local/CI build artifacts generated from src/ (not published)
 ├── docs/                   # Documentation folder
 ├── planning/               # Live planning control surface for this repo
 ├── reference/              # Framework, provenance, audit, and research material
@@ -120,12 +118,17 @@ compass-engine/
 │   ├── opencode/           # OpenCode source bundle
 │   │   └── plugins/        # OpenCode plugin development source
 │   ├── planning/           # Shipped planning source bundle -> downstream planning/
-│   ├── root/               # Universal root components source bundle.
+│   ├── root/               # Universal root components source bundle
 │   ├── cli.js              # Shipped CLI entrypoint
 │   └── index.js            # Shipped package entrypoint
+├── test/                   # Unit and integration tests
 └── tools/
     ├── build.js            # Maintainer build script
+    ├── check-github-drift.js  # GitHub drift detection
+    ├── check-root-drift.js    # Root baseline drift detection
+    ├── create-bmad-module.js  # BMAD module scaffolding
     ├── push.js             # Maintainer push script
+    ├── update-bmad-method.sh  # Upstream submodule updater
     └── validate.js         # Maintainer validation script
 ```
 
@@ -138,10 +141,15 @@ compass-engine/
 - [GitHub Standardization](docs/architecture/github-standardization.md)
 - [Development Model](docs/development/how-we-work.md)
 - [Linting and Security Gates](docs/development/linting-and-security.md)
+- [BMAD Overview](docs/development/bmad/bmad-overview.md)
+- [Creating BMAD Skills](docs/development/bmad/creating-skills.md)
+- [Creating BMAD Modules](docs/development/bmad/creating-modules.md)
 - [Custom BMAD Modules](docs/development/bmad/custom-modules.md)
+- [Modifying BMAD](docs/development/bmad/modifying-bmad.md)
+- [Upstream BMAD Changelog](docs/development/bmad/upstream-changelog.md)
+- [BMAD Integration](docs/BMAD-integration.md)
 - [OpenCode Plugin Development](docs/development/opencode/plugin-development.md)
 - [Modifying Claude](docs/development/claude/modifying-claude.md)
-- [Modifying BMAD](docs/development/bmad/modifying-bmad.md)
 - [Reference Materials](reference/README.md)
 
 ## Project Policy Files

@@ -6,7 +6,7 @@ This document defines how the Compass BMAD method consumes the documentation fra
 
 1. `docs/human/policies/` defines the human-doc requirements.
 2. `docs/human/templates/` operationalizes those requirements.
-3. `docs/human/policies/user-overrides.md` may add project-specific overrides without weakening baseline policy.
+3. `docs/human/policies/user-overrides.md` may add project-specific overrides without weakening baseline policy (scaffolded in downstream projects by BMAD docs workflows).
 4. `docs/` is the live deployed documentation tree in target repositories.
 5. BMAD docs workflow reports are evidence and audit artifacts, not the canonical human docs themselves.
 
@@ -30,7 +30,7 @@ The BMAD method should therefore read standards from `docs/` and write project d
 - install the documentation control-plane lanes used by Compass BMAD:
   - `docs/human/policies/`
   - `docs/human/templates/`
-  - `docs/human/policies/user-overrides.md`
+  - `docs/human/policies/user-overrides.md` (project-specific, scaffolded by init)
   - `docs/ai/README.md`
 - create or refresh index `README.md` files using the documentation templates
 - record docs ownership and review expectations in `docs/README.md`

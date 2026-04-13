@@ -29,6 +29,8 @@ BMAD deep reference documentation is maintained upstream in `BMAD-METHOD/docs/`.
 | Modify BMAD customizations                       | [Modifying BMAD](./development/bmad/modifying-bmad.md)                      |
 | Review BMAD upstream release history             | [Upstream Changelog](./development/bmad/upstream-changelog.md)              |
 | Understand the Compass docs control plane        | [BMAD Integration](./BMAD-integration.md)                                   |
+| Build OpenCode plugins                           | [OpenCode Plugin Development](./development/opencode/plugin-development.md) |
+| Modify Claude Code configuration                 | [Modifying Claude](./development/claude/modifying-claude.md)                |
 
 ## Bundles Managed by This Repo
 

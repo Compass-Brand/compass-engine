@@ -36,29 +36,7 @@ Generated client skill stubs:
 
 1. Create a new `.md` file in `src/claude/commands/` (create the directory if it does not exist):
 
-```markdown
----
-name: my-command
-description: Brief description of what this command does
----
-
-# My Command
-
-Detailed instructions for Claude Code when this command is invoked.
-
-## Steps
-
-1. First step
-2. Second step
-   ...
-```
-
-2. Build and test:
-
-```bash
-npm run build
-# Test locally by copying dist/.claude to a test project
-```
+For non-BMAD commands, create a skill directory under `src/claude/skills/` (see Adding a New Skill below).
 
 ## Adding a New Agent
 
@@ -118,29 +96,10 @@ Step-by-step instructions for the skill.
 
 ## Adding Rules
 
-1. Create or edit files in `src/claude/rules/` (create the directory if it does not exist):
-
-```markdown
-# Rule Category Name
-
-## Rule 1: Description
-
-- Guideline 1
-- Guideline 2
-
-## Rule 2: Description
-
-...
-```
+Rules are managed in the project-level `.claude/rules/` directory, not in the `src/claude/` source bundle. Each target repo maintains its own rules. See the parent repo `.claude/rules/` for examples.
 
 ## Configuration Files
 
-### `src/claude/config/`
-
-Place configuration files here (create the directory if it does not exist):
-
-- `auto-fix-rules.json` - Auto-fix patterns for PR reviews
-- `context-modes.json` - Context mode definitions
 
 ### `src/claude/templates/`
 

@@ -11,20 +11,16 @@ Audited repositories with `.git` and `.github` content:
 - `compass-brand-infrastructure`
 - `compass-brand-setup`
 - `compass-forge`
-- `compass-tests`
 - `compass-forge/compass-engine`
 
 ## What Exists Today
 
-Common workflows across most repos:
+Common workflows across all audited repos:
 
 - `quality-checks.yml`
 - `pr-size-labeler.yml`
 - `stale.yml`
-
-Present only in some repos:
-
-- `codeql.yml` (setup and engine)
+- `codeql.yml` (baseline-distributed)
 
 Dependabot exists in all audited repos, but package ecosystems vary.
 

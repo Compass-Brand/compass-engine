@@ -27,8 +27,8 @@ When a deployed project carries project-local AI documentation, it should live u
 
 ## Current Reference Inputs
 
-- `_bmad/tools/automation/`
-- `_bmad/BMAD-workflow.md`
+- `src/bmad/tools/automation/`
+- `src/bmad/BMAD-workflow.md`
 - `planning/`
 
 ## Minimum Governance

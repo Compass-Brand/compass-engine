@@ -306,5 +306,5 @@ Start implementation from `bmad-engine-reg`, `bmad-engine-byc`, and `bmad-engine
 ## Links Forward
 
 - OpenCode plugin implementation work in `src/opencode/plugins/`
-- OpenCode wrappers in `src/opencode/commands/` and `src/opencode/agents/`
+- OpenCode wrappers in `src/opencode/agents/`
 - Follow-up pilot issues created from `bmad-engine-8zr`
