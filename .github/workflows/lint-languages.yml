@@ -55,13 +55,11 @@ jobs:
       - name: Detect languages
         id: check
         run: |
-          {
-            echo "has_docker=$(test -n "$(find . -maxdepth 4 -name 'Dockerfile*' 2>/dev/null | head -1)" && echo true || echo false)"
-            echo "has_terraform=$(test -n "$(find . -maxdepth 4 -name '*.tf' 2>/dev/null | head -1)" && echo true || echo false)"
-            echo "has_rust=$(test -f Cargo.toml && echo true || echo false)"
-            echo "has_k8s=$(find . -maxdepth 4 -type f \( -name '*.yaml' -o -name '*.yml' \) 2>/dev/null | grep -qE '(/k8s/|/kubernetes/|/manifests/|/helm/|/charts/)' && echo true || echo false)"
-            echo "has_iac=$(test -n "$(find . -maxdepth 4 \( -name '*.tf' -o -name 'Dockerfile*' \) 2>/dev/null | head -1)" && echo true || echo false)"
-          } >> "$GITHUB_OUTPUT"
+          echo "has_docker=$(test -n "$(find . -maxdepth 4 -name 'Dockerfile*' 2>/dev/null | head -1)" && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "has_terraform=$(test -n "$(find . -maxdepth 4 -name '*.tf' 2>/dev/null | head -1)" && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "has_rust=$(test -f Cargo.toml && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "has_k8s=$(find . -maxdepth 4 -type f \( -name '*.yaml' -o -name '*.yml' \) 2>/dev/null | grep -qE '(/k8s/|/kubernetes/|/manifests/|/helm/|/charts/)' && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "has_iac=$(test -n "$(find . -maxdepth 4 \( -name '*.tf' -o -name 'Dockerfile*' \) 2>/dev/null | head -1)" && echo true || echo false)" >> "$GITHUB_OUTPUT"
 
   hadolint:
     name: hadolint (optional)
