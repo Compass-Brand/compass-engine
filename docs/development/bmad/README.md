@@ -18,3 +18,15 @@ Current working rule:
 - [Custom Modules](./custom-modules.md) — Compass module principles and current active modules
 - [Modifying BMAD](./modifying-bmad.md) — extending BMAD without forking upstream
 - [Upstream Changelog](./upstream-changelog.md) — BMAD-METHOD release history (v1.0.0 through v6.2.2)
+
+## Usage & Integration
+
+- [When to Use BMAD](./when-to-use-bmad.md) — decision tree for choosing the right approach and scale-adaptive levels
+- [Quick-Spec & Quick-Dev](./quick-spec-quick-dev.md) — fast-path workflows and when to use them
+- [Project Context](./project-context.md) — the project-context.md artifact and its role
+- [Automation Wrappers](./automation-wrappers.md) — developer guide for automation orchestration layer
+- [Beads Integration](./beads-integration.md) — how Beads integrates with BMAD lifecycle
+- [Extension Modules](./extension-modules.md) — TEA, CIS, WDS, and CYBERSEC reference
+- [Agent Conflict Prevention](./agent-conflict-prevention.md) — preventing conflicts in polyrepo context
+- [Advanced Techniques](./advanced-techniques.md) — elicitation, adversarial review, and refinement loops
+- [Script Replacement](./script-replacement.md) — strategy for replacing workflow steps with scripts
