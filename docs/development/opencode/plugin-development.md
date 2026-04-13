@@ -1,6 +1,6 @@
 # OpenCode Plugin Development
 
-Last reviewed: 2026-02-23
+Last reviewed: 2026-04-13
 
 How OpenCode plugin work should be done from `compass-engine`.
 

@@ -1,6 +1,6 @@
 # OpenCode Plugin Portfolio Triage
 
-Status: draft
+Status: complete
 Owner:
 Last Updated: 2026-03-24
 Phase ID:

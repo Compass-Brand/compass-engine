@@ -100,9 +100,7 @@ Operational details and troubleshooting are documented in:
 compass-engine/
 ├── .beads/                 # Beads tracking folder
 ├── .claude/                # Claude-code folder
-├── .codex/                 # Codex CLI folder
 ├── .github/                # Github components folder
-├── .opencode/              # Opencode folder
 ├── _planning/              # Internal planning history and productization records
 ├── BMAD-METHOD/            # Upstream BMAD submodule
 ├── docs/                   # Documentation folder
@@ -123,6 +121,7 @@ compass-engine/
 │   └── index.js            # Shipped package entrypoint
 ├── test/                   # Unit and integration tests
 └── tools/
+    ├── README.md           # Tools documentation
     ├── build.js            # Maintainer build script
     ├── check-github-drift.js  # GitHub drift detection
     ├── check-root-drift.js    # Root baseline drift detection
