@@ -11,7 +11,7 @@ description: 'Ingest external whitepapers into a condensed digest for downstream
 
 ## CONFIGURATION
 
-Load config from `{project-root}/_bmad/modules/custom/bmm/config.yaml` and resolve:
+Load config from `{project-root}/_bmad/bmm/module.yaml` and resolve:
 - `planning_roadmap`
 - `date` as a system-generated value (`YYYY-MM-DD`)
 

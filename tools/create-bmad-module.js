@@ -74,7 +74,7 @@ async function exists(filePath) {
 async function scaffold() {
   const options = parseArgs();
 
-  const upstreamModule = path.join(ROOT, 'BMAD-METHOD', 'src', options.from);
+  const upstreamModule = path.join(ROOT, 'BMAD-METHOD', 'src', `${options.from}-skills`);
   const targetRoot = path.join(ROOT, 'src', 'bmad', 'modules');
   const targetModule = path.join(targetRoot, options.name);
 
@@ -94,7 +94,7 @@ async function scaffold() {
     const updated = moduleYaml
       .replace(/^code:\s*.*$/m, `code: ${options.code}`)
       .replace(/^name:\s*.*$/m, `name: "${options.name}"`)
-      .concat(`\n# Customized from BMAD-METHOD/src/${options.from}\n`);
+      .concat(`\n# Customized from BMAD-METHOD/src/${options.from}-skills\n`);
 
     await fs.writeFile(moduleYamlPath, updated);
   }

@@ -11,7 +11,7 @@ The current shipped repo contract keeps only `BMAD-METHOD` as an active submodul
 - Keep Dependabot submodule allowlists aligned with `.gitmodules`.
 
 2. Vulnerability and secret scanning
-- `linting.yml` runs Trivy on pull requests and pushes with `HIGH,CRITICAL` severity gates.
+- `lint-core.yml` runs Trivy on pull requests and pushes with `HIGH,CRITICAL` severity gates.
 - `submodule-security-monitoring.yml` runs a scheduled Trivy scan to catch newly disclosed findings even when repo code does not change.
 
 3. License compatibility

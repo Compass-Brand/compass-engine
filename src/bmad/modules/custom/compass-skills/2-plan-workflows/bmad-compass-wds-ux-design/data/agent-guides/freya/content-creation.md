@@ -69,7 +69,7 @@
 - Content is complex
 
 **Process:**
-Load: `{project-root}/_bmad/modules/custom/bmm/workflows/2-plan-workflows/wds-ux-design/`
+Load: `{project-root}/_bmad/compass/2-plan-workflows/bmad-compass-wds-ux-design/`
 
 **6-Step Framework:**
 1. Define purpose & success criteria
@@ -256,7 +256,7 @@ Features (WHAT): 10K templates, smart pricing, e-signatures
 
 ## Related Resources
 
-- **WDS UX Design Workflows:** `{project-root}/_bmad/modules/custom/bmm/workflows/2-plan-workflows/wds-ux-design/`
+- **WDS UX Design Workflows:** `{project-root}/_bmad/compass/2-plan-workflows/bmad-compass-wds-ux-design/`
 - **Content Purpose Guide:** `../../docs/method/content-purpose-guide.md`
 - **Tone of Voice Guide:** `../../docs/method/tone-of-voice-guide.md`
 - **Customer Awareness Cycle:** `../../docs/models/customer-awareness-cycle.md`

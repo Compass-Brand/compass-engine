@@ -2,7 +2,7 @@
 name: 'step-01-load-context'
 description: 'Load knowledge base, determine scope, and gather context'
 nextStepFile: './step-02-discover-tests.md'
-knowledgeIndex: '{project-root}/_bmad/modules/custom/bmm/testarch/tea-index.csv'
+knowledgeIndex: '{project-root}/_bmad/compass/4-implementation/_tea-knowledge/tea-index.csv'
 outputFile: '{test_artifacts}/test-review.md'
 ---
 

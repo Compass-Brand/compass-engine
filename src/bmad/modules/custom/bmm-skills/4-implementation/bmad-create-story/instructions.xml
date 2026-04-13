@@ -1,5 +1,5 @@
 <workflow>
-  <critical>The workflow execution engine is governed by: {project-root}/_bmad/modules/custom/core/tasks/workflow.xml</critical>
+  <critical>The workflow execution engine is governed by: {project-root}/_bmad/core/module.yaml</critical>
   <critical>You MUST have already loaded and processed: {installed_path}/workflow.yaml</critical>
   <critical>Communicate all responses in {communication_language} and generate all documents in {document_output_language}</critical>
 
@@ -259,7 +259,7 @@
   </step>
 
   <step n="6" goal="Update sprint status and finalize">
-    <invoke-task>Validate against checklist at {installed_path}/checklist.md using _bmad/modules/custom/core/tasks/validate-workflow.xml</invoke-task>
+    <invoke-task>Validate against checklist at {installed_path}/checklist.md using _bmad/core/module.yaml</invoke-task>
     <action>Save story document unconditionally</action>
 
     <!-- Update sprint status -->
@@ -285,7 +285,7 @@
       1. Review the comprehensive story in {{story_file}}
       2. Run dev agents `dev-story` for optimized implementation
       3. Run `code-review` when complete (auto-marks done)
-      4. Optional: If Test Architect module installed, run `/bmad:tea:automate` after `dev-story` to generate guardrail tests
+      4. Optional: If Test Architect module installed, run `/bmad-tea-testarch-automate` after `dev-story` to generate guardrail tests
 
       **The developer now has everything needed for flawless implementation!**
     </output>

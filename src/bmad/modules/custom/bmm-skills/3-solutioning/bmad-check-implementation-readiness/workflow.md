@@ -44,7 +44,7 @@ description: 'Validate PRD, UX, Architecture and Epics specs are complete. Use w
 
 ### 1. Module Configuration Loading
 
-Load and read full config from {project-root}/_bmad/modules/custom/bmm/config.yaml and resolve:
+Load and read full config from {project-root}/_bmad/bmm/module.yaml and resolve:
 
 - `project_name`, `planning_root`, `planning_current`, `current_testing_gates_draft_dir`, `current_research_dir`, `user_name`, `communication_language`, `document_output_language`
 - ✅ YOU MUST ALWAYS SPEAK OUTPUT In your Agent communication style with the config `{communication_language}`

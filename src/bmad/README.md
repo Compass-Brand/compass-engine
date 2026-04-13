@@ -7,16 +7,19 @@ In deployed repositories this bundle lives at root `_bmad/`. The editable source
 ## Key Surfaces
 
 - `BMAD-workflow.md` - canonical human-readable Compass BMAD workflow
-- `modules/custom/bmm/` - active Compass BMAD custom module layer
-- `modules/custom/core/` - active shared Compass core workflow layer
+- `modules/custom/bmm-skills/` - active Compass BMAD custom module layer
+- `modules/custom/core-skills/` - active shared Compass core workflow layer
+- `modules/custom/compass-skills/` - Compass-specific skills module
+- `modules/custom/bmad-builder-skills/` - BMAD builder skills module
+- `modules/native/bmm-skills/` - upstream native BMM module (skill format)
+- `modules/native/core-skills/` - upstream native core module (skill format)
 - `tools/automation/` - automation specs, policies, and templates shipped with the method
-- `_config/` - shipped BMAD manifests and catalogs
 
 ## Read Order
 
 1. `BMAD-workflow.md`
-2. `modules/custom/bmm/module-help.csv`
-3. `modules/custom/core/module-help.csv`
+2. `modules/custom/compass-skills/module-help.csv`
+3. `modules/custom/bmad-builder-skills/module-help.csv`
 4. `tools/automation/README.md`
 5. `../planning/README.md`
 

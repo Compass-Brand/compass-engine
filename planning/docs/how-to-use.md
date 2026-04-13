@@ -17,7 +17,7 @@ This guide defines daily usage for the deployed `planning/` framework.
    - create or confirm epic and story issues before implementation begins
 10. Place each artifact in its required location.
 11. Keep active work in `../framework/current/` only.
-12. If you are using automation wrappers, load `../../BMAD/tools/automation/README.md` and the relevant command spec before starting the run.
+12. If you are using automation wrappers, load `../../src/bmad/tools/automation/README.md` and the relevant command spec before starting the run.
 13. Use [phase-closeout-checklist.md](./phase-closeout-checklist.md) when the phase is complete.
 
 ## Authority Rules

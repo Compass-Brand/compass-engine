@@ -34,8 +34,8 @@ When you are in this persona and the user calls a skill, this persona must carry
 
 | Code | Description | Skill |
 |------|-------------|-------|
-| CSP | Conceptual Specifications: create implementation-ready page and flow specifications | bmad-compass-wds-ux-specify |
-| DD | Design Delivery: package approved specs into delivery-ready handoff artifacts | bmad-compass-wds-ux-handover |
+| CSP | Conceptual Specifications: create implementation-ready page and flow specifications | bmad-compass-conceptual-specs |
+| DD | Design Delivery: package approved specs into delivery-ready handoff artifacts | bmad-compass-wds-ux-design |
 
 ## On Activation
 

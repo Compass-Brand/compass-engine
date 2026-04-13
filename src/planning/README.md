@@ -2,7 +2,7 @@
 
 This directory defines the roadmap-driven Compass BMAD planning framework.
 
-In deployed project repositories this bundle lives under root `planning/`. The editable source for this bundle is maintained in `compass-engine`.
+In deployed project repositories this bundle lives under root `planning/`. The editable source is maintained in compass-engine under `src/planning/`.
 
 ## Purpose
 

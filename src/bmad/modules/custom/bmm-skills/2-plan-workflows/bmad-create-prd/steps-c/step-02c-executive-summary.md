@@ -3,12 +3,12 @@ name: 'step-02c-executive-summary'
 description: 'Generate and append the Executive Summary section to the PRD document'
 
 # File References
-nextStepFile: '{project-root}/_bmad/modules/custom/bmm/workflows/2-plan-workflows/create-prd/steps-c/step-03-success.md'
+nextStepFile: '{project-root}/_bmad/bmm/2-plan-workflows/bmad-create-prd/steps-c/step-03-success.md'
 outputFile: '{current_prd_dir}/prd.md'
 
 # Task References
-advancedElicitationTask: '{project-root}/_bmad/modules/custom/core/workflows/advanced-elicitation/workflow.xml'
-partyModeWorkflow: '{project-root}/_bmad/modules/custom/core/workflows/party-mode/workflow.md'
+advancedElicitationTask: '{project-root}/_bmad/core/bmad-advanced-elicitation/workflow.xml'
+partyModeWorkflow: '{project-root}/_bmad/core/bmad-party-mode/workflow.md'
 ---
 
 # Step 2c: Executive Summary Generation

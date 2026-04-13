@@ -42,6 +42,15 @@ This format exists so teams can execute consistently and understand the intent b
 ## Template Set
 
 - `adr.md` - architecture decision record template.
+- `docs-architecture-decisions-index.md` - architecture decisions index page template.
+- `docs-architecture-index.md` - architecture section index page template.
+- `docs-development-index.md` - development section index page template.
+- `docs-getting-started-index.md` - getting started section index page template.
+- `docs-getting-started-installation.md` - installation guide template.
+- `docs-getting-started-quickstart.md` - quickstart guide template.
+- `docs-guides-index.md` - guides section index page template.
+- `docs-reference-index.md` - reference section index page template.
+- `docs-user-overrides.md` - user overrides policy template.
 - `guide-howto.md` - task-oriented guide template.
 - `guide-tutorial.md` - learning-oriented tutorial template.
 - `readme-docs-index.md` - `docs/README.md` index template.

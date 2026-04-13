@@ -6,7 +6,7 @@ How to create new workflow and agent skills for the Compass BMAD system.
 
 ## Prerequisites
 
-- Working compass-engine checkout with `npm install` completed
+- Working compass-engine checkout (no `npm install` needed -- there are no runtime dependencies)
 - Familiarity with the [BMAD overview](./bmad-overview.md)
 
 ## Skill Types

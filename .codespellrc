@@ -1,4 +1,4 @@
 [codespell]
-skip = .git,*.lock,node_modules,dist,BMAD-METHOD,.beads,reference/BMAD/**,reference/migration-staging/**,.claude-trace,src/bmad/modules/**
+skip = .git,*.lock,node_modules,dist,.beads,_bmad
 quiet-level = 2
-ignore-words-list = crate,fo,iterm,nd,te
+ignore-words-list = crate,fo,iterm,nd,reate,som,te

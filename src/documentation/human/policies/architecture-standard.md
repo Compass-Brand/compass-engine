@@ -144,3 +144,4 @@ Exceptions MUST follow `documentation-governance.md`.
 - `docs-structure-standard.md`
 - `documentation-governance.md`
 - `guides-standard.md`
+- `style-standard.md`

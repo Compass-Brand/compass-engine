@@ -5,7 +5,7 @@ description: 'Optional step to collaborate with Ghost agent for offensive securi
 
 # Path Definitions
 
-workflow_path: '{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/security-architecture-review'
+workflow_path: '{project-root}/_bmad/compass/3-solutioning/bmad-compass-security-architecture-review'
 
 # File References
 
@@ -16,7 +16,7 @@ outputFile: '{current_security_review_dir}/security-review-{project_name}.md'
 
 # Task References
 
-partyModeWorkflow: '{project-root}/_bmad/modules/custom/core/workflows/party-mode/workflow.md'
+partyModeWorkflow: '{project-root}/_bmad/core/bmad-party-mode/workflow.md'
 
 ---
 

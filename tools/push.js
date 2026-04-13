@@ -127,7 +127,6 @@ const GITHUB_FEATURE_GROUPS = {
   necessist: ['workflows/necessist.yml'],
   'runtime-security': ['workflows/runtime-security.yml'],
   'submodule-security-monitoring': ['workflows/submodule-security-monitoring.yml'],
-  'github-drift': ['workflows/github-drift.yml'],
   'profile-node': ['profiles/dependabot-node.yml'],
   'profile-python': ['profiles/dependabot-python.yml'],
   'profile-submodule-compass-engine': ['profiles/dependabot-submodule-compass-engine.yml'],

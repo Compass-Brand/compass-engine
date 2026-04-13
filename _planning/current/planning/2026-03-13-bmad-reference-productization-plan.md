@@ -1,6 +1,8 @@
 # BMAD Reference Productization Plan
 
-Status: phase-8-productization-plan-drafted
+> **ARCHIVED:** Superseded by the src/-based BMAD upstream migration (see `docs/plans/2026-04-06-bmad-upstream-migration-design.md`). Retained for historical reference only.
+
+Status: archived
 Owner:
 Last Updated: 2026-03-13
 

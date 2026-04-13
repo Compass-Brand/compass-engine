@@ -3,7 +3,7 @@ name: 'step-07-loop-decision'
 description: 'Mark current component as analyzed and decide whether to analyze more components or proceed to summary'
 
 # Path Definitions
-workflow_path: '{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/threat-modeling'
+workflow_path: '{project-root}/_bmad/compass/3-solutioning/bmad-compass-threat-modeling'
 
 # File References
 thisStepFile: '{workflow_path}/steps/step-07-loop-decision.md'

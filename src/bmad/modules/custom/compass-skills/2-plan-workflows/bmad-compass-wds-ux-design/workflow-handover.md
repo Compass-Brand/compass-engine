@@ -15,7 +15,7 @@ description: 'Package complete testable flows and hand off to development. Use w
 
 ### Configuration Loading
 
-Load and read full config from `{project-root}/_bmad/modules/custom/bmm/config.yaml` and resolve:
+Load and read full config from `{project-root}/_bmad/bmm/module.yaml` and resolve:
 
 - `project_name`, `user_name`, `communication_language`, `document_output_language`
 - `current_conceptual_specifications_dir`, `current_design_delivery_dir`, `current_design_delivery_test_dir`

@@ -1,7 +1,7 @@
 # Retrospective - Epic Completion Review Instructions
 
-<critical>The workflow execution engine is governed by: {project-root}/_bmad/modules/custom/core/tasks/workflow.xml</critical>
-<critical>You MUST have already loaded and processed: {project-root}/_bmad/modules/custom/bmm/workflows/4-implementation/retrospective/workflow.yaml</critical>
+<critical>The workflow execution engine is governed by: {project-root}/_bmad/core/module.yaml</critical>
+<critical>You MUST have already loaded and processed: {project-root}/_bmad/bmm/4-implementation/bmad-retrospective/workflow.yaml</critical>
 <critical>Communicate all responses in {communication_language} and language MUST be tailored to {user_skill_level}</critical>
 <critical>Generate all documents in {document_output_language}</critical>
 <critical>⚠️ Avoid speculative delivery promises. Prefer qualitative effort bands, dependency ordering, and risk signals over calendar commitments. If the retrospective references effort, keep it relative and decision-supporting rather than predictive.</critical>

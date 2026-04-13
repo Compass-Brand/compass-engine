@@ -1,57 +1,42 @@
 # Modifying Claude Code Configuration
 
-Last reviewed: 2026-02-23
+Last reviewed: 2026-04-13
 
 Guide to adding and modifying Claude Code configuration in compass-engine.
 
 ## Directory Structure
 
+The build copies any of the following directories from `src/claude/` into `dist/.claude/`:
+
 ```text
 src/claude/
 ├── agents/      # Agent definitions (.md files)
 ├── commands/    # Slash commands (.md files)
-│   └── bmad/    # BMAD-specific commands
 ├── skills/      # Skill definitions (directories with SKILL.md)
 ├── rules/       # Governance rules (.md files)
 ├── contexts/    # Context modes (.json/.md files)
 ├── config/      # Configuration files
 ├── scripts/     # Hook scripts
-└── templates/   # Settings templates
+└── templates/   # Settings templates (not copied directly; used for generation)
 ```
 
-Generated BMAD adapters:
+Directories that do not exist are skipped during the build. Currently present:
 
-- `src/claude/commands/bmad/` is auto-generated at build time from per-module `module-help.csv` files (output: `dist/_bmad/_config/bmad-help.csv`)
-- run `npm run build` to regenerate BMAD command adapters
-- do not hand-edit generated files in `src/claude/commands/bmad/`
+- `agents/` -- agent definitions
+- `skills/` -- shipped Compass BMAD helper skills (`bmad-method/`, `bmad-automation/`)
+- `templates/` -- `settings.json.template` and `settings.local.json.example`
+
+Generated client skill stubs:
+
+- At build time, `dist/.claude/skills/` receives auto-generated stubs from `dist/_bmad/_config/skill-manifest.csv`
+- These stubs point to the corresponding `_bmad/` skill paths
+- The same stubs are generated for `dist/.opencode/skills/` and `dist/.codex/skills/`
 
 ## Adding a New Command
 
-1. Create a new `.md` file in `src/claude/commands/`:
+1. Create a new `.md` file in `src/claude/commands/` (create the directory if it does not exist):
 
-```markdown
----
-name: my-command
-description: Brief description of what this command does
----
-
-# My Command
-
-Detailed instructions for Claude Code when this command is invoked.
-
-## Steps
-
-1. First step
-2. Second step
-   ...
-```
-
-2. Build and test:
-
-```bash
-npm run build
-# Test locally by copying dist/.claude to a test project
-```
+For non-BMAD commands, create a skill directory under `src/claude/skills/` (see Adding a New Skill below).
 
 ## Adding a New Agent
 
@@ -111,35 +96,16 @@ Step-by-step instructions for the skill.
 
 ## Adding Rules
 
-1. Create or edit files in `src/claude/rules/`:
-
-```markdown
-# Rule Category Name
-
-## Rule 1: Description
-
-- Guideline 1
-- Guideline 2
-
-## Rule 2: Description
-
-...
-```
+Rules are managed in the project-level `.claude/rules/` directory, not in the `src/claude/` source bundle. Each target repo maintains its own rules. See the parent repo `.claude/rules/` for examples.
 
 ## Configuration Files
 
-### `src/claude/config/`
-
-Place configuration files here:
-
-- `auto-fix-rules.json` - Auto-fix patterns for PR reviews
-- `context-modes.json` - Context mode definitions
 
 ### `src/claude/templates/`
 
 Settings templates:
 
-- `settings.json.template` - Base settings
+- `settings.json.template` - Base settings (built into `dist/.claude/settings.json`)
 - `settings.local.json.example` - Example local settings
 
 ## After Making Changes

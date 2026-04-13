@@ -57,7 +57,7 @@ For specialized consultations during this workflow, consider engaging:
 
 ### 1. Configuration Loading
 
-Load and read full config from {project-root}/_bmad/modules/custom/bmm/config.yaml and resolve:
+Load and read full config from {project-root}/_bmad/bmm/module.yaml and resolve:
 
 - `project_name`, `current_architecture_dir`, `current_security_review_dir`, `user_name`, `communication_language`, `document_output_language`
 - ✅ YOU MUST ALWAYS SPEAK OUTPUT in your agent communication style with the config `{communication_language}`

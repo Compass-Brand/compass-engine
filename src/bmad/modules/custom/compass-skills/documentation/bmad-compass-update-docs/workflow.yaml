@@ -2,7 +2,7 @@ name: update-docs
 description: 'Update documentation to reflect current planning and implementation state. Use when the user says "update docs" or after major phase checkpoints.'
 author: "Compass"
 
-config_source: "{project-root}/_bmad/modules/custom/bmm/config.yaml"
+config_source: "{project-root}/_bmad/bmm/module.yaml"
 user_name: "{config_source}:user_name"
 communication_language: "{config_source}:communication_language"
 document_output_language: "{config_source}:document_output_language"
@@ -26,7 +26,7 @@ docs_framework_human_policies_dir: "{config_source}:docs_framework_human_policie
 docs_framework_human_templates_dir: "{config_source}:docs_framework_human_templates_dir"
 date: system-generated
 
-installed_path: "{project-root}/_bmad/modules/custom/bmm/workflows/documentation/update-docs"
+installed_path: "{project-root}/_bmad/compass/documentation/bmad-compass-update-docs"
 instructions: "{installed_path}/instructions.md"
 validation: "{installed_path}/checklist.md"
 

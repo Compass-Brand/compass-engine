@@ -1,3 +1,5 @@
-.github/workflows/** @Compass-Brand/compass-engine
-.github/dependabot.yml @Compass-Brand/compass-engine
-* @Compass-Brand/compass-engine
+# TODO: Set your team or individual owners below.
+# Example: * @your-org/your-team
+.github/workflows/**
+.github/dependabot.yml
+*

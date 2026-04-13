@@ -9,18 +9,19 @@ An iterative-linear workflow for systematic threat modeling using the STRIDE met
 ```
 threat-modeling/
 ├── workflow.md
+├── workflow.yaml
+├── SKILL.md
 ├── README.md
 └── steps/
     ├── step-01-init.md
     ├── step-01b-continue.md
-    ├── step-02-scope-definition.md
-    ├── step-03-decomposition.md
-    ├── step-04-threat-identification.md
-    ├── step-05-stride-analysis.md
-    ├── step-06-risk-assessment.md
-    ├── step-07-mitigation-planning.md
-    ├── step-08-documentation.md
-    └── step-09-review-iteration.md
+    ├── step-02-decomposition.md
+    ├── step-03-select-component.md
+    ├── step-04-stride-analysis.md
+    ├── step-05-risk-assessment.md
+    ├── step-06-mitigation.md
+    ├── step-07-loop-decision.md
+    └── step-08-summary.md
 ```
 
 ## STRIDE Categories

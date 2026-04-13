@@ -58,10 +58,11 @@ If files disagree:
 
 ## Naming Rules
 
-- phase snapshot folders: `<phase-slug>-<YYYY-MM-DD>`
-- lesson folders: `<phase-slug>-<YYYY-MM-DD>`
-- phase ids: stable lowercase kebab-case
-- file-system dates: `YYYY-MM-DD`
+- phase snapshot folder: `<phase-slug>-<YYYY-MM-DD>`
+- lesson folder: `<phase-slug>-<YYYY-MM-DD>`
+- roadmap archive folder: `<YYYY-MM-DD>`
+- `phase-slug` and phase IDs MUST be lowercase kebab-case
+- file-system dates MUST use `YYYY-MM-DD`
 
 ## Lifecycle
 

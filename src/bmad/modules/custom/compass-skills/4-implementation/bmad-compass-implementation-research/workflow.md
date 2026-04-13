@@ -11,7 +11,7 @@ description: 'Targeted research for active implementation decisions. Use when th
 
 ## CONFIGURATION
 
-Load config from `{project-root}/_bmad/modules/custom/bmm/config.yaml` and resolve:
+Load config from `{project-root}/_bmad/bmm/module.yaml` and resolve:
 - `project_name`, `user_name`
 - `communication_language`, `document_output_language`
 - `current_research_dir`, `current_epics_dir`, `current_story_dir`

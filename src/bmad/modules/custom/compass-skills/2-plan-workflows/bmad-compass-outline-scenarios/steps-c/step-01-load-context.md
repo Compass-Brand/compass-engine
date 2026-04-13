@@ -55,7 +55,7 @@ Read all prerequisite artifacts (Product Brief, Trigger Map) and detect whether 
 
 ### 1. Read Configuration
 
-Read `{project-root}/_bmad/modules/custom/bmm/config.yaml` and extract:
+Read `{project-root}/_bmad/bmm/module.yaml` and extract:
 - `project_name`
 - `user_name`
 - `communication_language`

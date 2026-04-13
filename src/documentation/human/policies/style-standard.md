@@ -131,4 +131,5 @@ Exceptions MUST follow `documentation-governance.md`.
 
 - `../templates/guide-howto.md`
 - `../templates/guide-tutorial.md`
+- `docs-structure-standard.md`
 - `guides-standard.md`

@@ -3,7 +3,7 @@ name: 'step-03-select-component'
 description: 'Select next component for STRIDE threat analysis and track analysis progress'
 
 # Path Definitions
-workflow_path: '{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/threat-modeling'
+workflow_path: '{project-root}/_bmad/compass/3-solutioning/bmad-compass-threat-modeling'
 
 # File References
 thisStepFile: '{workflow_path}/steps/step-03-select-component.md'

@@ -1,5 +1,7 @@
 # Workflow Map Skill Design
 
+> **COMPLETED.** The bmad-compass-workflow-map skill is implemented.
+
 ## Summary
 
 Create a self-contained Compass custom skill (`bmad-compass-workflow-map`) that presents the full ordered Compass BMAD workflow as a readable trail map. Registered in the help menu under code `WM`.

@@ -27,7 +27,7 @@ This uses **micro-file architecture** for disciplined execution:
 
 ### Configuration Loading
 
-Load config from `{project-root}/_bmad/modules/custom/bmm/config.yaml` and resolve:
+Load config from `{project-root}/_bmad/bmm/module.yaml` and resolve:
 
 - `project_name`, `current_project_context_dir`, `user_name`
 - `communication_language`, `document_output_language`, `user_skill_level`
@@ -36,7 +36,7 @@ Load config from `{project-root}/_bmad/modules/custom/bmm/config.yaml` and resol
 
 ### Paths
 
-- `installed_path` = `{project-root}/_bmad/modules/custom/bmm/workflows/generate-project-context`
+- `installed_path` = `{project-root}/_bmad/bmm/3-solutioning/bmad-generate-project-context`
 - `template_path` = `{installed_path}/project-context-template.md`
 - `output_file` = `{current_project_context_dir}/project-context.md`
 
@@ -44,6 +44,6 @@ Load config from `{project-root}/_bmad/modules/custom/bmm/config.yaml` and resol
 
 ## EXECUTION
 
-Load and execute `{project-root}/_bmad/modules/custom/bmm/workflows/generate-project-context/steps/step-01-discover.md` to begin the workflow.
+Load and execute `{project-root}/_bmad/bmm/3-solutioning/bmad-generate-project-context/steps/step-01-discover.md` to begin the workflow.
 
 **Note:** Input document discovery and initialization protocols are handled in step-01-discover.md.

@@ -3,13 +3,13 @@ name: 'step-11-polish'
 description: 'Optimize and polish the complete PRD document for flow, coherence, and readability'
 
 # File References
-nextStepFile: '{project-root}/_bmad/modules/custom/bmm/workflows/2-plan-workflows/create-prd/steps-c/step-12-complete.md'
+nextStepFile: '{project-root}/_bmad/bmm/2-plan-workflows/bmad-create-prd/steps-c/step-12-complete.md'
 outputFile: '{current_prd_dir}/prd.md'
-purposeFile: '{project-root}/_bmad/modules/custom/bmm/workflows/2-plan-workflows/create-prd/data/prd-purpose.md'
+purposeFile: '{project-root}/_bmad/bmm/2-plan-workflows/bmad-create-prd/data/prd-purpose.md'
 
 # Task References
-advancedElicitationTask: '{project-root}/_bmad/modules/custom/core/workflows/advanced-elicitation/workflow.xml'
-partyModeWorkflow: '{project-root}/_bmad/modules/custom/core/workflows/party-mode/workflow.md'
+advancedElicitationTask: '{project-root}/_bmad/core/bmad-advanced-elicitation/workflow.xml'
+partyModeWorkflow: '{project-root}/_bmad/core/bmad-party-mode/workflow.md'
 ---
 
 # Step 11: Document Polish
@@ -212,6 +212,6 @@ When user selects 'C', replace the entire document content with the polished ver
 
 ## NEXT STEP:
 
-After user selects 'C' and polished document is saved, load `{project-root}/_bmad/modules/custom/bmm/workflows/2-plan-workflows/create-prd/steps-c/step-12-complete.md` to complete the workflow.
+After user selects 'C' and polished document is saved, load `{project-root}/_bmad/bmm/2-plan-workflows/bmad-create-prd/steps-c/step-12-complete.md` to complete the workflow.
 
 Remember: Do NOT proceed to step-12 until user explicitly selects 'C' from the A/P/C menu and polished document is saved!

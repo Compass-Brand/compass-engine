@@ -1,7 +1,7 @@
 # Sprint Planning - Sprint Status Generator
 
-<critical>The workflow execution engine is governed by: {project-root}/_bmad/modules/custom/core/tasks/workflow.xml</critical>
-<critical>You MUST have already loaded and processed: {project-root}/_bmad/modules/custom/bmm/workflows/4-implementation/sprint-planning/workflow.yaml</critical>
+<critical>The workflow execution engine is governed by: {project-root}/_bmad/core/module.yaml</critical>
+<critical>You MUST have already loaded and processed: {project-root}/_bmad/bmm/4-implementation/bmad-sprint-planning/workflow.yaml</critical>
 
 ## 📚 Document Discovery - Full Epic Loading
 
@@ -228,7 +228,7 @@ If sprint planning is blocked because epic inputs do not exist:
 
 - State clearly that sprint planning cannot proceed **yet** because there are no epic files in `{epics_location}`.
 - If Product Brief, PRD, or Architecture files already exist on disk, acknowledge them as completed upstream inputs.
-- Recommend `/bmad:bmad-bmm-create-epics-and-stories` as the next workflow.
+- Recommend `/bmad-bmm-create-epics-and-stories` as the next workflow.
 - Do not recommend re-running Product Brief, PRD, or Architecture unless those files are actually missing.
 
 ## Additional Documentation

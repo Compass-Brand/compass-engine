@@ -1,4 +1,4 @@
-<task id="_bmad/modules/custom/core/workflows/advanced-elicitation/workflow.xml" name="Advanced Elicitation" standalone="false"
+<task id="_bmad/core/bmad-advanced-elicitation/workflow.xml" name="Advanced Elicitation" standalone="false"
   description="Compatibility shim: delegates XML calls to markdown workflow">
   <objective>Load and execute the markdown implementation of Advanced Elicitation</objective>
   <llm critical="true">

@@ -31,12 +31,12 @@ Some approved steps still do not have a dedicated slash command. Remaining templ
 
 - `_bmad/bmm/module-help.csv`
 - `_bmad/core/module-help.csv`
-- `_bmad/bmm/workflows/**`
-- `_bmad/core/workflows/**`
+- `_bmad/bmm/**`
+- `_bmad/core/**`
 - `planning/**`
 - `planning/templates/**`
 - `docs/**`
-- shipped extension workflows already normalized into `_bmad/bmm/workflows/`
+- shipped extension workflows already normalized into `_bmad/bmm/`
 
 ## Legend
 
@@ -465,10 +465,10 @@ They remain `anytime` and do not insert into the Compass delivery spine.
 
 - `_bmad/bmm/module-help.csv`
 - `_bmad/core/module-help.csv`
-- `_bmad/bmm/workflows/**`
-- `_bmad/core/workflows/**`
+- `_bmad/bmm/**`
+- `_bmad/core/**`
 - `_bmad/BMAD-workflow.md`
 - `planning/**`
 - `planning/templates/**`
 - `docs/**`
-- shipped extension workflows already normalized into `_bmad/bmm/workflows/`
+- shipped extension workflows already normalized into `_bmad/bmm/`

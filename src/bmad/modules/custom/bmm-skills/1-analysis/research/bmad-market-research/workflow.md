@@ -15,7 +15,7 @@ description: 'Conduct market research on competition and customers. Use when the
 
 ## CONFIGURATION
 
-Load config from `{project-root}/_bmad/modules/custom/bmm/config.yaml` and resolve:
+Load config from `{project-root}/_bmad/bmm/module.yaml` and resolve:
 - `project_name`, `planning_root`, `planning_roadmap`, `roadmap_research_dir`, `user_name`
 - `communication_language`, `document_output_language`, `user_skill_level`
 - `date` as a system-generated value

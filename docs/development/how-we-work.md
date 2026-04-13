@@ -1,6 +1,6 @@
 # Development Model
 
-Last reviewed: 2026-03-13
+Last reviewed: 2026-04-13
 
 This document defines how work is done in `compass-engine`.
 
@@ -18,7 +18,7 @@ Primary outputs:
 
 ## Source of Truth
 
-1. Issue tracking: `bd` (beads)
+1. Issue tracking: `bd` (beads) -- a local-first issue tracker bundled with compass-engine; run `bd help` for usage
 2. Shipped distributed assets: `src/`
 3. Framework, provenance, and research context: `reference/`
 4. Build artifacts: `dist/`
@@ -54,7 +54,7 @@ Primary outputs:
 - `src/opencode/plugins/`: canonical OpenCode plugin development location
 - `tools/`: maintainer build, push, validation, and scaffolding automation
 - `reference/`: framework references, provenance, audits, and research that stay out of shipped bundles
-- Tests: add a `tests/` directory only when runtime unit/integration suites are introduced
+- Tests: `test/` contains runtime unit/integration suites
 
 See also:
 

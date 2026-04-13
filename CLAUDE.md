@@ -17,10 +17,9 @@ This repository serves as the central hub for Compass Brand development tools:
 - **BMAD-METHOD/** - Core BMAD methodology (upstream submodule)
 - **reference/** - Framework, provenance, research, and audit context that does not ship
 - **src/** - Active shipped source bundles for Compass Engine
-- **dist/** - Built output ready for distribution
 - **tools/** - Maintainer build, push, validation, and scaffolding scripts
-- **\_bmad-output/** - BMAD runtime artifacts and custom creations
 - **docs/** - Documentation and guides
+- **test/** - Unit and integration tests
 
 ## Working Rule
 
@@ -37,11 +36,13 @@ BMAD (Breakthrough Method of Agile AI-Driven Development) is a structured method
 
 ## Tech Stack
 
-| Layer         | Technology   |
-| ------------- | ------------ |
-| Documentation | Markdown     |
-| Automation    | Python, Bash |
-| Testing       | pytest       |
+| Layer         | Technology          |
+| ------------- | ------------------- |
+| Runtime       | Node.js 18+         |
+| Language      | JavaScript (ESM)    |
+| Documentation | Markdown            |
+| Automation    | Bash                |
+| Testing       | node:test (built-in)|
 
 ---
 

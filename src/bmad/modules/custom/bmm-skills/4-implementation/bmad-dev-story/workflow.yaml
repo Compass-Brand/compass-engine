@@ -2,7 +2,7 @@ name: dev-story
 description: 'Execute story implementation following a context filled story spec file. Use when the user says "dev this story [story file]" or "implement the next story in the sprint plan"'
 
 # Critical variables from config
-config_source: "{project-root}/_bmad/modules/custom/bmm/config.yaml"
+config_source: "{project-root}/_bmad/bmm/module.yaml"
 user_name: "{config_source}:user_name"
 communication_language: "{config_source}:communication_language"
 user_skill_level: "{config_source}:user_skill_level"
@@ -11,7 +11,7 @@ date: system-generated
 current_story_dir: "{config_source}:current_story_dir"
 
 # Workflow components
-installed_path: "{project-root}/_bmad/modules/custom/bmm/workflows/4-implementation/dev-story"
+installed_path: "{project-root}/_bmad/bmm/4-implementation/bmad-dev-story"
 instructions: "{installed_path}/instructions.xml"
 validation: "{installed_path}/checklist.md"
 

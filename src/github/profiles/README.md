@@ -1,8 +1,8 @@
 # GitHub Profile Overlays
 
-`src/github/` contains the org baseline.
+`.github/` contains the org baseline.
 
-Use `src/github/profiles/` for repo-type-specific overlays that extend the baseline without changing it.
+Use `.github/profiles/` for repo-type-specific overlays that extend the baseline without changing it.
 
 Current overlays:
 

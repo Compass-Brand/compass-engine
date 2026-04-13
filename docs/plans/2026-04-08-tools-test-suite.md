@@ -30,86 +30,17 @@ In `package.json`, add a `test:unit` script and update the existing conceptual t
 
 This replaces the current missing `test` script. The `--test` flag uses the Node.js built-in test runner.
 
-**Step 2: Expand exports in build.js**
+**Step 2: Verify exports in build.js**
 
-At `tools/build.js:617`, change:
+`tools/build.js` already exports the required functions (build, normalizePath, shouldSkip, parseSimpleYaml, parseCsvRows, clientSkillName, copyDir, mergeModules, listFilesRecursive). No changes needed -- tests can import these directly.
 
-```js
-export { build };
-```
+**Step 3: Verify exports in push.js**
 
-to:
+`tools/push.js` already exports the required functions (push, resolveFeatureSelection, resolveWithinProject, expandSelectedPaths, readManagedManifest, writeManagedManifest, resolveGitDir, getManagedManifestPath, syncManagedTarget, copyDir, copySelectedFiles, listFilesRecursive, readContentOrDir, restoreContent, loadProjectConfig, discoverWorkspaceGitRepos). No changes needed.
 
-```js
-export {
-  build,
-  normalizePath,
-  shouldSkip,
-  parseSimpleYaml,
-  parseCsvRows,
-  clientSkillName,
-  copyDir,
-  mergeModules,
-  listFilesRecursive,
-  generateAgentManifest,
-  generateBmadHelp,
-  generateSkillManifest,
-  generateClientSkills,
-  validateBuild,
-};
-```
+**Step 4: Verify exports in validate.js**
 
-**Step 3: Expand exports in push.js**
-
-At `tools/push.js:676`, change:
-
-```js
-export { push };
-```
-
-to:
-
-```js
-export {
-  push,
-  resolveFeatureSelection,
-  resolveWithinProject,
-  expandSelectedPaths,
-  readManagedManifest,
-  writeManagedManifest,
-  resolveGitDir,
-  getManagedManifestPath,
-  syncManagedTarget,
-  copyDir,
-  copySelectedFiles,
-  listFilesRecursive,
-  readContentOrDir,
-  restoreContent,
-  discoverProjects,
-  loadProjectConfig,
-  discoverWorkspaceGitRepos,
-};
-```
-
-**Step 4: Expand exports in validate.js**
-
-At `tools/validate.js:388`, change:
-
-```js
-export { validate };
-```
-
-to:
-
-```js
-export {
-  validate,
-  shouldScanSourceFile,
-  isLikelyPlaceholder,
-  findSecretIndicators,
-  parseCsvLine,
-};
-```
+`tools/validate.js` already exports the required functions (validate, shouldScanSourceFile, isLikelyPlaceholder, findSecretIndicators, parseCsvLine). No changes needed.
 
 **Step 5: Create test/helpers.js**
 

@@ -32,8 +32,8 @@ This step will generate content and present choices:
 
 ## PROTOCOL INTEGRATION:
 
-- When 'A' selected: Read fully and follow: {project-root}/_bmad/modules/custom/core/workflows/advanced-elicitation/workflow.xml
-- When 'P' selected: Read fully and follow: {project-root}/_bmad/modules/custom/core/workflows/party-mode/workflow.md
+- When 'A' selected: Read fully and follow: {project-root}/_bmad/core/bmad-advanced-elicitation/workflow.xml
+- When 'P' selected: Read fully and follow: {project-root}/_bmad/core/bmad-party-mode/workflow.md
 - PROTOCOLS always return to display this step's A/P/C menu after the A or P have completed
 - User accepts/rejects protocol changes before proceeding
 
@@ -52,9 +52,9 @@ Define the complete project structure and architectural boundaries based on all 
 
 Before generating any structure output, inspect the actual project to ground your output in reality:
 
-1. **Read the project config** at `{project-root}/_bmad/modules/custom/bmm/config.yaml` to resolve actual paths: `planning_root`, `planning_current`, `current_architecture_dir`, and any other output-location variables.
+1. **Read the project config** at `{project-root}/_bmad/bmm/module.yaml` to resolve actual paths: `planning_root`, `planning_current`, `current_architecture_dir`, and any other output-location variables.
 
-2. **List the actual workflow tree** under `{project-root}/_bmad/modules/custom/bmm/workflows/` to understand the real lane names and structure. Do not invent lane names — use the actual directory names found (e.g., `0-governance`, `1-analysis`, `2-plan-workflows`, `3-solutioning`, `4-implementation`).
+2. **List the actual workflow tree** under `{project-root}/_bmad/bmm/` to understand the real lane names and structure. Do not invent lane names — use the actual directory names found (e.g., `0-governance`, `1-analysis`, `2-plan-workflows`, `3-solutioning`, `4-implementation`).
 
 3. **List the actual planning structure** under the resolved `{planning_current}` path to understand how planning artifacts are organized (e.g., `planning/`, `implementation/`, `research/`, `testing/`).
 
@@ -341,7 +341,7 @@ Show the generated project structure content and present choices:
 
 #### If 'A' (Advanced Elicitation):
 
-- Read fully and follow: {project-root}/_bmad/modules/custom/core/workflows/advanced-elicitation/workflow.xml with current project structure
+- Read fully and follow: {project-root}/_bmad/core/bmad-advanced-elicitation/workflow.xml with current project structure
 - Process enhanced organizational insights that come back
 - Ask user: "Accept these changes to the project structure? (y/n)"
 - If yes: Update content, then return to A/P/C menu
@@ -349,7 +349,7 @@ Show the generated project structure content and present choices:
 
 #### If 'P' (Party Mode):
 
-- Read fully and follow: {project-root}/_bmad/modules/custom/core/workflows/party-mode/workflow.md with project structure context
+- Read fully and follow: {project-root}/_bmad/core/bmad-party-mode/workflow.md with project structure context
 - Process collaborative insights about organization trade-offs
 - Ask user: "Accept these changes to the project structure? (y/n)"
 - If yes: Update content, then return to A/P/C menu
@@ -359,7 +359,7 @@ Show the generated project structure content and present choices:
 
 - Append the final content to `{current_architecture_dir}/architecture.md`
 - Update frontmatter: `stepsCompleted: [1, 2, 3, 4, 5, 6]`
-- Load `{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/create-architecture/steps/step-07-validation.md`
+- Load `{project-root}/_bmad/bmm/3-solutioning/bmad-create-architecture/steps/step-07-validation.md`
 
 ## APPEND TO DOCUMENT:
 
@@ -390,6 +390,6 @@ When user selects 'C', append the content directly to the document using the str
 
 ## NEXT STEP:
 
-After user selects 'C' and content is saved to document, load `{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/create-architecture/steps/step-07-validation.md` to validate architectural coherence and completeness.
+After user selects 'C' and content is saved to document, load `{project-root}/_bmad/bmm/3-solutioning/bmad-create-architecture/steps/step-07-validation.md` to validate architectural coherence and completeness.
 
 Remember: Do NOT proceed to step-07 until user explicitly selects 'C' from the A/P/C menu and content is saved!

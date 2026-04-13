@@ -15,8 +15,8 @@ Guide to extending BMAD in `compass-engine` without forking upstream internals.
 
 - Make BMAD method changes in the shipped source layer:
   - `src/bmad/BMAD-workflow.md`
-  - `src/bmad/modules/custom/bmm/`
-  - `src/bmad/modules/custom/core/`
+  - `src/bmad/modules/custom/bmm-skills/`
+  - `src/bmad/modules/custom/core-skills/`
   - `src/bmad/tools/automation/`
 - Keep planning structure changes aligned in `src/planning/`.
 - Keep `reference/` limited to supporting context that should not ship.

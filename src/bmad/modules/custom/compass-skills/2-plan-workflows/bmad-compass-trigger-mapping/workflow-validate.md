@@ -23,7 +23,7 @@ validateWorkflow: './steps-v/step-01-target-group-coverage.md'
 
 ### Configuration Loading
 
-Load and read full config from `{project-root}/_bmad/modules/custom/bmm/config.yaml` and resolve:
+Load and read full config from `{project-root}/_bmad/bmm/module.yaml` and resolve:
 
 - `project_name`, `user_name`, `communication_language`, `document_output_language`
 - `current_trigger_mapping_dir`

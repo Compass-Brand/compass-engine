@@ -60,7 +60,7 @@ First, check if the output document already exists:
 
 If the document exists and has frontmatter with `stepsCompleted`:
 
-- **STOP here** and load `{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/create-architecture/steps/step-01b-continue.md` immediately
+- **STOP here** and load `{project-root}/_bmad/bmm/3-solutioning/bmad-create-architecture/steps/step-01b-continue.md` immediately
 - Do not proceed with any initialization tasks
 - Let step-01b handle the continuation logic
 
@@ -138,7 +138,7 @@ Before proceeding, verify we have the essential inputs:
 
 **Input Documents Discovered:**
 
-_Replace each {{variable}} with the actual count from discovery and evaluate each {if}...{else}...{/if} block so the output shows real numbers and the correct branch text._
+*Replace each {{variable}} with the actual count from discovery and evaluate each {if}...{else}...{/if} block so the output shows real numbers and the correct branch text.*
 
 - PRD: {{prdCount}} files {if prdCount > 0}✓ loaded{else}(none found - REQUIRED){/if}
 - Product briefs: {{briefCount}} files {if briefCount > 0}✓ loaded{else}(none found){/if}

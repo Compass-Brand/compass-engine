@@ -60,7 +60,7 @@ Merge all changes into `{diff_output}`.
 With `{diff_output}` constructed, load and follow the review task. If possible, use information asymmetry: load this step, and only it, in a separate subagent or process with read access to the project, but no context except the `{diff_output}`.
 
 ```xml
-<invoke-task>Review {diff_output} using {project-root}/_bmad/modules/custom/core/tasks/review-adversarial-general.xml</invoke-task>
+<invoke-task>Review {diff_output} using {project-root}/_bmad/core/bmad-review-adversarial-general/SKILL.md</invoke-task>
 ```
 
 **Platform fallback:** If task invocation not available, load the task file and follow its instructions inline, passing `{diff_output}` as the content.
@@ -83,7 +83,7 @@ If `bd` is available, create one Beads issue per finding and include the finding
 
 ## NEXT STEP
 
-With findings in hand, read fully and follow: `{project-root}/_bmad/modules/custom/bmm/workflows/bmad-quick-flow/quick-dev/steps/step-06-resolve-findings.md` for user to choose resolution approach.
+With findings in hand, read fully and follow: `{project-root}/_bmad/bmm/4-implementation/bmad-quick-dev/steps/step-06-resolve-findings.md` for user to choose resolution approach.
 
 ---
 

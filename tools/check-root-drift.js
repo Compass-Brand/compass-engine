@@ -89,7 +89,7 @@ async function run() {
     for (const p of differentContent) console.error(`  - ${p}`);
   }
 
-  console.error('\nRun: npm run build && npm run push -- --targets root');
+  console.error('\nRemediation: npm run build && npm run push -- --targets root');
   process.exit(1);
 }
 

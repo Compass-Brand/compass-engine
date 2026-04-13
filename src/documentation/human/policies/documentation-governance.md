@@ -107,7 +107,7 @@ Exceptions to this standard MUST include:
 - business or technical rationale,
 - expiry date,
 - owner,
-- remediation plan.
+- remediation plan,
 - scope.
 
 Expired exceptions MUST be treated as non-compliant.

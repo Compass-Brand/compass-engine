@@ -3,7 +3,7 @@ name: 'step-01-init'
 description: 'Initialize threat modeling workflow by detecting continuation state and creating threat model document with system overview'
 
 # Path Definitions
-workflow_path: '{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/threat-modeling'
+workflow_path: '{project-root}/_bmad/compass/3-solutioning/bmad-compass-threat-modeling'
 
 # File References
 thisStepFile: '{workflow_path}/steps/step-01-init.md'

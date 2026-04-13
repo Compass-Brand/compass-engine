@@ -3,7 +3,7 @@ name: 'step-04-final-validation'
 description: 'Validate complete coverage of all requirements and ensure implementation readiness'
 
 # Path Definitions
-workflow_path: '{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/create-epics-and-stories'
+workflow_path: '{project-root}/_bmad/bmm/3-solutioning/bmad-create-epics-and-stories'
 
 # File References
 thisStepFile: './step-04-final-validation.md'
@@ -11,8 +11,8 @@ workflowFile: '{workflow_path}/workflow.md'
 outputFile: '{current_epics_dir}/epics.md'
 
 # Task References
-advancedElicitationTask: '{project-root}/_bmad/modules/custom/core/workflows/advanced-elicitation/workflow.xml'
-partyModeWorkflow: '{project-root}/_bmad/modules/custom/core/workflows/party-mode/workflow.md'
+advancedElicitationTask: '{project-root}/_bmad/core/bmad-advanced-elicitation/workflow.xml'
+partyModeWorkflow: '{project-root}/_bmad/core/bmad-party-mode/workflow.md'
 
 # Template References
 epicsTemplate: '{workflow_path}/templates/epics-template.md'
@@ -158,11 +158,11 @@ The next workflow in the implementation pipeline is `sprint-planning`, which:
 
 **Recommended next steps for the user:**
 
-1. Run `/bmad:bmm:workflows:sprint-planning` to generate `sprint-status.yaml` from the epics
-2. Run `/bmad:bmm:workflows:create-story` to create individual story files (reads from `sprint-status.yaml`)
-3. Run `/bmad:bmm:workflows:dev-story` to implement stories
+1. Run `/bmad-bmm-sprint-planning` to generate `sprint-status.yaml` from the epics
+2. Run `/bmad-bmm-create-story` to create individual story files (reads from `sprint-status.yaml`)
+3. Run `/bmad-bmm-dev-story` to implement stories
 
-Epics and Stories complete. Read fully and follow: `{project-root}/_bmad/modules/custom/core/tasks/help.md`
+Epics and Stories complete. Read fully and follow: `{project-root}/_bmad/core/bmad-help/SKILL.md`
 
 Upon Completion of task output: offer to answer any questions about the Epics and Stories.
 

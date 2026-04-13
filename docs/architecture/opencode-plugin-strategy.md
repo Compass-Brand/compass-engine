@@ -13,20 +13,25 @@ Create a Compass Brand OpenCode plugin that exposes BMAD workflows as first-clas
 3. Support beads-aware session lifecycle hooks (`bd prime`, status updates, close protocol reminders).
 4. Emit normalized artifacts in standard downstream project locations.
 
-## Proposed Architecture
+## Current Architecture
 
-- `plugin-core`: workflow registry + command dispatcher
-- `provider-bmad`: adapters for BMAD modules/workflows
-- `provider-tracking`: beads integration wrapper
-- `provider-interop`: bridges for Claude/Codex command parity
+Implementation root: `src/opencode/plugins/`
 
-Implementation root in this repo:
+Active plugins (each a standalone TypeScript entry with a matching sub-directory):
 
-- `src/opencode/plugins/`
+- `compass-beads` - Beads integration wrapper
+- `compass-handoff` - Structured agent/human handoff
+- `compass-type-inject` - Type injection for OpenCode
+- `compass-worktree` - Git worktree management
+
+Supporting surfaces:
+
+- `src/opencode/agents/` - OpenCode agent definitions (e.g., `bmad-orchestrator.md`)
+- BMAD client skills are auto-generated at build time from `skill-manifest.csv` into `dist/.opencode/skills/`
 
 ## Integration Points
 
-- Inputs: `.opencode/commands/*`, `.opencode/agents/*`, BMAD module metadata
+- Inputs: `.opencode/agents/*`, BMAD module metadata, `skill-manifest.csv`
 - Outputs: downstream planning artifacts (`planning/` in target repos)
 - Tracking: `bd` issue lifecycle hooks
 

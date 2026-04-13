@@ -2,7 +2,7 @@
 name: 'step-03-configure-quality-gates'
 description: 'Configure burn-in, quality gates, and notifications'
 nextStepFile: './step-04-validate-and-summary.md'
-knowledgeIndex: '{project-root}/_bmad/modules/custom/bmm/testarch/tea-index.csv'
+knowledgeIndex: '{project-root}/_bmad/compass/4-implementation/_tea-knowledge/tea-index.csv'
 outputFile: '{test_artifacts}/ci-pipeline-progress.md'
 ---
 

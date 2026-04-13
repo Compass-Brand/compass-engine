@@ -1,6 +1,6 @@
 # Documentation Framework
 
-This directory defines the canonical documentation framework for Compass Engine.
+This directory defines the canonical documentation framework for Compass Brand projects.
 
 ## Purpose
 
@@ -91,9 +91,19 @@ docs/
 │   │   └── style-standard.md
 │   └── templates/
 │       ├── adr.md
+│       ├── docs-architecture-decisions-index.md
+│       ├── docs-architecture-index.md
+│       ├── docs-development-index.md
+│       ├── docs-getting-started-index.md
+│       ├── docs-getting-started-installation.md
+│       ├── docs-getting-started-quickstart.md
+│       ├── docs-guides-index.md
+│       ├── docs-reference-index.md
+│       ├── docs-user-overrides.md
 │       ├── guide-howto.md
 │       ├── guide-tutorial.md
 │       ├── readme-docs-index.md
 │       └── readme-root.md
+├── BMAD-integration.md
 └── README.md
 ```

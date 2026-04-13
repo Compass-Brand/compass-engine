@@ -31,8 +31,8 @@ This step will generate content and present choices:
 
 ## PROTOCOL INTEGRATION:
 
-- When 'A' selected: Read fully and follow: {project-root}/_bmad/modules/custom/core/workflows/advanced-elicitation/workflow.xml
-- When 'P' selected: Read fully and follow: {project-root}/_bmad/modules/custom/core/workflows/party-mode/workflow.md
+- When 'A' selected: Read fully and follow: {project-root}/_bmad/core/bmad-advanced-elicitation/workflow.xml
+- When 'P' selected: Read fully and follow: {project-root}/_bmad/core/bmad-party-mode/workflow.md
 - PROTOCOLS always return to display this step's A/P/C menu after the A or P have completed
 - User accepts/rejects protocol changes before proceeding
 
@@ -280,7 +280,7 @@ Show the generated content and present choices:
 
 #### If 'A' (Advanced Elicitation):
 
-- Read fully and follow: {project-root}/_bmad/modules/custom/core/workflows/advanced-elicitation/workflow.xml with current starter analysis
+- Read fully and follow: {project-root}/_bmad/core/bmad-advanced-elicitation/workflow.xml with current starter analysis
 - Process enhanced insights about starter options or custom approaches
 - Ask user: "Accept these changes to the starter template evaluation? (y/n)"
 - If yes: Update content, then return to A/P/C menu
@@ -288,7 +288,7 @@ Show the generated content and present choices:
 
 #### If 'P' (Party Mode):
 
-- Read fully and follow: {project-root}/_bmad/modules/custom/core/workflows/party-mode/workflow.md with starter evaluation context
+- Read fully and follow: {project-root}/_bmad/core/bmad-party-mode/workflow.md with starter evaluation context
 - Process collaborative insights about starter trade-offs
 - Ask user: "Accept these changes to the starter template evaluation? (y/n)"
 - If yes: Update content, then return to A/P/C menu
@@ -298,7 +298,7 @@ Show the generated content and present choices:
 
 - Append the final content to `{current_architecture_dir}/architecture.md`
 - Update frontmatter: `stepsCompleted: [1, 2, 3]`
-- Load `{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/create-architecture/steps/step-04-decisions.md`
+- Load `{project-root}/_bmad/bmm/3-solutioning/bmad-create-architecture/steps/step-04-decisions.md`
 
 ## APPEND TO DOCUMENT:
 
@@ -328,6 +328,6 @@ When user selects 'C', append the content directly to the document using the str
 
 ## NEXT STEP:
 
-After user selects 'C' and content is saved to document, load `{project-root}/_bmad/modules/custom/bmm/workflows/3-solutioning/create-architecture/steps/step-04-decisions.md` to begin making specific architectural decisions.
+After user selects 'C' and content is saved to document, load `{project-root}/_bmad/bmm/3-solutioning/bmad-create-architecture/steps/step-04-decisions.md` to begin making specific architectural decisions.
 
 Remember: Do NOT proceed to step-04 until user explicitly selects 'C' from the A/P/C menu and content is saved!

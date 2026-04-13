@@ -57,7 +57,7 @@ const TARGETS = [
     name: 'planning',
     src: path.join(SRC, 'planning'),
     dist: path.join(DIST_ROOT, 'planning'),
-    required: ['README.md', 'current/phase.md', 'roadmap/roadmap.md', 'templates/README.md'],
+    required: ['README.md', 'framework/current/phase.md', 'framework/roadmap/roadmap.md', 'templates/README.md'],
   },
   {
     name: 'documentation',
@@ -76,7 +76,7 @@ const TARGETS = [
     name: 'opencode',
     src: path.join(SRC, 'opencode'),
     dist: path.join(DIST_ROOT, '.opencode'),
-    required: ['agent', 'command'],
+    required: ['agents', 'plugins'],
   },
   {
     name: 'github',

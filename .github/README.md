@@ -41,7 +41,6 @@ Available GitHub feature groups:
 - `necessist`
 - `runtime-security`
 - `submodule-security-monitoring`
-- `github-drift`
 - `profile-node`
 - `profile-python`
 - `profile-submodule-compass-engine`

@@ -2,9 +2,9 @@
 
 Store completed phase snapshots in folders named:
 
-`<roadmap-phase>-YYYY-MM-DD`
+`<phase-slug>-<YYYY-MM-DD>`
 
-Use ISO date format `YYYY-MM-DD` for the completion date segment.
+Use ISO date format `YYYY-MM-DD` for the completion date segment. `phase-slug` MUST be lowercase kebab-case.
 
 Example:
 
