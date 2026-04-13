@@ -1,7 +1,7 @@
 # Phase 4: Manifest Migration Implementation Plan
 
 > **COMPLETED.** All tasks executed. Auto-generated manifests are in place.
-
+>
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
 **Goal:** Replace hand-maintained CSV manifests (`src/bmad/_config/bmad-help.csv` and `agent-manifest.csv`) with manifests auto-generated at build time from the skill directory tree, so adding or updating a skill automatically updates all manifests.

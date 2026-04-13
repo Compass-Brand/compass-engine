@@ -1,7 +1,7 @@
 # Phase 2: Custom BMM Agent Overrides Implementation Plan
 
 > **COMPLETED.** All tasks executed. Custom BMM agent overrides are in place.
-
+>
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
 **Goal:** Create Compass-specific agent overrides in upstream skill format (`custom/bmm-skills/`) so the merged `dist/_bmad/bmm/` output contains Compass personas where they differ from upstream.

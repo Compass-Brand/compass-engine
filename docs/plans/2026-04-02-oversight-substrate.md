@@ -1,7 +1,7 @@
 # Oversight Substrate Implementation Plan
 
 > **SUPERSEDED:** The oversight substrate was partially implemented (templates added in `src/planning/templates/oversight/`) but the full workflow integration was not completed. Governance workflows in `src/bmad/modules/custom/compass-skills/0-governance/` now cover the checkpoint pattern. This plan is retained for reference only.
-
+>
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
 **Goal:** Add an optional risk/assumption tracking layer to BMAD that agents populate during work and verification checkpoints surface at gate approvals and story completion.

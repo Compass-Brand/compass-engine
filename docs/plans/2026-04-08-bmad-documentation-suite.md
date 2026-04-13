@@ -1,7 +1,7 @@
 # BMAD Documentation Suite — Implementation Plan
 
 > **COMPLETED.** All documentation files created and indexed.
-
+>
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
 **Goal:** Create 10 developer-facing documentation files covering BMAD concepts, workflows, and extension modules that are currently undocumented. Close all 11 open beads.

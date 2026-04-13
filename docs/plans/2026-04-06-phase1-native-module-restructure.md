@@ -1,7 +1,7 @@
 # Phase 1: Native Module Restructure + Build Foundation
 
 > **COMPLETED.** All tasks executed. Native module restructure and build foundation are in place.
-
+>
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
 **Goal:** Replace the old module-based native directory structure with upstream BMAD v6.2.2's skill-based layout and update the build system to produce a flat `dist/_bmad/` output matching upstream's installed format.
