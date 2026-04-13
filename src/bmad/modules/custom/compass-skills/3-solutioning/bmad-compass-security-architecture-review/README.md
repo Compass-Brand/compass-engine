@@ -246,7 +246,7 @@ This workflow is part of the **cybersec-team** module. To install:
 
 ```bash
 # Run module installer (when available)
-/bmad:install:cybersec-team
+/bmad-install-cybersec-team
 
 # Or manually copy workflow files to:
 # {project-root}/_bmad/compass/3-solutioning/bmad-compass-security-architecture-review/
@@ -257,7 +257,7 @@ This workflow is part of the **cybersec-team** module. To install:
 After installation:
 
 ```
-/bmad:cybersec-team:workflows:security-architecture-review
+/bmad-cybersec-security-architecture-review
 ```
 
 Or via Bastion agent menu item (after module installation completes).
@@ -299,7 +299,7 @@ security-architecture-review/
 
 For workflow issues or questions:
 
-- Review workflow-plan-security-architecture-review.md for design decisions
+- Review the workflow.md and step files in steps/ for design decisions
 - Consult Bastion agent for security architecture guidance
 - See cybersec-team module documentation
 

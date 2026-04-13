@@ -53,8 +53,8 @@ This folder contains the Test Architect (TEA) workflows converted to step-file a
 
 ## References
 
-- Step-file architecture: `docs/explanation/step-file-architecture.md`
-- Subprocess patterns: `docs/explanation/subprocess-architecture.md`
+- Step-file architecture: see individual workflow `workflow.md` files for mode routing and step sequencing
+- Subprocess patterns: see step files for subprocess invocation patterns
 
 ## TEA Workflows
 
