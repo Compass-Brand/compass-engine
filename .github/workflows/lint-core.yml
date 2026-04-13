@@ -161,7 +161,7 @@ jobs:
 
       - name: Run dotenv-linter
         if: steps.detect.outputs.run == 'true'
-        uses: dotenv-linter/action-dotenv-linter@9a2281a0795f8bd6fd01a4da36b5c8df885f06bc
+        uses: dotenv-linter/action-dotenv-linter@afde61cfda2ecffe7bea35837b6f20b956c88689
 
       - name: Skip message
         if: steps.detect.outputs.run != 'true'
