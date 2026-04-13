@@ -61,7 +61,7 @@ jobs:
           go-version: '1.24'
 
       - name: Cache pre-commit environments
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae
         with:
           path: ~/.cache/pre-commit
           key: pre-commit-${{ runner.os }}-py311-${{ hashFiles('.pre-commit-config.yaml') }}
