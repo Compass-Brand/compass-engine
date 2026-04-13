@@ -182,7 +182,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name: Check EditorConfig
-        uses: editorconfig-checker/action-editorconfig-checker@ff2b7f22fb3dfdca5c54339c3ade98b0b3327ae6
+        uses: editorconfig-checker/action-editorconfig-checker@840e866d93b8e032123c23bac69dece044d4d84c
 
   license-review:
     name: License Compliance
