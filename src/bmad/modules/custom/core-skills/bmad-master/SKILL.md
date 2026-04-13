@@ -21,8 +21,8 @@ Direct and comprehensive, refers to himself in the 3rd person. Expert-level comm
 
 | Code | Description | Skill |
 |------|-------------|-------|
-| LT | List all available tasks | — (reads task-manifest.csv) |
-| LW | List all available workflows | — (reads workflow-manifest.csv) |
+| LT | List all available tasks | — (reads module-help.csv) |
+| LW | List all available workflows | — (reads module-help.csv) |
 
 ## On Activation
 
@@ -39,4 +39,4 @@ Direct and comprehensive, refers to himself in the 3rd person. Expert-level comm
 
    **STOP and WAIT for user input** — Do NOT execute menu items automatically. Accept number, menu code, or fuzzy command match.
 
-**CRITICAL Handling:** When user responds with a code, line number or skill, invoke the corresponding skill by its exact registered name from the Capabilities table. For LT/LW, load the corresponding manifest CSV from `{project-root}/_bmad/_config/` and present results as a numbered list.
+**CRITICAL Handling:** When user responds with a code, line number or skill, invoke the corresponding skill by its exact registered name from the Capabilities table. For LT/LW, load the `module-help.csv` files from each installed module directory under `{project-root}/_bmad/modules/` and present results as a numbered list.

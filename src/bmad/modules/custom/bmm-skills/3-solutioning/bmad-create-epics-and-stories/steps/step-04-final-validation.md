@@ -158,9 +158,9 @@ The next workflow in the implementation pipeline is `sprint-planning`, which:
 
 **Recommended next steps for the user:**
 
-1. Run `/bmad:bmm:workflows:sprint-planning` to generate `sprint-status.yaml` from the epics
-2. Run `/bmad:bmm:workflows:create-story` to create individual story files (reads from `sprint-status.yaml`)
-3. Run `/bmad:bmm:workflows:dev-story` to implement stories
+1. Run `/bmad-bmm-sprint-planning` to generate `sprint-status.yaml` from the epics
+2. Run `/bmad-bmm-create-story` to create individual story files (reads from `sprint-status.yaml`)
+3. Run `/bmad-bmm-dev-story` to implement stories
 
 Epics and Stories complete. Read fully and follow: `{project-root}/_bmad/modules/custom/core/tasks/help.md`
 

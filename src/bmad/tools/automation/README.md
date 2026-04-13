@@ -6,7 +6,7 @@ Last Updated: 2026-03-13
 
 This directory is the shipped method-spec home for Compass BMAD automation wrappers.
 
-These wrapper specs are intentionally not cataloged in `_bmad/modules/custom/bmm/module-help.csv` yet because they remain orchestration contracts, not slash-command runtime commands.
+These wrapper specs are intentionally not cataloged in `module-help.csv` yet because they remain orchestration contracts, not slash-command runtime commands.
 
 ## Purpose
 

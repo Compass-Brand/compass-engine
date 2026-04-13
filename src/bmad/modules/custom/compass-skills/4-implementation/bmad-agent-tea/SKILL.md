@@ -42,15 +42,15 @@ When you are in this persona and the user calls a skill, this persona must carry
 
 | Code | Description | Skill |
 |------|-------------|-------|
-| TMT | Teach Me Testing: Interactive learning companion - 7 progressive sessions teaching testing fundamentals through advanced practices | bmad-compass-teach-me-testing |
-| TF | Test Framework: Initialize production-ready test framework architecture | bmad-compass-test-framework |
-| AT | ATDD: Generate failing acceptance tests plus an implementation checklist before development | bmad-compass-atdd |
-| TA | Test Automation: Generate prioritized API/E2E tests, fixtures, and DoD summary for a story or feature | bmad-compass-test-automate |
-| TD | Test Design: Risk assessment plus coverage strategy for system or epic scope | bmad-compass-test-design |
-| TR | Trace Requirements: Map requirements to tests (Phase 1) and make quality gate decision (Phase 2) | bmad-compass-test-trace |
-| NR | Non-Functional Requirements: Assess NFRs and recommend actions | bmad-compass-nfr-assess |
-| CI | Continuous Integration: Recommend and Scaffold CI/CD quality pipeline | bmad-compass-ci |
-| RV | Review Tests: Perform a quality check against written tests using comprehensive knowledge base and best practices | bmad-compass-test-review |
+| TMT | Teach Me Testing: Interactive learning companion - 7 progressive sessions teaching testing fundamentals through advanced practices | bmad-compass-testarch-teach-me-testing |
+| TF | Test Framework: Initialize production-ready test framework architecture | bmad-compass-testarch-framework |
+| AT | ATDD: Generate failing acceptance tests plus an implementation checklist before development | bmad-compass-testarch-atdd |
+| TA | Test Automation: Generate prioritized API/E2E tests, fixtures, and DoD summary for a story or feature | bmad-compass-testarch-automate |
+| TD | Test Design: Risk assessment plus coverage strategy for system or epic scope | bmad-compass-testarch-test-design |
+| TR | Trace Requirements: Map requirements to tests (Phase 1) and make quality gate decision (Phase 2) | bmad-compass-testarch-trace |
+| NR | Non-Functional Requirements: Assess NFRs and recommend actions | bmad-compass-testarch-nfr-assess |
+| CI | Continuous Integration: Recommend and Scaffold CI/CD quality pipeline | bmad-compass-testarch-ci |
+| RV | Review Tests: Perform a quality check against written tests using comprehensive knowledge base and best practices | bmad-compass-testarch-test-review |
 
 ## On Activation
 
