@@ -1,6 +1,6 @@
 # Extension Modules Reference
 
-Compass BMAD ships four extension modules that add specialized capabilities to the core workflow. Each module is **conditional** -- it activates only when project characteristics warrant it or when explicitly chosen. None of them replace required core gates; they complement the main progression chain.
+Compass BMAD ships four extension modules that add specialized capabilities to the core workflow. Each module is **conditional** — it activates only when project characteristics warrant it or when explicitly chosen. None of them replace required core gates; they complement the main progression chain.
 
 This page covers integration points and activation guidance. For detailed skill behavior, consult the individual SKILL.md files referenced in each section.
 
@@ -14,7 +14,7 @@ TEA is a risk-based test strategy and automation framework. It provides structur
 
 ### Key Agent
 
-**Murat** (`bmad-agent-tea`) -- Test Architect. Specializes in risk-based testing, fixture architecture, ATDD, API and UI automation, CI/CD governance, and scalable quality gates. Supports pytest, JUnit, Go test, xUnit, RSpec, Playwright, Cypress, and major CI platforms (GitHub Actions, GitLab CI, Jenkins, Azure DevOps, Harness).
+**Murat** (`bmad-agent-tea`) — Test Architect. Specializes in risk-based testing, fixture architecture, ATDD, API and UI automation, CI/CD governance, and scalable quality gates. Supports pytest, JUnit, Go test, xUnit, RSpec, Playwright, Cypress, and major CI platforms (GitHub Actions, GitLab CI, Jenkins, Azure DevOps, Harness).
 
 ### Workflows
 
@@ -36,8 +36,8 @@ All TEA commands also accept a colon form (e.g., `/bmad:tea:test-design`). See t
 
 Test Design appears **twice** in the workflow by design:
 
-1. **Solutioning (Phase 7, step 4)** -- system-level mode. Produces the overall test strategy after the initial architecture draft, before epics and stories are created.
-2. **Implementation (Phase 8B, step 2)** -- epic-level mode. Refines test design for each epic before the story loop begins.
+1. **Solutioning (Phase 7, step 4)** — system-level mode. Produces the overall test strategy after the initial architecture draft, before epics and stories are created.
+2. **Implementation (Phase 8B, step 2)** — epic-level mode. Refines test design for each epic before the story loop begins.
 
 ### When to Activate TEA vs Built-In Code Review
 
@@ -85,8 +85,8 @@ CIS brings innovation strategy, design thinking, and systematic problem-solving 
 
 Innovation Strategy and Opportunity Framing are **required** steps in the analysis phases:
 
-- **High-Level Analysis (Phase 2, steps 5-6)** -- run at project level to inform the product brief.
-- **Detailed Analysis (Phase 5, steps 6-7)** -- run scoped to the active roadmap slice.
+- **High-Level Analysis (Phase 2, steps 5-6)** — run at project level to inform the product brief.
+- **Detailed Analysis (Phase 5, steps 6-7)** — run scoped to the active roadmap slice.
 
 Both enrich analysis and feed the brief; they do **not** replace the Product Brief step.
 
@@ -129,11 +129,11 @@ WDS sits in **Phase 6 (Planning and Experience Design)**, after PRD creation and
 1. Create PRD (required)
 2. Validate PRD (required)
 3. Edit PRD (conditional)
-4. **Trigger Mapping** (conditional -- WDS)
-5. **Outline Scenarios** (conditional -- WDS)
+4. **Trigger Mapping** (conditional — WDS)
+5. **Outline Scenarios** (conditional — WDS)
 6. Create UX Design (conditional)
-7. **Conceptual Specifications** (conditional -- WDS)
-8. **Design Delivery** (conditional -- WDS)
+7. **Conceptual Specifications** (conditional — WDS)
+8. **Design Delivery** (conditional — WDS)
 
 ### When to Activate
 
@@ -190,10 +190,10 @@ Security remains conditional, not mandatory for every project.
 
 Secure Gates appears **twice** in the workflow by design:
 
-1. **Secure Readiness Gate (Phase 7, step 8)** -- evaluates security posture before implementation begins. Outputs land in `current/testing/gates/draft/security/` while pending, then `current/testing/gates/security/readiness/` once accepted.
-2. **Secure Release Gate (Phase 9, step 4)** -- evaluates security posture before release. Outputs land in `current/testing/gates/security/release/`.
+1. **Secure Readiness Gate (Phase 7, step 8)** — evaluates security posture before implementation begins. Outputs land in `current/testing/gates/draft/security/` while pending, then `current/testing/gates/security/readiness/` once accepted.
+2. **Secure Release Gate (Phase 9, step 4)** — evaluates security posture before release. Outputs land in `current/testing/gates/security/release/`.
 
-Both gates are conditional -- they run only when the security lane is active for the current phase.
+Both gates are conditional — they run only when the security lane is active for the current phase.
 
 ### Ordering Rules
 
@@ -218,6 +218,6 @@ Use this table to decide which extension modules to activate for a given project
 
 ## Related Documentation
 
-- [BMAD Overview](bmad-overview.md) -- core BMAD concepts and workflow summary
-- [Custom Modules](custom-modules.md) -- how Compass extends BMAD with custom modules
-- `src/bmad/BMAD-workflow.md` -- canonical workflow ordering and all insertion rules
+- [BMAD Overview](./bmad-overview.md) — core BMAD concepts and workflow summary
+- [Custom Modules](./custom-modules.md) — how Compass extends BMAD with custom modules
+- `src/bmad/BMAD-workflow.md` — canonical workflow ordering and all insertion rules

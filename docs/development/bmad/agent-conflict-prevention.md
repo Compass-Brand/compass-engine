@@ -59,18 +59,18 @@ The `project-context.md` file is the primary conflict prevention mechanism at th
 ### What It Contains
 
 - **Technology stack and versions.** Exact frameworks, languages, and tools with pinned versions.
-- **Critical implementation rules.** Patterns and conventions that agents might otherwise miss -- things that are unobvious and cannot be inferred from reading a few code snippets.
+- **Critical implementation rules.** Patterns and conventions that agents might otherwise miss — things that are unobvious and cannot be inferred from reading a few code snippets.
 
 ### When Workflows Load It
 
 Every workflow that makes implementation decisions loads `project-context.md` if it exists:
 
-- `bmad-create-architecture` -- respects technical preferences during solutioning
-- `bmad-create-story` -- informs story creation with project patterns
-- `bmad-dev-story` -- guides implementation decisions
-- `bmad-code-review` -- validates against project standards
-- `bmad-quick-dev` -- applies patterns during implementation
-- `bmad-sprint-planning`, `bmad-retrospective`, `bmad-correct-course` -- provides project-wide context
+- `bmad-create-architecture` — respects technical preferences during solutioning
+- `bmad-create-story` — informs story creation with project patterns
+- `bmad-dev-story` — guides implementation decisions
+- `bmad-code-review` — validates against project standards
+- `bmad-quick-dev` — applies patterns during implementation
+- `bmad-sprint-planning`, `bmad-retrospective`, `bmad-correct-course` — provides project-wide context
 
 ### Why This Matters for Conflict Prevention
 
@@ -164,7 +164,7 @@ Run `bmad-bmm-sync-repositories` when repo topology changes. Stale repo registry
 
 ### 6. Refresh, Do Not Assume
 
-Brownfield work should inherit prior lessons and previous-phase constraints, but always refresh assumptions against current repo reality. Run project context generation even if a context file already exists -- the codebase may have evolved.
+Brownfield work should inherit prior lessons and previous-phase constraints, but always refresh assumptions against current repo reality. Run project context generation even if a context file already exists — the codebase may have evolved.
 
 ### 7. Use bmad-correct-course for Mid-Implementation Changes
 
@@ -172,7 +172,7 @@ When implementation reveals that an architecture decision needs to change, do no
 
 ## Related Documentation
 
-- [BMAD Overview](./bmad-overview.md) -- methodology architecture and key concepts
-- [Project Context](./project-context.md) -- the primary conflict prevention artifact
-- [Extension Modules](./extension-modules.md) -- modules that add agents with conflict potential
-- Canonical workflow: `src/bmad/BMAD-workflow.md` -- Polyrepo Routing Rules section
+- [BMAD Overview](./bmad-overview.md) — methodology architecture and key concepts
+- [Project Context](./project-context.md) — the primary conflict prevention artifact
+- [Extension Modules](./extension-modules.md) — modules that add agents with conflict potential
+- Canonical workflow: `src/bmad/BMAD-workflow.md` — Polyrepo Routing Rules section
