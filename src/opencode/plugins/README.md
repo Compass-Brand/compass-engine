@@ -1,17 +1,17 @@
-# OpenCode Plugin Development
+# OpenCode Plugins
 
-`src/opencode/plugins/` is the dedicated source location for Compass OpenCode plugin development.
+`.opencode/plugins/` contains Compass OpenCode plugins.
 
 Rules:
 
-- Treat each plugin as its own folder under `src/opencode/plugins/`.
-- Keep implementation metadata and documentation with the plugin folder.
-- Keep OpenCode command/agent wrappers in `src/opencode/commands/` and `src/opencode/agents/`.
+- Each plugin lives in its own folder under `.opencode/plugins/`.
+- Implementation metadata and documentation stay with the plugin folder.
+- OpenCode command/agent wrappers live in `.opencode/commands/` and `.opencode/agents/`.
 
-Recommended structure:
+Structure:
 
 ```text
-src/opencode/plugins/
+.opencode/plugins/
   compass-beads.ts
   compass-handoff.ts
   compass-type-inject.ts
@@ -24,6 +24,6 @@ src/opencode/plugins/
     tests/
 ```
 
-If a plugin should auto-load from downstream `.opencode/plugins/`, add a top-level JS/TS entry shim in `src/opencode/plugins/` and keep the implementation assets in a matching folder beside it.
+If a plugin should auto-load, add a top-level JS/TS entry shim in `.opencode/plugins/` and keep the implementation assets in a matching folder beside it.
 
-If a local plugin imports external packages, declare them in `src/opencode/package.json` so the downstream `.opencode/package.json` can trigger OpenCode's Bun install on startup.
+If a local plugin imports external packages, declare them in `.opencode/package.json` so OpenCode's Bun install runs on startup.

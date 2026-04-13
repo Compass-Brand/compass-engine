@@ -1,6 +1,6 @@
 # Documentation Framework
 
-This directory defines the canonical documentation framework for Compass Engine.
+This directory defines the canonical documentation framework for Compass Brand projects.
 
 ## Purpose
 
