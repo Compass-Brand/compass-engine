@@ -104,7 +104,7 @@ What would you like to do?
 | [V] | workflow-validate.md | steps-v/ |
 | [H] | workflow-handover.md | steps-h/ |
 
-If the scenario has a `design_intent` from Phase 3 handover, pre-select that activity. The user can always switch.
+If the scenario has a `design_intent` from Phase 3 handover, preselect that activity. The user can always switch.
 
 ---
 
