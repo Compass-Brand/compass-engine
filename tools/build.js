@@ -79,6 +79,18 @@ const TARGETS = [
     required: ['agents', 'plugins'],
   },
   {
+    name: 'junie',
+    src: path.join(SRC, 'junie'),
+    dist: path.join(DIST_ROOT, '.junie'),
+    required: ['README.md'],
+  },
+  {
+    name: 'kilocode',
+    src: path.join(SRC, 'kilocode'),
+    dist: path.join(DIST_ROOT, '.kilocode'),
+    required: ['README.md'],
+  },
+  {
     name: 'github',
     src: path.join(SRC, 'github'),
     dist: path.join(DIST_ROOT, '.github'),
@@ -215,6 +227,8 @@ async function generateClientSkills() {
     { name: 'claude', dist: path.join(DIST_ROOT, '.claude', 'skills') },
     { name: 'opencode', dist: path.join(DIST_ROOT, '.opencode', 'skills') },
     { name: 'codex', dist: path.join(DIST_ROOT, '.codex', 'skills') },
+    { name: 'junie', dist: path.join(DIST_ROOT, '.junie', 'skills') },
+    { name: 'kilocode', dist: path.join(DIST_ROOT, '.kilocode', 'skills') },
   ];
 
   for (const platform of platforms) {
@@ -548,6 +562,8 @@ async function validateBuild() {
     { label: 'dist .claude/skills generated', path: path.join(DIST_ROOT, '.claude', 'skills', 'bmad-bmm-create-prd') },
     { label: 'dist .opencode/skills generated', path: path.join(DIST_ROOT, '.opencode', 'skills', 'bmad-bmm-create-prd') },
     { label: 'dist .codex/skills generated', path: path.join(DIST_ROOT, '.codex', 'skills', 'bmad-bmm-create-prd') },
+    { label: 'dist .junie/skills generated', path: path.join(DIST_ROOT, '.junie', 'skills', 'bmad-bmm-create-prd') },
+    { label: 'dist .kilocode/skills generated', path: path.join(DIST_ROOT, '.kilocode', 'skills', 'bmad-bmm-create-prd') },
   ];
 
   if (await exists(path.join(SRC, 'codex'))) {
@@ -556,6 +572,14 @@ async function validateBuild() {
 
   if (await exists(path.join(SRC, 'opencode'))) {
     requiredChecks.push({ label: '.opencode', path: path.join(DIST_ROOT, '.opencode') });
+  }
+
+  if (await exists(path.join(SRC, 'junie'))) {
+    requiredChecks.push({ label: '.junie', path: path.join(DIST_ROOT, '.junie') });
+  }
+
+  if (await exists(path.join(SRC, 'kilocode'))) {
+    requiredChecks.push({ label: '.kilocode', path: path.join(DIST_ROOT, '.kilocode') });
   }
 
   let isValid = true;

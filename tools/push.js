@@ -53,6 +53,20 @@ const TARGETS = {
     syncStrategy: 'managed',
     manifestName: 'compass-engine-opencode-sync.json',
   },
+  junie: {
+    destName: '.junie',
+    distName: '.junie',
+    localOnly: [],
+    syncStrategy: 'managed',
+    manifestName: 'compass-engine-junie-sync.json',
+  },
+  kilocode: {
+    destName: '.kilocode',
+    distName: '.kilocode',
+    localOnly: [],
+    syncStrategy: 'managed',
+    manifestName: 'compass-engine-kilocode-sync.json',
+  },
   bmad: {
     destName: '_bmad',
     distName: '_bmad',
@@ -102,6 +116,8 @@ const DEFAULT_TARGETS = [
   'claude',
   'codex',
   'opencode',
+  'junie',
+  'kilocode',
   'github',
   'root',
   'beads',
@@ -197,7 +213,7 @@ Usage:
 Options:
   --project <path>       Push to specific project (default: current directory)
   --all                  Push to all discovered Compass Brand projects
-  --targets <list>       Comma-separated targets (bmad,planning,documentation,claude,codex,opencode,github,root,beads)
+  --targets <list>       Comma-separated targets (bmad,planning,documentation,claude,codex,opencode,junie,kilocode,github,root,beads)
   --github-features <l>  Optional GitHub bundle subset (all or: ${listFeatureNames(GITHUB_FEATURE_GROUPS)})
   --root-features <l>    Optional root bundle subset (all or: ${listFeatureNames(ROOT_FEATURE_GROUPS)})
   --projects-config <p>  Optional file with one project path per line
