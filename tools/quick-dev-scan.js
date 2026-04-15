@@ -9,8 +9,8 @@
  * step-01-mode-detection.md (A.1 Epic inference).
  */
 
-import { existsSync, statSync } from 'node:fs';
-import { join } from 'node:path';
+import { existsSync, statSync, readdirSync, readFileSync } from 'node:fs';
+import { join, basename as pathBasename } from 'node:path';
 
 const STORY_RE = /\bstory\s+(\d+)[.\-](\d+)\b/i;
 const HASH_ISSUE_RE = /#(\d+)\b/;
@@ -215,4 +215,126 @@ export function epicContextIsCached(implArtifactsDir, epicNum) {
   } catch {
     return false;
   }
+}
+
+const CONTINUITY_SECTION_HEADINGS = [
+  '## Code Map',
+  '## Design Notes',
+  '## Spec Change Log',
+  '## Tasks',
+];
+
+function parseFrontmatter(raw) {
+  if (!raw.startsWith('---')) return {};
+  const end = raw.indexOf('\n---', 3);
+  if (end === -1) return {};
+  const block = raw.slice(3, end).trim();
+  const fm = {};
+  for (const line of block.split('\n')) {
+    const match = line.match(/^([A-Za-z0-9_-]+)\s*:\s*(.+?)\s*$/);
+    if (!match) continue;
+    const key = match[1];
+    let value = match[2];
+    if (
+      (value.startsWith("'") && value.endsWith("'")) ||
+      (value.startsWith('"') && value.endsWith('"'))
+    ) {
+      value = value.slice(1, -1);
+    }
+    fm[key] = value;
+  }
+  return fm;
+}
+
+function parseStoryNumber(fm, filename) {
+  if (fm.story != null) {
+    const match = String(fm.story).match(/^(\d+)[.\-](\d+)/);
+    if (match) {
+      const n = toPositiveInt(match[2]);
+      if (n !== null) return n;
+    }
+  }
+  const base = pathBasename(filename).replace(/^spec-/i, '');
+  const match = base.match(/^\d+-(\d+)-/);
+  if (match) return toPositiveInt(match[1]);
+  return null;
+}
+
+function extractSectionBody(raw, heading) {
+  const idx = raw.indexOf(`\n${heading}`);
+  const start = idx === -1 && raw.startsWith(heading) ? 0 : idx;
+  if (start === -1) return '';
+  const bodyStart = raw.indexOf('\n', start === 0 ? heading.length : start + 1);
+  if (bodyStart === -1) return '';
+  const rest = raw.slice(bodyStart + 1);
+  const nextIdx = rest.search(/\n## /);
+  const body = nextIdx === -1 ? rest : rest.slice(0, nextIdx);
+  return body.replace(/^\n+|\n+$/g, '');
+}
+
+function assembleContinuityContext(specPath, raw, status) {
+  const sections = CONTINUITY_SECTION_HEADINGS.map((heading) => {
+    const body = extractSectionBody(raw, heading);
+    return `${heading}\n\n${body}`.replace(/\n+$/, '');
+  });
+  const header = `> Continuity from ${pathBasename(specPath)} (status: ${status})`;
+  return [header, ...sections].join('\n\n') + '\n';
+}
+
+/**
+ * Find the most recent `status: done` sibling spec for a given epic/story,
+ * restricted to lower story numbers within the same epic. Returns the chosen
+ * spec path, its parsed story number, and an assembled `continuity_context`
+ * string containing the Code Map, Design Notes, Spec Change Log, and Tasks
+ * sections prefixed with a provenance header.
+ *
+ * @param {string} implArtifactsDir - absolute path to the impl artifacts dir
+ * @param {number} epicNum - current epic number
+ * @param {number} storyNum - current story number (exclusive upper bound)
+ * @returns {{path: string, storyNum: number, continuityContext: string}|null}
+ */
+export function findPreviousStoryDone(implArtifactsDir, epicNum, storyNum) {
+  if (typeof implArtifactsDir !== 'string' || implArtifactsDir === '') {
+    return null;
+  }
+  const epic = toPositiveInt(epicNum);
+  const currentStory = toPositiveInt(storyNum);
+  if (epic === null || currentStory === null) return null;
+
+  let entries;
+  try {
+    entries = readdirSync(implArtifactsDir);
+  } catch {
+    return null;
+  }
+
+  const prefix = `spec-${epic}-`;
+  const candidates = [];
+  for (const entry of entries) {
+    if (!entry.startsWith(prefix) || !entry.endsWith('.md')) continue;
+    const fullPath = join(implArtifactsDir, entry);
+    let raw;
+    try {
+      raw = readFileSync(fullPath, 'utf8');
+    } catch {
+      continue;
+    }
+    const fm = parseFrontmatter(raw);
+    if (fm.status !== 'done') continue;
+    const fmEpic = extractEpicNum(fm, entry);
+    if (fmEpic !== epic) continue;
+    const story = parseStoryNumber(fm, entry);
+    if (story === null || story >= currentStory) continue;
+    candidates.push({ path: fullPath, storyNum: story, raw });
+  }
+
+  if (candidates.length === 0) return null;
+
+  candidates.sort((a, b) => b.storyNum - a.storyNum);
+  const chosen = candidates[0];
+  return {
+    path: chosen.path,
+    storyNum: chosen.storyNum,
+    continuityContext: assembleContinuityContext(chosen.path, chosen.raw, 'done'),
+  };
 }

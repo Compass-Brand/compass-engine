@@ -119,7 +119,7 @@ describe('findPreviousStoryDone', () => {
     const result = findPreviousStoryDone(artifactsDir, 3, 3);
     assert.ok(result);
     assert.notEqual(basename(result.path), 'spec-3-3-baz.md');
-    assert.notMatch(result.continuityContext, /baz/);
+    assert.equal(/baz/.test(result.continuityContext), false);
   });
 
   it('returns null when no lower-story done spec exists', () => {
