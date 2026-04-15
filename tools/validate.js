@@ -354,6 +354,38 @@ async function validateModuleHelpDeps() {
   return ok;
 }
 
+/**
+ * Native BMAD agents deprecated upstream in v6.3.0. These directories must
+ * never be reintroduced under src/bmad/modules/native/bmm-skills/4-implementation/.
+ *   - bmad-agent-qa               (upstream PR #2179 — Amelia owns QA)
+ *   - bmad-agent-sm               (upstream PR #2186 — Amelia owns SP/CS/ER/CC)
+ *   - bmad-agent-quick-flow-solo-dev (upstream PR #2177 — custom Compass variant retained)
+ */
+const REMOVED_NATIVE_AGENTS = [
+  { name: 'bmad-agent-qa', pr: '#2179' },
+  { name: 'bmad-agent-sm', pr: '#2186' },
+  { name: 'bmad-agent-quick-flow-solo-dev', pr: '#2177' },
+];
+
+async function validateRemovedAgents(rootDir = ROOT) {
+  const baseDir = path.join(rootDir, 'src/bmad/modules/native/bmm-skills/4-implementation');
+  let ok = true;
+  for (const { name, pr } of REMOVED_NATIVE_AGENTS) {
+    const target = path.join(baseDir, name);
+    try {
+      await fs.access(target);
+      console.error(
+        `ERROR deprecated native agent reintroduced: ${name} (removed upstream in ${pr}) — delete ${target}`,
+      );
+      ok = false;
+    } catch {
+      // absent — good
+    }
+  }
+  if (ok) console.log('OK removed-agent guard');
+  return ok;
+}
+
 async function validate() {
   console.log('\n=================================');
   console.log('  Compass Engine Validate');
@@ -366,6 +398,7 @@ async function validate() {
     validateSkillFormat(),
     validateGeneratedManifests(),
     validateModuleHelpDeps(),
+    validateRemovedAgents(),
   ]);
 
   if (checks.every(Boolean)) {
@@ -387,6 +420,7 @@ if (isDirectRun) {
 
 export {
   validate,
+  validateRemovedAgents,
   shouldScanSourceFile,
   isLikelyPlaceholder,
   findSecretIndicators,
