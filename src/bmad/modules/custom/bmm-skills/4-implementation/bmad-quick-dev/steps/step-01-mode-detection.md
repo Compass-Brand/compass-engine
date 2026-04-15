@@ -203,7 +203,34 @@ Push the absolute paths of selected files into `{planning_context_files}` (order
 - No file bodies were loaded in step-01; B.0 is a path-selection step only.
 - **Precedence reminder:** if Mode A ran elsewhere in this session and populated `{epic_context_path}`, downstream steps MUST ignore `{planning_context_files}`. B.0 does not attempt to reconcile with Mode A here — the precedence rule is enforced by the consumers (step-02 / step-03).
 
-- **NEXT (after B.0 completes):** Evaluate the Escalation Threshold below, then proceed.
+- **NEXT (after B.0 completes):** Evaluate the **One-Shot Route Decision** below. If the user declines one-shot, fall through to the **Escalation Threshold**.
+
+---
+
+## ONE-SHOT ROUTE DECISION (Mode B only)
+
+**Purpose:** Offer a third path for trivial, low-risk changes that do not warrant the full Mode B pipeline (context-gathering → execute → self-check → adversarial-review → resolve-findings → spec-trace). One-shot short-circuits steps 02-06, implements inline, self-checks, and writes a `status: 'done'` spec trace in a single pass — mirroring upstream `bmad-quick-dev/step-oneshot.md`.
+
+**Enter when:** `{execution_mode}` = "direct" AND B.0 has completed (`{planning_context_files}` either set or silently unset).
+**Exit when:** the user selects a route; proceed accordingly.
+
+Present:
+
+```
+**Select:** [P] Plan first (tech-spec)  [O] One-shot (trivial change)  [E] Execute directly
+```
+
+### Menu Handling Logic
+
+- IF P: Direct user to `{quick_spec_workflow}`. **EXIT Quick Dev.**
+- IF O: **NEXT:** Read fully and follow: `{project-root}/_bmad/bmm/4-implementation/bmad-quick-dev/steps/step-oneshot.md`. Skip step-02 through step-06 and step-07-spec-trace entirely — the one-shot step owns its own trace write-back.
+- IF E: Fall through to the **Escalation Threshold** below. Do NOT skip escalation — `[E]` at this menu means "I want the standard pipeline, evaluate scope first".
+
+### EXECUTION RULES
+
+- ALWAYS halt and wait for user input after presenting the menu.
+- ONLY proceed when the user makes a selection.
+- When the user selects `[O]`, the one-shot route is mutually exclusive with `step-07-spec-trace.md` — only one of the two produces the spec trace for a given run.
 
 ---
 
@@ -298,6 +325,7 @@ Display:
 **CRITICAL:** When this step completes, explicitly state which step to load:
 
 - Mode A (tech-spec, after A.1 Epic inference and A.2 Previous story continuity complete): "**NEXT:** read fully and follow: `{project-root}/_bmad/bmm/4-implementation/bmad-quick-dev/steps/step-03-execute.md`"
+- Mode B (direct, [O] selected): "**NEXT:** Read fully and follow: `{project-root}/_bmad/bmm/4-implementation/bmad-quick-dev/steps/step-oneshot.md`"
 - Mode B (direct, [E] selected): "**NEXT:** Read fully and follow: `{project-root}/_bmad/bmm/4-implementation/bmad-quick-dev/steps/step-02-context-gathering.md`"
 - Escalation ([P] or [W]): "**EXITING Quick Dev.** Follow the directed workflow."
 
