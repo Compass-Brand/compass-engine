@@ -293,6 +293,123 @@ function assembleContinuityContext(specPath, raw, status) {
  * @param {number} storyNum - current story number (exclusive upper bound)
  * @returns {{path: string, storyNum: number, continuityContext: string}|null}
  */
+const PLANNING_GLOB_KEYS = ['prd', 'architecture', 'ux', 'epic', 'brief'];
+
+const INTENT_STOPWORDS = new Set([
+  'the',
+  'a',
+  'an',
+  'and',
+  'or',
+  'of',
+  'to',
+  'for',
+  'in',
+  'on',
+  'with',
+  'is',
+  'are',
+  'be',
+  'at',
+  'by',
+  'this',
+  'that',
+  'it',
+  'its',
+  'as',
+  'from',
+  'into',
+  'our',
+  'we',
+  'i',
+  'you',
+  'new',
+  'add',
+  'fix',
+  'change',
+  'update',
+  'implement',
+  'tweak',
+  'bump',
+]);
+
+function tokenizeIntent(text) {
+  return (text ?? '')
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter((t) => t.length >= 3 && !INTENT_STOPWORDS.has(t));
+}
+
+function candidateMatchesGlob(basenameLower) {
+  return PLANNING_GLOB_KEYS.some((key) => basenameLower.includes(key));
+}
+
+/**
+ * Select planning artifacts relevant to one or more intent strings.
+ *
+ * Enumerates files in `artifactsDir` whose basename (case-insensitive) matches
+ * any of the planning globs (`*prd*`, `*architecture*`, `*ux*`, `*epic*`,
+ * `*brief*`). For each candidate, derives a relevance score from token overlap
+ * between the intents and the file's first 20 lines (title + opening body).
+ * Returns absolute paths of positive-score candidates, highest score first.
+ *
+ * This is the JS helper backing step-01-mode-detection.md "B.0 Planning
+ * artifact scan". The workflow delegates filename enumeration + scoring to
+ * this function; the LLM still decides when to halt vs proceed downstream.
+ *
+ * @param {string[]} intents - user direct-mode instructions or derived phrases
+ * @param {string} artifactsDir - absolute path to planning artifacts directory
+ * @returns {string[]} absolute paths of selected files (may be empty)
+ */
+export function selectPlanningArtifacts(intents, artifactsDir) {
+  if (!Array.isArray(intents) || intents.length === 0) return [];
+  if (typeof artifactsDir !== 'string' || artifactsDir === '') return [];
+
+  const intentTokens = new Set();
+  for (const intent of intents) {
+    for (const token of tokenizeIntent(intent)) intentTokens.add(token);
+  }
+  if (intentTokens.size === 0) return [];
+
+  let entries;
+  try {
+    entries = readdirSync(artifactsDir);
+  } catch {
+    return [];
+  }
+
+  const scored = [];
+  for (const entry of entries) {
+    const full = join(artifactsDir, entry);
+    const lower = entry.toLowerCase();
+    if (!candidateMatchesGlob(lower)) continue;
+    let stat;
+    try {
+      stat = statSync(full);
+    } catch {
+      continue;
+    }
+    if (!stat.isFile()) continue;
+
+    let raw;
+    try {
+      raw = readFileSync(full, 'utf8');
+    } catch {
+      continue;
+    }
+
+    const head = raw.split('\n').slice(0, 20).join('\n').toLowerCase();
+    let score = 0;
+    for (const token of intentTokens) {
+      if (head.includes(token)) score += 1;
+    }
+    if (score > 0) scored.push({ path: full, score });
+  }
+
+  scored.sort((a, b) => b.score - a.score || a.path.localeCompare(b.path));
+  return scored.map((s) => s.path);
+}
+
 export function findPreviousStoryDone(implArtifactsDir, epicNum, storyNum) {
   if (typeof implArtifactsDir !== 'string' || implArtifactsDir === '') {
     return null;
