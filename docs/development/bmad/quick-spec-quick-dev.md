@@ -1,8 +1,25 @@
 # Quick Spec and Quick Dev Decision Guide
 
-Last reviewed: 2026-04-08
+Last reviewed: 2026-04-15
 
 Quick Spec and Quick Dev are fast-path workflows for changes that do not warrant the full 4-phase BMAD methodology. Both live in the Supporting And Alternate Lanes section of the Compass BMAD Workflow and can be invoked at any time without completing the required progression chain.
+
+## Spec File Naming and Lifecycle
+
+Both workflows produce per-spec markdown files (no singleton WIP file — that pattern was removed in upstream BMAD v6.3.0, PR #2214):
+
+- **Location:** `{implementation_artifacts}/spec-{slug}.md`.
+- **Slug derivation:** `tools/quick-dev-scan.js` exports `deriveSpecSlug(intent, options)`. When the intent references a tracking identifier (`story 3.2`, `#47`, `issue 47`, `gh-47`) the slug leads with it — `3-2-digest-delivery`, `gh-47-fix-auth`. Otherwise the title is slugified to lowercase kebab-case. On collision in `{implementation_artifacts}`, `-2`, `-3`, ... are appended.
+- **Status lifecycle:** `draft → ready-for-dev → in-progress → in-review → done`.
+  - `draft` — Quick Spec step 1 initializes this when the spec file is first created; Quick Spec step 3 keeps it while the full spec is generated.
+  - `ready-for-dev` — Quick Spec step 4 flips to this on user approval; Quick Dev also writes this when a plan-code-review spec leaves the plan step.
+  - `in-progress` — Quick Dev sets this when implementation begins.
+  - `in-review` — Quick Dev sets this while the adversarial review loop runs.
+  - `done` — Quick Dev sets this after the review loop resolves and the spec trace is written (Quick Dev Feature 3 task 4-A, tracked separately).
+
+Parallel drafts are supported: multiple `spec-*.md` files can coexist in `{implementation_artifacts}/` with `status: draft`. Quick Spec step 1 scans for them and lets the user pick one to resume or archive.
+
+
 
 ## What Is Quick Spec?
 
@@ -17,7 +34,7 @@ Quick Spec runs a 4-step guided process:
 
 | Step | Name | What Happens |
 | --- | --- | --- |
-| 1 | Understand | Greet, capture intent, quick-scan the codebase, ask informed questions, initialize a WIP tech-spec file |
+| 1 | Understand | Greet, capture intent, quick-scan the codebase, ask informed questions, initialize a draft spec file at `{implementation_artifacts}/spec-{slug}.md` |
 | 2 | Investigate | Deep code investigation: map anchor files, patterns, tech stack, test conventions, and constraints |
 | 3 | Generate | Build the implementation plan with ordered tasks (file + action), Given/When/Then acceptance criteria, dependencies, and testing strategy |
 | 4 | Review | Present the complete spec for human review, iterate on edits, optionally run adversarial review, then finalize |
@@ -26,7 +43,7 @@ Each step has a checkpoint menu where the user can invoke Advanced Elicitation, 
 
 ### Output
 
-A finalized tech-spec markdown file at `{current_architecture_dir}/tech-spec-{slug}.md` with frontmatter tracking status and metadata. The spec must meet the Ready for Development standard:
+A finalized tech-spec markdown file at `{implementation_artifacts}/spec-{slug}.md` with frontmatter tracking status and metadata. The spec must meet the Ready for Development standard:
 
 - **Actionable** — every task has a clear file path and specific action
 - **Logical** — tasks ordered by dependency
@@ -79,7 +96,7 @@ Working code committed locally, a spec file with status `done` and a Suggested R
 | **Built-in review** | Optional adversarial review of the spec | Mandatory triple-reviewer review of the code diff |
 | **Scope control** | Manual — user decides scope during discovery | Automated — multi-goal detection and token-count checks |
 | **Spec template** | Custom Compass tech-spec template (overview, context, tasks, ACs, dependencies, testing, notes) | Upstream BMM spec template (frozen intent, boundaries, I/O matrix, code map, tasks, change log) |
-| **WIP location** | `{current_architecture_dir}/tech-spec-wip.md` | `{implementation_artifacts}/spec-wip.md` |
+| **Spec output** | `{implementation_artifacts}/spec-{slug}.md` (status `draft` → `ready-for-dev`) | `{implementation_artifacts}/spec-{slug}.md` (status advances through full lifecycle) |
 | **Origin** | Compass custom skill | Upstream BMAD-METHOD |
 
 ## Why Compass Preserves a Separate Quick Spec Path

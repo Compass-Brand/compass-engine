@@ -68,7 +68,7 @@ This uses **step-file architecture** for disciplined execution:
 
 Load and read full config from `{main_config}` and resolve:
 
-- `project_name`, `user_name`, `current_architecture_dir`, `current_prd_dir`, `current_epics_dir`, `current_research_dir`
+- `project_name`, `user_name`, `current_architecture_dir`, `current_prd_dir`, `current_epics_dir`, `current_research_dir`, `implementation_artifacts`
 - `communication_language`, `document_output_language`, `user_skill_level`
 - `date` as system-generated current datetime
 - `project_context` = `**/project-context.md` (load if exists)
