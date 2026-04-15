@@ -99,7 +99,7 @@
 | Consumer | Downstream Compass projects via `push.js` | Upstream installer → user's project |
 | Mechanism | `mergeModules()` overlay; custom wins | Installer directory scan + copy |
 | Schema | YAML modules identical to native | Ad-hoc |
-| Replacement in v6.3 | N/A — unchanged | `--custom-source <url|path>` via `custom-module-manager.js` → PluginResolver |
+| Replacement in v6.3 | N/A — unchanged | `--custom-source <url\|path>` via `custom-module-manager.js` → PluginResolver |
 
 **Impact on our pipeline: none.** `push.js` never invokes the upstream installer; we ship pre-built `dist/_bmad/` trees. The removed flag doesn't appear in our code.
 
