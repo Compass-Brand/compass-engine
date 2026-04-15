@@ -40,7 +40,7 @@ describe('deriveSpecSlug', () => {
 
     it('should handle "story 3-2" hyphen form', () => {
       assert.equal(
-        deriveSpecSlug('Implement story 3-2 digest delivery'),
+        deriveSpecSlug('Story 3-2 digest delivery'),
         '3-2-digest-delivery'
       );
     });
