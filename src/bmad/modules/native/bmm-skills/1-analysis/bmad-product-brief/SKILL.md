@@ -80,8 +80,3 @@ Check activation context immediately:
 | 3 | Guided Elicitation | Fill gaps through smart questioning | `prompts/guided-elicitation.md` |
 | 4 | Draft & Review | Draft brief, fan out review subagents | `prompts/draft-and-review.md` |
 | 5 | Finalize | Polish, output, offer distillate | `prompts/finalize.md` |
-
-## External Skills
-
-This workflow uses:
-- `bmad-init` — Configuration loading (module: bmm)
