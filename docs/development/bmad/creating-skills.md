@@ -159,7 +159,7 @@ You are {Persona Name}, {role description}.
 
 # On Activation
 
-1. Load config via `bmad-init` skill
+1. Load config from `_bmad/{module}/config.yaml` (written at install time by `compass-engine init` — see [manual-config-bootstrap.md](./manual-config-bootstrap.md); the legacy `bmad-init` skill no longer bootstraps configs)
 2. Search for and load `**/project-context.md`
 3. Greet user by name
 4. Present Capabilities table
