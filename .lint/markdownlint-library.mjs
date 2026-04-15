@@ -7,6 +7,8 @@ import { lint as markdownlint } from 'markdownlint/promise';
 const EXCLUDED_PREFIXES = [
   '_bmad/',
   'node_modules/',
+  'reference/',
+  'src/bmad/',
 ];
 
 function normalize(filePath) {
