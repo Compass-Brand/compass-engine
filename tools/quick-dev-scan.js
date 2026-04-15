@@ -10,7 +10,11 @@
  */
 
 import { existsSync, statSync, readdirSync, readFileSync } from 'node:fs';
-import { join, basename as pathBasename } from 'node:path';
+import {
+  join,
+  basename as pathBasename,
+  relative as pathRelative,
+} from 'node:path';
 
 const STORY_RE = /\bstory\s+(\d+)[.\-](\d+)\b/i;
 const HASH_ISSUE_RE = /#(\d+)\b/;
@@ -454,4 +458,156 @@ export function findPreviousStoryDone(implArtifactsDir, epicNum, storyNum) {
     storyNum: chosen.storyNum,
     continuityContext: assembleContinuityContext(chosen.path, chosen.raw, 'done'),
   };
+}
+
+const DEFAULT_SPEC_FILE_DIR = 'docs/impl-artifacts';
+
+const PERIPHERAL_CONCERN_RE =
+  /\b(test|tests|config|types?|style|lint|docs?|fixture|fixtures)\b/i;
+
+function isPeripheralConcern(concernName) {
+  return PERIPHERAL_CONCERN_RE.test(concernName);
+}
+
+function formatFrontmatter({ title, route, created }) {
+  const lines = ['---', `title: '${title.replace(/'/g, "''")}'`];
+  lines.push(`route: '${route}'`);
+  lines.push(`status: 'done'`);
+  if (created) lines.push(`created: '${created}'`);
+  lines.push('---');
+  return lines.join('\n');
+}
+
+function shortLinkText(changePath, line) {
+  const base = pathBasename(changePath);
+  return `\`${base}:${line}\``;
+}
+
+function specRelativeLink(specFileDir, changePath) {
+  const rel = pathRelative(specFileDir, changePath);
+  // pathRelative emits native separators; normalize to POSIX for markdown links.
+  return rel.split(/[\\]/g).join('/');
+}
+
+function groupStopsByConcern(changes) {
+  const concernOrder = [];
+  const concerns = new Map();
+  for (const change of changes) {
+    const key = change.concern ?? 'General';
+    if (!concerns.has(key)) {
+      concerns.set(key, []);
+      concernOrder.push(key);
+    }
+    concerns.get(key).push(change);
+  }
+  const primary = concernOrder.filter((c) => !isPeripheralConcern(c));
+  const peripheral = concernOrder.filter((c) => isPeripheralConcern(c));
+  return [...primary, ...peripheral].map((name) => ({
+    name,
+    stops: concerns.get(name),
+  }));
+}
+
+function renderReviewOrder(specFileDir, changes) {
+  if (!Array.isArray(changes) || changes.length === 0) {
+    return '## Suggested Review Order\n\n_No file changes captured._\n';
+  }
+  const groups = groupStopsByConcern(changes);
+  const out = ['## Suggested Review Order', ''];
+  for (const group of groups) {
+    out.push(`**${group.name}**`);
+    out.push('');
+    for (const stop of group.stops) {
+      const link = specRelativeLink(specFileDir, stop.path);
+      out.push(`- ${stop.framing}`);
+      out.push(`  [${shortLinkText(stop.path, stop.line)}](${link}#L${stop.line})`);
+      out.push('');
+    }
+  }
+  return out.join('\n').replace(/\n+$/, '\n');
+}
+
+/**
+ * Render a one-shot or standard spec trace file.
+ *
+ * Output is the full markdown body (frontmatter + `# Title` + `## Intent`
+ * + `## Suggested Review Order`). The caller writes it to
+ * `{implementation_artifacts}/spec-{slug}.md`.
+ *
+ * Shared by:
+ *   - step-07-spec-trace.md (route: 'standard') — runs after adversarial review
+ *   - step-oneshot.md       (route: 'one-shot') — short-circuit pipeline
+ *
+ * Both routes set `status: 'done'` — this helper is the write-back point
+ * for the quick-dev spec lifecycle (draft → ready-for-dev → in-progress
+ * → in-review → done).
+ *
+ * @param {object} params
+ * @param {string} params.intent - original user intent (kept for traceability)
+ * @param {'one-shot'|'standard'} params.route - route marker for frontmatter
+ * @param {Array<{path:string,line:number,concern:string,framing:string}>} params.changes
+ * @param {string} params.slug - spec slug used for filename (informational)
+ * @param {string} params.title - human-readable title
+ * @param {string} params.problem - one-sentence problem statement
+ * @param {string} params.approach - one-sentence approach summary
+ * @param {string} [params.specFileDir] - relative dir the spec lives in;
+ *   used to compute spec-file-relative review-order links. Defaults to
+ *   `docs/impl-artifacts` (two levels deep → `../../` prefix).
+ * @param {string} [params.created] - optional ISO date string for frontmatter
+ * @returns {string} complete markdown document
+ */
+export function generateSpecTrace(params) {
+  if (!params || typeof params !== 'object') {
+    throw new Error('generateSpecTrace: params object required');
+  }
+  const {
+    intent,
+    route,
+    changes,
+    slug,
+    title,
+    problem,
+    approach,
+    specFileDir = DEFAULT_SPEC_FILE_DIR,
+    created,
+  } = params;
+
+  if (!['one-shot', 'standard'].includes(route)) {
+    throw new Error(`generateSpecTrace: invalid route '${route}'`);
+  }
+  if (typeof title !== 'string' || title === '') {
+    throw new Error('generateSpecTrace: title required');
+  }
+  if (typeof slug !== 'string' || slug === '') {
+    throw new Error('generateSpecTrace: slug required');
+  }
+  if (typeof intent !== 'string' || intent === '') {
+    throw new Error('generateSpecTrace: intent required');
+  }
+
+  const frontmatter = formatFrontmatter({ title, route, created });
+  const titleLine = `# ${title}`;
+  const intentBlock = [
+    '## Intent',
+    '',
+    `**Problem:** ${problem ?? ''}`.trim(),
+    `**Approach:** ${approach ?? ''}`.trim(),
+  ].join('\n');
+  const reviewOrder = renderReviewOrder(specFileDir, changes ?? []);
+
+  // slug is captured for caller traceability; kept in a trailing HTML comment
+  // so it does not render but is preserved in file content.
+  const trailer = `<!-- spec-slug: ${slug} -->\n`;
+
+  return [
+    frontmatter,
+    '',
+    titleLine,
+    '',
+    intentBlock,
+    '',
+    reviewOrder.trimEnd(),
+    '',
+    trailer,
+  ].join('\n');
 }
