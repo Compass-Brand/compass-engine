@@ -4,6 +4,16 @@ description: 'Determine execution mode (tech-spec vs direct), handle escalation,
 
 nextStepFile_modeA: './step-03-execute.md'
 nextStepFile_modeB: './step-02-context-gathering.md'
+
+state_vars:
+  - baseline_commit
+  - execution_mode
+  - tech_spec_path
+  - epic_num
+  - story_num
+  - epic_context_path
+  - continuity_context
+  - planning_context_files
 ---
 
 # Step 1: Mode Detection

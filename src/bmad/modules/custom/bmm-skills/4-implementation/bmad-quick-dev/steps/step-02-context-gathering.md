@@ -20,10 +20,30 @@ From step-01:
 - `{baseline_commit}` - Git HEAD at workflow start
 - `{execution_mode}` - Should be "direct"
 - `{project_context}` - Loaded if exists
+- `{epic_context_path}` - Compiled epic context file (Mode A only; normally unset here since this step runs in Mode B, but respected if carried over)
+- `{continuity_context}` - Prior-story continuity summary (Mode A only; same caveat as above)
+- `{planning_context_files}` - Planning artifacts selectively loaded by step-01 B.0 (Mode B)
 
 ---
 
 ## EXECUTION SEQUENCE
+
+### 0. Load Context
+
+Before identifying files, incorporate any pre-loaded context from step-01:
+
+**Precedence rule (MANDATORY):** If `{epic_context_path}` is set, READ that file and use it as the planning-artifact reference. IGNORE `{planning_context_files}` entirely in this case — the epic context already summarizes the same planning docs (PRD / architecture / UX / epics / brief) and re-loading would duplicate content.
+
+- **IF `{epic_context_path}` is set:**
+  - Read the file at `{epic_context_path}`.
+  - Treat its Goal / Requirements & Constraints / Technical Decisions / UX sections as the binding planning reference for this run.
+  - Do NOT load `{planning_context_files}`, even if that array is non-empty.
+- **ELSE IF `{planning_context_files}` is set (Mode B common case):**
+  - For each path in `{planning_context_files}`, read the file body and extract the constraints / decisions / requirements relevant to the user's direct instructions.
+  - Fold those constraints into the mental plan in step 4 below.
+- **ELSE:** no pre-loaded planning context; proceed with code-only gathering.
+
+If `{continuity_context}` is set, treat it as authoritative prior-story guidance: reuse patterns from its Code Map, honor constraints from its Design Notes, and align tasks with its Spec Change Log.
 
 ### 1. Identify Files to Modify
 
