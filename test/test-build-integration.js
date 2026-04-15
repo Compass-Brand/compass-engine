@@ -41,8 +41,8 @@ describe('Full build integration', () => {
     const helpLines = bmadHelp.split(/\r?\n/).filter(Boolean);
     assert.ok(helpLines.length >= 2, `bmad-help.csv should have header + data rows, got ${helpLines.length} lines`);
 
-    // --- Client skills for all 3 platforms: each has >=90 entries ---
-    const platforms = ['.claude', '.opencode', '.codex'];
+    // --- Client skills for all supported platforms: each has >=90 entries ---
+    const platforms = ['.claude', '.opencode', '.codex', '.junie', '.kilocode'];
     for (const platform of platforms) {
       const skillsDir = path.join(DIST_ROOT, platform, 'skills');
       const entries = await fs.readdir(skillsDir);
