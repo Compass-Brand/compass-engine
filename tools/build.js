@@ -8,7 +8,11 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { createRequire } from 'node:module';
 import { writeMarketplaceJson } from './generate-marketplace.js';
+
+const requireCJS = createRequire(import.meta.url);
+const { PluginResolver } = requireCJS('./vendor/plugin-resolver.cjs');
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -330,37 +334,79 @@ async function generateAgentManifest() {
   console.log(`  Generated agent-manifest.csv (${agents.length} agents)`);
 }
 
+async function findSkillDirsUnder(rootDir) {
+  const results = [];
+  async function walk(dir) {
+    const entries = await fs.readdir(dir, { withFileTypes: true });
+    const hasSkillMd = entries.some((e) => e.isFile() && e.name === 'SKILL.md');
+    if (hasSkillMd) {
+      results.push(dir);
+      return;
+    }
+    for (const entry of entries) {
+      if (entry.isDirectory()) {
+        await walk(path.join(dir, entry.name));
+      }
+    }
+  }
+  await walk(rootDir);
+  return results;
+}
+
 async function generateBmadHelp() {
+  // Delegates to the vendored PluginResolver (tools/vendor/plugin-resolver.js,
+  // sourced from BMAD-METHOD v6.3.0). One plugin per dist/_bmad/{module}/
+  // directory. Strategy 1 resolves each against module.yaml + module-help.csv
+  // living at the module root. Row ordering preserved via readdir() iteration
+  // order to maintain byte-stability against the pre-shim fixture.
   const configDir = path.join(BMAD_DIST, '_config');
   await fs.mkdir(configDir, { recursive: true });
 
   const header = 'module,skill,display-name,menu-code,description,action,args,phase,after,before,required,output-location,outputs';
   const allRows = [];
 
-  // Dynamically discover modules (all top-level dirs in dist/_bmad/ except _config)
   const bmadEntries = await fs.readdir(BMAD_DIST, { withFileTypes: true });
   const moduleNames = bmadEntries
     .filter((e) => e.isDirectory() && !e.name.startsWith('_') && e.name !== 'tools')
     .map((e) => e.name);
 
+  const resolver = new PluginResolver();
+  let resolvedCount = 0;
+
   for (const modName of moduleNames) {
-    const csvPath = path.join(BMAD_DIST, modName, 'module-help.csv');
-    if (!(await exists(csvPath))) continue;
+    const moduleDir = path.join(BMAD_DIST, modName);
+    const skillDirs = await findSkillDirsUnder(moduleDir);
+    if (skillDirs.length === 0) continue;
 
-    const content = await fs.readFile(csvPath, 'utf-8');
-    const lines = content.split(/\r?\n/).filter(Boolean);
+    const plugin = {
+      name: modName,
+      source: path.relative(BMAD_DIST, moduleDir).replace(/\\/g, '/'),
+      skills: skillDirs.map((abs) => path.relative(BMAD_DIST, abs).replace(/\\/g, '/')),
+    };
 
-    // Skip header row (first line), add data rows
-    for (let i = 1; i < lines.length; i++) {
-      if (lines[i].trim()) {
-        allRows.push(lines[i]);
+    const resolved = await resolver.resolve(BMAD_DIST, plugin);
+    if (!resolved || resolved.length === 0) continue;
+
+    for (const entry of resolved) {
+      if (entry.moduleHelpCsvPath) {
+        const content = await fs.readFile(entry.moduleHelpCsvPath, 'utf-8');
+        const lines = content.split(/\r?\n/).filter(Boolean);
+        for (let i = 1; i < lines.length; i++) {
+          if (lines[i].trim()) allRows.push(lines[i]);
+        }
+      } else if (entry.synthesizedHelpCsv) {
+        const lines = entry.synthesizedHelpCsv.split(/\r?\n/).filter(Boolean);
+        for (let i = 1; i < lines.length; i++) {
+          if (lines[i].trim()) allRows.push(lines[i]);
+        }
       }
     }
+    resolvedCount++;
   }
 
   const csv = [header, ...allRows].join('\n') + '\n';
   await fs.writeFile(path.join(configDir, 'bmad-help.csv'), csv);
-  console.log(`  Generated bmad-help.csv (${allRows.length} skills from ${moduleNames.length} modules)`);
+  console.log(`  Generated bmad-help.csv (${allRows.length} skills from ${resolvedCount} modules via PluginResolver)`);
 }
 
 async function generateSkillManifest() {
