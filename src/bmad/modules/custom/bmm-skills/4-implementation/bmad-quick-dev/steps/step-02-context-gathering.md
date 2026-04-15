@@ -63,6 +63,15 @@ Examine the identified files and their surroundings:
 - Error handling approaches
 - Test patterns (if tests exist nearby)
 
+**If `{continuity_context}` is set**, consult it first as an authoritative prior-story source before inferring patterns from code:
+
+- **Code Map section** — reuse the module / file / symbol patterns it names; prefer aligning with the prior story's structure over introducing a parallel one.
+- **Design Notes section** — honor the constraints recorded there (invariants, trade-offs, decisions). Treat them as binding unless the current spec explicitly overrides them.
+- **Spec Change Log section** — do not reintroduce anything already resolved; treat entries as closed decisions.
+- **Tasks section** — cross-reference with the current task list to avoid duplicating work already completed.
+
+Code-derived patterns supplement, not replace, continuity guidance when the two conflict.
+
 ### 3. Note Dependencies
 
 Identify:
