@@ -7,7 +7,6 @@ agents:
   - analyst
   - architect
   - pm
-  - sm
   - ux-designer
   - tea
 party: "./default-party.csv"
