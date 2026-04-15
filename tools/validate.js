@@ -390,6 +390,67 @@ async function validateRemovedAgents(rootDir = ROOT) {
   return ok;
 }
 
+function rejectsBmadInitReferences(content) {
+  const findings = [];
+  const lines = content.split('\n');
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i].includes('bmad-init')) {
+      findings.push({ lineNumber: i + 1, text: lines[i] });
+    }
+  }
+  return findings;
+}
+
+const BMAD_INIT_ALLOWLIST_SUFFIXES = [
+  'src/bmad/modules/native/core-skills/bmad-distillator/resources/distillate-format-reference.md',
+];
+
+const BMAD_INIT_ALLOWLIST_PREFIXES = [
+  // bmad-init/ self-references are expected until the directory is deleted
+  // (bmad-engine-lg73 Task 11). Remove this entry when bmad-init/ is deleted.
+  'src/bmad/modules/native/core-skills/bmad-init/',
+];
+
+function isBmadInitAllowlisted(relPath) {
+  const normalized = relPath.replace(/\\/g, '/');
+  if (BMAD_INIT_ALLOWLIST_SUFFIXES.some((entry) => normalized.endsWith(entry) || normalized === entry)) {
+    return true;
+  }
+  return BMAD_INIT_ALLOWLIST_PREFIXES.some((prefix) => normalized.startsWith(prefix));
+}
+
+async function validateNoBmadInitReferences(rootDir = ROOT, { log } = {}) {
+  const warn = log ?? ((msg) => console.error(msg));
+  const moduleRoots = [
+    path.join(rootDir, 'src/bmad/modules/native'),
+    path.join(rootDir, 'src/bmad/modules/custom'),
+  ];
+
+  let ok = true;
+  for (const moduleRoot of moduleRoots) {
+    try {
+      await fs.access(moduleRoot);
+    } catch {
+      continue;
+    }
+    const files = await listFilesRecursive(moduleRoot);
+    for (const filePath of files) {
+      const normalized = filePath.replace(/\\/g, '/');
+      if (!normalized.endsWith('/SKILL.md') && !normalized.endsWith('/module-help.csv')) continue;
+      const relPath = path.relative(rootDir, filePath).replace(/\\/g, '/');
+      if (isBmadInitAllowlisted(relPath)) continue;
+      const content = await fs.readFile(filePath, 'utf-8');
+      const findings = rejectsBmadInitReferences(content);
+      for (const { lineNumber } of findings) {
+        warn(`ERROR ${relPath}:line ${lineNumber} contains forbidden 'bmad-init' reference`);
+        ok = false;
+      }
+    }
+  }
+  if (ok && !log) console.log('OK no-bmad-init references');
+  return ok;
+}
+
 async function validate() {
   console.log('\n=================================');
   console.log('  Compass Engine Validate');
@@ -403,6 +464,7 @@ async function validate() {
     validateGeneratedManifests(),
     validateModuleHelpDeps(),
     validateRemovedAgents(),
+    validateNoBmadInitReferences(),
   ]);
 
   if (checks.every(Boolean)) {
@@ -425,6 +487,8 @@ if (isDirectRun) {
 export {
   validate,
   validateRemovedAgents,
+  validateNoBmadInitReferences,
+  rejectsBmadInitReferences,
   shouldScanSourceFile,
   isLikelyPlaceholder,
   findSecretIndicators,

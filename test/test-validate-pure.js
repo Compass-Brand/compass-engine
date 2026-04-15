@@ -1,10 +1,15 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
+import { promises as fs } from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 import {
   shouldScanSourceFile,
   isLikelyPlaceholder,
   findSecretIndicators,
   parseCsvLine,
+  rejectsBmadInitReferences,
+  validateNoBmadInitReferences,
 } from '../tools/validate.js';
 
 // ---------------------------------------------------------------------------
@@ -176,5 +181,87 @@ describe('parseCsvLine', () => {
 
   it('should handle single field', () => {
     assert.deepEqual(parseCsvLine('hello'), ['hello']);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// rejectsBmadInitReferences
+// ---------------------------------------------------------------------------
+describe('rejectsBmadInitReferences', () => {
+  it('should return empty array for clean content', () => {
+    const result = rejectsBmadInitReferences('line one\nline two\nnothing here');
+    assert.deepEqual(result, []);
+  });
+
+  it('should return line numbers for content containing bmad-init', () => {
+    const content = 'line one\nload via bmad-init skill\nline three';
+    const result = rejectsBmadInitReferences(content);
+    assert.equal(result.length, 1);
+    assert.equal(result[0].lineNumber, 2);
+    assert.match(result[0].text, /bmad-init/);
+  });
+
+  it('should report every line that contains the term', () => {
+    const content = 'bmad-init here\nand bmad-init there\nclean\nfinal bmad-init';
+    const result = rejectsBmadInitReferences(content);
+    assert.deepEqual(
+      result.map((r) => r.lineNumber),
+      [1, 2, 4],
+    );
+  });
+});
+
+// ---------------------------------------------------------------------------
+// validateNoBmadInitReferences — live-tree scan against a temp fixture
+// ---------------------------------------------------------------------------
+describe('validateNoBmadInitReferences', () => {
+  it('should fail when a seeded SKILL.md contains bmad-init', async () => {
+    const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), 'validate-bmad-init-'));
+    const skillDir = path.join(tempRoot, 'src/bmad/modules/native/core-skills/bmad-seeded');
+    await fs.mkdir(skillDir, { recursive: true });
+    await fs.writeFile(
+      path.join(skillDir, 'SKILL.md'),
+      '---\nname: bmad-seeded\n---\n\n## On Activation\n\n1. Load via bmad-init skill\n',
+    );
+    const errors = [];
+    const ok = await validateNoBmadInitReferences(tempRoot, { log: (msg) => errors.push(msg) });
+    await fs.rm(tempRoot, { recursive: true, force: true });
+    assert.equal(ok, false);
+    assert.equal(errors.length, 1);
+    assert.match(errors[0], /bmad-seeded\/SKILL\.md/);
+    assert.match(errors[0], /line 7/);
+  });
+
+  it('should pass when no SKILL.md references bmad-init', async () => {
+    const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), 'validate-bmad-init-'));
+    const skillDir = path.join(tempRoot, 'src/bmad/modules/native/core-skills/bmad-clean');
+    await fs.mkdir(skillDir, { recursive: true });
+    await fs.writeFile(
+      path.join(skillDir, 'SKILL.md'),
+      '---\nname: bmad-clean\n---\n\n## On Activation\n\n1. Load config from {project-root}/_bmad/core/config.yaml\n',
+    );
+    const errors = [];
+    const ok = await validateNoBmadInitReferences(tempRoot, { log: (msg) => errors.push(msg) });
+    await fs.rm(tempRoot, { recursive: true, force: true });
+    assert.equal(ok, true);
+    assert.equal(errors.length, 0);
+  });
+
+  it('should allowlist bmad-distillator distillate-format-reference.md example content', async () => {
+    const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), 'validate-bmad-init-'));
+    const distillatorDir = path.join(
+      tempRoot,
+      'src/bmad/modules/native/core-skills/bmad-distillator/resources',
+    );
+    await fs.mkdir(distillatorDir, { recursive: true });
+    await fs.writeFile(
+      path.join(distillatorDir, 'distillate-format-reference.md'),
+      '# Example\n\nThis references bmad-init inside a fictional distillate.\n',
+    );
+    const errors = [];
+    const ok = await validateNoBmadInitReferences(tempRoot, { log: (msg) => errors.push(msg) });
+    await fs.rm(tempRoot, { recursive: true, force: true });
+    assert.equal(ok, true);
+    assert.equal(errors.length, 0);
   });
 });
