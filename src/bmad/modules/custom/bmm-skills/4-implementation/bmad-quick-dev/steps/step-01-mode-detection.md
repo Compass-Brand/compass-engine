@@ -19,6 +19,9 @@ These variables MUST be set in this step and available to all subsequent steps:
 - `{baseline_commit}` - Git HEAD at workflow start (or "NO_GIT" if not a git repo)
 - `{execution_mode}` - "tech-spec" or "direct"
 - `{tech_spec_path}` - Path to tech-spec file (if Mode A)
+- `{epic_num}` - Epic number inferred from the tech-spec (Mode A, A.1). Unset if not derivable.
+- `{story_num}` - Story number inferred from the tech-spec (Mode A, A.1). Unset if not derivable.
+- `{epic_context_path}` - Absolute path to the compiled epic context file (Mode A, A.1). Unset when A.1 falls through silently. **Precedence:** when set, downstream steps IGNORE `{planning_context_files}` (Mode B, B.0) — the epic context already summarizes planning docs.
 
 ---
 
@@ -50,7 +53,42 @@ Analyze the user's input to determine mode:
 - Load the spec, extract tasks/context/AC
 - Set `{execution_mode}` = "tech-spec"
 - Set `{tech_spec_path}` = provided path
-- **NEXT:** Read fully and follow: `{project-root}/_bmad/bmm/4-implementation/bmad-quick-dev/steps/step-03-execute.md`
+- Proceed to sub-section **A.1 Epic inference** below before transitioning to step-03.
+
+#### A.1 Epic inference
+
+**Purpose:** When the tech-spec belongs to an epic, compile (or reuse) a cached epic-context summary so step-02/03 can load it as a single concise reference instead of re-deriving from raw planning docs.
+
+**Enter when:** `{execution_mode}` = "tech-spec" AND `{tech_spec_path}` is set.
+**Exit when:** `{epic_context_path}` is either set to a validated context file OR left unset (silent fall-through). In both cases, continue to the NEXT directive at the end of Mode A.
+
+Execute these sub-items in order:
+
+**3a. Parse tech-spec frontmatter.** Read the YAML frontmatter of `{tech_spec_path}`. Derive `{epic_num}` using the first rule that yields a positive integer:
+
+1. `epic:` field (e.g., `epic: 3`)
+2. `story:` field parsed as `E.S` (e.g., `story: 3.2` → epic 3)
+3. Filename slug regex `^(\d+)-` against `basename({tech_spec_path})` (e.g., `spec-3-2-auth.md` → 3)
+
+Also derive `{story_num}` from the `story:` field when present (e.g., `story: 3.2` → 2), or from the second digit group of the filename slug `^\d+-(\d+)-` when absent. Leave `{story_num}` unset if neither source yields a value.
+
+If no rule yields `{epic_num}`, skip to sub-item **3e** (silent fall-through).
+
+**3b. Check for cached epic context.** Resolve `{epic_context_path}` candidate as `{implementation_artifacts}/epic-{epic_num}-context.md`. If the file exists AND its mtime is newer than every source planning doc under `{planning_artifacts}` (PRD, architecture, UX, epics, brief), set `{epic_context_path}` to the candidate path and skip to sub-item **3d** (cache is valid).
+
+**3c. Spawn compile-epic-context sub-agent.** Invoke sibling task `compile-epic-context.md` via the sub-agent mechanism, passing `{epic_num}` as input. The sub-agent writes the summary to `{implementation_artifacts}/epic-{epic_num}-context.md` and returns that path. Set `{epic_context_path}` to the returned path.
+
+**3d. Verify output.** Read the first non-blank line of `{epic_context_path}`. Assert it starts with `# Epic {epic_num} Context:` (exact heading prefix, matching the compile-epic-context output contract). On mismatch: HALT, surface the assertion failure (path + actual first line), and instruct the operator to re-run or inspect.
+
+**3e. Silent fall-through.** If `{epic_num}` could not be derived in 3a, leave `{epic_context_path}` unset and proceed. Mode A must continue to work for non-epic tech-specs with no user-visible error.
+
+**Post-conditions for A.1:**
+
+- `{epic_context_path}` is either unset (no epic) or points to a file whose first line matches `# Epic <N> Context:`.
+- `{epic_num}` and `{story_num}` are set when derivable; otherwise unset.
+- **Precedence reminder:** downstream steps that see `{epic_context_path}` set MUST ignore `{planning_context_files}` (Mode B, B.0) — the epic context already summarizes the same planning docs.
+
+- **NEXT (after A.1 completes):** Read fully and follow: `{project-root}/_bmad/bmm/4-implementation/bmad-quick-dev/steps/step-03-execute.md`
 
 **Mode B: Direct Instructions**
 
@@ -150,7 +188,7 @@ Display:
 
 **CRITICAL:** When this step completes, explicitly state which step to load:
 
-- Mode A (tech-spec): "**NEXT:** read fully and follow: `{project-root}/_bmad/bmm/4-implementation/bmad-quick-dev/steps/step-03-execute.md`"
+- Mode A (tech-spec, after A.1 Epic inference completes): "**NEXT:** read fully and follow: `{project-root}/_bmad/bmm/4-implementation/bmad-quick-dev/steps/step-03-execute.md`"
 - Mode B (direct, [E] selected): "**NEXT:** Read fully and follow: `{project-root}/_bmad/bmm/4-implementation/bmad-quick-dev/steps/step-02-context-gathering.md`"
 - Escalation ([P] or [W]): "**EXITING Quick Dev.** Follow the directed workflow."
 
@@ -161,6 +199,7 @@ Display:
 - `{baseline_commit}` captured and stored
 - `{execution_mode}` determined ("tech-spec" or "direct")
 - `{tech_spec_path}` set if Mode A
+- A.1 Epic inference executed when Mode A: `{epic_context_path}` set to a verified summary OR left unset via silent fall-through
 - Project context loaded if exists
 - Escalation evaluated appropriately (Mode B)
 - Explicit NEXT directive provided
