@@ -85,18 +85,19 @@ Skipped (noise/uncertain): F2, F4
 
 ## UPDATE TECH-SPEC (Mode A only)
 
+> **DO NOT touch frontmatter here.** Only `step-07-spec-trace.md` (standard pipeline) or `steps/step-oneshot.md` (one-shot route) write the `status: 'done'` frontmatter flip. This step's single responsibility is resolving adversarial-review findings; the lifecycle write-back belongs downstream. See `docs/development/bmad/quick-spec-quick-dev.md` § "Spec File Naming and Lifecycle" for the full `draft → ready-for-dev → in-progress → in-review → done` contract.
+
 If `{execution_mode}` is "tech-spec":
 
 1. Load `{tech_spec_path}`
-2. Update status to "Completed"
-3. Add review notes:
+2. Append a `## Review Notes` section (do NOT edit the YAML frontmatter):
    ```
    ## Review Notes
    - Adversarial review completed
    - Findings: {count} total, {fixed} fixed, {skipped} skipped
    - Resolution approach: {walk-through/auto-fix/skip}
    ```
-4. Save changes
+3. Save changes
 
 ---
 
