@@ -2,7 +2,7 @@
 name: 'step-03-generate'
 description: 'Build the implementation plan based on the technical mapping of constraints'
 
-wipFile: '{current_architecture_dir}/tech-spec-wip.md'
+specFile: '{implementation_artifacts}/spec-{slug}.md'
 ---
 
 # Step 3: Generate Implementation Plan
@@ -19,7 +19,7 @@ wipFile: '{current_architecture_dir}/tech-spec-wip.md'
 
 ## CONTEXT:
 
-- Requires `{wipFile}` with defined "Overview" and "Context for Development" sections.
+- Requires `{specFile}` with defined "Overview" and "Context for Development" sections.
 - Focus: Create the implementation sequence that addresses the requirement delta using the captured technical context.
 - Output: Implementation-ready tasks with specific files and instructions.
 - Target: Meet the **READY FOR DEVELOPMENT** standard defined in `workflow.md`.
@@ -28,7 +28,7 @@ wipFile: '{current_architecture_dir}/tech-spec-wip.md'
 
 ### 1. Load Current State
 
-**Read `{wipFile}` completely and extract:**
+**Read `{specFile}` completely and extract:**
 
 - All frontmatter values
 - Overview section (Problem, Solution, Scope)
@@ -95,19 +95,19 @@ c) **Notes**
 
 ### 5. Write Complete Spec
 
-a) **Update `{wipFile}` with all generated content:**
+a) **Update `{specFile}` with all generated content:**
 
 - Ensure all template sections are filled in
 - No placeholder text remaining
 - All frontmatter values current
-- Update status to 'review' (NOT 'ready-for-dev' - that happens after user review in Step 4)
+- Status stays `draft` through step 3 — step 4 promotes it to `ready-for-dev` after user review. `draft` is the v6.3.0 upstream lifecycle state for a spec that has been fully written but not yet approved.
 
 b) **Update frontmatter:**
 
 ```yaml
 ---
 # ... existing values ...
-status: 'review'
+status: 'draft'
 stepsCompleted: [1, 2, 3]
 ---
 ```
@@ -118,7 +118,7 @@ c) **Read fully and follow: `{project-root}/_bmad/compass/4-implementation/bmad-
 
 - Tasks MUST be specific, actionable, ordered logically, with files to modify.
 - ACs MUST be testable, using Given/When/Then format.
-- Status MUST be updated to 'review'.
+- Status MUST remain `draft` (step 4 promotes to `ready-for-dev`).
 
 ## VERIFICATION CHECKLIST:
 

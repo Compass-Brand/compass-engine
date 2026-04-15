@@ -2,7 +2,7 @@
 name: 'step-02-investigate'
 description: 'Map technical constraints and anchor points within the codebase'
 
-wipFile: '{current_architecture_dir}/tech-spec-wip.md'
+specFile: '{implementation_artifacts}/spec-{slug}.md'
 ---
 
 # Step 2: Map Technical Constraints & Anchor Points
@@ -19,7 +19,7 @@ wipFile: '{current_architecture_dir}/tech-spec-wip.md'
 
 ## CONTEXT:
 
-- Requires `{wipFile}` from Step 1 with the "Problem Statement" defined.
+- Requires `{specFile}` from Step 1 with the "Problem Statement" defined.
 - Focus: Map the problem statement to specific anchor points in the codebase.
 - Output: Exact files to touch, classes/patterns to extend, and technical constraints identified.
 - Objective: Provide the implementation-ready ground truth for the plan.
@@ -28,7 +28,7 @@ wipFile: '{current_architecture_dir}/tech-spec-wip.md'
 
 ### 1. Load Current State
 
-**Read `{wipFile}` and extract:**
+**Read `{specFile}` and extract:**
 
 - Problem statement and scope from Overview section
 - Any context gathered in Step 1
@@ -81,7 +81,7 @@ If `**/project-context.md` exists and wasn't loaded in Step 1:
 
 ### 3. Update WIP File
 
-**Update `{wipFile}` frontmatter:**
+**Update `{specFile}` frontmatter:**
 
 ```yaml
 ---
@@ -119,8 +119,8 @@ Display: "**Select:** [A] Advanced Elicitation [P] Party Mode [C] Continue to Ge
 
 #### Menu Handling Logic:
 
-- IF A: Read fully and follow: `{advanced_elicitation}` with current tech-spec content, process enhanced insights, ask user "Accept improvements? (y/n)", if yes update WIP file then redisplay menu, if no keep original then redisplay menu
-- IF P: Read fully and follow: `{party_mode_exec}` with current tech-spec content, process collaborative insights, ask user "Accept changes? (y/n)", if yes update WIP file then redisplay menu, if no keep original then redisplay menu
+- IF A: Read fully and follow: `{advanced_elicitation}` with current tech-spec content, process enhanced insights, ask user "Accept improvements? (y/n)", if yes update `{specFile}` then redisplay menu, if no keep original then redisplay menu
+- IF P: Read fully and follow: `{party_mode_exec}` with current tech-spec content, process collaborative insights, ask user "Accept changes? (y/n)", if yes update `{specFile}` then redisplay menu, if no keep original then redisplay menu
 - IF C: Verify frontmatter updated with `stepsCompleted: [1, 2]`, then read fully and follow: `{project-root}/_bmad/compass/4-implementation/bmad-compass-quick-spec/steps/step-03-generate.md`
 - IF Any other comments or queries: respond helpfully then redisplay menu
 
@@ -135,7 +135,7 @@ Display: "**Select:** [A] Advanced Elicitation [P] Party Mode [C] Continue to Ge
 ## REQUIRED OUTPUTS:
 
 - MUST document technical context (stack, patterns, files identified).
-- MUST update `{wipFile}` with functional context.
+- MUST update `{specFile}` with functional context.
 
 ## VERIFICATION CHECKLIST:
 

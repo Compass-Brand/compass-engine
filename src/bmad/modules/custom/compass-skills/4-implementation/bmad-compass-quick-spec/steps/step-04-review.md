@@ -2,7 +2,7 @@
 name: 'step-04-review'
 description: 'Review and finalize the tech-spec'
 
-wipFile: '{current_architecture_dir}/tech-spec-wip.md'
+specFile: '{implementation_artifacts}/spec-{slug}.md'
 ---
 
 # Step 4: Review & Finalize
@@ -18,7 +18,7 @@ wipFile: '{current_architecture_dir}/tech-spec-wip.md'
 
 ## CONTEXT:
 
-- Requires `{wipFile}` from Step 3.
+- Requires `{specFile}` from Step 3.
 - MUST present COMPLETE spec content. Iterate until user is satisfied.
 - **Criteria**: The spec MUST meet the **READY FOR DEVELOPMENT** standard defined in `workflow.md`.
 
@@ -26,7 +26,7 @@ wipFile: '{current_architecture_dir}/tech-spec-wip.md'
 
 ### 1. Load and Present Complete Spec
 
-**Read `{wipFile}` completely and extract `slug` from frontmatter for later use.**
+**Read `{specFile}` completely and extract `slug` from frontmatter for later use.**
 
 **Present to user:**
 
@@ -65,7 +65,7 @@ Display: "**Select:** [C] Continue [E] Edit [Q] Questions [A] Advanced Elicitati
 
 a) **If user requests changes:**
 
-- Make the requested edits to `{wipFile}`
+- Make the requested edits to `{specFile}`
 - Re-present the affected sections
 - Ask if there are more changes
 - Loop until user is satisfied
@@ -86,7 +86,7 @@ c) **If user has questions:**
 
 **When user confirms the spec is good AND it meets the "Ready for Development" standard:**
 
-a) Update `{wipFile}` frontmatter:
+a) Update `{specFile}` frontmatter:
 
    ```yaml
    ---
@@ -96,10 +96,9 @@ a) Update `{wipFile}` frontmatter:
    ---
    ```
 
-b) **Rename WIP file to final filename:**
-   - Using the `slug` extracted in Section 1
-   - Rename `{wipFile}` → `{current_architecture_dir}/tech-spec-{slug}.md`
-   - Store this as `finalFile` for use in menus below
+b) **Confirm final filename:**
+   - `{specFile}` is already at `{implementation_artifacts}/spec-{slug}.md` from step 1 — no rename needed.
+   - Store `{specFile}` as `finalFile` for use in menus below.
 
 ### 4. Present Final Menu
 
@@ -189,7 +188,7 @@ Ship it!"
 ## REQUIRED OUTPUTS:
 
 - MUST update status to 'ready-for-dev'.
-- MUST rename file to `tech-spec-{slug}.md`.
+- Spec file is already at `{implementation_artifacts}/spec-{slug}.md` (from step 1) — no rename.
 - MUST provide clear next-step guidance and recommend fresh context for dev.
 
 ## VERIFICATION CHECKLIST:
@@ -197,4 +196,4 @@ Ship it!"
 - [ ] Complete spec presented for review.
 - [ ] Requested changes implemented.
 - [ ] Spec verified against **READY FOR DEVELOPMENT** standard.
-- [ ] `stepsCompleted: [1, 2, 3, 4]` set and file renamed.
+- [ ] `stepsCompleted: [1, 2, 3, 4]` set and `status: 'ready-for-dev'` in `{specFile}`.

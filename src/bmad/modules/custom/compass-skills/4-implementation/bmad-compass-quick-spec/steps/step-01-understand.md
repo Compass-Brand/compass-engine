@@ -3,7 +3,7 @@ name: 'step-01-understand'
 description: 'Analyze the requirement delta between current state and what user wants to build'
 
 templateFile: '../tech-spec-template.md'
-wipFile: '{current_architecture_dir}/tech-spec-wip.md'
+specDir: '{implementation_artifacts}'
 ---
 
 # Step 1: Analyze Requirement Delta
@@ -27,38 +27,47 @@ wipFile: '{current_architecture_dir}/tech-spec-wip.md'
 
 ## SEQUENCE OF INSTRUCTIONS
 
-### 0. Check for Work in Progress
+### 0. Check for Drafts in Progress
 
-a) **Before anything else, check if `{wipFile}` exists:**
+a) **Before anything else, scan `{specDir}` for in-progress drafts:**
 
-b) **IF WIP FILE EXISTS:**
+- Glob `{specDir}/spec-*.md` and read the frontmatter of each match.
+- A file is an in-progress draft when its frontmatter has `status: 'draft'` AND `stepsCompleted` is set with at least one entry.
 
-1. Read the frontmatter and extract: `title`, `slug`, `stepsCompleted`
-2. Calculate progress: `lastStep = max(stepsCompleted)`
+b) **IF ONE OR MORE DRAFT SPECS EXIST:**
+
+1. For each draft, extract: `title`, `slug`, `stepsCompleted`, and the file path.
+2. Calculate progress per draft: `lastStep = max(stepsCompleted)`.
 3. Present to user:
 
 ```
-{user_name}, a tech-spec in progress was found:
+{user_name}, one or more quick-spec drafts in progress were found:
 
-**{title}** - Step {lastStep} of 4 complete
+  [1] {title-1} - Step {lastStep-1} of 4 complete  ({specDir}/spec-{slug-1}.md)
+  [2] {title-2} - Step {lastStep-2} of 4 complete  ({specDir}/spec-{slug-2}.md)
+  ...
 
-Is this what you're here to continue?
+Select one to resume, or start fresh:
 
-[Y] Yes, pick up where I left off
-[N] No, archive it and start something new
+[1..N] Resume that draft
+[N] No, archive none — start something new
+[A-k] Archive draft k and continue browsing
 ```
 
 4. **HALT and wait for user selection.**
 
 a) **Menu Handling:**
 
-- **[Y] Continue existing:**
-  - Jump directly to the appropriate step based on `stepsCompleted`:
+- **[1..N] Resume existing:**
+  - Set `{specFile}` to the chosen file's path.
+  - Jump directly to the appropriate step based on the chosen file's `stepsCompleted`:
     - `[1]` → Read fully and follow: `{project-root}/_bmad/compass/4-implementation/bmad-compass-quick-spec/steps/step-02-investigate.md` (Step 2)
     - `[1, 2]` → Read fully and follow: `{project-root}/_bmad/compass/4-implementation/bmad-compass-quick-spec/steps/step-03-generate.md` (Step 3)
     - `[1, 2, 3]` → Read fully and follow: `{project-root}/_bmad/compass/4-implementation/bmad-compass-quick-spec/steps/step-04-review.md` (Step 4)
-- **[N] Archive and start fresh:**
-  - Rename `{wipFile}` to `{current_architecture_dir}/tech-spec-{slug}-archived-{date}.md`
+- **[A-k] Archive draft k:**
+  - Rename `{specDir}/spec-{slug-k}.md` to `{specDir}/spec-{slug-k}-archived-{date}.md` and redisplay the menu.
+- **[N] Start fresh:**
+  - Proceed to section 1 below. Existing drafts remain untouched.
 
 ### 1. Greet and Ask for Initial Request
 
@@ -113,27 +122,31 @@ b) **If no existing code is found:**
 a) **From the conversation, extract and confirm:**
 
 - **Title**: A clear, concise name for this work
-- **Slug**: URL-safe version of title (lowercase, hyphens, no spaces)
+- **Slug**: Kebab-case identifier derived from the title using the rules below:
+  - If the intent references a tracking identifier (story `X.Y`, `#N`, `issue N`, `gh-N`), lead the slug with it — `3-2-digest-delivery`, `gh-47-fix-auth`.
+  - Otherwise slugify the title to lowercase-hyphen form: strip apostrophes, replace other non-alphanumeric runs with a single hyphen, and drop leading stopwords (`the`, `a`, `an`, `and`, etc.).
+  - Before committing the slug, glob `{specDir}/spec-*.md`. If `{specDir}/spec-{slug}.md` already exists, append `-2`, `-3`, ... until the filename is unique.
+  - These rules mirror `tools/quick-dev-scan.js:deriveSpecSlug` — consult it as the source of truth for conflict semantics.
 - **Problem Statement**: What problem are we solving?
 - **Solution**: High-level approach (1-2 sentences)
 - **In Scope**: What's included
 - **Out of Scope**: What's explicitly NOT included
 
-b) **Ask the user to confirm the captured understanding before proceeding.**
+b) **Ask the user to confirm the captured understanding before proceeding.** Set `{specFile}` = `{specDir}/spec-{slug}.md`.
 
-### 5. Initialize WIP File
+### 5. Initialize Spec File
 
-a) **Create the tech-spec WIP file:**
+a) **Create the tech-spec file at `{specFile}`:**
 
 1. Copy template from `{templateFile}`
-2. Write to `{wipFile}`
+2. Write to `{specFile}`
 3. Update frontmatter with captured values:
    ```yaml
    ---
    title: '{title}'
    slug: '{slug}'
    created: '{date}'
-   status: 'in-progress'
+   status: 'draft'
    stepsCompleted: [1]
    tech_stack: []
    files_to_modify: []
@@ -147,7 +160,7 @@ a) **Create the tech-spec WIP file:**
 
 b) **Report to user:**
 
-"Created: `{wipFile}`
+"Created: `{specFile}`
 
 **Captured:**
 
@@ -165,9 +178,9 @@ b) **HALT and wait for user selection.**
 
 #### Menu Handling Logic:
 
-- IF A: Read fully and follow: `{advanced_elicitation}` with current tech-spec content, process enhanced insights, ask user "Accept improvements? (y/n)", if yes update WIP file then redisplay menu, if no keep original then redisplay menu
-- IF P: Read fully and follow: `{party_mode_exec}` with current tech-spec content, process collaborative insights, ask user "Accept changes? (y/n)", if yes update WIP file then redisplay menu, if no keep original then redisplay menu
-- IF C: Verify `{wipFile}` has `stepsCompleted: [1]`, then read fully and follow: `{project-root}/_bmad/compass/4-implementation/bmad-compass-quick-spec/steps/step-02-investigate.md`
+- IF A: Read fully and follow: `{advanced_elicitation}` with current tech-spec content, process enhanced insights, ask user "Accept improvements? (y/n)", if yes update `{specFile}` then redisplay menu, if no keep original then redisplay menu
+- IF P: Read fully and follow: `{party_mode_exec}` with current tech-spec content, process collaborative insights, ask user "Accept changes? (y/n)", if yes update `{specFile}` then redisplay menu, if no keep original then redisplay menu
+- IF C: Verify `{specFile}` has `stepsCompleted: [1]`, then read fully and follow: `{project-root}/_bmad/compass/4-implementation/bmad-compass-quick-spec/steps/step-02-investigate.md`
 - IF Any other comments or queries: respond helpfully then redisplay menu
 
 #### EXECUTION RULES:
@@ -180,10 +193,11 @@ b) **HALT and wait for user selection.**
 
 ## REQUIRED OUTPUTS:
 
-- MUST initialize WIP file with captured metadata.
+- MUST initialize `{specFile}` with captured metadata.
 
 ## VERIFICATION CHECKLIST:
 
-- [ ] WIP check performed FIRST before any greeting.
-- [ ] `{wipFile}` created with correct frontmatter, Overview, Context for Development, and `stepsCompleted: [1]`.
+- [ ] Draft scan performed FIRST before any greeting.
+- [ ] Slug derived per `tools/quick-dev-scan.js:deriveSpecSlug` rules; collisions in `{specDir}/spec-*.md` suffixed `-2`, `-3`, ...
+- [ ] `{specFile}` = `{specDir}/spec-{slug}.md` created with correct frontmatter (`status: 'draft'`, `stepsCompleted: [1]`), Overview, and Context for Development.
 - [ ] User selected [C] to continue.
