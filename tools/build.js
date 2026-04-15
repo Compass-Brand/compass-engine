@@ -8,6 +8,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { writeMarketplaceJson } from './generate-marketplace.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -452,6 +453,10 @@ async function buildBmadSkills() {
   await generateBmadHelp();
   await generateSkillManifest();
   await generateClientSkills();
+
+  // Generate .claude-plugin/marketplace.json (committed to repo root, mirrored to dist/)
+  const { plugins } = await writeMarketplaceJson();
+  console.log(`  Generated .claude-plugin/marketplace.json (${plugins.length} plugins)`);
 }
 
 async function cleanDist() {
@@ -559,6 +564,8 @@ async function validateBuild() {
     { label: '_bmad/_config/agent-manifest.csv', path: path.join(DIST_ROOT, '_bmad', '_config', 'agent-manifest.csv') },
     { label: '_bmad/_config/bmad-help.csv', path: path.join(DIST_ROOT, '_bmad', '_config', 'bmad-help.csv') },
     { label: '_bmad/_config/skill-manifest.csv', path: path.join(DIST_ROOT, '_bmad', '_config', 'skill-manifest.csv') },
+    { label: '.claude-plugin/marketplace.json', path: path.join(ROOT, '.claude-plugin', 'marketplace.json') },
+    { label: 'dist/.claude-plugin/marketplace.json', path: path.join(DIST_ROOT, '.claude-plugin', 'marketplace.json') },
     { label: 'dist .claude/skills generated', path: path.join(DIST_ROOT, '.claude', 'skills', 'bmad-bmm-create-prd') },
     { label: 'dist .opencode/skills generated', path: path.join(DIST_ROOT, '.opencode', 'skills', 'bmad-bmm-create-prd') },
     { label: 'dist .codex/skills generated', path: path.join(DIST_ROOT, '.codex', 'skills', 'bmad-bmm-create-prd') },
