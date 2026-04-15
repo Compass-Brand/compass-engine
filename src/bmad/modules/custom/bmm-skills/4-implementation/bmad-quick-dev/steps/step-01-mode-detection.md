@@ -23,6 +23,7 @@ These variables MUST be set in this step and available to all subsequent steps:
 - `{story_num}` - Story number inferred from the tech-spec (Mode A, A.1). Unset if not derivable.
 - `{epic_context_path}` - Absolute path to the compiled epic context file (Mode A, A.1). Unset when A.1 falls through silently. **Precedence:** when set, downstream steps IGNORE `{planning_context_files}` (Mode B, B.0) — the epic context already summarizes planning docs.
 - `{continuity_context}` - Concatenated Code Map + Design Notes + Spec Change Log + Tasks sections extracted from the most recent prior `status: done` spec in the same epic (Mode A, A.2). Unset when no prior story exists or the operator skips the in-review fallback.
+- `{planning_context_files}` - Array of absolute paths to planning artifacts (PRD / architecture / UX / epic / brief) selectively loaded for direct-mode relevance (Mode B, B.0). Unset when no planning directory exists or no files match. **Precedence:** downstream steps MUST ignore this var when `{epic_context_path}` is set — Feature 1's epic context already summarizes the same planning docs.
 
 ---
 
@@ -153,7 +154,46 @@ Loading it as continuity context means relying on a not-yet-finalized spec.
 
 - User provided task description directly (e.g., `refactor src/foo.ts...`)
 - Set `{execution_mode}` = "direct"
-- **NEXT:** Evaluate escalation threshold, then proceed
+- Proceed to sub-section **B.0 Planning artifact scan** below before evaluating escalation.
+
+#### B.0 Planning artifact scan
+
+**Purpose:** In direct (freeform) mode, surface planning-artifact constraints that would otherwise require "guess from code alone" — without blindly loading everything. Selectively identify PRD / architecture / UX / epic / brief files relevant to the user's stated intent.
+
+**Enter when:** `{execution_mode}` = "direct" AND `{planning_artifacts}` is resolvable (project config defines the planning directory).
+**Exit when:** `{planning_context_files}` is either set to a non-empty array of selected paths OR left unset (silent fall-through when the directory is absent, empty, or yields no relevance match).
+
+Execute these sub-items in order:
+
+**2a. Enumerate candidate files.** Under `{planning_artifacts}`, list files whose basename (case-insensitive) matches any of the globs:
+
+- `*prd*`
+- `*architecture*`
+- `*ux*`
+- `*epic*`
+- `*brief*`
+
+If `{planning_artifacts}` does not exist or resolves to an empty match set, skip to sub-item **2c** (silent fall-through).
+
+**2b. Score relevance against user intent and load selectively.** For each candidate, derive a relevance signal from the user's direct instructions using holistic judgment (not mechanical keyword matching):
+
+- Read the file's title / first heading / first 20 lines.
+- Judge whether its subject matter would materially inform the stated task.
+- Select files with a positive signal. Deselect unrelated ones (e.g., a UX brief for an unrelated flow when the task is a backend refactor).
+
+Push the absolute paths of selected files into `{planning_context_files}` (ordered by relevance, highest first). **Do not load the file bodies here** — downstream step-02 performs the content load when the array is set.
+
+**Selective, not exhaustive:** if every candidate looks irrelevant, leave `{planning_context_files}` unset. Loading nothing is a valid outcome and preferable to polluting the context window.
+
+**2c. Silent fall-through.** Reached when no candidates exist or all were deselected. Leave `{planning_context_files}` unset and proceed.
+
+**Post-conditions for B.0:**
+
+- `{planning_context_files}` is either unset or an array of at least one absolute path whose basename matches one of the five globs.
+- No file bodies were loaded in step-01; B.0 is a path-selection step only.
+- **Precedence reminder:** if Mode A ran elsewhere in this session and populated `{epic_context_path}`, downstream steps MUST ignore `{planning_context_files}`. B.0 does not attempt to reconcile with Mode A here — the precedence rule is enforced by the consumers (step-02 / step-03).
+
+- **NEXT (after B.0 completes):** Evaluate the Escalation Threshold below, then proceed.
 
 ---
 
@@ -259,6 +299,8 @@ Display:
 - `{execution_mode}` determined ("tech-spec" or "direct")
 - `{tech_spec_path}` set if Mode A
 - A.1 Epic inference executed when Mode A: `{epic_context_path}` set to a verified summary OR left unset via silent fall-through
+- A.2 Previous story continuity executed when Mode A with an epic: `{continuity_context}` assembled from prior done spec, operator-resolved via in-review fallback, or left unset via silent fall-through
+- B.0 Planning artifact scan executed when Mode B: `{planning_context_files}` set to the selective relevance subset OR left unset via silent fall-through
 - Project context loaded if exists
 - Escalation evaluated appropriately (Mode B)
 - Explicit NEXT directive provided
