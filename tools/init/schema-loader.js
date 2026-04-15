@@ -14,7 +14,7 @@ const META_KEYS = new Set([
   'type',
 ]);
 
-const CORE_SCHEMA_REL = 'src/bmad/modules/native/core-skills/bmad-init/resources/core-module.yaml';
+const CORE_SCHEMA_REL = 'src/bmad/modules/native/core-skills/module.yaml';
 
 const MODULE_SCHEMA_CANDIDATES = [
   (code) => `src/bmad/modules/native/${code}-skills/module.yaml`,

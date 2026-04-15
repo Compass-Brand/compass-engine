@@ -405,18 +405,11 @@ const BMAD_INIT_ALLOWLIST_SUFFIXES = [
   'src/bmad/modules/native/core-skills/bmad-distillator/resources/distillate-format-reference.md',
 ];
 
-const BMAD_INIT_ALLOWLIST_PREFIXES = [
-  // bmad-init/ self-references are expected until the directory is deleted
-  // (bmad-engine-lg73 Task 11). Remove this entry when bmad-init/ is deleted.
-  'src/bmad/modules/native/core-skills/bmad-init/',
-];
-
 function isBmadInitAllowlisted(relPath) {
   const normalized = relPath.replace(/\\/g, '/');
-  if (BMAD_INIT_ALLOWLIST_SUFFIXES.some((entry) => normalized.endsWith(entry) || normalized === entry)) {
-    return true;
-  }
-  return BMAD_INIT_ALLOWLIST_PREFIXES.some((prefix) => normalized.startsWith(prefix));
+  return BMAD_INIT_ALLOWLIST_SUFFIXES.some(
+    (entry) => normalized.endsWith(entry) || normalized === entry,
+  );
 }
 
 async function validateNoBmadInitReferences(rootDir = ROOT, { log } = {}) {
