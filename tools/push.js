@@ -174,6 +174,7 @@ function parseArgs() {
     projectsConfig: null,
     githubFeatures: null,
     rootFeatures: null,
+    init: false,
   };
 
   for (let i = 0; i < args.length; i++) {
@@ -203,6 +204,8 @@ function parseArgs() {
         .split(',')
         .map((item) => item.trim().toLowerCase())
         .filter(Boolean);
+    } else if (arg === '--init') {
+      options.init = true;
     } else if (arg === '--help') {
       console.log(`
 Compass Engine Push
@@ -218,6 +221,7 @@ Options:
   --root-features <l>    Optional root bundle subset (all or: ${listFeatureNames(ROOT_FEATURE_GROUPS)})
   --projects-config <p>  Optional file with one project path per line
   --dry-run              Show actions without modifying files
+  --init                 After delivery, bootstrap _bmad/{core,bmm}/config.yaml
   --help                 Show this message
 
 Notes:
@@ -644,7 +648,31 @@ async function syncToProject(projectPath, options) {
     await syncTarget(projectPath, targetName, options);
   }
 
+  if (options.init) {
+    await runInitForProject(projectPath);
+  }
+
   console.log('  OK project sync complete');
+}
+
+async function runInitForProject(projectPath) {
+  const { runInit } = await import('./init.js');
+  try {
+    await runInit({
+      projectRoot: projectPath,
+      modules: ['core', 'bmm'],
+      interactive: false,
+      force: false,
+      dryRun: false,
+      logger: console,
+    });
+  } catch (err) {
+    if (/refus|exists/i.test(err.message)) {
+      console.log(`  init skipped (${err.message})`);
+      return;
+    }
+    throw err;
+  }
 }
 
 async function push() {
