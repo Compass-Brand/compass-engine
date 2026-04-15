@@ -12,6 +12,7 @@ const COMMANDS = {
   build: 'tools/build.js',
   push: 'tools/push.js',
   validate: 'tools/validate.js',
+  init: 'tools/init.js',
   'create-bmad-module': 'tools/create-bmad-module.js',
   'check-github-drift': 'tools/check-github-drift.js',
   'check-root-drift': 'tools/check-root-drift.js',
@@ -28,6 +29,7 @@ Commands:
   build                 Build distributable bundles from src/ into dist/
   push                  Push built bundles into a target project or workspace
   validate              Validate required source layout and secret hygiene
+  init                  Initialize _bmad/{module}/config.yaml from defaults; --interactive for prompts
   create-bmad-module    Scaffold a custom BMAD module into src/bmad/modules/
   check-github-drift    Check drift between src/github and .github
   check-root-drift      Check drift between src/root and repository root files
