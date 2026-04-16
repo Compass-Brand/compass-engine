@@ -24,6 +24,7 @@ const DEFAULT_PROJECT_CANDIDATES = [
   'mcps',
   'compass-services/legacy-system-analyzer',
   'compass-services/competitor-analysis-toolkit',
+  'compass-forge/constellation',
 ];
 
 const TARGETS = {
