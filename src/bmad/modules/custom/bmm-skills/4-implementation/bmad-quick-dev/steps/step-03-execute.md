@@ -42,7 +42,11 @@ For each task:
 - Review patterns from project-context or observed code
 - Understand dependencies
 - **If `{epic_context_path}` is set:** read it once and keep its Requirements & Constraints + Technical Decisions in working context for every task — it is the binding epic-level reference.
-- **If `{continuity_context}` is set:** reuse patterns from its Code Map, honor constraints from its Design Notes, and avoid reintroducing anything already resolved in its Spec Change Log.
+- **If `{continuity_context}` is set:** read it once and keep it in working context for every task. It contains four named sections assembled from the most recent `status: done` sibling spec:
+  - **Code Map** — reuse the module / file / symbol patterns the prior story established; align with its structure instead of introducing a parallel one.
+  - **Design Notes** — honor the recorded constraints (invariants, trade-offs, decisions) as binding unless the current tech-spec explicitly overrides them.
+  - **Spec Change Log** — do not reintroduce anything already resolved; treat entries as closed decisions.
+  - **Tasks** — cross-reference against the current task list so you don't duplicate work that previously shipped.
 
 ### 2. Implement
 
