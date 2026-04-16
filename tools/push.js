@@ -107,6 +107,13 @@ const TARGETS = {
     distName: 'beads',
     localOnly: [],
   },
+  'claude-plugin': {
+    destName: '.claude-plugin',
+    distName: '.claude-plugin',
+    localOnly: [],
+    syncStrategy: 'managed',
+    manifestName: 'compass-engine-claude-plugin-sync.json',
+  },
 };
 
 const DEFAULT_TARGETS = [
@@ -121,7 +128,14 @@ const DEFAULT_TARGETS = [
   'github',
   'root',
   'beads',
+  'claude-plugin',
 ];
+
+// Managed-manifest schema version bumped to 2 for BMAD v6.3.0 marketplace
+// adoption (ADR-0001 Risk #3). Reuses the pre-existing `version` key — no
+// parallel `schemaVersion` field. Reading tolerates absent or v1 payloads
+// and the next write upgrades them in place.
+const MANIFEST_SCHEMA_VERSION = 2;
 
 const GITHUB_FEATURE_GROUPS = {
   baseline: [
@@ -364,7 +378,7 @@ async function writeManagedManifest(projectPath, manifestName, files) {
   const manifestPath = await getManagedManifestPath(projectPath, manifestName);
   await fs.mkdir(path.dirname(manifestPath), { recursive: true });
   const payload = {
-    version: 1,
+    version: MANIFEST_SCHEMA_VERSION,
     generatedAt: new Date().toISOString(),
     files: [...files].sort(),
   };
