@@ -15,7 +15,10 @@ Both workflows produce per-spec markdown files (no singleton WIP file — that p
   - `ready-for-dev` — Quick Spec step 4 flips to this on user approval; Quick Dev also writes this when a plan-code-review spec leaves the plan step.
   - `in-progress` — Quick Dev sets this when implementation begins.
   - `in-review` — Quick Dev sets this while the adversarial review loop runs.
-  - `done` — Quick Dev sets this after the review loop resolves and the spec trace is written (Quick Dev Feature 3 task 4-A, tracked separately).
+  - `done` — Quick Dev writes this during spec-trace generation. Two mutually-exclusive write-back sites own this flip:
+    - **Standard pipeline** — `src/bmad/modules/custom/bmm-skills/4-implementation/bmad-quick-dev/steps/step-07-spec-trace.md` runs after `step-06-resolve-findings.md` for ALL completed runs and writes `route: 'standard'` with `status: 'done'`.
+    - **One-shot route** — `steps/step-oneshot.md` writes `route: 'one-shot'` with `status: 'done'` inline; it never reaches step-07.
+    - **Never step-06.** `step-06-resolve-findings.md` resolves adversarial-review findings only — it MUST NOT touch the frontmatter. Letting step-06 flip the status would create two writers and break the single-source-of-truth contract that Feature 2's continuity scan relies on.
 
 Parallel drafts are supported: multiple `spec-*.md` files can coexist in `{implementation_artifacts}/` with `status: draft`. Quick Spec step 1 scans for them and lets the user pick one to resume or archive.
 
