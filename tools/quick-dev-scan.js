@@ -4,7 +4,13 @@
  * Ports slug-derivation rules from upstream BMAD
  * src/bmm-skills/4-implementation/bmad-quick-dev/step-01-clarify-and-route.md
  * so the compass-quick-spec workflow and native quick-dev stay in sync.
+ *
+ * Also exports epic-inference helpers consumed by our custom
+ * step-01-mode-detection.md (A.1 Epic inference).
  */
+
+import { existsSync, statSync } from 'node:fs';
+import { join } from 'node:path';
 
 const STORY_RE = /\bstory\s+(\d+)[.\-](\d+)\b/i;
 const HASH_ISSUE_RE = /#(\d+)\b/;
@@ -124,4 +130,89 @@ export function deriveSpecSlug(intent, options = {}) {
   }
 
   return applyConflictSuffix(baseSlug, options.existingSlugs ?? []);
+}
+
+function toPositiveInt(value) {
+  if (typeof value === 'number' && Number.isInteger(value) && value > 0) {
+    return value;
+  }
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    if (/^\d+$/.test(trimmed)) {
+      const n = Number.parseInt(trimmed, 10);
+      return n > 0 ? n : null;
+    }
+  }
+  return null;
+}
+
+function parseStoryEpic(storyValue) {
+  if (storyValue == null) return null;
+  const str = String(storyValue).trim();
+  const match = str.match(/^(\d+)[.\-](\d+)/);
+  if (!match) return null;
+  return toPositiveInt(match[1]);
+}
+
+function parseFilenameEpic(filename) {
+  if (typeof filename !== 'string' || filename === '') return null;
+  const basename = filename.split(/[\\/]/).pop();
+  if (!basename) return null;
+  const stripped = basename.replace(/^spec-/i, '');
+  const match = stripped.match(/^(\d+)-/);
+  if (!match) return null;
+  return toPositiveInt(match[1]);
+}
+
+/**
+ * Derive the epic number for a quick-dev tech-spec.
+ *
+ * Resolution order (first positive integer wins):
+ *   1. frontmatter `epic:` field
+ *   2. frontmatter `story:` field parsed as `E.S` (or `E-S`)
+ *   3. filename leading-digit slug (`spec-3-2-x.md` → 3, `3-2-foo.md` → 3)
+ *
+ * @param {object|null|undefined} specFrontmatter
+ * @param {string|null|undefined} filename
+ * @returns {number|null}
+ */
+export function extractEpicNum(specFrontmatter, filename) {
+  const fm = specFrontmatter ?? {};
+
+  const fromEpic = toPositiveInt(fm.epic);
+  if (fromEpic !== null) return fromEpic;
+
+  const fromStory = parseStoryEpic(fm.story);
+  if (fromStory !== null) return fromStory;
+
+  const fromFilename = parseFilenameEpic(filename);
+  if (fromFilename !== null) return fromFilename;
+
+  return null;
+}
+
+/**
+ * Check whether a compiled epic context file exists in the implementation
+ * artifacts directory. The caller (the step-01 workflow) is responsible for
+ * any freshness comparison against planning-doc mtimes; this helper answers
+ * only "does the cached file exist?".
+ *
+ * @param {string} implArtifactsDir - absolute path to the impl artifacts dir
+ * @param {number} epicNum - positive integer epic number
+ * @returns {boolean}
+ */
+export function epicContextIsCached(implArtifactsDir, epicNum) {
+  if (typeof implArtifactsDir !== 'string' || implArtifactsDir === '') {
+    return false;
+  }
+  const n = toPositiveInt(epicNum);
+  if (n === null) return false;
+
+  const candidate = join(implArtifactsDir, `epic-${n}-context.md`);
+  try {
+    if (!existsSync(candidate)) return false;
+    return statSync(candidate).isFile();
+  } catch {
+    return false;
+  }
 }

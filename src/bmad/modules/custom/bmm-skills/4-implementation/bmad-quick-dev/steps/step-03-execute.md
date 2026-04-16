@@ -21,6 +21,9 @@ From previous steps:
 - `{execution_mode}` - "tech-spec" or "direct"
 - `{tech_spec_path}` - Tech-spec file (if Mode A)
 - `{project_context}` - Project patterns (if exists)
+- `{epic_context_path}` - Compiled epic context file (Mode A with epic; unset otherwise)
+- `{continuity_context}` - Prior-story continuity summary (Mode A with epic + done predecessor; unset otherwise)
+- `{planning_context_files}` - Planning artifacts selectively loaded by step-01 (Mode B). **Precedence:** if `{epic_context_path}` is set, IGNORE this array — step-02 will have already resolved the precedence and the epic context supersedes raw planning docs.
 
 From context:
 
@@ -38,6 +41,8 @@ For each task:
 - Read files relevant to this task
 - Review patterns from project-context or observed code
 - Understand dependencies
+- **If `{epic_context_path}` is set:** read it once and keep its Requirements & Constraints + Technical Decisions in working context for every task — it is the binding epic-level reference.
+- **If `{continuity_context}` is set:** reuse patterns from its Code Map, honor constraints from its Design Notes, and avoid reintroducing anything already resolved in its Spec Change Log.
 
 ### 2. Implement
 
