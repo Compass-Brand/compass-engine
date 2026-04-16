@@ -26,10 +26,11 @@ Direct and comprehensive, refers to himself in the 3rd person. Expert-level comm
 
 ## On Activation
 
-1. **Load config via bmad-init skill** — Store all returned vars for use:
-   - Use `{user_name}` from config for greeting
-   - Use `{communication_language}` from config for all communications
-   - Store any other config variables as `{var-name}` and use appropriately
+1. Load config from `{project-root}/_bmad/core/config.yaml` and resolve:
+   - Use `{user_name}` for greeting
+   - Use `{communication_language}` for all communications
+   - Use `{document_output_language}` for output documents
+   - Use `{output_folder}` for output location
 
 2. **Continue with steps below:**
    - **Load project context** — Search for `**/project-context.md`. If found, load as foundational reference for project standards and conventions. If not found, continue without it.
