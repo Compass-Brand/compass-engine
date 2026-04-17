@@ -21,10 +21,15 @@ const DEFAULT_PROJECT_CANDIDATES = [
   'compass-modules',
   'compass-brand-infrastructure',
   'compass-brand-setup',
+  'compass-tests',
   'mcps',
   'compass-services/legacy-system-analyzer',
   'compass-services/competitor-analysis-toolkit',
   'compass-forge/constellation',
+  'compass-forge/forge-rag',
+  'compass-forge/forge-providers',
+  'compass-tests/embedding-tests',
+  'compass-tests/ai-documentation-testing',
 ];
 
 const TARGETS = {
