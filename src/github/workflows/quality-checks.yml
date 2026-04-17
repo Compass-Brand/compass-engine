@@ -223,6 +223,7 @@ jobs:
         with:
           json_exclude_regex: '(^|/)fixtures/|(^|/)tests/fixtures/'
           yaml_exclude_regex: '(^|/)fixtures/|(^|/)tests/fixtures/'
+          allow_multiple_documents: "true"
 
       - name: Lint GitHub Actions workflows
         uses: rhysd/actionlint@2df6872d4bde2b030214429d65f7aeee79ceee47
