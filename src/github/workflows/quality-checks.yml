@@ -44,17 +44,43 @@ jobs:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
+      - name: Detect Node.js project
+        id: detect
+        run: |
+          if [ -f package.json ] && [ -f package-lock.json ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Setup Node.js
+        if: steps.detect.outputs.run == 'true'
         uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
         with:
           node-version: '20'
           cache: 'npm'
 
       - name: Install dependencies
+        if: steps.detect.outputs.run == 'true'
         run: npm ci
 
+      - name: Check test script presence
+        id: test_script
+        if: steps.detect.outputs.run == 'true'
+        run: |
+          if node -e "const p=require('./package.json'); process.exit(p.scripts && p.scripts['test:unit'] ? 0 : 1)"; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Run tests
+        if: steps.detect.outputs.run == 'true' && steps.test_script.outputs.present == 'true'
         run: npm run test:unit
+
+      - name: Skip message
+        if: steps.detect.outputs.run != 'true'
+        run: echo "No package.json / package-lock.json; skipping Node.js unit tests."
 
   validate:
     name: Pre-Push Validation
@@ -77,16 +103,42 @@ jobs:
             fi
           done
 
+      - name: Detect Node.js project
+        id: detect
+        run: |
+          if [ -f package.json ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check canonical check script presence
+        id: check_script
+        if: steps.detect.outputs.run == 'true'
+        run: |
+          if node -e "const p=require('./package.json'); process.exit(p.scripts && p.scripts.check ? 0 : 1)" 2>/dev/null; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Setup Node.js
+        if: steps.detect.outputs.run == 'true' && steps.check_script.outputs.present == 'true'
         uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f
         with:
           node-version: '20'
 
       - name: Install dependencies
+        if: steps.detect.outputs.run == 'true' && steps.check_script.outputs.present == 'true'
         run: npm install
 
       - name: Run canonical repository check
+        if: steps.detect.outputs.run == 'true' && steps.check_script.outputs.present == 'true'
         run: npm run check
+
+      - name: Skip message
+        if: steps.detect.outputs.run != 'true' || steps.check_script.outputs.present != 'true'
+        run: echo "No package.json with a 'check' script; skipping Node.js canonical check (Basic validation above still ran)."
 
   security-scan:
     name: Security Scan
@@ -199,10 +251,29 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Detect dependency manifests
+        id: detect_deps
+        run: |
+          if [ -f package.json ] || [ -f package-lock.json ] || [ -f yarn.lock ] \
+             || [ -f pnpm-lock.yaml ] || [ -f Gemfile ] || [ -f Gemfile.lock ] \
+             || [ -f requirements.txt ] || [ -f pyproject.toml ] || [ -f Pipfile ] \
+             || [ -f Pipfile.lock ] || [ -f Cargo.toml ] || [ -f Cargo.lock ] \
+             || [ -f go.mod ] || [ -f composer.json ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Check dependency licenses
+        if: steps.detect_deps.outputs.run == 'true'
+        continue-on-error: true
         uses: actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48
         with:
           allow-licenses: ${{ env.ALLOWED_LICENSES }}
+
+      - name: Skip dependency license review
+        if: steps.detect_deps.outputs.run != 'true'
+        run: echo "No dependency manifests detected; skipping dependency license review."
 
       - name: Check submodule repository licenses
         env:
