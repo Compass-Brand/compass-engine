@@ -293,11 +293,12 @@ jobs:
           # file GitHub's detector doesn't classify).
           NOASSERTION_ALLOWED_REPOS="bmad-code-org/BMAD-METHOD"
           # Trust-boundary allowlist: repos under orgs we own are auto-allowed
-          # when their license cannot be detected (private repos often return
-          # NOASSERTION regardless of LICENSE-file presence). Scoped to org
-          # prefixes only — third-party repos still require explicit entry
-          # in NOASSERTION_ALLOWED_REPOS.
-          NOASSERTION_ALLOWED_ORG_PREFIXES="Compass-Brand/"
+          # for ANY SPDX value (including NOASSERTION and licenses absent from
+          # ALLOWED_LICENSES, e.g. intentionally AGPL-licensed internal tools).
+          # Scoped strictly to org prefixes we control — third-party repos
+          # still go through the ALLOWED_LICENSES gate, and NOASSERTION for
+          # third-party still requires explicit entry in NOASSERTION_ALLOWED_REPOS.
+          ALLOWED_ORG_PREFIXES="Compass-Brand/"
 
           while read -r _ url; do
             repo="$url"
@@ -324,26 +325,33 @@ jobs:
 
             echo "${repo}: ${spdx}"
 
+            # Trust-boundary bypass: repos under allowed org prefixes skip the
+            # ALLOWED_LICENSES gate entirely. This must match BEFORE any further
+            # checks so internal licensing decisions (AGPL for forge-rag, etc.)
+            # aren't gated on the third-party allow list.
+            org_allowed=false
+            for prefix in ${ALLOWED_ORG_PREFIXES}; do
+              case "$repo" in
+                "${prefix}"*)
+                  org_allowed=true
+                  break
+                  ;;
+              esac
+            done
+            if [ "$org_allowed" = true ]; then
+              echo "::warning::Allowed via org trust boundary: ${repo} (${spdx})"
+              continue
+            fi
+
+            # Third-party path: explicit NOASSERTION escape hatch first.
             if [ "$spdx" = "NOASSERTION" ]; then
               if echo " ${NOASSERTION_ALLOWED_REPOS} " | grep -Fq " ${repo} "; then
                 echo "::warning::License SPDX is NOASSERTION for reviewed submodule ${repo}"
                 continue
               fi
-              org_allowed=false
-              for prefix in ${NOASSERTION_ALLOWED_ORG_PREFIXES}; do
-                case "$repo" in
-                  "${prefix}"*)
-                    org_allowed=true
-                    break
-                    ;;
-                esac
-              done
-              if [ "$org_allowed" = true ]; then
-                echo "::warning::License SPDX is NOASSERTION for ${repo}; allowed by org trust boundary (${NOASSERTION_ALLOWED_ORG_PREFIXES})"
-                continue
-              fi
             fi
 
+            # Third-party strict gate.
             if ! echo " ${ALLOWED_SPDX} " | grep -Fq " ${spdx} "; then
               echo "::error::Disallowed submodule license for ${repo}: ${spdx}"
               exit 1
