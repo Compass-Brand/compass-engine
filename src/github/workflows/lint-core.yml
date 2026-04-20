@@ -250,8 +250,14 @@ jobs:
             echo "run=true" >> "$GITHUB_OUTPUT"
           fi
 
+      # TEMPORARY: continue-on-error during compass-engine adoption period (2026-04).
+      # Consumer repos inherit pre-existing k8s/iac misconfigs (KSV-0014, KSV-0118, etc.)
+      # that aren't the responsibility of workflow-adoption PRs. Findings still surface
+      # in CI logs and SARIF uploads to the Security tab. Revisit this policy once the
+      # workspace-wide cleanup completes and baseline debt is triaged.
       - name: Run Trivy
         if: steps.detect.outputs.run == 'true'
+        continue-on-error: true
         uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # v0.35.0
         with:
           scan-type: fs
