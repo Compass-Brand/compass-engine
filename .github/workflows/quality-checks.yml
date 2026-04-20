@@ -247,10 +247,13 @@ jobs:
     timeout-minutes: 15
     if: github.event_name == 'pull_request'
     steps:
+      # SUBMODULES_PAT: org-scoped PAT for cross-repo private submodule cloning.
+      # Falls back to GITHUB_TOKEN for repos without secret.
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           submodules: recursive
+          token: ${{ secrets.SUBMODULES_PAT || secrets.GITHUB_TOKEN }}
 
       - name: Detect dependency manifests
         id: detect_deps

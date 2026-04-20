@@ -46,10 +46,13 @@ jobs:
       contents: read
       security-events: write
     steps:
+      # SUBMODULES_PAT: org-scoped PAT for cross-repo private submodule cloning.
+      # Falls back to GITHUB_TOKEN for repos without secret.
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           submodules: recursive
+          token: ${{ secrets.SUBMODULES_PAT || secrets.GITHUB_TOKEN }}
 
       - name: Run Trivy
         uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # v0.35.0
@@ -134,11 +137,14 @@ jobs:
       fail-fast: false
       matrix: ${{ fromJSON(needs.discover-submodules.outputs.matrix) }}
     steps:
+      # SUBMODULES_PAT: org-scoped PAT for cross-repo private submodule cloning.
+      # Falls back to GITHUB_TOKEN for repos without secret.
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           submodules: recursive
           fetch-depth: 0
+          token: ${{ secrets.SUBMODULES_PAT || secrets.GITHUB_TOKEN }}
 
       - name: Compare pinned commit to upstream
         id: compare
