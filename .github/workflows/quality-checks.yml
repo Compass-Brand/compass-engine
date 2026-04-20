@@ -281,7 +281,9 @@ jobs:
 
       - name: Check submodule repository licenses
         env:
-          GH_TOKEN: ${{ github.token }}
+          # SUBMODULES_PAT: org-scoped PAT for cross-repo private submodule metadata.
+          # Falls back to github.token for repos without secret.
+          GH_TOKEN: ${{ secrets.SUBMODULES_PAT || github.token }}
         run: |
           set -euo pipefail
 
