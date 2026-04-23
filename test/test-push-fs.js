@@ -354,6 +354,35 @@ describe('syncManagedTarget', () => {
     );
     assert.equal(destExists, false);
   });
+
+  it('should preserve consumer-native files on first sync into populated dest', async () => {
+    // Regression test for task #40: when compass-engine syncs _bmad into a
+    // consumer that already holds consumer-native subtrees (e.g. LSA's
+    // _bmad/core/lib/), the first managed sync must leave those files intact
+    // because the manifest is absent and previousFiles is empty.
+    const project = await makeTempDir();
+    const source = await makeTempDir();
+    await fs.mkdir(path.join(project, '.git'));
+
+    await writeTree(path.join(project, 'dest'), {
+      'core/lib/context_manager.py': 'consumer-native',
+      'core/module.yaml': 'will be overwritten',
+    });
+    await writeTree(source, {
+      'core/module.yaml': 'from compass-engine',
+      'bmm/module.yaml': 'from compass-engine',
+    });
+
+    await syncManagedTarget(project, source, baseTarget, { dryRun: false });
+
+    const destTree = await readTree(path.join(project, 'dest'));
+    assert.equal(destTree['core/lib/context_manager.py'], 'consumer-native');
+    assert.equal(destTree['core/module.yaml'], 'from compass-engine');
+    assert.equal(destTree['bmm/module.yaml'], 'from compass-engine');
+
+    const manifest = await readManagedManifest(project, 'test-sync.json');
+    assert.deepEqual(manifest.sort(), ['bmm/module.yaml', 'core/module.yaml']);
+  });
 });
 
 // ---------------------------------------------------------------------------

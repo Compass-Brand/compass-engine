@@ -77,6 +77,8 @@ const TARGETS = {
     destName: '_bmad',
     distName: '_bmad',
     localOnly: [],
+    syncStrategy: 'managed',
+    manifestName: 'compass-engine-bmad-sync.json',
   },
   planning: {
     destName: 'planning',
@@ -290,7 +292,13 @@ async function copySelectedFiles(sourceRoot, destRoot, files) {
 }
 
 async function listFilesRecursive(rootPath, currentPath = rootPath, files = []) {
-  const entries = await fs.readdir(currentPath, { withFileTypes: true });
+  let entries;
+  try {
+    entries = await fs.readdir(currentPath, { withFileTypes: true });
+  } catch (err) {
+    if (err.code === 'ENOENT') return files;
+    throw err;
+  }
   for (const entry of entries) {
     const entryPath = path.join(currentPath, entry.name);
     if (entry.isDirectory()) {

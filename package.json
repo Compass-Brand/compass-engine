@@ -21,7 +21,7 @@
     "check": "npm run validate && npm run check:github-drift && npm run check:root-drift && npm run build && npm run push:no-build -- --dry-run --targets bmad,planning,documentation,claude,codex,opencode,junie,kilocode,github,root",
     "create:bmad-module": "node tools/create-bmad-module.js",
     "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
-    "test:unit": "node --test test/test-*.js test/bmad/quick-dev/*.test.js",
+    "test:unit": "node --test --test-concurrency=1 test/test-*.js test/bmad/quick-dev/*.test.js",
     "test": "npm run test:unit && npm run validate",
     "prepublishOnly": "npm run build"
   },
