@@ -14,18 +14,6 @@ on:
       - '**/*.ico'
       - '**/*.webp'
       - '**/*.pdf'
-  push:
-    branches: [main, develop]
-    paths-ignore:
-      - '**/*.md'
-      - '**/*.png'
-      - '**/*.jpg'
-      - '**/*.jpeg'
-      - '**/*.gif'
-      - '**/*.svg'
-      - '**/*.ico'
-      - '**/*.webp'
-      - '**/*.pdf'
   schedule:
     - cron: '30 9 * * *'
   workflow_dispatch:

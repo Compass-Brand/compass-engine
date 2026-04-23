@@ -1,18 +1,6 @@
 name: CodeQL Security Scanning
 
 on:
-  push:
-    branches: [main, develop]
-    paths-ignore:
-      - 'reference/BMAD/research/**'
-      - '**/*.png'
-      - '**/*.jpg'
-      - '**/*.jpeg'
-      - '**/*.gif'
-      - '**/*.svg'
-      - '**/*.ico'
-      - '**/*.webp'
-      - '**/*.pdf'
   pull_request:
     branches: [main, develop]
     paths-ignore:
