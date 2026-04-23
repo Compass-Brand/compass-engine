@@ -14,18 +14,6 @@ on:
       - '**/*.ico'
       - '**/*.webp'
       - '**/*.pdf'
-  push:
-    branches: [main, develop]
-    paths-ignore:
-      - 'reference/BMAD/research/**'
-      - '**/*.png'
-      - '**/*.jpg'
-      - '**/*.jpeg'
-      - '**/*.gif'
-      - '**/*.svg'
-      - '**/*.ico'
-      - '**/*.webp'
-      - '**/*.pdf'
 
 permissions:
   contents: read
