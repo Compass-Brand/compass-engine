@@ -77,6 +77,8 @@ const TARGETS = {
     destName: '_bmad',
     distName: '_bmad',
     localOnly: [],
+    syncStrategy: 'managed',
+    manifestName: 'compass-engine-bmad-sync.json',
   },
   planning: {
     destName: 'planning',
