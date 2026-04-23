@@ -71,7 +71,7 @@ jobs:
 
       - name: Run pre-commit (PR diff, full on protected push)
         run: |
-          export SKIP="end-of-file-fixer,trailing-whitespace,pyupgrade,isort,ruff-check,ruff-format,biome-ci,prettier,actionlint,markdownlint"
+          export SKIP="end-of-file-fixer,trailing-whitespace,pyupgrade,isort,ruff-check,biome-ci,prettier,actionlint,markdownlint"
 
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             FROM_REF="${{ github.event.pull_request.base.sha }}"
