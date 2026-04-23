@@ -34,15 +34,32 @@ jobs:
       contents: read
       security-events: write
     steps:
+      - name: Checkout (sparse)
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          sparse-checkout: .
+          fetch-depth: 1
+
+      - name: Detect submodules
+        id: detect
+        run: |
+          if [ -f .gitmodules ]; then
+            echo "has_submodules=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_submodules=false" >> "$GITHUB_OUTPUT"
+          fi
+
       # SUBMODULES_PAT: org-scoped PAT for cross-repo private submodule cloning.
       # Falls back to GITHUB_TOKEN for repos without secret.
-      - name: Checkout
+      - name: Checkout (with submodules)
+        if: steps.detect.outputs.has_submodules == 'true'
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           submodules: recursive
           token: ${{ secrets.SUBMODULES_PAT || secrets.GITHUB_TOKEN }}
 
       - name: Run Trivy
+        if: steps.detect.outputs.has_submodules == 'true'
         uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # v0.35.0
         with:
           scan-type: fs
@@ -57,7 +74,7 @@ jobs:
 
       - name: Upload Trivy SARIF
         id: upload_trivy_sarif
-        if: always()
+        if: steps.detect.outputs.has_submodules == 'true'
         continue-on-error: true
         uses: github/codeql-action/upload-sarif@bb471cdcf4dda2c934c5b656f554d43c1434ed13
         with:
@@ -65,8 +82,12 @@ jobs:
           category: submodule-trivy
 
       - name: Warn when Trivy SARIF upload is unavailable
-        if: steps.upload_trivy_sarif.outcome == 'failure'
+        if: steps.detect.outputs.has_submodules == 'true' && steps.upload_trivy_sarif.outcome == 'failure'
         run: echo "::warning::Trivy SARIF upload was skipped or unavailable; continuing per policy."
+
+      - name: Skip message
+        if: steps.detect.outputs.has_submodules != 'true'
+        run: echo "No .gitmodules file; skipping submodule Trivy scan."
 
   discover-submodules:
     name: Discover Submodules
