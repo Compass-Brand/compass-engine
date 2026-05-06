@@ -52,7 +52,7 @@ jobs:
 
       - name: Setup pnpm
         if: steps.detect.outputs.pm == 'pnpm'
-        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda
+        uses: pnpm/action-setup@8912a9102ac27614460f54aedde9e1e7f9aec20d
         with:
           run_install: false
 
@@ -142,7 +142,7 @@ jobs:
 
       - name: Setup pnpm
         if: steps.detect.outputs.pm == 'pnpm' && steps.check_script.outputs.present == 'true'
-        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda
+        uses: pnpm/action-setup@8912a9102ac27614460f54aedde9e1e7f9aec20d
         with:
           run_install: false
 
