@@ -35,7 +35,7 @@ jobs:
       security-events: write
     steps:
       - name: Checkout (sparse)
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         with:
           sparse-checkout: .
           fetch-depth: 1
@@ -53,7 +53,7 @@ jobs:
       # Falls back to GITHUB_TOKEN for repos without secret.
       - name: Checkout (with submodules)
         if: steps.detect.outputs.has_submodules == 'true'
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         with:
           submodules: recursive
           token: ${{ secrets.SUBMODULES_PAT || secrets.GITHUB_TOKEN }}
@@ -97,7 +97,7 @@ jobs:
       matrix: ${{ steps.collect.outputs.matrix }}
     steps:
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         with:
           fetch-depth: 0
 
@@ -149,7 +149,7 @@ jobs:
       # SUBMODULES_PAT: org-scoped PAT for cross-repo private submodule cloning.
       # Falls back to GITHUB_TOKEN for repos without secret.
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
         with:
           submodules: recursive
           fetch-depth: 0
